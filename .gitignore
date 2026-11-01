@@ -1,9 +1,9 @@
 # ============================================================
-#  교수님 강의 자료는 절대 이 저장소에 올리지 않습니다 (저작권)
-#  아래 규칙이 실수로 올리는 것을 차단합니다.
+#  Never publish the professor's course materials from this repo.
+#  The rules below block them even by accident.
 # ============================================================
 
-# 강의 원본 자료
+# Lecture source files
 *.pdf
 *.docx
 *.doc
@@ -16,7 +16,7 @@ lecture_pdf/**
 Information about Theory test*
 theory_test1_examples*
 
-# 추출/작업 중간 산출물
+# Local build / extraction artifacts
 _extracted/
 _extracted2/
 _backup_*
@@ -24,7 +24,7 @@ _*.txt
 _*.py
 cli_state.json
 
-# 앱 소스/빌드 스크립트(사이트에는 빌드 결과물만 필요)
+# App sources and build scripts live one level above this folder
 ../questions.json
 ../mocks.json
 ../src/
