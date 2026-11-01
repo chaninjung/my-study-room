@@ -7,9 +7,15 @@ GitHub Pages로 배포하면 폰·태블릿·노트북 어디서든 같은 주�
 - `print.html` — 인쇄/PDF용 모의고사 13세트 + 정답·해설
 
 ## 사용법
-- **온라인**: 이 저장소의 Pages 주소(`https://<아이디>.github.io/<저장소>/`)를 주소창에 입력
+- **온라인 (배포됨)**: **https://chaninjung.github.io/dnd-theory1-quiz/** — 주소창에 입력하면 바로 시작
 - **오프라인**: `index.html` 파일을 브라우저로 열기 (서버 불필요)
 - **로컬 주소로 쓰고 싶다면**(상위 폴더의 도우미): `START_SERVER.bat` 더블클릭 → `http://localhost:8000`
+
+## 배포 정보
+- 저장소: `chaninjung/dnd-theory1-quiz` · 브랜치 `main` · 루트(`/`) 배포 · HTTPS 적용
+- 검색엔진 노출 차단: `robots.txt` + 페이지 `noindex`
+- 갱신 방법: 상위 폴더에서 `python build_site.py` → `git add -A` → `git commit` → `git push`
+- 상위 폴더의 **`DEPLOY_TO_GITHUB.bat`** 를 더블클릭하면 점검·커밋·푸시를 자동으로 안내합니다.
 
 ## 배포 방법 (약 5분)
 가장 쉬운 방법: 상위 폴더의 **`DEPLOY_TO_GITHUB.bat` 더블클릭** — 저장소 생성 안내 → 푸시 → Pages 설정 페이지 열기까지 자동으로 안내합니다.
