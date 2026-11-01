@@ -1,0 +1,3275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Deep Network Development 2026 Autumn - Theory Test 1 vocabulary and key sentences">
+<title>DND Theory Test 1 — 용어집 / Glossary</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#eef0f3;color:#1f2430;font-family:Arial,"Helvetica Neue","Malgun Gothic","Segoe UI",sans-serif;font-size:14px;line-height:1.6}
+  a{color:#2f6fed;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .topbar{background:#fff;border-bottom:1px solid #d9dce1;min-height:56px;display:flex;align-items:center;padding:8px 18px;gap:14px;position:sticky;top:0;z-index:20;flex-wrap:wrap}
+  .crumbs{display:flex;align-items:center;gap:8px;font-size:15px;min-width:0}
+  .crumbs .sep{color:#9aa1ad}
+  .crumbs .cur{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar .grow{flex:1}
+  .linkish{color:#2f6fed;font-size:14px;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}
+  .linkish:hover{text-decoration:underline}
+  .langBox{display:inline-flex;border:1px solid #c9ced6;border-radius:4px;overflow:hidden;background:#fff}
+  .langBtn{font-family:inherit;font-size:13px;padding:6px 12px;border:0;background:#fff;color:#5b636f;cursor:pointer}
+  .langBtn + .langBtn{border-left:1px solid #d9dce1}
+  .langBtn.on{background:#17356b;color:#fff;font-weight:700}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px 18px 40px}
+  .panel{background:#fff;border:1px solid #d9dce1;border-radius:4px;margin-bottom:16px}
+  .panelHead{padding:10px 14px;border-bottom:1px solid #e4e7eb;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .panelHead .grow{flex:1}
+  .panelBody{padding:14px}
+  .tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+  .tab{font-family:inherit;font-size:14px;padding:8px 16px;border:1px solid #c9ced6;background:#fff;color:#3d4653;border-radius:4px;cursor:pointer}
+  .tab.on{background:#17356b;border-color:#17356b;color:#fff;font-weight:700}
+  .search{width:100%;max-width:360px;font-family:inherit;font-size:14px;padding:8px 10px;border:1px solid #c9ced6;border-radius:4px}
+  .filterRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .fchip{display:inline-flex;align-items:center;gap:6px;border:1px solid #d9dce1;border-radius:3px;padding:5px 10px;font-size:13px;color:#3d4653;background:#fff;cursor:pointer}
+  .fchip input{margin:0}
+  table.grid{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.grid th,table.grid td{border-bottom:1px solid #eceef1;padding:8px 10px;text-align:left;vertical-align:top}
+  table.grid th{color:#6b7480;font-weight:700;font-size:12.5px;background:#fafbfc}
+  table.grid tr:last-child td{border-bottom:0}
+  .term{font-weight:700;color:#17356b;white-space:nowrap}
+  .ko{color:#1f2430;white-space:nowrap}
+  .def{color:#3d4653}
+  .tag{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:3px;background:#eef1f5;border:1px solid #dde2e8;color:#5b636f;white-space:nowrap}
+  .tag.NP{background:#eef7f0;border-color:#cfe6d6;color:#1e7a44}
+  .tag.AC{background:#fdf6e8;border-color:#f0e0bd;color:#8a6a00}
+  .cardBox{padding:24px 16px;text-align:center}
+  .card{background:#fafbfc;border:1px solid #d9dce1;border-radius:6px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:22px;cursor:pointer}
+  .card .word{font-size:30px;font-weight:700;color:#17356b;word-break:break-word}
+  .card .back{font-size:19px;color:#1f2430}
+  .card .backEn{font-size:14px;color:#5b636f;max-width:640px}
+  .card .hint{font-size:12.5px;color:#8b93a0}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;font-family:inherit;font-size:14px;padding:9px 16px;border-radius:4px;cursor:pointer;border:1px solid #c9ced6;background:#fff;color:#1f2430}
+  .btn:hover{background:#f4f6f8;border-color:#aeb6c2}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn.primary{background:#17356b;border-color:#17356b;color:#fff}
+  .btn.ok{background:#e6f4ea;border-color:#9ed3b1;color:#1e7a44}
+  .btn.no{background:#fdeaea;border-color:#f0b4b4;color:#b03030}
+  .muted{color:#6b7480;font-size:13px}
+  .stat{display:flex;gap:22px;flex-wrap:wrap}
+  .stat > div{font-size:12.5px;color:#6b7480}
+  .stat > div b{display:block;font-size:18px;color:#1f2430;font-variant-numeric:tabular-nums}
+  .sent{border:1px solid #e4e7eb;border-radius:4px;padding:12px 14px;margin-bottom:10px;background:#fff}
+  .sent .en{font-weight:700;color:#17356b}
+  .sent .koSent{color:#3d4653;margin-top:4px}
+  .note{font-size:12.5px;color:#6b7480;padding:10px 14px;border-top:1px solid #eceef1;background:#fafbfc}
+  footer{color:#8b93a0;font-size:12px;text-align:center;padding:22px 0 8px}
+  @media (max-width:760px){
+    .def{font-size:12.5px}
+    .term,.ko{white-space:normal}
+  }
+  @media print{
+    body{background:#fff}
+    .topbar,.tabs,.search,.filterRow,.btn,.langBox{display:none!important}
+    .panel{border-color:#bbb}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="crumbs">
+    <span>DND Theory Test 1</span><span class="sep">&gt;</span><span class="cur" id="crumb">용어집 / Glossary</span>
+  </div>
+  <div class="grow"></div>
+  <span class="langBox" role="group" aria-label="Language">
+    <button class="langBtn" data-lang="ko" type="button">한국어</button>
+    <button class="langBtn" data-lang="en" type="button">English</button>
+  </span>
+  <a class="linkish" href="index.html" id="navExam">연습 문제</a>
+  <a class="linkish" href="print.html" id="navPrint">인쇄용 문제지</a>
+  <button class="linkish" id="printBtn" type="button">인쇄/PDF</button>
+</div>
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab on" data-tab="list" type="button" id="tabList">단어 목록</button>
+    <button class="tab" data-tab="card" type="button" id="tabCard">플래시카드</button>
+    <button class="tab" data-tab="sent" type="button" id="tabSent">핵심 문장</button>
+  </div>
+
+  <section id="sec-list">
+    <div class="panel">
+      <div class="panelHead"><span id="listTitle">단어 목록</span><span class="grow"></span><span class="muted" id="listCount"></span></div>
+      <div class="panelBody">
+        <input id="q" class="search" type="search" placeholder="단어 검색 / Search a word">
+        <div class="filterRow" id="lecChips"></div>
+      </div>
+      <table class="grid">
+        <thead><tr><th id="thTerm">Term</th><th id="thKo">뜻</th><th id="thDef">Definition</th><th id="thLec">강의</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="note" id="listNote"></div>
+    </div>
+  </section>
+
+  <section id="sec-card" hidden>
+    <div class="panel">
+      <div class="panelHead"><span id="cardTitle">플래시카드</span><span class="grow"></span><span class="muted" id="cardCount"></span></div>
+      <div class="cardBox">
+        <div class="card" id="card">
+          <div class="word" id="cardWord">—</div>
+          <div class="back" id="cardBack" hidden></div>
+          <div class="backEn" id="cardBackEn" hidden></div>
+          <div class="hint" id="cardHint">카드를 클릭하면 뜻이 보입니다</div>
+        </div>
+      </div>
+      <div class="panelBody">
+        <div class="row">
+          <button class="btn primary" id="btnFlip" type="button">뒤집기 (Space)</button>
+          <button class="btn ok" id="btnKnow" type="button">알아요</button>
+          <button class="btn no" id="btnDunno" type="button">몰라요</button>
+          <button class="btn" id="btnNext" type="button">다음 (&rarr;)</button>
+          <span class="grow"></span>
+          <button class="btn" id="btnShuffle" type="button">섞기</button>
+          <button class="btn" id="btnOnlyUnknown" type="button">모르는 단어만</button>
+          <button class="btn" id="btnResetCards" type="button">진행 초기화</button>
+        </div>
+        <div class="stat" style="margin-top:14px">
+          <div><span id="statKnownLabel">외운 단어</span><b id="statKnown">0</b></div>
+          <div><span id="statUnknownLabel">모르는 단어</span><b id="statUnknown">0</b></div>
+          <div><span id="statProgressLabel">진행률</span><b id="statProgress">0%</b></div>
+        </div>
+        <div class="muted" style="margin-top:10px" id="cardNote"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sec-sent" hidden>
+    <div class="panel">
+      <div class="panelHead"><span id="sentTitle">핵심 문장</span><span class="grow"></span><span class="muted" id="sentCount"></span></div>
+      <div class="filterRow" id="sentChips" style="padding:12px 14px 0"></div>
+      <div class="panelBody" id="sentBody"></div>
+    </div>
+  </section>
+
+  <footer id="foot">개인 학습용 · 기록은 이 브라우저에만 저장됩니다</footer>
+</div>
+<script id="glossary-data">window.__GLOSSARY__ = {
+ "terms": [
+  {
+   "term": "artificial intelligence",
+   "ko": "인공지능",
+   "en": "The field of making computers perform tasks that normally require human intelligence.",
+   "lecture": "L1"
+  },
+  {
+   "term": "machine learning",
+   "ko": "기계학습",
+   "en": "Programs that improve at a task by learning from data instead of being programmed explicitly.",
+   "lecture": "L1"
+  },
+  {
+   "term": "supervised learning",
+   "ko": "지도학습",
+   "en": "Learning from (input, label) pairs to estimate the label of new inputs.",
+   "lecture": "L1"
+  },
+  {
+   "term": "unsupervised learning",
+   "ko": "비지도학습",
+   "en": "Learning from inputs without labels; the task must be formulated by us.",
+   "lecture": "L1"
+  },
+  {
+   "term": "reinforcement learning",
+   "ko": "강화학습",
+   "en": "An agent learns by acting in an environment and receiving rewards.",
+   "lecture": "L1"
+  },
+  {
+   "term": "input variable",
+   "ko": "입력 변수",
+   "en": "A feature x that describes a data point (also called attribute).",
+   "lecture": "L1"
+  },
+  {
+   "term": "feature",
+   "ko": "특징, 특성",
+   "en": "An input variable used by a model; a measurable property of the data.",
+   "lecture": "L1"
+  },
+  {
+   "term": "label",
+   "ko": "레이블, 정답",
+   "en": "The expected output y of a supervised learning task.",
+   "lecture": "L1"
+  },
+  {
+   "term": "ground truth",
+   "ko": "실제 정답",
+   "en": "The true label, known from the data; the opposite of an estimate.",
+   "lecture": "L1"
+  },
+  {
+   "term": "estimate",
+   "ko": "추정값, 추정하다",
+   "en": "The value predicted by a model; also used as a verb (to estimate).",
+   "lecture": "L1"
+  },
+  {
+   "term": "hypothesis function",
+   "ko": "가설함수",
+   "en": "The function h that maps inputs to estimated labels.",
+   "lecture": "L1"
+  },
+  {
+   "term": "parameter",
+   "ko": "파라미터, 매개변수",
+   "en": "A value learned from the training data (synonym: weight).",
+   "lecture": "L1"
+  },
+  {
+   "term": "weight",
+   "ko": "가중치",
+   "en": "A learnable multiplier of an input; a synonym of parameter.",
+   "lecture": "L1"
+  },
+  {
+   "term": "bias",
+   "ko": "편향, 절편",
+   "en": "A parameter added to shift the output; also called intercept.",
+   "lecture": "L1"
+  },
+  {
+   "term": "loss function",
+   "ko": "손실함수",
+   "en": "A function that measures how far an estimate is from the true label.",
+   "lecture": "L1"
+  },
+  {
+   "term": "cost function",
+   "ko": "비용함수",
+   "en": "A synonym of loss function.",
+   "lecture": "L1"
+  },
+  {
+   "term": "training sample",
+   "ko": "훈련집합",
+   "en": "The set of examples used to learn the parameters.",
+   "lecture": "L1"
+  },
+  {
+   "term": "data point",
+   "ko": "데이터 점",
+   "en": "One example: its input variables plus its true label.",
+   "lecture": "L1"
+  },
+  {
+   "term": "observation",
+   "ko": "관측값",
+   "en": "A synonym of example / data point / data sample.",
+   "lecture": "L1"
+  },
+  {
+   "term": "regression",
+   "ko": "회귀",
+   "en": "A task where the label is continuous (infinitely many possible values).",
+   "lecture": "L1"
+  },
+  {
+   "term": "classification",
+   "ko": "분류",
+   "en": "A task where the label is discrete (finitely many categories).",
+   "lecture": "L1"
+  },
+  {
+   "term": "continuous",
+   "ko": "연속적인",
+   "en": "Taking any real value in an interval, without gaps.",
+   "lecture": "L1"
+  },
+  {
+   "term": "discrete",
+   "ko": "이산적인",
+   "en": "Taking separate, countable values (for example categories).",
+   "lecture": "L1"
+  },
+  {
+   "term": "clustering",
+   "ko": "군집화",
+   "en": "Grouping similar examples together without labels.",
+   "lecture": "L1"
+  },
+  {
+   "term": "dimensionality reduction",
+   "ko": "차원 축소",
+   "en": "Representing data with fewer variables; a form of compression.",
+   "lecture": "L1"
+  },
+  {
+   "term": "compression",
+   "ko": "압축",
+   "en": "Storing data with fewer numbers; may be lossy or lossless.",
+   "lecture": "L1"
+  },
+  {
+   "term": "sample generation",
+   "ko": "표본 생성",
+   "en": "Learning the data distribution and creating new, similar examples.",
+   "lecture": "L1"
+  },
+  {
+   "term": "denoising",
+   "ko": "잡음 제거",
+   "en": "Removing noise from data; an unsupervised task.",
+   "lecture": "L1"
+  },
+  {
+   "term": "inpainting",
+   "ko": "영상 복원",
+   "en": "Filling in missing or damaged parts of an image.",
+   "lecture": "L1"
+  },
+  {
+   "term": "anomaly detection",
+   "ko": "이상 탐지",
+   "en": "Finding unusual examples that do not fit the normal pattern.",
+   "lecture": "L1"
+  },
+  {
+   "term": "image segmentation",
+   "ko": "영상 분할",
+   "en": "Splitting an image into meaningful regions or objects.",
+   "lecture": "L1"
+  },
+  {
+   "term": "agent",
+   "ko": "에이전트",
+   "en": "The learner/actor in reinforcement learning that takes actions.",
+   "lecture": "L1"
+  },
+  {
+   "term": "environment",
+   "ko": "환경",
+   "en": "The world the agent interacts with in reinforcement learning.",
+   "lecture": "L1"
+  },
+  {
+   "term": "state",
+   "ko": "상태, 서술하다",
+   "en": "In reinforcement learning the situation of the environment; as a verb, to say something clearly.",
+   "lecture": "L1"
+  },
+  {
+   "term": "action",
+   "ko": "행동",
+   "en": "A choice the agent makes that changes the environment.",
+   "lecture": "L1"
+  },
+  {
+   "term": "reward",
+   "ko": "보상",
+   "en": "Feedback from the environment; may be negative.",
+   "lecture": "L1"
+  },
+  {
+   "term": "credit assignment",
+   "ko": "신용 할당",
+   "en": "The problem of deciding which past action caused a later reward.",
+   "lecture": "L1"
+  },
+  {
+   "term": "generalization",
+   "ko": "일반화",
+   "en": "Performing well on data that was not seen during training.",
+   "lecture": "L1"
+  },
+  {
+   "term": "interpretable",
+   "ko": "해석 가능한",
+   "en": "A model whose decisions a human can understand.",
+   "lecture": "L1"
+  },
+  {
+   "term": "expressive power",
+   "ko": "표현력",
+   "en": "The range of functions a model can represent.",
+   "lecture": "L1"
+  },
+  {
+   "term": "decision tree",
+   "ko": "결정 트리",
+   "en": "An interpretable model that splits the input space with rules.",
+   "lecture": "L1"
+  },
+  {
+   "term": "adversarial attack",
+   "ko": "적대적 공격",
+   "en": "A small, deliberate perturbation that makes a model predict wrongly.",
+   "lecture": "L1"
+  },
+  {
+   "term": "perturbation",
+   "ko": "섭동, 미세 변형",
+   "en": "A small change made to the input.",
+   "lecture": "L1"
+  },
+  {
+   "term": "formal verification",
+   "ko": "형식 검증",
+   "en": "Mathematically proving that software meets its specification.",
+   "lecture": "L1"
+  },
+  {
+   "term": "labeled data",
+   "ko": "레이블이 있는 데이터",
+   "en": "Data with known correct outputs; expensive to produce.",
+   "lecture": "L1"
+  },
+  {
+   "term": "unlabeled data",
+   "ko": "레이블 없는 데이터",
+   "en": "Data without correct outputs; abundant in practice.",
+   "lecture": "L1"
+  },
+  {
+   "term": "linear regression",
+   "ko": "선형 회귀",
+   "en": "A model whose hypothesis function is a linear combination of the inputs.",
+   "lecture": "L2"
+  },
+  {
+   "term": "least squares",
+   "ko": "최소제곱법",
+   "en": "Choosing parameters that minimize the mean squared error.",
+   "lecture": "L2"
+  },
+  {
+   "term": "MSE",
+   "ko": "평균제곱오차",
+   "en": "Mean Squared Error: the average of the squared estimation errors.",
+   "lecture": "L2"
+  },
+  {
+   "term": "mean squared error",
+   "ko": "평균제곱오차",
+   "en": "The average of (estimate - true label) squared over the training set.",
+   "lecture": "L2"
+  },
+  {
+   "term": "error",
+   "ko": "오차",
+   "en": "The difference between the true label and the estimate.",
+   "lecture": "L2"
+  },
+  {
+   "term": "residual",
+   "ko": "잔차",
+   "en": "The difference between an observed value and the fitted value.",
+   "lecture": "L2"
+  },
+  {
+   "term": "slope",
+   "ko": "기울기",
+   "en": "How much the output changes when the input increases by one unit.",
+   "lecture": "L2"
+  },
+  {
+   "term": "intercept",
+   "ko": "절편",
+   "en": "Where the line crosses the y-axis; the bias parameter.",
+   "lecture": "L2"
+  },
+  {
+   "term": "convex",
+   "ko": "볼록한",
+   "en": "A function shaped so that any local minimum is also the global minimum.",
+   "lecture": "L2"
+  },
+  {
+   "term": "non-convex",
+   "ko": "비볼록한",
+   "en": "A function that may have several local minima.",
+   "lecture": "L2"
+  },
+  {
+   "term": "parabola",
+   "ko": "포물선",
+   "en": "The U-shaped curve of a quadratic function.",
+   "lecture": "L2"
+  },
+  {
+   "term": "elliptic paraboloid",
+   "ko": "타원 포물면",
+   "en": "The bowl-shaped surface of a convex quadratic function of two variables.",
+   "lecture": "L2"
+  },
+  {
+   "term": "global optimum",
+   "ko": "전역 최적해",
+   "en": "The best possible parameter values over the whole space.",
+   "lecture": "L2"
+  },
+  {
+   "term": "local minimum",
+   "ko": "국소 최소",
+   "en": "A point lower than its neighbours but not the global minimum.",
+   "lecture": "L2"
+  },
+  {
+   "term": "gradient",
+   "ko": "그래디언트, 기울기 벡터",
+   "en": "The vector of partial derivatives; it points to the steepest increase.",
+   "lecture": "L2"
+  },
+  {
+   "term": "gradient descent",
+   "ko": "경사하강법",
+   "en": "Iteratively moving the parameters in the direction opposite to the gradient.",
+   "lecture": "L2"
+  },
+  {
+   "term": "partial derivative",
+   "ko": "편미분",
+   "en": "The derivative with respect to one variable while the others are held constant.",
+   "lecture": "L2"
+  },
+  {
+   "term": "derivative",
+   "ko": "도함수, 미분",
+   "en": "The instantaneous rate of change of a function.",
+   "lecture": "L2"
+  },
+  {
+   "term": "difference quotient",
+   "ko": "차분몫",
+   "en": "The slope of the chord; its limit as a goes to 0 is the derivative.",
+   "lecture": "L2"
+  },
+  {
+   "term": "chord",
+   "ko": "현",
+   "en": "A straight line joining two points on a curve.",
+   "lecture": "L2"
+  },
+  {
+   "term": "tangent",
+   "ko": "접선",
+   "en": "The line that touches a curve with the slope of the derivative.",
+   "lecture": "L2"
+  },
+  {
+   "term": "chain rule",
+   "ko": "연쇄법칙",
+   "en": "Rule for differentiating composites: f(g(x))' = f'(g(x)) * g'(x).",
+   "lecture": "L2"
+  },
+  {
+   "term": "learning rate",
+   "ko": "학습률",
+   "en": "The step size alpha of a gradient descent update.",
+   "lecture": "L2"
+  },
+  {
+   "term": "step size",
+   "ko": "스텝 크기",
+   "en": "How far the parameters move in one iteration.",
+   "lecture": "L2"
+  },
+  {
+   "term": "iteration",
+   "ko": "반복",
+   "en": "One update of the parameters in an iterative algorithm.",
+   "lecture": "L2"
+  },
+  {
+   "term": "initialize",
+   "ko": "초기화하다",
+   "en": "To set the starting values of the parameters, often randomly.",
+   "lecture": "L2"
+  },
+  {
+   "term": "grid search",
+   "ko": "격자 탐색",
+   "en": "Trying every combination of a finite set of parameter values.",
+   "lecture": "L2"
+  },
+  {
+   "term": "exponential",
+   "ko": "지수적인",
+   "en": "Growing extremely fast, for example like 2 to the power n.",
+   "lecture": "L2"
+  },
+  {
+   "term": "converge",
+   "ko": "수렴하다",
+   "en": "To approach the optimum as the iterations proceed.",
+   "lecture": "L2"
+  },
+  {
+   "term": "diverge",
+   "ko": "발산하다",
+   "en": "To move away from the optimum; the loss grows instead of shrinking.",
+   "lecture": "L2"
+  },
+  {
+   "term": "oscillate",
+   "ko": "진동하다",
+   "en": "To keep overshooting the optimum from side to side.",
+   "lecture": "L2"
+  },
+  {
+   "term": "early stopping",
+   "ko": "조기 종료",
+   "en": "Stopping training when the validation loss stops improving.",
+   "lecture": "L2"
+  },
+  {
+   "term": "guarantee",
+   "ko": "보장하다",
+   "en": "To make certain that something happens.",
+   "lecture": "L2"
+  },
+  {
+   "term": "optimum",
+   "ko": "최적값",
+   "en": "The best value of the parameters or of the loss.",
+   "lecture": "L2"
+  },
+  {
+   "term": "noise",
+   "ko": "잡음",
+   "en": "Random, meaningless variation in the data.",
+   "lecture": "L2"
+  },
+  {
+   "term": "multivariate",
+   "ko": "다변량의",
+   "en": "Using several input variables at the same time.",
+   "lecture": "L3"
+  },
+  {
+   "term": "hyperplane",
+   "ko": "초평면",
+   "en": "The generalization of a line or plane to n dimensions.",
+   "lecture": "L3"
+  },
+  {
+   "term": "dot product",
+   "ko": "내적",
+   "en": "The sum of the products of matching elements; x dot theta.",
+   "lecture": "L3"
+  },
+  {
+   "term": "feature scaling",
+   "ko": "특징 스케일링",
+   "en": "Bringing the input variables to the same order of magnitude.",
+   "lecture": "L3"
+  },
+  {
+   "term": "min-max scaling",
+   "ko": "최소-최대 정규화",
+   "en": "(x - min) / (max - min), mapping values into [0, 1].",
+   "lecture": "L3"
+  },
+  {
+   "term": "standardization",
+   "ko": "표준화",
+   "en": "(x - mean) / standard deviation, giving mean 0 and std 1.",
+   "lecture": "L3"
+  },
+  {
+   "term": "standard deviation",
+   "ko": "표준편차",
+   "en": "A measure of how spread out the values are.",
+   "lecture": "L3"
+  },
+  {
+   "term": "mean",
+   "ko": "평균",
+   "en": "The average of a set of values.",
+   "lecture": "L3"
+  },
+  {
+   "term": "outlier",
+   "ko": "이상치",
+   "en": "A value very far from the rest of the data.",
+   "lecture": "L3"
+  },
+  {
+   "term": "sensitive",
+   "ko": "민감한",
+   "en": "Easily affected by small changes (linear regression is sensitive to outliers).",
+   "lecture": "L3"
+  },
+  {
+   "term": "sigmoid",
+   "ko": "시그모이드",
+   "en": "A function that squashes any real number into the range (0, 1).",
+   "lecture": "L3"
+  },
+  {
+   "term": "logistic regression",
+   "ko": "로지스틱 회귀",
+   "en": "Sigmoid composed with a linear function; used for binary classification.",
+   "lecture": "L3"
+  },
+  {
+   "term": "binary classification",
+   "ko": "이진 분류",
+   "en": "Classification with exactly two categories (0 and 1).",
+   "lecture": "L3"
+  },
+  {
+   "term": "decision boundary",
+   "ko": "결정 경계",
+   "en": "The set of inputs where the model output equals 0.5 (0 in logit space).",
+   "lecture": "L3"
+  },
+  {
+   "term": "linearly separable",
+   "ko": "선형 분리 가능한",
+   "en": "Able to be separated perfectly by a line or hyperplane.",
+   "lecture": "L3"
+  },
+  {
+   "term": "one-hot encoding",
+   "ko": "원-핫 인코딩",
+   "en": "Representing a category by a vector with a single 1 and the rest 0.",
+   "lecture": "L3"
+  },
+  {
+   "term": "softmax",
+   "ko": "소프트맥스",
+   "en": "Turns a vector of scores into a probability distribution summing to 1.",
+   "lecture": "L3"
+  },
+  {
+   "term": "cross-entropy",
+   "ko": "교차엔트로피",
+   "en": "The loss that measures the difference between two probability distributions.",
+   "lecture": "L3"
+  },
+  {
+   "term": "binary cross-entropy",
+   "ko": "이진 교차엔트로피",
+   "en": "The cross-entropy loss for two categories; abbreviated BCE.",
+   "lecture": "L3"
+  },
+  {
+   "term": "probability distribution",
+   "ko": "확률분포",
+   "en": "A set of non-negative numbers that sum to 1.",
+   "lecture": "L3"
+  },
+  {
+   "term": "logit",
+   "ko": "로짓",
+   "en": "The raw linear score before the sigmoid or softmax is applied.",
+   "lecture": "L3"
+  },
+  {
+   "term": "training set",
+   "ko": "훈련집합",
+   "en": "The data used to learn the parameters.",
+   "lecture": "L3"
+  },
+  {
+   "term": "validation set",
+   "ko": "검증집합",
+   "en": "The data used to tune hyperparameters and to monitor training.",
+   "lecture": "L3"
+  },
+  {
+   "term": "test set",
+   "ko": "테스트집합",
+   "en": "The data used only for the final evaluation.",
+   "lecture": "L3"
+  },
+  {
+   "term": "hyperparameter",
+   "ko": "하이퍼파라미터",
+   "en": "A setting chosen by the human, not learned from the data.",
+   "lecture": "L3"
+  },
+  {
+   "term": "hidden layer",
+   "ko": "은닉층",
+   "en": "A layer of neurons between the input and the output layer.",
+   "lecture": "L3"
+  },
+  {
+   "term": "neuron",
+   "ko": "뉴런",
+   "en": "A unit that computes a weighted sum of its inputs and applies an activation.",
+   "lecture": "L3"
+  },
+  {
+   "term": "category",
+   "ko": "범주, 클래스",
+   "en": "One of the possible discrete labels.",
+   "lecture": "L3"
+  },
+  {
+   "term": "multiclass",
+   "ko": "다중 클래스",
+   "en": "Classification with more than two categories.",
+   "lecture": "L3"
+  },
+  {
+   "term": "artificial neural network",
+   "ko": "인공신경망",
+   "en": "A model built from layers of artificial neurons.",
+   "lecture": "L4"
+  },
+  {
+   "term": "artificial neuron",
+   "ko": "인공 뉴런",
+   "en": "A unit computing g(weighted sum of inputs + bias).",
+   "lecture": "L4"
+  },
+  {
+   "term": "perceptron",
+   "ko": "퍼셉트론",
+   "en": "The classical single artificial neuron model.",
+   "lecture": "L4"
+  },
+  {
+   "term": "multilayer perceptron",
+   "ko": "다층 퍼셉트론",
+   "en": "An MLP: at least one hidden layer of neurons between input and output.",
+   "lecture": "L4"
+  },
+  {
+   "term": "MLP",
+   "ko": "다층 퍼셉트론",
+   "en": "Abbreviation of multilayer perceptron.",
+   "lecture": "L4"
+  },
+  {
+   "term": "layer",
+   "ko": "층",
+   "en": "A group of neurons at the same level of the network.",
+   "lecture": "L4"
+  },
+  {
+   "term": "input layer",
+   "ko": "입력층",
+   "en": "The layer that receives the input variables (no weights of its own).",
+   "lecture": "L4"
+  },
+  {
+   "term": "output layer",
+   "ko": "출력층",
+   "en": "The last layer, which produces the estimate.",
+   "lecture": "L4"
+  },
+  {
+   "term": "fully connected",
+   "ko": "완전 연결",
+   "en": "Every neuron is connected to all neurons of the next layer (dense).",
+   "lecture": "L4"
+  },
+  {
+   "term": "dense",
+   "ko": "밀집, 완전연결",
+   "en": "A synonym of fully connected.",
+   "lecture": "L4"
+  },
+  {
+   "term": "feed forward",
+   "ko": "순전파",
+   "en": "Computing the outputs layer by layer from input to output.",
+   "lecture": "L4"
+  },
+  {
+   "term": "activation function",
+   "ko": "활성함수",
+   "en": "A non-linear function applied to the weighted sum inside a neuron.",
+   "lecture": "L4"
+  },
+  {
+   "term": "non-linearity",
+   "ko": "비선형성",
+   "en": "The property that lets a network learn complex patterns.",
+   "lecture": "L4"
+  },
+  {
+   "term": "ReLU",
+   "ko": "렐루",
+   "en": "Rectified Linear Unit: max(0, z); cheap and widely used.",
+   "lecture": "L4"
+  },
+  {
+   "term": "tanh",
+   "ko": "쌍곡탄젠트",
+   "en": "An activation with output range (-1, 1).",
+   "lecture": "L4"
+  },
+  {
+   "term": "identity function",
+   "ko": "항등함수",
+   "en": "The function that returns its input unchanged; used in regression outputs.",
+   "lecture": "L4"
+  },
+  {
+   "term": "vanishing gradient",
+   "ko": "기울기 소실",
+   "en": "Gradients become tiny in early layers, so they learn very slowly.",
+   "lecture": "L4"
+  },
+  {
+   "term": "exploding gradient",
+   "ko": "기울기 폭발",
+   "en": "Gradients become huge and the parameters may diverge.",
+   "lecture": "L4"
+  },
+  {
+   "term": "gradient clipping",
+   "ko": "기울기 클리핑",
+   "en": "Limiting the size of the gradient to avoid exploding gradients.",
+   "lecture": "L4"
+  },
+  {
+   "term": "batch normalization",
+   "ko": "배치 정규화",
+   "en": "Normalizing layer inputs per mini-batch to stabilize training.",
+   "lecture": "L4"
+  },
+  {
+   "term": "backpropagation",
+   "ko": "역전파",
+   "en": "Computing gradients efficiently by applying the chain rule backwards.",
+   "lecture": "L4"
+  },
+  {
+   "term": "forward pass",
+   "ko": "순전파 단계",
+   "en": "The part of training that computes the loss from the current parameters.",
+   "lecture": "L4"
+  },
+  {
+   "term": "backward pass",
+   "ko": "역전파 단계",
+   "en": "The part of training that propagates gradients from the loss to the parameters.",
+   "lecture": "L4"
+  },
+  {
+   "term": "underfit",
+   "ko": "과소적합",
+   "en": "The model is too simple to capture the pattern in the data.",
+   "lecture": "L4"
+  },
+  {
+   "term": "overfit",
+   "ko": "과대적합",
+   "en": "The model memorizes the training data and performs badly on new data.",
+   "lecture": "L4"
+  },
+  {
+   "term": "regularization",
+   "ko": "정규화",
+   "en": "Adding a penalty or noise to discourage large weights and overfitting.",
+   "lecture": "L4"
+  },
+  {
+   "term": "dropout",
+   "ko": "드롭아웃",
+   "en": "Randomly setting neuron outputs to 0 during training as regularization.",
+   "lecture": "L4"
+  },
+  {
+   "term": "weight sharing",
+   "ko": "가중치 공유",
+   "en": "Using the same weights at many positions; the key idea of convolution.",
+   "lecture": "L4"
+  },
+  {
+   "term": "universal approximation theorem",
+   "ko": "보편 근사 정리",
+   "en": "One hidden layer of finite width can approximate any continuous function.",
+   "lecture": "L4"
+  },
+  {
+   "term": "XOR",
+   "ko": "배타적 논리합",
+   "en": "A logic function that is not linearly separable; needs a hidden layer.",
+   "lecture": "L4"
+  },
+  {
+   "term": "AND",
+   "ko": "논리곱",
+   "en": "A logic function that is linearly separable.",
+   "lecture": "L4"
+  },
+  {
+   "term": "OR",
+   "ko": "논리합",
+   "en": "A logic function that is linearly separable.",
+   "lecture": "L4"
+  },
+  {
+   "term": "parameter count",
+   "ko": "파라미터 수",
+   "en": "The number of trainable weights and biases in a model.",
+   "lecture": "L4"
+  },
+  {
+   "term": "multi-label",
+   "ko": "다중 레이블",
+   "en": "Several labels per example; the label is a vector.",
+   "lecture": "L4"
+  },
+  {
+   "term": "argmax",
+   "ko": "최댓값 위치",
+   "en": "The index of the largest value; used to pick the predicted class.",
+   "lecture": "L4"
+  },
+  {
+   "term": "log-softmax",
+   "ko": "로그 소프트맥스",
+   "en": "The logarithm of softmax, computed in a numerically stable way.",
+   "lecture": "L4"
+  },
+  {
+   "term": "negative log-likelihood",
+   "ko": "음의 로그가능도",
+   "en": "The loss obtained by taking the negative log of the predicted probability.",
+   "lecture": "L4"
+  },
+  {
+   "term": "learning rate schedule",
+   "ko": "학습률 스케줄",
+   "en": "Changing the learning rate during training.",
+   "lecture": "L4"
+  },
+  {
+   "term": "stochastic gradient descent",
+   "ko": "확률적 경사하강법",
+   "en": "Gradient descent using a small random mini-batch at each step.",
+   "lecture": "L5"
+  },
+  {
+   "term": "SGD",
+   "ko": "확률적 경사하강법",
+   "en": "The abbreviation of stochastic gradient descent.",
+   "lecture": "L5"
+  },
+  {
+   "term": "mini-batch",
+   "ko": "미니배치",
+   "en": "A small subset of the training set used for one parameter update.",
+   "lecture": "L5"
+  },
+  {
+   "term": "batch size",
+   "ko": "배치 크기",
+   "en": "The number of examples in one mini-batch; a hyperparameter.",
+   "lecture": "L5"
+  },
+  {
+   "term": "epoch",
+   "ko": "에포크",
+   "en": "One complete pass over the whole training set.",
+   "lecture": "L5"
+  },
+  {
+   "term": "momentum",
+   "ko": "모멘텀",
+   "en": "An SGD variant that accumulates a velocity to smooth the updates.",
+   "lecture": "L5"
+  },
+  {
+   "term": "AdaGrad",
+   "ko": "에이다그래드",
+   "en": "An SGD variant with per-parameter adaptive learning rates.",
+   "lecture": "L5"
+  },
+  {
+   "term": "RMSprop",
+   "ko": "RMS프롭",
+   "en": "An SGD variant that scales the learning rate by a running average of squared gradients.",
+   "lecture": "L5"
+  },
+  {
+   "term": "Adam",
+   "ko": "아담",
+   "en": "A popular optimizer combining momentum and adaptive learning rates.",
+   "lecture": "L5"
+  },
+  {
+   "term": "MNIST",
+   "ko": "MNIST",
+   "en": "A dataset of 28x28 grayscale handwritten digits: 60k train, 10k test.",
+   "lecture": "L5"
+  },
+  {
+   "term": "softmax regression",
+   "ko": "소프트맥스 회귀",
+   "en": "A generalization of logistic regression to several classes.",
+   "lecture": "L5"
+  },
+  {
+   "term": "hidden representation",
+   "ko": "은닉 표현",
+   "en": "The vector of hidden layer outputs for one example.",
+   "lecture": "L5"
+  },
+  {
+   "term": "torch.nn",
+   "ko": "파이토치 신경망 모듈",
+   "en": "The PyTorch package with layers, losses and activations.",
+   "lecture": "L5"
+  },
+  {
+   "term": "BCELoss",
+   "ko": "이진 교차엔트로피 손실",
+   "en": "The PyTorch binary cross-entropy loss class.",
+   "lecture": "L5"
+  },
+  {
+   "term": "CrossEntropyLoss",
+   "ko": "교차엔트로피 손실",
+   "en": "The PyTorch loss for multiclass classification (log-softmax + NLL).",
+   "lecture": "L5"
+  },
+  {
+   "term": "computational graph",
+   "ko": "계산 그래프",
+   "en": "A graph whose nodes are elementary operations and whose edges are data flow.",
+   "lecture": "L6"
+  },
+  {
+   "term": "node",
+   "ko": "노드",
+   "en": "A point of the computation graph representing an operation or a variable.",
+   "lecture": "L6"
+  },
+  {
+   "term": "edge",
+   "ko": "간선",
+   "en": "A connection in the computation graph showing how values flow.",
+   "lecture": "L6"
+  },
+  {
+   "term": "elementary operation",
+   "ko": "기본 연산",
+   "en": "A simple operation such as addition, multiplication or squaring.",
+   "lecture": "L6"
+  },
+  {
+   "term": "local derivative",
+   "ko": "국소 도함수",
+   "en": "The derivative of one node's output with respect to its own input.",
+   "lecture": "L6"
+  },
+  {
+   "term": "upstream gradient",
+   "ko": "상류 그래디언트",
+   "en": "The gradient arriving at a node from later in the graph.",
+   "lecture": "L6"
+  },
+  {
+   "term": "symbolic derivation",
+   "ko": "기호적 미분",
+   "en": "Deriving the gradient formula symbolically, once, before training.",
+   "lecture": "L6"
+  },
+  {
+   "term": "substitution",
+   "ko": "대입",
+   "en": "Plugging actual numbers into the symbolic formulas.",
+   "lecture": "L6"
+  },
+  {
+   "term": "intermediate variable",
+   "ko": "중간 변수",
+   "en": "A variable introduced to break a long expression into simple steps.",
+   "lecture": "L6"
+  },
+  {
+   "term": "composite function",
+   "ko": "합성함수",
+   "en": "A function built by applying one function to the result of another.",
+   "lecture": "L6"
+  },
+  {
+   "term": "recompute",
+   "ko": "다시 계산하다",
+   "en": "To calculate the same quantity again; backpropagation avoids this.",
+   "lecture": "L6"
+  },
+  {
+   "term": "sub-expression",
+   "ko": "부분식",
+   "en": "A part of a larger expression; reused in backpropagation.",
+   "lecture": "L6"
+  },
+  {
+   "term": "tensor",
+   "ko": "텐서",
+   "en": "A multi-dimensional array; the basic data structure of PyTorch.",
+   "lecture": "L6"
+  },
+  {
+   "term": "ndarray",
+   "ko": "다차원 배열",
+   "en": "The NumPy multi-dimensional array type.",
+   "lecture": "L6"
+  },
+  {
+   "term": "shape",
+   "ko": "형태",
+   "en": "The tuple giving the length of each dimension of an array.",
+   "lecture": "L6"
+  },
+  {
+   "term": "dimension",
+   "ko": "차원",
+   "en": "One axis of an array; the number of axes is ndim.",
+   "lecture": "L6"
+  },
+  {
+   "term": "axis",
+   "ko": "축",
+   "en": "One dimension of an array along which operations are applied.",
+   "lecture": "L6"
+  },
+  {
+   "term": "dtype",
+   "ko": "자료형",
+   "en": "The element data type of an array, for example float32 or int64.",
+   "lecture": "L6"
+  },
+  {
+   "term": "itemsize",
+   "ko": "항목 크기",
+   "en": "The size in bytes of one element (4 for float32).",
+   "lecture": "L6"
+  },
+  {
+   "term": "numel",
+   "ko": "원소 수",
+   "en": "The total number of elements in a tensor (PyTorch).",
+   "lecture": "L6"
+  },
+  {
+   "term": "requires_grad",
+   "ko": "미분 필요 여부",
+   "en": "A PyTorch flag telling autograd to track operations on the tensor.",
+   "lecture": "L6"
+  },
+  {
+   "term": "grad_fn",
+   "ko": "그래디언트 함수",
+   "en": "The function that produced a tensor; the link to the computation graph.",
+   "lecture": "L6"
+  },
+  {
+   "term": "autograd",
+   "ko": "자동 미분",
+   "en": "The PyTorch system that computes gradients automatically.",
+   "lecture": "L6"
+  },
+  {
+   "term": "automatic differentiation",
+   "ko": "자동 미분",
+   "en": "Computing derivatives by applying the chain rule mechanically.",
+   "lecture": "L6"
+  },
+  {
+   "term": "lazy execution",
+   "ko": "지연 실행",
+   "en": "Building the computation graph first and evaluating it later.",
+   "lecture": "L6"
+  },
+  {
+   "term": "optimizer",
+   "ko": "최적화기",
+   "en": "The object that updates the parameters, for example SGD or Adam.",
+   "lecture": "L6"
+  },
+  {
+   "term": "zero_grad",
+   "ko": "기울기 초기화",
+   "en": "Clearing accumulated gradients before the backward pass.",
+   "lecture": "L6"
+  },
+  {
+   "term": "optimizer.step",
+   "ko": "파라미터 갱신",
+   "en": "The optimizer method that applies one parameter update.",
+   "lecture": "L6"
+  },
+  {
+   "term": "loss.backward",
+   "ko": "역전파 호출",
+   "en": "The PyTorch call that computes all gradients.",
+   "lecture": "L6"
+  },
+  {
+   "term": "device",
+   "ko": "장치",
+   "en": "Where the data lives: CPU or GPU.",
+   "lecture": "L6"
+  },
+  {
+   "term": "GPU",
+   "ko": "그래픽 처리 장치",
+   "en": "A processor used to speed up array and neural network computation.",
+   "lecture": "L6"
+  },
+  {
+   "term": "PyTorch",
+   "ko": "파이토치",
+   "en": "A deep learning library with tensors, autograd and neural network modules.",
+   "lecture": "L6"
+  },
+  {
+   "term": "NumPy",
+   "ko": "넘파이",
+   "en": "The fundamental Python library for numerical arrays.",
+   "lecture": "L6"
+  },
+  {
+   "term": "array programming",
+   "ko": "배열 프로그래밍",
+   "en": "Writing whole-array operations instead of explicit loops.",
+   "lecture": "L6"
+  },
+  {
+   "term": "vectorization",
+   "ko": "벡터화",
+   "en": "Expressing computation as array operations, which is much faster than loops.",
+   "lecture": "L6"
+  },
+  {
+   "term": "in place",
+   "ko": "제자리 연산",
+   "en": "Modifying an array without creating a new one (arr.sort()).",
+   "lecture": "L6"
+  },
+  {
+   "term": "convolution",
+   "ko": "합성곱",
+   "en": "Sliding a filter over the input and computing dot products at every position.",
+   "lecture": "L7"
+  },
+  {
+   "term": "kernel",
+   "ko": "커널",
+   "en": "A synonym of filter in a convolutional layer.",
+   "lecture": "L7"
+  },
+  {
+   "term": "filter",
+   "ko": "필터",
+   "en": "A small matrix of weights that detects a pattern.",
+   "lecture": "L7"
+  },
+  {
+   "term": "heatmap",
+   "ko": "히트맵",
+   "en": "The output map of a convolution; a feature map.",
+   "lecture": "L7"
+  },
+  {
+   "term": "feature map",
+   "ko": "특징 맵",
+   "en": "The output of applying a filter to the input.",
+   "lecture": "L7"
+  },
+  {
+   "term": "channel",
+   "ko": "채널",
+   "en": "One 2D slice of a 3D tensor, for example R, G or B of an image.",
+   "lecture": "L7"
+  },
+  {
+   "term": "RGB",
+   "ko": "RGB",
+   "en": "The three color channels of a color image.",
+   "lecture": "L7"
+  },
+  {
+   "term": "pooling",
+   "ko": "풀링",
+   "en": "Downsampling a heatmap, usually by taking the max or the average.",
+   "lecture": "L7"
+  },
+  {
+   "term": "max pooling",
+   "ko": "최대 풀링",
+   "en": "Pooling that keeps the maximum value of each block.",
+   "lecture": "L7"
+  },
+  {
+   "term": "average pooling",
+   "ko": "평균 풀링",
+   "en": "Pooling that keeps the average value of each block.",
+   "lecture": "L7"
+  },
+  {
+   "term": "downsampling",
+   "ko": "다운샘플링",
+   "en": "Reducing the resolution of a map.",
+   "lecture": "L7"
+  },
+  {
+   "term": "receptive field",
+   "ko": "수용영역",
+   "en": "The region of the input that a neuron depends on.",
+   "lecture": "L7"
+  },
+  {
+   "term": "translation invariance",
+   "ko": "이동 불변성",
+   "en": "The same conclusion even when the object moves in the image.",
+   "lecture": "L7"
+  },
+  {
+   "term": "equivariance",
+   "ko": "등변성",
+   "en": "If the input shifts, the output shifts in the same way.",
+   "lecture": "L7"
+  },
+  {
+   "term": "invariance",
+   "ko": "불변성",
+   "en": "The output does not change when the input is transformed.",
+   "lecture": "L7"
+  },
+  {
+   "term": "LeNet-5",
+   "ko": "LeNet-5",
+   "en": "A classical 1998 CNN (Y. LeCun) that alternates convolution and pooling.",
+   "lecture": "L7"
+  },
+  {
+   "term": "ImageNet",
+   "ko": "이미지넷",
+   "en": "A large color image dataset with more than 1000 classes.",
+   "lecture": "L7"
+  },
+  {
+   "term": "data augmentation",
+   "ko": "데이터 증강",
+   "en": "Creating new training examples by transforming existing ones.",
+   "lecture": "L7"
+  },
+  {
+   "term": "rotation",
+   "ko": "회전",
+   "en": "Turning an image by an angle; a common augmentation.",
+   "lecture": "L7"
+  },
+  {
+   "term": "flipping",
+   "ko": "반전",
+   "en": "Mirroring an image horizontally or vertically.",
+   "lecture": "L7"
+  },
+  {
+   "term": "distortion",
+   "ko": "왜곡",
+   "en": "Deforming an image slightly; a common augmentation.",
+   "lecture": "L7"
+  },
+  {
+   "term": "Gaussian noise",
+   "ko": "가우시안 잡음",
+   "en": "Random noise drawn from a normal distribution.",
+   "lecture": "L7"
+  },
+  {
+   "term": "accuracy",
+   "ko": "정확도",
+   "en": "The fraction of examples that were classified correctly.",
+   "lecture": "L7"
+  },
+  {
+   "term": "precision",
+   "ko": "정밀도",
+   "en": "Of those predicted positive, the fraction that really is positive.",
+   "lecture": "L7"
+  },
+  {
+   "term": "recall",
+   "ko": "재현율",
+   "en": "Of the actual positives, the fraction that was found.",
+   "lecture": "L7"
+  },
+  {
+   "term": "F1",
+   "ko": "F1 점수",
+   "en": "The harmonic mean of precision and recall.",
+   "lecture": "L7"
+  },
+  {
+   "term": "balanced accuracy",
+   "ko": "균형 정확도",
+   "en": "The average of the per-class recall values; robust to class imbalance.",
+   "lecture": "L7"
+  },
+  {
+   "term": "confusion matrix",
+   "ko": "혼동행렬",
+   "en": "A table of counts for every (true label, predicted label) pair.",
+   "lecture": "L7"
+  },
+  {
+   "term": "class imbalance",
+   "ko": "클래스 불균형",
+   "en": "Some classes have far more examples than others.",
+   "lecture": "L7"
+  },
+  {
+   "term": "RMSE",
+   "ko": "평균제곱근오차",
+   "en": "The square root of the mean squared error.",
+   "lecture": "L7"
+  },
+  {
+   "term": "MAE",
+   "ko": "평균절대오차",
+   "en": "The mean absolute error.",
+   "lecture": "L7"
+  },
+  {
+   "term": "diagonal matrix",
+   "ko": "대각행렬",
+   "en": "A matrix whose off-diagonal entries are zero.",
+   "lecture": "L7"
+  },
+  {
+   "term": "misleading",
+   "ko": "오해를 일으키는",
+   "en": "Giving a wrong impression, as accuracy can on imbalanced data.",
+   "lecture": "L7"
+  },
+  {
+   "term": "indexing",
+   "ko": "인덱싱",
+   "en": "Selecting elements of an array by position.",
+   "lecture": "NP"
+  },
+  {
+   "term": "slicing",
+   "ko": "슬라이싱",
+   "en": "Selecting a range of elements with start:stop:step.",
+   "lecture": "NP"
+  },
+  {
+   "term": "fancy indexing",
+   "ko": "팬시 인덱싱",
+   "en": "Indexing with a list or array of indices; returns a copy.",
+   "lecture": "NP"
+  },
+  {
+   "term": "boolean mask",
+   "ko": "불리언 마스크",
+   "en": "A boolean array used to select elements; returns a copy.",
+   "lecture": "NP"
+  },
+  {
+   "term": "view",
+   "ko": "뷰",
+   "en": "An array that shares memory with another array.",
+   "lecture": "NP"
+  },
+  {
+   "term": "copy",
+   "ko": "복사본",
+   "en": "An independent array that does not share memory.",
+   "lecture": "NP"
+  },
+  {
+   "term": "broadcasting",
+   "ko": "브로드캐스팅",
+   "en": "Automatic expansion of arrays with different shapes for element-wise ops.",
+   "lecture": "NP"
+  },
+  {
+   "term": "reshape",
+   "ko": "형태 변경",
+   "en": "Changing the shape of an array without changing its data.",
+   "lecture": "NP"
+  },
+  {
+   "term": "transpose",
+   "ko": "전치",
+   "en": "Swapping the axes of an array; written .T.",
+   "lecture": "NP"
+  },
+  {
+   "term": "newaxis",
+   "ko": "새 축 추가",
+   "en": "Adding a size-1 axis, written None, for example arr[:, None].",
+   "lecture": "NP"
+  },
+  {
+   "term": "aggregate",
+   "ko": "집계하다",
+   "en": "Reducing an array to fewer numbers, for example sum or mean.",
+   "lecture": "NP"
+  },
+  {
+   "term": "keepdims",
+   "ko": "차원 유지",
+   "en": "Keeping the reduced axis with size 1 in the result.",
+   "lecture": "NP"
+  },
+  {
+   "term": "count_nonzero",
+   "ko": "0이 아닌 원소 개수",
+   "en": "Counts the elements that are not zero (or the True values of a mask).",
+   "lecture": "NP"
+  },
+  {
+   "term": "any",
+   "ko": "하나라도 참",
+   "en": "True if at least one element is True.",
+   "lecture": "NP"
+  },
+  {
+   "term": "all",
+   "ko": "모두 참",
+   "en": "True if every element is True (vacuously True for an empty array).",
+   "lecture": "NP"
+  },
+  {
+   "term": "unique",
+   "ko": "고유값",
+   "en": "The distinct values of an array, sorted ascending.",
+   "lecture": "NP"
+  },
+  {
+   "term": "bincount",
+   "ko": "빈도 세기",
+   "en": "Counts occurrences of each non-negative integer value.",
+   "lecture": "NP"
+  },
+  {
+   "term": "argsort",
+   "ko": "정렬 인덱스",
+   "en": "The indices that would sort the array.",
+   "lecture": "NP"
+  },
+  {
+   "term": "sort",
+   "ko": "정렬",
+   "en": "Putting the elements in order; np.sort copies, arr.sort() is in place.",
+   "lecture": "NP"
+  },
+  {
+   "term": "nanmean",
+   "ko": "NaN 제외 평균",
+   "en": "The mean computed while ignoring NaN values.",
+   "lecture": "NP"
+  },
+  {
+   "term": "isnan",
+   "ko": "NaN 판별",
+   "en": "Returns a boolean array marking the NaN positions.",
+   "lecture": "NP"
+  },
+  {
+   "term": "NaN",
+   "ko": "결측값",
+   "en": "Not a Number: a special float value meaning missing or undefined.",
+   "lecture": "NP"
+  },
+  {
+   "term": "searchsorted",
+   "ko": "삽입 위치 탐색",
+   "en": "The index where a value would be inserted to keep a sorted array sorted.",
+   "lecture": "NP"
+  },
+  {
+   "term": "histogram",
+   "ko": "히스토그램",
+   "en": "The counts of values falling into each interval (bin).",
+   "lecture": "NP"
+  },
+  {
+   "term": "bin",
+   "ko": "구간",
+   "en": "One interval of a histogram.",
+   "lecture": "NP"
+  },
+  {
+   "term": "edges",
+   "ko": "경계값",
+   "en": "The boundary values that define the bins of a histogram.",
+   "lecture": "NP"
+  },
+  {
+   "term": "eye",
+   "ko": "단위행렬 생성",
+   "en": "np.eye(K) makes a K x K identity matrix; used for one-hot encoding.",
+   "lecture": "NP"
+  },
+  {
+   "term": "arange",
+   "ko": "수열 생성",
+   "en": "np.arange(start, stop, step) makes an evenly spaced array.",
+   "lecture": "NP"
+  },
+  {
+   "term": "zeros",
+   "ko": "0 배열",
+   "en": "np.zeros(shape) makes an array filled with zeros.",
+   "lecture": "NP"
+  },
+  {
+   "term": "ones",
+   "ko": "1 배열",
+   "en": "np.ones(shape) makes an array filled with ones.",
+   "lecture": "NP"
+  },
+  {
+   "term": "dot",
+   "ko": "행렬곱",
+   "en": "np.dot(A, B) computes the matrix product of A and B.",
+   "lecture": "NP"
+  },
+  {
+   "term": "matmul",
+   "ko": "행렬곱 연산자",
+   "en": "The @ operator, which computes a matrix product.",
+   "lecture": "NP"
+  },
+  {
+   "term": "element-wise",
+   "ko": "요소별",
+   "en": "Applied to each element separately, like the * operator.",
+   "lecture": "NP"
+  },
+  {
+   "term": "scalar",
+   "ko": "스칼라",
+   "en": "A single number, with no dimensions.",
+   "lecture": "NP"
+  },
+  {
+   "term": "vector",
+   "ko": "벡터",
+   "en": "A one-dimensional array of numbers.",
+   "lecture": "NP"
+  },
+  {
+   "term": "matrix",
+   "ko": "행렬",
+   "en": "A two-dimensional array of numbers.",
+   "lecture": "NP"
+  },
+  {
+   "term": "element",
+   "ko": "원소",
+   "en": "One value inside an array.",
+   "lecture": "NP"
+  },
+  {
+   "term": "index",
+   "ko": "첨자, 인덱스",
+   "en": "The position of an element in an array.",
+   "lecture": "NP"
+  },
+  {
+   "term": "ValueError",
+   "ko": "값 오류",
+   "en": "The exception NumPy raises for mismatched shapes or invalid values.",
+   "lecture": "NP"
+  },
+  {
+   "term": "TypeError",
+   "ko": "형 오류",
+   "en": "The exception raised when an operation gets the wrong type.",
+   "lecture": "NP"
+  },
+  {
+   "term": "cast",
+   "ko": "형 변환",
+   "en": "Converting values from one data type to another.",
+   "lecture": "NP"
+  },
+  {
+   "term": "float32",
+   "ko": "32비트 실수",
+   "en": "A 32-bit floating point type, the default for PyTorch layers.",
+   "lecture": "NP"
+  },
+  {
+   "term": "int64",
+   "ko": "64비트 정수",
+   "en": "The default integer type on most NumPy platforms.",
+   "lecture": "NP"
+  },
+  {
+   "term": "palette",
+   "ko": "팔레트",
+   "en": "A table of colors indexed by number; used to color an indexed image.",
+   "lecture": "NP"
+  },
+  {
+   "term": "pixel",
+   "ko": "화소",
+   "en": "One dot of an image; its brightness is an input variable.",
+   "lecture": "NP"
+  },
+  {
+   "term": "operator precedence",
+   "ko": "연산자 우선순위",
+   "en": "Which operator is evaluated first; use parentheses to be explicit.",
+   "lecture": "NP"
+  },
+  {
+   "term": "mask assignment",
+   "ko": "마스크 대입",
+   "en": "arr[mask] = 0 changes the selected elements of the original array.",
+   "lecture": "NP"
+  },
+  {
+   "term": "which of the following",
+   "ko": "다음 중",
+   "en": "The standard opening of a multiple-choice question.",
+   "lecture": "AC"
+  },
+  {
+   "term": "describe",
+   "ko": "설명하다",
+   "en": "To say what something is like.",
+   "lecture": "AC"
+  },
+  {
+   "term": "explain",
+   "ko": "설명하다",
+   "en": "To make something clear by giving reasons.",
+   "lecture": "AC"
+  },
+  {
+   "term": "illustrate",
+   "ko": "예시로 보여주다",
+   "en": "To make an idea clear with an example or a figure.",
+   "lecture": "AC"
+  },
+  {
+   "term": "formulate",
+   "ko": "정식화하다",
+   "en": "To express an idea in a precise, formal way.",
+   "lecture": "AC"
+  },
+  {
+   "term": "compute",
+   "ko": "계산하다",
+   "en": "To work out a value by calculation.",
+   "lecture": "AC"
+  },
+  {
+   "term": "calculate",
+   "ko": "계산하다",
+   "en": "To find a value using mathematics.",
+   "lecture": "AC"
+  },
+  {
+   "term": "evaluate",
+   "ko": "평가하다",
+   "en": "To judge or measure how good something is.",
+   "lecture": "AC"
+  },
+  {
+   "term": "measure",
+   "ko": "측정하다",
+   "en": "To find the size or amount of something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "compare",
+   "ko": "비교하다",
+   "en": "To look at differences and similarities.",
+   "lecture": "AC"
+  },
+  {
+   "term": "determine",
+   "ko": "결정하다, 판단하다",
+   "en": "To find out or decide something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "identify",
+   "ko": "식별하다",
+   "en": "To recognize and name something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "recognize",
+   "ko": "인식하다",
+   "en": "To know what something is when you see it.",
+   "lecture": "AC"
+  },
+  {
+   "term": "detect",
+   "ko": "검출하다",
+   "en": "To discover the presence of something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "represent",
+   "ko": "나타내다",
+   "en": "To stand for or describe something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "assign",
+   "ko": "할당하다, 부여하다",
+   "en": "To give a value or a label to something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "apply",
+   "ko": "적용하다",
+   "en": "To use a rule or method in a situation.",
+   "lecture": "AC"
+  },
+  {
+   "term": "perform",
+   "ko": "수행하다",
+   "en": "To carry out an action or computation.",
+   "lecture": "AC"
+  },
+  {
+   "term": "achieve",
+   "ko": "달성하다",
+   "en": "To succeed in reaching a goal.",
+   "lecture": "AC"
+  },
+  {
+   "term": "improve",
+   "ko": "개선하다",
+   "en": "To make something better.",
+   "lecture": "AC"
+  },
+  {
+   "term": "increase",
+   "ko": "증가하다",
+   "en": "To become larger in amount.",
+   "lecture": "AC"
+  },
+  {
+   "term": "decrease",
+   "ko": "감소하다",
+   "en": "To become smaller in amount.",
+   "lecture": "AC"
+  },
+  {
+   "term": "reduce",
+   "ko": "줄이다",
+   "en": "To make something smaller.",
+   "lecture": "AC"
+  },
+  {
+   "term": "exceed",
+   "ko": "초과하다",
+   "en": "To be greater than a limit or value.",
+   "lecture": "AC"
+  },
+  {
+   "term": "satisfy",
+   "ko": "만족시키다",
+   "en": "To meet a condition or requirement.",
+   "lecture": "AC"
+  },
+  {
+   "term": "require",
+   "ko": "요구하다",
+   "en": "To need something as a condition.",
+   "lecture": "AC"
+  },
+  {
+   "term": "assume",
+   "ko": "가정하다",
+   "en": "To accept something as true without proof.",
+   "lecture": "AC"
+  },
+  {
+   "term": "restrict",
+   "ko": "제한하다",
+   "en": "To keep something within limits.",
+   "lecture": "AC"
+  },
+  {
+   "term": "limit",
+   "ko": "제한하다, 한계",
+   "en": "A boundary that cannot be passed.",
+   "lecture": "AC"
+  },
+  {
+   "term": "prevent",
+   "ko": "막다",
+   "en": "To stop something from happening.",
+   "lecture": "AC"
+  },
+  {
+   "term": "avoid",
+   "ko": "피하다",
+   "en": "To stay away from something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "allow",
+   "ko": "허용하다",
+   "en": "To make something possible.",
+   "lecture": "AC"
+  },
+  {
+   "term": "enable",
+   "ko": "가능하게 하다",
+   "en": "To make something possible.",
+   "lecture": "AC"
+  },
+  {
+   "term": "contain",
+   "ko": "포함하다",
+   "en": "To have something inside.",
+   "lecture": "AC"
+  },
+  {
+   "term": "consist of",
+   "ko": "~로 구성되다",
+   "en": "To be made up of particular parts.",
+   "lecture": "AC"
+  },
+  {
+   "term": "compose",
+   "ko": "구성하다",
+   "en": "To combine parts into a whole; a composition is a combination.",
+   "lecture": "AC"
+  },
+  {
+   "term": "vary",
+   "ko": "변하다, 달라지다",
+   "en": "To be different or to change.",
+   "lecture": "AC"
+  },
+  {
+   "term": "remain",
+   "ko": "남다, 유지되다",
+   "en": "To stay the same or still exist.",
+   "lecture": "AC"
+  },
+  {
+   "term": "preserve",
+   "ko": "보존하다",
+   "en": "To keep something unchanged.",
+   "lecture": "AC"
+  },
+  {
+   "term": "ignore",
+   "ko": "무시하다",
+   "en": "To pay no attention to something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "mitigate",
+   "ko": "완화하다",
+   "en": "To make something less severe.",
+   "lecture": "AC"
+  },
+  {
+   "term": "monitor",
+   "ko": "관찰하다",
+   "en": "To watch something over time to see how it changes.",
+   "lecture": "AC"
+  },
+  {
+   "term": "adjust",
+   "ko": "조정하다",
+   "en": "To change something slightly to make it better.",
+   "lecture": "AC"
+  },
+  {
+   "term": "tune",
+   "ko": "조정하다",
+   "en": "To adjust a setting such as a hyperparameter.",
+   "lecture": "AC"
+  },
+  {
+   "term": "appropriate",
+   "ko": "적절한",
+   "en": "Suitable for the situation.",
+   "lecture": "AC"
+  },
+  {
+   "term": "suitable",
+   "ko": "적합한",
+   "en": "Right or fitting for a purpose.",
+   "lecture": "AC"
+  },
+  {
+   "term": "sufficient",
+   "ko": "충분한",
+   "en": "Enough for a purpose.",
+   "lecture": "AC"
+  },
+  {
+   "term": "necessary",
+   "ko": "필요한",
+   "en": "Needed; impossible to do without.",
+   "lecture": "AC"
+  },
+  {
+   "term": "essential",
+   "ko": "필수적인",
+   "en": "Extremely important; necessary.",
+   "lecture": "AC"
+  },
+  {
+   "term": "significant",
+   "ko": "상당한, 유의미한",
+   "en": "Large enough to matter.",
+   "lecture": "AC"
+  },
+  {
+   "term": "considerable",
+   "ko": "상당한",
+   "en": "Fairly large in amount or degree.",
+   "lecture": "AC"
+  },
+  {
+   "term": "slight",
+   "ko": "약간의",
+   "en": "Very small in degree.",
+   "lecture": "AC"
+  },
+  {
+   "term": "severe",
+   "ko": "심각한",
+   "en": "Very bad or serious.",
+   "lecture": "AC"
+  },
+  {
+   "term": "arbitrary",
+   "ko": "임의의",
+   "en": "Chosen without a rule or reason.",
+   "lecture": "AC"
+  },
+  {
+   "term": "identical",
+   "ko": "동일한",
+   "en": "Exactly the same.",
+   "lecture": "AC"
+  },
+  {
+   "term": "equivalent",
+   "ko": "동등한",
+   "en": "Equal in value or meaning.",
+   "lecture": "AC"
+  },
+  {
+   "term": "valid",
+   "ko": "유효한",
+   "en": "Correct and acceptable.",
+   "lecture": "AC"
+  },
+  {
+   "term": "invalid",
+   "ko": "유효하지 않은",
+   "en": "Not correct or not acceptable.",
+   "lecture": "AC"
+  },
+  {
+   "term": "exact",
+   "ko": "정확한",
+   "en": "Completely correct, with no error.",
+   "lecture": "AC"
+  },
+  {
+   "term": "approximate",
+   "ko": "근사적인",
+   "en": "Close to the true value but not exact.",
+   "lecture": "AC"
+  },
+  {
+   "term": "precise",
+   "ko": "정밀한",
+   "en": "Very exact and clearly defined.",
+   "lecture": "AC"
+  },
+  {
+   "term": "roughly",
+   "ko": "대략",
+   "en": "Approximately; not exactly.",
+   "lecture": "AC"
+  },
+  {
+   "term": "finite",
+   "ko": "유한한",
+   "en": "Having a countable, limited size.",
+   "lecture": "AC"
+  },
+  {
+   "term": "infinite",
+   "ko": "무한한",
+   "en": "Having no limit or end.",
+   "lecture": "AC"
+  },
+  {
+   "term": "unbounded",
+   "ko": "제한이 없는",
+   "en": "Not restricted to any range.",
+   "lecture": "AC"
+  },
+  {
+   "term": "linear",
+   "ko": "선형의",
+   "en": "Forming a straight line; a weighted sum of inputs.",
+   "lecture": "AC"
+  },
+  {
+   "term": "non-linear",
+   "ko": "비선형의",
+   "en": "Not forming a straight line.",
+   "lecture": "AC"
+  },
+  {
+   "term": "quadratic",
+   "ko": "이차의",
+   "en": "Involving a term with a squared variable.",
+   "lecture": "AC"
+  },
+  {
+   "term": "robust",
+   "ko": "견고한",
+   "en": "Still working well when conditions change.",
+   "lecture": "AC"
+  },
+  {
+   "term": "flexible",
+   "ko": "유연한",
+   "en": "Able to adapt to different situations.",
+   "lecture": "AC"
+  },
+  {
+   "term": "complex",
+   "ko": "복잡한",
+   "en": "Made of many connected parts.",
+   "lecture": "AC"
+  },
+  {
+   "term": "complicated",
+   "ko": "복잡한",
+   "en": "Difficult because of many parts or steps.",
+   "lecture": "AC"
+  },
+  {
+   "term": "capable",
+   "ko": "할 수 있는",
+   "en": "Able to do something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "independent",
+   "ko": "독립적인",
+   "en": "Not depending on something else.",
+   "lecture": "AC"
+  },
+  {
+   "term": "separately",
+   "ko": "개별적으로",
+   "en": "One at a time, not together.",
+   "lecture": "AC"
+  },
+  {
+   "term": "jointly",
+   "ko": "함께",
+   "en": "Together, at the same time.",
+   "lecture": "AC"
+  },
+  {
+   "term": "respectively",
+   "ko": "각각",
+   "en": "In the order just mentioned.",
+   "lecture": "AC"
+  },
+  {
+   "term": "at least",
+   "ko": "최소한",
+   "en": "Not less than; a lower bound.",
+   "lecture": "AC"
+  },
+  {
+   "term": "at most",
+   "ko": "최대한, 기껏해야",
+   "en": "Not more than; an upper bound.",
+   "lecture": "AC"
+  },
+  {
+   "term": "only if",
+   "ko": "~인 경우에만",
+   "en": "A necessary condition: it happens only in that case.",
+   "lecture": "AC"
+  },
+  {
+   "term": "even if",
+   "ko": "~일지라도",
+   "en": "Although; used to introduce a surprising case.",
+   "lecture": "AC"
+  },
+  {
+   "term": "as long as",
+   "ko": "~하는 한",
+   "en": "Provided that; on condition that.",
+   "lecture": "AC"
+  },
+  {
+   "term": "unless",
+   "ko": "~하지 않으면",
+   "en": "Except in the case that.",
+   "lecture": "AC"
+  },
+  {
+   "term": "provided that",
+   "ko": "~라면",
+   "en": "On the condition that.",
+   "lecture": "AC"
+  },
+  {
+   "term": "whether",
+   "ko": "~인지 아닌지",
+   "en": "Used to introduce two possibilities.",
+   "lecture": "AC"
+  },
+  {
+   "term": "either ... or",
+   "ko": "둘 중 하나",
+   "en": "One of two possibilities.",
+   "lecture": "AC"
+  },
+  {
+   "term": "neither ... nor",
+   "ko": "둘 다 아닌",
+   "en": "Not the first and not the second.",
+   "lecture": "AC"
+  },
+  {
+   "term": "rather than",
+   "ko": "~보다는",
+   "en": "Instead of; in preference to.",
+   "lecture": "AC"
+  },
+  {
+   "term": "instead of",
+   "ko": "~대신에",
+   "en": "In place of something.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in order to",
+   "ko": "~하기 위해",
+   "en": "With the purpose of.",
+   "lecture": "AC"
+  },
+  {
+   "term": "so that",
+   "ko": "~하도록",
+   "en": "With the result or purpose that.",
+   "lecture": "AC"
+  },
+  {
+   "term": "such that",
+   "ko": "~인",
+   "en": "Used to define a condition precisely.",
+   "lecture": "AC"
+  },
+  {
+   "term": "due to",
+   "ko": "~때문에",
+   "en": "Because of.",
+   "lecture": "AC"
+  },
+  {
+   "term": "based on",
+   "ko": "~에 근거한",
+   "en": "Using something as the basis.",
+   "lecture": "AC"
+  },
+  {
+   "term": "according to",
+   "ko": "~에 따르면",
+   "en": "As stated by or in agreement with.",
+   "lecture": "AC"
+  },
+  {
+   "term": "apart from",
+   "ko": "~외에",
+   "en": "Except for; in addition to.",
+   "lecture": "AC"
+  },
+  {
+   "term": "as well as",
+   "ko": "~뿐만 아니라",
+   "en": "In addition to.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in addition",
+   "ko": "게다가",
+   "en": "Also; besides.",
+   "lecture": "AC"
+  },
+  {
+   "term": "therefore",
+   "ko": "따라서",
+   "en": "For that reason; consequently.",
+   "lecture": "AC"
+  },
+  {
+   "term": "thus",
+   "ko": "따라서",
+   "en": "As a result; in this way.",
+   "lecture": "AC"
+  },
+  {
+   "term": "hence",
+   "ko": "그러므로",
+   "en": "For this reason.",
+   "lecture": "AC"
+  },
+  {
+   "term": "whereas",
+   "ko": "반면에",
+   "en": "In contrast to the fact that.",
+   "lecture": "AC"
+  },
+  {
+   "term": "while",
+   "ko": "~인 반면에, ~하는 동안",
+   "en": "Although / at the same time as.",
+   "lecture": "AC"
+  },
+  {
+   "term": "however",
+   "ko": "그러나",
+   "en": "Used to introduce a contrast.",
+   "lecture": "AC"
+  },
+  {
+   "term": "nevertheless",
+   "ko": "그럼에도 불구하고",
+   "en": "Despite what was just said.",
+   "lecture": "AC"
+  },
+  {
+   "term": "on the other hand",
+   "ko": "반면에",
+   "en": "Used to present the opposite side.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in contrast",
+   "ko": "대조적으로",
+   "en": "Showing a clear difference.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in other words",
+   "ko": "다시 말해",
+   "en": "Expressing the same idea differently.",
+   "lecture": "AC"
+  },
+  {
+   "term": "that is",
+   "ko": "즉",
+   "en": "Introducing a clarification (i.e.).",
+   "lecture": "AC"
+  },
+  {
+   "term": "for instance",
+   "ko": "예를 들어",
+   "en": "Introducing an example.",
+   "lecture": "AC"
+  },
+  {
+   "term": "such as",
+   "ko": "~와 같은",
+   "en": "Introducing examples of a category.",
+   "lecture": "AC"
+  },
+  {
+   "term": "etc.",
+   "ko": "등등",
+   "en": "And other similar things.",
+   "lecture": "AC"
+  },
+  {
+   "term": "vice versa",
+   "ko": "그 반대도 마찬가지",
+   "en": "With the two things exchanged.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in practice",
+   "ko": "실제로는",
+   "en": "In real situations, as opposed to theory.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in theory",
+   "ko": "이론상으로는",
+   "en": "According to theory, even if not in reality.",
+   "lecture": "AC"
+  },
+  {
+   "term": "by default",
+   "ko": "기본적으로",
+   "en": "Unless something else is specified.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in advance",
+   "ko": "미리",
+   "en": "Before the event happens.",
+   "lecture": "AC"
+  },
+  {
+   "term": "as is",
+   "ko": "그대로",
+   "en": "Without modification.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in terms of",
+   "ko": "~의 관점에서",
+   "en": "Considering a particular aspect.",
+   "lecture": "AC"
+  },
+  {
+   "term": "with respect to",
+   "ko": "~에 관하여",
+   "en": "Concerning; with regard to.",
+   "lecture": "AC"
+  },
+  {
+   "term": "regardless of",
+   "ko": "~와 상관없이",
+   "en": "Without being affected by.",
+   "lecture": "AC"
+  },
+  {
+   "term": "no longer",
+   "ko": "더 이상 ~아니다",
+   "en": "Not any more; used to say a state ended.",
+   "lecture": "AC"
+  },
+  {
+   "term": "to some extent",
+   "ko": "어느 정도",
+   "en": "Partly, but not completely.",
+   "lecture": "AC"
+  },
+  {
+   "term": "at the same time",
+   "ko": "동시에",
+   "en": "Simultaneously.",
+   "lecture": "AC"
+  },
+  {
+   "term": "as soon as",
+   "ko": "~하자마자",
+   "en": "Immediately after.",
+   "lecture": "AC"
+  },
+  {
+   "term": "prior to",
+   "ko": "~이전에",
+   "en": "Before.",
+   "lecture": "AC"
+  },
+  {
+   "term": "along with",
+   "ko": "~와 함께",
+   "en": "Together with.",
+   "lecture": "AC"
+  },
+  {
+   "term": "no matter how",
+   "ko": "아무리 ~해도",
+   "en": "Regardless of the degree.",
+   "lecture": "AC"
+  },
+  {
+   "term": "on average",
+   "ko": "평균적으로",
+   "en": "As an average over all cases.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in general",
+   "ko": "일반적으로",
+   "en": "Usually; mostly.",
+   "lecture": "AC"
+  },
+  {
+   "term": "in particular",
+   "ko": "특히",
+   "en": "Especially.",
+   "lecture": "AC"
+  },
+  {
+   "term": "as opposed to",
+   "ko": "~와 대조적으로",
+   "en": "In contrast with.",
+   "lecture": "AC"
+  }
+ ],
+ "sentences": [
+  {
+   "en": "In supervised learning the task is to estimate the label (the expected output) from the input.",
+   "ko": "지도학습에서 과제는 입력으로부터 레이블(기대 출력)을 추정하는 것이다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "The goal of supervised learning is to find the parameters that minimize the loss function.",
+   "ko": "지도학습의 목표는 손실함수를 최소화하는 파라미터를 찾는 것이다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "The value of the loss function must always be a single scalar number.",
+   "ko": "손실함수의 값은 항상 하나의 스칼라 값이어야 한다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "If the label consists of several variables, a norm is used to reduce it to a single number.",
+   "ko": "레이블이 여러 변수로 이루어져 있으면, 놈(norm)을 사용해 하나의 수로 줄인다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Machine learning methods can be divided into three main groups: supervised, unsupervised and reinforcement learning.",
+   "ko": "기계학습 방법은 지도학습, 비지도학습, 강화학습의 세 가지 큰 그룹으로 나눌 수 있다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Writing an algorithm by hand is not ideal when the algorithmic solution is unknown or hard to compute.",
+   "ko": "알고리즘 해법이 알려져 있지 않거나 계산하기 어려울 때 손으로 알고리즘을 작성하는 것은 바람직하지 않다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Problems for which an efficient solution is known and easy to algorithmize are not suitable for machine learning.",
+   "ko": "효율적인 해법이 알려져 있고 알고리즘화하기 쉬운 문제는 기계학습에 적합하지 않다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Without labels the task is not well defined, but it can be formulated as clustering, compression or sample generation.",
+   "ko": "레이블이 없으면 과제가 잘 정의되지 않지만, 군집화·압축·표본 생성 등으로 정식화할 수 있다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "The agent observes the state of the environment and modifies it by performing actions.",
+   "ko": "에이전트는 환경의 상태를 관찰하고 행동을 수행해 환경을 변화시킨다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Because the feedback of the environment is sparse, it is hard to tell which action contributed to the result: this is the credit assignment problem.",
+   "ko": "환경의 피드백이 드물기 때문에 어떤 행동이 결과에 기여했는지 알기 어렵다. 이것이 신용 할당 문제다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "The generalization question asks whether a model memorizes the training examples or actually learns something useful.",
+   "ko": "일반화 문제는 모델이 훈련 예시를 그대로 외우는지, 실제로 유용한 것을 학습하는지를 묻는다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Deep learning models cannot be fully verified by formal verification; they can only be tested empirically.",
+   "ko": "딥러닝 모델은 형식 검증으로 완전히 검증할 수 없고, 경험적으로 시험할 수밖에 없다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "Supervised learning requires a great deal of human labor to produce labeled data, while a vast amount of unlabeled data is available.",
+   "ko": "지도학습은 레이블이 있는 데이터를 만들기 위해 많은 사람의 노동이 필요하지만, 레이블 없는 데이터는 방대하게 존재한다.",
+   "lecture": "L1"
+  },
+  {
+   "en": "The loss function of the least squares method is the MSE: the average of the squared differences between the true labels and the estimates.",
+   "ko": "최소제곱법의 손실함수는 MSE, 즉 실제 레이블과 추정값의 차이를 제곱해 평균한 값이다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "The gradient vector points in the direction in which the loss function increases most steeply.",
+   "ko": "그래디언트 벡터는 손실함수가 가장 가파르게 증가하는 방향을 가리킨다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "The direction in which the loss decreases most steeply is the opposite of the gradient.",
+   "ko": "손실이 가장 가파르게 감소하는 방향은 그래디언트의 반대 방향이다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "If the loss function is convex and the learning rate is small enough, finding the global optimum is guaranteed.",
+   "ko": "손실함수가 볼록하고 학습률이 충분히 작으면 전역 최적해를 찾는 것이 보장된다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "If the loss function is non-convex, gradient descent may reach a local minimum and the global minimum is not guaranteed.",
+   "ko": "손실함수가 비볼록하면 경사하강법은 국소 최소에 도달할 수 있고, 전역 최소는 보장되지 않는다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "In grid search the number of combinations to evaluate grows exponentially with the number of parameters.",
+   "ko": "격자 탐색에서는 평가해야 할 조합의 수가 파라미터 개수에 대해 지수적으로 증가한다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "When computing a partial derivative, the variables that we are not differentiating with respect to are treated as constants.",
+   "ko": "편미분을 계산할 때 미분 대상이 아닌 변수들은 상수로 취급한다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "The derivative is the limit of the difference quotient as the step size approaches zero.",
+   "ko": "도함수는 스텝 크기가 0으로 갈 때 차분몫의 극한이다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "A learning rate that is too large may make the iterations oscillate past the optimum or even diverge.",
+   "ko": "학습률이 너무 크면 반복이 최적점을 지나쳐 진동하거나 발산할 수 있다.",
+   "lecture": "L2"
+  },
+  {
+   "en": "If the input variables differ greatly in magnitude, the loss function becomes extremely elongated and convergence can become very slow.",
+   "ko": "입력 변수들의 크기 차이가 크면 손실함수가 극단적으로 길쭉해져서 수렴이 매우 느려질 수 있다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "The sigmoid function maps its input to a value between 0 and 1, so it is used to estimate a probability.",
+   "ko": "시그모이드 함수는 입력을 0과 1 사이의 값으로 대응시키므로 확률을 추정하는 데 사용된다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "The decision boundary is the set of inputs for which the output of the hypothesis function is exactly 0.5.",
+   "ko": "결정 경계는 가설함수의 출력이 정확히 0.5가 되는 입력들의 집합이다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "If MSE is used for logistic regression, the sigmoid is not convex and local minima can appear.",
+   "ko": "로지스틱 회귀에 MSE를 사용하면 시그모이드 때문에 볼록하지 않게 되어 국소 최소가 생길 수 있다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "Binary cross-entropy is convex, so gradient descent finds the global optimum.",
+   "ko": "이진 교차엔트로피는 볼록하므로 경사하강법이 전역 최적해를 찾는다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "With one-hot encoding the categories have no ordering, and the distances between different categories are equal.",
+   "ko": "원-핫 인코딩에서는 범주 사이에 순서가 없고, 서로 다른 범주 사이의 거리가 모두 같다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "Softmax converts a vector of real numbers into a probability distribution that sums to 1.",
+   "ko": "소프트맥스는 실수 벡터를 합이 1인 확률분포로 변환한다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "The training set is used to learn the parameters, the validation set to tune hyperparameters, and the test set for the final evaluation.",
+   "ko": "훈련집합은 파라미터 학습에, 검증집합은 하이퍼파라미터 조정에, 테스트집합은 최종 평가에 사용한다.",
+   "lecture": "L3"
+  },
+  {
+   "en": "Without an activation function the composition of several linear layers is still just a linear transformation.",
+   "ko": "활성함수가 없으면 여러 선형 층을 합성해도 결국 하나의 선형 변환일 뿐이다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "A single neuron can only solve linearly separable problems and cannot represent the XOR problem.",
+   "ko": "단일 뉴런은 선형 분리 가능한 문제만 풀 수 있고 XOR 문제를 표현할 수 없다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "A neural network is a universal function approximator: it can approximate any continuous function on a bounded region arbitrarily well.",
+   "ko": "신경망은 보편 근사기로, 유계 영역에서 임의의 연속함수를 임의의 정밀도로 근사할 수 있다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "The universal approximation theorem does not say how many neurons are needed for a given accuracy.",
+   "ko": "보편 근사 정리는 주어진 정확도를 얻기 위해 몇 개의 뉴런이 필요한지 말해주지 않는다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "Backpropagation computes the gradient of the loss with respect to all parameters efficiently using the chain rule.",
+   "ko": "역전파는 연쇄법칙을 이용해 모든 파라미터에 대한 손실의 그래디언트를 효율적으로 계산한다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "With a small mini-batch the variance of the gradient estimate grows, so the update direction is noisier.",
+   "ko": "미니배치가 작으면 그래디언트 추정의 분산이 커져 갱신 방향이 더 흔들린다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "A larger mini-batch reduces the variance of the gradient estimate, but it requires more computation and memory.",
+   "ko": "미니배치가 크면 그래디언트 추정의 분산이 줄지만, 계산량과 메모리 요구량이 커진다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "Overfitting means the model performs well on the training set but poorly on unseen data.",
+   "ko": "과대적합은 모델이 훈련집합에서는 잘 하지만 새로운 데이터에서는 성능이 나쁜 것을 말한다.",
+   "lecture": "L4"
+  },
+  {
+   "en": "In a computation graph the nodes are elementary operations and the edges represent the connections of those operations.",
+   "ko": "계산 그래프에서 노드는 기본 연산이고, 간선은 그 연산들의 연결을 나타낸다.",
+   "lecture": "L6"
+  },
+  {
+   "en": "The derivative of a composite function is the product of the derivative of the outer function and the derivative of the inner function.",
+   "ko": "합성함수의 도함수는 바깥 함수의 도함수와 안쪽 함수의 도함수의 곱이다.",
+   "lecture": "L6"
+  },
+  {
+   "en": "In backpropagation the gradient propagates from the loss towards the input, and gradients arriving through several paths are added.",
+   "ko": "역전파에서 그래디언트는 손실에서 입력 방향으로 전파되며, 여러 경로로 도착한 그래디언트는 더한다.",
+   "lecture": "L6"
+  },
+  {
+   "en": "Backpropagation stores repeated sub-expressions of the gradient computation to avoid recomputing them.",
+   "ko": "역전파는 그래디언트 계산에서 반복되는 부분식을 저장해 재계산을 피한다.",
+   "lecture": "L6"
+  },
+  {
+   "en": "With backpropagation the gradient can be computed with a cost comparable to that of the forward pass.",
+   "ko": "역전파를 사용하면 순전파와 비슷한 수준의 연산량으로 그래디언트를 계산할 수 있다.",
+   "lecture": "L6"
+  },
+  {
+   "en": "A convolutional layer shares the same weights across all spatial positions, which greatly reduces the number of parameters.",
+   "ko": "합성곱 층은 모든 위치에서 같은 가중치를 공유하므로 파라미터 수가 크게 줄어든다.",
+   "lecture": "L7"
+  },
+  {
+   "en": "Pooling layers contain no trainable parameters; they only downsample the heatmaps.",
+   "ko": "풀링 층에는 학습 가능한 파라미터가 없고, 히트맵을 다운샘플링할 뿐이다.",
+   "lecture": "L7"
+  },
+  {
+   "en": "A trained convolutional network is ideally translation invariant, while a convolutional layer itself is translation equivariant.",
+   "ko": "학습된 합성곱 신경망은 이상적으로 이동 불변성을 가지며, 합성곱 층 자체는 이동 등변성을 갖는다.",
+   "lecture": "L7"
+  },
+  {
+   "en": "On high-resolution images a plain multilayer perceptron showed a performance of about 0.5%, which is random guessing level.",
+   "ko": "고해상도 이미지에서 단순 다층 퍼셉트론은 약 0.5%의 성능을 보였는데, 이는 무작위 추측 수준이다.",
+   "lecture": "L7"
+  },
+  {
+   "en": "On a dataset with severe class imbalance, accuracy can be misleading, so balanced metrics should be used.",
+   "ko": "클래스 불균형이 심한 데이터셋에서는 정확도가 오해를 일으킬 수 있으므로 균형 지표를 사용해야 한다.",
+   "lecture": "L7"
+  },
+  {
+   "en": "Dropout randomly sets part of the neuron outputs to zero during training, but it is not applied during evaluation.",
+   "ko": "드롭아웃은 학습 중에 뉴런 출력의 일부를 무작위로 0으로 만들지만, 평가 시에는 적용하지 않는다.",
+   "lecture": "L7"
+  }
+ ],
+ "meta": {
+  "terms": 411,
+  "sentences": 49,
+  "lectures": [
+   "AC",
+   "L1",
+   "L2",
+   "L3",
+   "L4",
+   "L5",
+   "L6",
+   "L7",
+   "NP"
+  ]
+ }
+};</script>
+<script>
+/* ===== glossary.js — 용어집/플래시카드 앱 (vanilla JS) ===== */
+(function () {
+  "use strict";
+  var DATA = window.__GLOSSARY__ || { terms: [], sentences: [] };
+  var TERMS = DATA.terms || [];
+  var SENTS = DATA.sentences || [];
+  var LS_LANG = "dnd_tt1_lang";
+  var LS_VOCAB = "dnd_tt1_vocab";
+  var LANG = "ko";
+
+  try { var v = localStorage.getItem(LS_LANG); if (v === "en" || v === "ko") LANG = v; } catch (e) { /* ignore */ }
+
+  /* ---------- 문자열 ---------- */
+  var STR = {
+    "crumb": { ko: "용어집", en: "Glossary" },
+    "navExam": { ko: "연습 문제", en: "Practice exam" },
+    "navPrint": { ko: "인쇄용 문제지", en: "Printable paper" },
+    "print": { ko: "인쇄/PDF", en: "Print / PDF" },
+    "tabList": { ko: "단어 목록", en: "Word list" },
+    "tabCard": { ko: "플래시카드", en: "Flashcards" },
+    "tabSent": { ko: "핵심 문장", en: "Key sentences" },
+    "listTitle": { ko: "단어 목록", en: "Word list" },
+    "thTerm": { ko: "단어", en: "Term" },
+    "thKo": { ko: "뜻", en: "Meaning (Korean)" },
+    "thDef": { ko: "영어 설명", en: "Definition" },
+    "thLec": { ko: "강의", en: "Lecture" },
+    "search": { ko: "단어 검색 / Search a word", en: "Search a word" },
+    "found": { ko: "%s개 표시 중 (전체 %s개)", en: "showing %s of %s words" },
+    "listNote": { ko: "단어를 클릭하면 검색창에 들어갑니다. 인쇄하면 단어장이 됩니다.",
+                  en: "Click a word to search it. Printing gives you a vocabulary sheet." },
+    "cardTitle": { ko: "플래시카드", en: "Flashcards" },
+    "cardHint": { ko: "카드를 클릭하면 뜻이 보입니다", en: "Click the card to reveal the meaning" },
+    "cardHintEn": { ko: "카드를 클릭하면 뜻이 보입니다 (영어 설명 포함)", en: "Click the card to reveal the meaning" },
+    "flip": { ko: "뒤집기 (Space)", en: "Flip (Space)" },
+    "know": { ko: "알아요", en: "I know it" },
+    "dunno": { ko: "몰라요", en: "Don't know" },
+    "next": { ko: "다음 (→)", en: "Next (→)" },
+    "shuffle": { ko: "섞기", en: "Shuffle" },
+    "onlyUnknown": { ko: "모르는 단어만", en: "Only unknown" },
+    "resetCards": { ko: "진행 초기화", en: "Reset progress" },
+    "statKnown": { ko: "외운 단어", en: "Known" },
+    "statUnknown": { ko: "모르는 단어", en: "Unknown" },
+    "statProgress": { ko: "진행률", en: "Progress" },
+    "cardCount": { ko: "%s / %s 번째", en: "card %s of %s" },
+    "cardNote": { ko: "Space = 뒤집기, → = 다음, 1 = 알아요, 2 = 몰라요",
+                  en: "Space = flip, Right arrow = next, 1 = know, 2 = don't know" },
+    "cardNoteUnknown": { ko: "모르는 단어만 보는 중입니다. 모두 외우면 알림이 표시됩니다.",
+                         en: "Showing only unknown words. You will be told when all are learned." },
+    "sentTitle": { ko: "핵심 문장", en: "Key sentences" },
+    "sentCount": { ko: "%s문장", en: "%s sentences" },
+    "foot": { ko: "개인 학습용 · 기록은 이 브라우저에만 저장됩니다",
+              en: "Personal study use · progress is stored only in this browser" },
+    "allLectures": { ko: "전체", en: "All" },
+    "confirmReset": { ko: "플래시카드 진행 상황을 지울까요?", en: "Reset your flashcard progress?" },
+    "allLearned": { ko: "모르는 단어가 없습니다. 모두 외웠습니다!", en: "No unknown words left. All learned!" }
+  };
+
+  function t(key) {
+    var e = STR[key];
+    if (!e) return key;
+    return e[LANG] || e.ko;
+  }
+  function tf(key) {
+    var s = t(key), args = Array.prototype.slice.call(arguments, 1), i = 0;
+    return s.replace(/%s/g, function () { var x = args[i++]; return x === undefined ? "" : String(x); });
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function el(id) { return document.getElementById(id); }
+  function loadSet() {
+    try {
+      var raw = JSON.parse(localStorage.getItem(LS_VOCAB));
+      if (raw && typeof raw === "object") return { known: raw.known || {} };
+    } catch (e) { /* ignore */ }
+    return { known: {} };
+  }
+  function saveSet() {
+    try { localStorage.setItem(LS_VOCAB, JSON.stringify(store)); } catch (e) { /* ignore */ }
+  }
+  var store = loadSet();
+  var state = { lec: [], sentLec: [], q: "", tab: "list", order: [], pos: 0, flipped: false, onlyUnknown: false };
+
+  var LECS = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "NP", "AC"];
+  var LEC_NAME = {
+    L1: { ko: "L1 개요", en: "L1 Intro" },
+    L2: { ko: "L2 선형회귀", en: "L2 Linear regression" },
+    L3: { ko: "L3 로지스틱", en: "L3 Logistic" },
+    L4: { ko: "L4 신경망", en: "L4 Neural nets" },
+    L5: { ko: "L5 MLP 학습", en: "L5 MLP training" },
+    L6: { ko: "L6 역전파", en: "L6 Backprop" },
+    L7: { ko: "L7 CNN", en: "L7 CNN" },
+    NP: { ko: "NP NumPy", en: "NP NumPy" },
+    AC: { ko: "AC 아카데믹", en: "AC Academic" }
+  };
+  function lecName(code) {
+    var e = LEC_NAME[code];
+    return e ? (e[LANG] || e.ko) : code;
+  }
+  function tagClass(code) { return "tag" + (code === "NP" || code === "AC" ? " " + code : ""); }
+
+  /* ---------- 필터 ---------- */
+  function filteredTerms() {
+    var q = state.q.trim().toLowerCase();
+    return TERMS.filter(function (w) {
+      if (state.lec.length && state.lec.indexOf(w.lecture) === -1) return false;
+      if (!q) return true;
+      return (w.term + " " + w.ko + " " + w.en).toLowerCase().indexOf(q) !== -1;
+    });
+  }
+  function filteredSents() {
+    return SENTS.filter(function (s) {
+      return !state.sentLec.length || state.sentLec.indexOf(s.lecture) !== -1;
+    });
+  }
+  function countBy(list, key) {
+    var m = {};
+    list.forEach(function (x) { m[x[key]] = (m[x[key]] || 0) + 1; });
+    return m;
+  }
+
+  /* ---------- 공통 UI ---------- */
+  function applyStatic() {
+    el("crumb").textContent = t("crumb");
+    el("navExam").textContent = t("navExam");
+    el("navPrint").textContent = t("navPrint");
+    el("printBtn").textContent = t("print");
+    el("tabList").textContent = t("tabList");
+    el("tabCard").textContent = t("tabCard");
+    el("tabSent").textContent = t("tabSent");
+    el("listTitle").textContent = t("listTitle");
+    el("thTerm").textContent = t("thTerm");
+    el("thKo").textContent = t("thKo");
+    el("thDef").textContent = t("thDef");
+    el("thLec").textContent = t("thLec");
+    el("q").setAttribute("placeholder", t("search"));
+    el("listNote").textContent = t("listNote");
+    el("cardTitle").textContent = t("cardTitle");
+    el("btnFlip").textContent = t("flip");
+    el("btnKnow").textContent = t("know");
+    el("btnDunno").textContent = t("dunno");
+    el("btnNext").textContent = t("next");
+    el("btnShuffle").textContent = t("shuffle");
+    el("btnOnlyUnknown").textContent = t("onlyUnknown");
+    el("btnResetCards").textContent = t("resetCards");
+    el("statKnownLabel").textContent = t("statKnown");
+    el("statUnknownLabel").textContent = t("statUnknown");
+    el("statProgressLabel").textContent = t("statProgress");
+    el("sentTitle").textContent = t("sentTitle");
+    el("foot").textContent = t("foot");
+    document.documentElement.lang = LANG;
+    var btns = document.querySelectorAll("[data-lang]");
+    for (var i = 0; i < btns.length; i++) {
+      var on = btns[i].getAttribute("data-lang") === LANG;
+      btns[i].className = "langBtn" + (on ? " on" : "");
+      btns[i].setAttribute("aria-pressed", on ? "true" : "false");
+    }
+  }
+
+  function renderChips(containerId, list, key, stateKey, after) {
+    var counts = countBy(list, key);
+    var html = '<label class="fchip"><input type="checkbox" data-lec=""' +
+      (state[stateKey].length ? "" : " checked") + "> " + t("allLectures") + "</label>";
+    LECS.forEach(function (code) {
+      if (!counts[code]) return;
+      html += '<label class="fchip"><input type="checkbox" data-lec="' + code + '"' +
+        (state[stateKey].indexOf(code) !== -1 ? " checked" : "") + "> " + esc(lecName(code)) +
+        ' <span class="muted">' + counts[code] + "</span></label>";
+    });
+    var box = el(containerId);
+    box.innerHTML = html;
+    box.querySelectorAll("input[data-lec]").forEach(function (c) {
+      c.onchange = function () {
+        var code = c.getAttribute("data-lec");
+        if (!code) {
+          state[stateKey] = [];
+        } else {
+          var i = state[stateKey].indexOf(code);
+          if (c.checked && i === -1) state[stateKey].push(code);
+          if (!c.checked && i !== -1) state[stateKey].splice(i, 1);
+        }
+        after();
+        renderChips(containerId, list, key, stateKey, after);
+      };
+    });
+  }
+
+  /* ---------- 탭 1: 단어 목록 ---------- */
+  function renderList() {
+    var rows = filteredTerms();
+    el("listCount").textContent = tf("found", rows.length, TERMS.length);
+    var html = rows.map(function (w) {
+      return "<tr><td class='term' data-w='" + esc(w.term) + "'>" + esc(w.term) + "</td>" +
+        "<td class='ko'>" + esc(w.ko) + "</td>" +
+        "<td class='def'>" + esc(w.en) + "</td>" +
+        "<td><span class='" + tagClass(w.lecture) + "'>" + esc(w.lecture) + "</span></td></tr>";
+    }).join("");
+    el("tbody").innerHTML = html || "<tr><td colspan='4' class='muted'>-</td></tr>";
+    el("tbody").querySelectorAll("[data-w]").forEach(function (td) {
+      td.style.cursor = "pointer";
+      td.onclick = function () {
+        state.q = td.getAttribute("data-w");
+        el("q").value = state.q;
+        renderList();
+      };
+    });
+  }
+
+  /* ---------- 탭 2: 플래시카드 ---------- */
+  function poolTerms() {
+    var pool = filteredTerms();
+    if (state.onlyUnknown) pool = pool.filter(function (w) { return !store.known[w.term]; });
+    return pool;
+  }
+  function rebuildOrder() {
+    state.order = poolTerms();
+    state.pos = 0;
+    state.flipped = false;
+    renderCard();
+  }
+  function renderCard() {
+    var total = state.order.length;
+    var knownN = Object.keys(store.known).length;
+    var termN = TERMS.length;
+    el("statKnown").textContent = knownN;
+    el("statUnknown").textContent = Math.max(0, termN - knownN);
+    el("statProgress").textContent = termN ? Math.round((knownN / termN) * 100) + "%" : "0%";
+    el("cardNote").textContent = state.onlyUnknown ? t("cardNoteUnknown") : t("cardNote");
+    if (!total) {
+      el("cardWord").textContent = "-";
+      el("cardBack").hidden = true;
+      el("cardBackEn").hidden = true;
+      el("cardHint").textContent = t("allLearned");
+      el("cardCount").textContent = "";
+      return;
+    }
+    if (state.pos >= total) state.pos = 0;
+    var w = state.order[state.pos];
+    el("cardCount").textContent = tf("cardCount", state.pos + 1, total);
+    el("cardWord").textContent = w.term;
+    el("cardHint").textContent = t("cardHint");
+    var back = el("cardBack"), backEn = el("cardBackEn");
+    if (state.flipped) {
+      back.textContent = w.ko;
+      backEn.textContent = w.en;
+      back.hidden = false;
+      backEn.hidden = false;
+    } else {
+      back.hidden = true;
+      backEn.hidden = true;
+    }
+  }
+  function nextCard(step) {
+    if (!state.order.length) return;
+    state.pos = (state.pos + (step || 1) + state.order.length) % state.order.length;
+    state.flipped = false;
+    renderCard();
+  }
+  function mark(known) {
+    if (!state.order.length) return;
+    var w = state.order[state.pos];
+    if (known) store.known[w.term] = 1;
+    else delete store.known[w.term];
+    saveSet();
+    if (state.onlyUnknown && known) rebuildOrder();
+    else nextCard(1);
+  }
+
+
+  /* ---------- 탭 3: 핵심 문장 ---------- */
+  function renderSents() {
+    var list = filteredSents();
+    el("sentCount").textContent = tf("sentCount", list.length);
+    el("sentBody").innerHTML = list.map(function (s) {
+      return '<div class="sent"><div class="en">' + esc(s.en) + "</div>" +
+        '<div class="koSent">' + esc(s.ko) + "</div>" +
+        '<div style="margin-top:6px"><span class="' + tagClass(s.lecture) + '">' + esc(s.lecture) + "</span></div></div>";
+    }).join("") || '<div class="muted">-</div>';
+  }
+
+  /* ---------- 탭 전환 ---------- */
+  function showTab(tab) {
+    state.tab = tab;
+    el("sec-list").hidden = tab !== "list";
+    el("sec-card").hidden = tab !== "card";
+    el("sec-sent").hidden = tab !== "sent";
+    document.querySelectorAll(".tab").forEach(function (b) {
+      b.className = "tab" + (b.getAttribute("data-tab") === tab ? " on" : "");
+    });
+    if (tab === "card") rebuildOrder();
+    if (tab === "sent") renderSents();
+    if (tab === "list") renderList();
+  }
+
+  /* ---------- 언어 ---------- */
+  function setLang(v) {
+    if (v !== "ko" && v !== "en") return;
+    LANG = v;
+    try { localStorage.setItem(LS_LANG, v); } catch (e) { /* ignore */ }
+    applyStatic();
+    renderChips("lecChips", TERMS, "lecture", "lec", function () { renderList(); if (state.tab === "card") rebuildOrder(); });
+    renderChips("sentChips", SENTS, "lecture", "sentLec", renderSents);
+    if (state.tab === "card") renderCard();
+    if (state.tab === "sent") renderSents();
+    if (state.tab === "list") renderList();
+  }
+
+  /* ---------- 시작 ---------- */
+  applyStatic();
+  renderChips("lecChips", TERMS, "lecture", "lec", function () { renderList(); if (state.tab === "card") rebuildOrder(); });
+  renderChips("sentChips", SENTS, "lecture", "sentLec", renderSents);
+  renderList();
+
+  document.querySelectorAll(".tab").forEach(function (b) {
+    b.onclick = function () { showTab(b.getAttribute("data-tab")); };
+  });
+  document.querySelectorAll("[data-lang]").forEach(function (b) {
+    b.onclick = function () { setLang(b.getAttribute("data-lang")); };
+  });
+  el("q").oninput = function () { state.q = el("q").value; renderList(); if (state.tab === "card") rebuildOrder(); };
+  el("printBtn").onclick = function () { window.print(); };
+  el("card").onclick = function () { state.flipped = !state.flipped; renderCard(); };
+  el("btnFlip").onclick = function () { state.flipped = !state.flipped; renderCard(); };
+  el("btnNext").onclick = function () { nextCard(1); };
+  el("btnKnow").onclick = function () { mark(true); };
+  el("btnDunno").onclick = function () { mark(false); };
+  el("btnShuffle").onclick = function () {
+    var pool = poolTerms();
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+    state.order = pool;
+    state.pos = 0;
+    state.flipped = false;
+    renderCard();
+  };
+  el("btnOnlyUnknown").onclick = function () {
+    state.onlyUnknown = !state.onlyUnknown;
+    el("btnOnlyUnknown").className = "btn" + (state.onlyUnknown ? " primary" : "");
+    rebuildOrder();
+  };
+  el("btnResetCards").onclick = function () {
+    if (!confirm(t("confirmReset"))) return;
+    store = { known: {} };
+    saveSet();
+    rebuildOrder();
+  };
+
+  document.addEventListener("keydown", function (e) {
+    if (state.tab !== "card") return;
+    var tag = (e.target && e.target.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    if (e.key === " " || e.key === "Spacebar") { state.flipped = !state.flipped; renderCard(); e.preventDefault(); }
+    else if (e.key === "ArrowRight") { nextCard(1); e.preventDefault(); }
+    else if (e.key === "ArrowLeft") { nextCard(-1); e.preventDefault(); }
+    else if (e.key === "1") { mark(true); }
+    else if (e.key === "2") { mark(false); }
+  });
+
+  /* 디버그/테스트용 훅 */
+  window.__glossary = {
+    get lang() { return LANG; },
+    setLang: setLang,
+    showTab: showTab,
+    get store() { return store; },
+    terms: TERMS,
+    sentences: SENTS,
+    filteredTerms: filteredTerms,
+    mark: mark,
+    nextCard: nextCard,
+    rebuildOrder: rebuildOrder,
+    renderList: renderList,
+    renderCard: renderCard,
+    renderSents: renderSents,
+    state: state
+  };
+})();
+
+
+</script>
+</body>
+</html>
