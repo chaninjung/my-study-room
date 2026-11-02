@@ -62,8 +62,12 @@ a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 /* 한글은 단어 중간에서 줄바꿈되지 않게 (긴 영문·코드는 필요할 때만 분리) */
-.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{
+.qText,.opt,.opt span,.expl,.prompt,.rBody,.sent,.card,.note,td,th{
   word-break:keep-all;overflow-wrap:anywhere}
+/* 좁은 flex 행에서는 글자가 한 글자씩 쪼개지지 않도록 (min-content 를 단어 단위로 유지) */
+.rowGrid,.rowGrid .name,.rowGrid .muted,.mockRow,.mockRow .name,.mockRow .meta,.mockRow .best,
+.stat > div,.legend div,.ovRow,.sbItem,.sbCourseHead,.scoreChip{
+  word-break:keep-all;overflow-wrap:normal;min-width:0}
 /* 그리드/플렉스 자식이 강제로 넘치지 않도록 */
 .panel,main,.side,.examWrap > *{min-width:0}
 .mono,.timer,.scoreNum,.stat b,.legend b,.ovRow span,table.grid td{font-variant-numeric:tabular-nums}
@@ -156,13 +160,13 @@ footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 .shell{display:flex;align-items:stretch;min-height:100vh}
 
 /* ---------- 사이드바 ---------- */
-.sidebar{width:276px;flex:0 0 276px;background:#fff;border-right:1px solid var(--border);
+.sidebar{width:236px;flex:0 0 236px;background:#fff;border-right:1px solid var(--border);
   position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;z-index:40}
-.sbBrand{padding:16px 18px;border-bottom:1px solid var(--border)}
-.sbBrand a{display:block;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.sbBrand{padding:14px 14px;border-bottom:1px solid var(--border)}
+.sbBrand a{display:block;font-size:14.5px;font-weight:700;color:var(--text);letter-spacing:-.02em}
 .sbBrand a:hover{text-decoration:none;color:var(--primary)}
-.sbBrandSub{margin-top:3px;font-size:12px;color:var(--text-3);line-height:1.5}
-.sbNav{flex:1;padding:10px 10px 18px}
+.sbBrandSub{margin-top:3px;font-size:11.5px;color:var(--text-3);line-height:1.5}
+.sbNav{flex:1;padding:8px 8px 16px}
 .sbSem{margin-bottom:6px}
 .sbSemHead{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;border:0;background:none;
   font-family:inherit;font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:.04em;
@@ -176,8 +180,8 @@ footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 .sbCourseHead{padding:6px 10px;font-size:13.5px;font-weight:700;color:var(--text)}
 .sbCourseSub{padding:0 10px 8px;font-size:11.5px;color:var(--text-4);line-height:1.5}
 .sbItems{display:flex;flex-direction:column;gap:1px}
-.sbItem{display:block;width:100%;text-align:left;padding:8px 10px 8px 16px;border:0;border-left:2px solid transparent;
-  background:none;font-family:inherit;font-size:13.5px;color:var(--text-2);cursor:pointer;border-radius:0 var(--r-sm) var(--r-sm) 0;
+.sbItem{display:block;width:100%;text-align:left;padding:7px 8px 7px 14px;border:0;border-left:2px solid transparent;
+  background:none;font-family:inherit;font-size:13px;color:var(--text-2);cursor:pointer;border-radius:0 var(--r-sm) var(--r-sm) 0;
   transition:background .15s,color .15s,border-color .15s}
 .sbItem:hover{background:var(--surface-2);color:var(--text);text-decoration:none}
 .sbItem.on{background:var(--primary-soft);color:var(--primary);font-weight:700;border-left-color:var(--primary)}
@@ -208,7 +212,7 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 
 /* ---------- 태블릿 이하: 사이드바를 드로어로 ---------- */
 @media (max-width:1024px){
-  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100%;width:290px;flex-basis:290px;
+  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100%;width:264px;flex-basis:264px;
     transform:translateX(-100%);transition:transform .22s ease;box-shadow:var(--shadow-md)}
   body.sb-open .sidebar{transform:translateX(0)}
   .sbBackdrop{display:block;position:fixed;inset:0;background:rgba(16,24,40,.4);z-index:35;
@@ -300,6 +304,20 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 
 /* ---------- 홈 / 새 뷰 공통 ---------- */
 .pageTitle{font-size:20px;font-weight:700;margin:0 0 6px}
+
+/* 모의고사 세트 행: 좁은 칸에서도 읽기 좋게 2줄 배치
+   1행: [실전] 모의고사 1 .......... 미응시 [시작]
+   2행: 15문항 · 45분 · 통과 7점                                    */
+.mockRow{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:6px 10px;
+  align-items:center;padding:12px 16px;border-bottom:1px solid var(--surface-3);transition:background .15s}
+.mockRow:hover{background:var(--surface-2)}
+.mockRow:last-child{border-bottom:0}
+.mockRow .tag{margin-right:0;white-space:nowrap}
+.mockRow .name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mockRow .best{font-size:12.5px;color:var(--text-3);white-space:nowrap}
+.mockRow .meta{grid-column:1 / -1;font-size:12.5px;color:var(--text-3);line-height:1.5}
+.mockRow .btn{white-space:nowrap}
+
 .scoreGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .scoreChip{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--r-sm);
   padding:8px 10px;font-size:12.5px;color:var(--text-3);background:#fff}
@@ -308,12 +326,14 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 .scoreChip.done b{color:var(--primary)}
 .homeHead{padding:20px 20px 8px}
 .homeHead h1{font-size:20px;font-weight:700;margin:0 0 6px}
-.rowGrid{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface-3);
-  transition:background .15s}
+.rowGrid{display:flex;align-items:center;gap:10px 12px;padding:12px 16px;
+  border-bottom:1px solid var(--surface-3);transition:background .15s;flex-wrap:wrap}
 .rowGrid:hover{background:var(--surface-2)}
 .rowGrid:last-child{border-bottom:0}
 .rowGrid .grow{flex:1}
-.rowGrid .name{font-weight:600}
+.rowGrid .name{font-weight:600;flex:0 1 auto}
+.rowGrid .muted{flex:1 1 auto;min-width:0}
+.rowGrid .btn{flex:0 0 auto}
 
 /* ---------- 결과 ---------- */
 .resTop{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:20px}
@@ -634,6 +654,7 @@ var I18N2 = {
   "ov.note":       { ko: "모의고사 1~%s 은 실제 시험 형식(15문항·45분·통과 7점), 이후 세트는 문제은행 전체를 커버하기 위한 추가 세트입니다.",
                      en: "Sets 1-%s follow the real exam format (15 questions, 45 min, pass 7); later sets cover the whole bank." },
   "mocks.title":   { ko: "모의고사 — 실제 시험 형식", en: "Mock exams — real exam format" },
+  "mocks.titleShort": { ko: "실제 시험 형식", en: "Exam format" },
   "mocks.real":    { ko: "실전 세트 (1~%s)", en: "Exam-format sets (1-%s)" },
   "mocks.extra":   { ko: "추가 세트 (%s~%s) — 전 문항 커버", en: "Extra sets (%s-%s) — full coverage" },
   "bank.title":    { ko: "문제은행", en: "Question bank" },
@@ -7427,12 +7448,13 @@ function scoreClass(score) {
   function mockRowHtml(m, i) {
     const best = (store.mockBest || {})[m.id];
     const isReal = MOCKS ? i < MOCKS.meta.primary : i < 10;
-    return '<div class="rowGrid"><span class="tag">' + t(isReal ? "home.mock.tagReal" : "home.mock.tagExtra") + "</span>" +
+    return '<div class="mockRow">' +
+      '<span class="tag">' + t(isReal ? "home.mock.tagReal" : "home.mock.tagExtra") + "</span>" +
       '<span class="name">' + esc(mockLabel(m)) + "</span>" +
-      '<span class="muted">' + tf("home.mock.meta", m.questions.length, m.minutes, m.pass) + "</span>" +
-      '<span class="grow"></span>' +
-      '<span class="muted">' + (best !== undefined ? tf("home.mock.best", best, m.questions.length) : t("home.mock.none")) + "</span>" +
-      '<button class="btn sm primary" data-mock="' + m.id + '">' + t("home.start") + "</button></div>";
+      '<span class="best">' + (best !== undefined ? tf("home.mock.best", best, m.questions.length) : t("home.mock.none")) + "</span>" +
+      '<button class="btn sm primary" data-mock="' + m.id + '">' + t("home.start") + "</button>" +
+      '<span class="meta">' + tf("home.mock.meta", m.questions.length, m.minutes, m.pass) + "</span>" +
+      "</div>";
   }
   function wireMockButtons() {
     document.querySelectorAll("[data-mock]").forEach(function (b) {
@@ -7490,7 +7512,7 @@ function scoreClass(score) {
     const recent = histTableHtml(4) +
       '<div class="note"><button class="linkish" id="seeAll">' + t("ov.seeAll") + "</button></div>";
     const mockHead = t("ov.mocks") + '<span class="grow"></span><button class="linkish" id="mocksAll">' +
-      t("mocks.title") + " →</button>";
+      t("mocks.titleShort") + " →</button>";
     const mockBody = MOCKS
       ? MOCKS.mocks.slice(0, 3).map(function (m, i) { return mockRowHtml(m, i); }).join("") +
         '<div class="note">' + tf("ov.note", MOCKS.meta.primary) + "</div>"
@@ -7537,7 +7559,7 @@ function scoreClass(score) {
     const extra = MOCKS.mocks.slice(primary);
     app.innerHTML =
       '<div class="panel" style="margin-bottom:16px">' +
-      '<div class="panelHead">' + t("mocks.title") + "</div>" +
+      '<div class="panelHead">' + t("mocks.titleShort") + "</div>" +
       '<div class="panelBody muted">' + tf("home.mock.meta", META.exam_questions, META.exam_minutes, META.exam_pass) +
       "<br>" + esc(metaNote()) + "</div>" +
       '<div class="panelHead">' + tf("mocks.real", primary) + "</div>" +
@@ -7650,7 +7672,7 @@ function scoreClass(score) {
     if (!list.length) {
       app.innerHTML = panel(t("wrong.title"),
         '<div class="panelBody muted">' + t("wrong.empty") + "</div>" +
-        '<div class="note"><button class="linkish" id="goMocks">' + t("mocks.title") + " →</button></div>");
+        '<div class="note"><button class="linkish" id="goMocks">' + t("mocks.titleShort") + " →</button></div>");
       el("goMocks").onclick = function () { go("mocks"); };
       return;
     }

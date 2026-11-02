@@ -51,8 +51,12 @@ a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 /* 한글은 단어 중간에서 줄바꿈되지 않게 (긴 영문·코드는 필요할 때만 분리) */
-.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{
+.qText,.opt,.opt span,.expl,.prompt,.rBody,.sent,.card,.note,td,th{
   word-break:keep-all;overflow-wrap:anywhere}
+/* 좁은 flex 행에서는 글자가 한 글자씩 쪼개지지 않도록 (min-content 를 단어 단위로 유지) */
+.rowGrid,.rowGrid .name,.rowGrid .muted,.mockRow,.mockRow .name,.mockRow .meta,.mockRow .best,
+.stat > div,.legend div,.ovRow,.sbItem,.sbCourseHead,.scoreChip{
+  word-break:keep-all;overflow-wrap:normal;min-width:0}
 /* 그리드/플렉스 자식이 강제로 넘치지 않도록 */
 .panel,main,.side,.examWrap > *{min-width:0}
 .mono,.timer,.scoreNum,.stat b,.legend b,.ovRow span,table.grid td{font-variant-numeric:tabular-nums}
