@@ -344,6 +344,14 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 .mockRow .best{font-size:12.5px;color:var(--text-3);white-space:nowrap}
 .mockRow .meta{grid-column:1 / -1;font-size:12.5px;color:var(--text-3);line-height:1.5}
 .mockRow .btn{white-space:nowrap}
+/* 최종 모의고사: 눈에 띄게 강조 (시험 전 마지막 점검용) */
+.mockRow.final{background:var(--primary-soft);border-left:4px solid var(--primary)}
+.mockRow.final:hover{background:var(--surface-2)}
+.mockRow.final .name{font-weight:700;color:var(--primary)}
+.mockRow .tag.finalTag{background:var(--primary);color:#fff;border-color:var(--primary)}
+.finalPanel{border:2px solid var(--primary);border-radius:var(--r-lg);overflow:hidden}
+.finalPanel .panelHead{background:var(--primary-soft);color:var(--primary);font-weight:700}
+.finalPanel .panelNote{padding:10px 16px 0;font-size:12.5px;color:var(--text-3);line-height:1.6}
 
 .scoreGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .scoreChip{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--r-sm);
@@ -609,6 +617,7 @@ var I18N = {
                            en: "Sets 1-%s follow the real exam format; the later sets are extra/practice sets that cover every question in the bank." },
   "home.mock.tagReal":   { ko: "실전", en: "Exam" },
   "home.mock.tagExtra":  { ko: "추가", en: "Extra" },
+  "home.mock.tagFinal":  { ko: "최종", en: "FINAL" },
   "home.mock.meta":      { ko: "%s문항 · %s분 · 통과 %s점", en: "%s Q · %s min · pass %s" },
   "home.mock.best":      { ko: "최고 %s / %s", en: "Best %s / %s" },
   "home.mock.none":      { ko: "미응시", en: "Not taken" },
@@ -682,6 +691,9 @@ var I18N2 = {
   "ov.note":       { ko: "모의고사 1~%s 은 실제 시험 형식(15문항·45분·통과 7점), 이후 세트는 추가·연습 세트로 문제은행 전체를 커버합니다.",
                      en: "Sets 1-%s follow the real exam format (15 questions, 45 min, pass 7); later extra/practice sets cover the whole bank." },
   "mocks.title":   { ko: "모의고사 — 실제 시험 형식", en: "Mock exams — real exam format" },
+  "mocks.final":   { ko: "🎯 최종 모의고사 (시험 전 마지막 점검)", en: "🎯 Final mock exam (last check before the test)" },
+  "mocks.finalNote": { ko: "실제 시험과 같은 구성입니다 — 이론 9문항 + NumPy 6문항, 45분, 통과 7점. 노트·코드·계산기 없이 풀고, 끝나기 전에는 해설을 보지 마세요.",
+                       en: "Same layout as the real test — 9 theory + 6 NumPy questions, 45 min, pass 7. No notes, no code, no calculator; do not peek at the explanations before you finish." },
   "mocks.titleShort": { ko: "실제 시험 형식", en: "Exam format" },
   "mocks.real":    { ko: "실전 세트 (1~%s)", en: "Exam-format sets (1-%s)" },
   "mocks.extra":   { ko: "추가 · 연습 세트 (%s~%s)", en: "Extra & practice sets (%s-%s)" },
@@ -9498,6 +9510,641 @@ function applyStaticI18n() {
     "`r[:, None]` equals `r.reshape(1, 3)`."
    ],
    "explanation_en": "newaxis gives (3, 1) (A true). And (1, 3) (B true). Broadcasting gives (3, 3) (C true). Since r[0] = 0 the first row of the outer product is 0 (D true). r[:, None] is (3,1) while reshape(1, 3) is (1,3), so they differ (E false)."
+  },
+  {
+   "id": "M-01",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "가설함수의 입력·파라미터·기하학적 해석",
+   "prompt": "환자의 체중·나이·키·성별로 콜레스테롤 수치를 예측한다. 가설함수가 y = θ₄x₄ + θ₃x₃ + θ₂x₂ + θ₁x₁ + θ₀ 이고 y 가 스칼라일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "θ₀ 는 스칼라다.",
+    "환자의 나이는 xᵢ 중 하나에 들어간다.",
+    "환자의 나이는 θᵢ 중 하나에 들어간다.",
+    "y 는 임의의 실수값이 될 수 있다.",
+    "입력 변수가 2개(3D 그래프)이면 가설함수는 평면이다.",
+    "입력 변수가 1개(2D 그래프)이면 가설함수는 포물선이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "θ₀ 는 편향 파라미터(스칼라)다 (A 참). 나이 같은 입력 특징은 x 에 들어간다 (B 참, C 거짓). 출력에 활성함수가 없으므로 y 는 임의의 실수값 (D 참). 입력 2개면 가설함수는 평면 (E 참). 입력 1개면 직선이며 포물선이 아니다 (F 거짓).",
+   "topic_ko": "가설함수의 입력·파라미터·기하학적 해석",
+   "prompt_ko": "환자의 체중·나이·키·성별로 콜레스테롤 수치를 예측한다. 가설함수가 y = θ₄x₄ + θ₃x₃ + θ₂x₂ + θ₁x₁ + θ₀ 이고 y 가 스칼라일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "θ₀ 는 스칼라다.",
+    "환자의 나이는 xᵢ 중 하나에 들어간다.",
+    "환자의 나이는 θᵢ 중 하나에 들어간다.",
+    "y 는 임의의 실수값이 될 수 있다.",
+    "입력 변수가 2개(3D 그래프)이면 가설함수는 평면이다.",
+    "입력 변수가 1개(2D 그래프)이면 가설함수는 포물선이다."
+   ],
+   "explanation_ko": "θ₀ 는 편향 파라미터(스칼라)다 (A 참). 나이 같은 입력 특징은 x 에 들어간다 (B 참, C 거짓). 출력에 활성함수가 없으므로 y 는 임의의 실수값 (D 참). 입력 2개면 가설함수는 평면 (E 참). 입력 1개면 직선이며 포물선이 아니다 (F 거짓).",
+   "topic_en": "Hypothesis function: inputs, parameters, geometry",
+   "prompt_en": "We want to predict the cholesterol level of patients from their weight, age, height, and sex. The hypothesis is y = θ₄x₄ + θ₃x₃ + θ₂x₂ + θ₁x₁ + θ₀, where y is a scalar. Which statements are true?",
+   "options_en": [
+    "θ₀ is a scalar.",
+    "The age of a patient is assigned to one of the xᵢ values.",
+    "The age of a patient is assigned to one of the θᵢ values.",
+    "The value of y can be any real number.",
+    "With 2 input variables (3D plot), the hypothesis function is a plane.",
+    "With 1 input variable (2D plot), the hypothesis function is a parabola."
+   ],
+   "explanation_en": "θ₀ is the bias parameter (a scalar) (A true). Input features such as age live in x (B true, C false). With no output activation, y can be any real number (D true). Two inputs give a plane (E true). One input gives a line, not a parabola (F false)."
+  },
+  {
+   "id": "M-02",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "지도·비지도·강화학습 과제 분류",
+   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "회귀와 분류는 지도학습 과제다.",
+    "군집화에는 레이블이 있는 데이터가 필요하다.",
+    "차원축소와 노이즈 제거는 레이블 없이 풀 수 있다.",
+    "강화학습에서 환경은 (음수일 수도 있는) 보상을 주며, 희소한 경우가 많고 정답 레이블을 주지는 않는다.",
+    "선형 회귀는 비지도학습 방법이다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "회귀·분류는 레이블이 필요하므로 지도학습 (A 참). 군집화는 레이블 없이 유사도로 묶는 비지도학습 (B 거짓). 차원축소·노이즈 제거는 레이블 없이 정식화 가능 (C 참). 강화학습의 피드백은 보상이며 희소·지연되고 credit assignment 문제를 만든다 (D 참). 선형 회귀는 레이블을 쓰므로 지도학습 (E 거짓).",
+   "topic_ko": "지도·비지도·강화학습 과제 분류",
+   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "회귀와 분류는 지도학습 과제다.",
+    "군집화에는 레이블이 있는 데이터가 필요하다.",
+    "차원축소와 노이즈 제거는 레이블 없이 풀 수 있다.",
+    "강화학습에서 환경은 (음수일 수도 있는) 보상을 주며, 희소한 경우가 많고 정답 레이블을 주지는 않는다.",
+    "선형 회귀는 비지도학습 방법이다."
+   ],
+   "explanation_ko": "회귀·분류는 레이블이 필요하므로 지도학습 (A 참). 군집화는 레이블 없이 유사도로 묶는 비지도학습 (B 거짓). 차원축소·노이즈 제거는 레이블 없이 정식화 가능 (C 참). 강화학습의 피드백은 보상이며 희소·지연되고 credit assignment 문제를 만든다 (D 참). 선형 회귀는 레이블을 쓰므로 지도학습 (E 거짓).",
+   "topic_en": "Supervised / unsupervised / reinforcement tasks",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "Regression and classification are supervised learning tasks.",
+    "Clustering needs labeled data.",
+    "Dimensionality reduction and denoising can be solved without labels.",
+    "In reinforcement learning, the environment gives a reward (possibly negative), often sparse, not the correct label.",
+    "Linear regression is an unsupervised method."
+   ],
+   "explanation_en": "Regression and classification need labels, so they are supervised (A true). Clustering is unsupervised (B false). Dimensionality reduction and denoising need no labels (C true). RL feedback is a reward, often sparse and delayed (D true). Linear regression is supervised (E false)."
+  },
+  {
+   "id": "M-03",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "로지스틱 회귀 설정(파라미터·차원·손실)",
+   "prompt": "검사값 3개로 병(ill)/건강(healthy)을 구분하려 한다. 훈련집합은 150명이고 각자 레이블이 있다. 더미 열 x₀ = 1 을 포함한 ŷ = g(Xθ) 로지스틱 회귀를 쓸 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "여기서는 선형 회귀보다 로지스틱 회귀가 더 적절하다.",
+    "모델의 파라미터는 4개다.",
+    "X 는 150×4 다.",
+    "추정값 ŷ 는 0과 1 사이에 있다.",
+    "손실함수로 MSE 가 가장 좋은 선택이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "이진 분류에는 로지스틱 회귀 (A 참). 입력 3개 + 더미 → 파라미터 4개 (B 참). X = m×(n+1) = 150×4 (C 참). 시그모이드 출력은 (0,1) (D 참). 이진 분류의 손실은 이진 교차엔트로피이며 MSE 는 비볼록이 되어 부적합하다 (E 거짓).",
+   "topic_ko": "로지스틱 회귀 설정(파라미터·차원·손실)",
+   "prompt_ko": "검사값 3개로 병(ill)/건강(healthy)을 구분하려 한다. 훈련집합은 150명이고 각자 레이블이 있다. 더미 열 x₀ = 1 을 포함한 ŷ = g(Xθ) 로지스틱 회귀를 쓸 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "여기서는 선형 회귀보다 로지스틱 회귀가 더 적절하다.",
+    "모델의 파라미터는 4개다.",
+    "X 는 150×4 다.",
+    "추정값 ŷ 는 0과 1 사이에 있다.",
+    "손실함수로 MSE 가 가장 좋은 선택이다."
+   ],
+   "explanation_ko": "이진 분류에는 로지스틱 회귀 (A 참). 입력 3개 + 더미 → 파라미터 4개 (B 참). X = m×(n+1) = 150×4 (C 참). 시그모이드 출력은 (0,1) (D 참). 이진 분류의 손실은 이진 교차엔트로피이며 MSE 는 비볼록이 되어 부적합하다 (E 거짓).",
+   "topic_en": "Logistic regression setup (parameters, shapes, loss)",
+   "prompt_en": "We want to distinguish ill from healthy persons using 3 laboratory values. The training set has 150 patients, and each has a label (ill or healthy). We use logistic regression ŷ = g(Xθ) with the dummy column x₀ = 1. Which statements are true?",
+   "options_en": [
+    "Logistic regression is more suitable than linear regression here.",
+    "The model has 4 parameters.",
+    "X is 150×4.",
+    "The estimate ŷ is between 0 and 1.",
+    "MSE is the best choice of loss function."
+   ],
+   "explanation_en": "Binary classification calls for logistic regression (A true). Three inputs plus the dummy give 4 parameters (B true). X is m×(n+1) = 150×4 (C true). The sigmoid output is in (0,1) (D true). The loss should be binary cross-entropy; MSE becomes non-convex here (E false)."
+  },
+  {
+   "id": "M-04",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "MLP 파라미터 계산과 활성함수·손실",
+   "prompt": "입력 12개, 첫 층 뉴런 5개, 출력 뉴런 1개인 MLP 로 이진 분류를 한다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "첫 번째 층의 파라미터는 65개다.",
+    "전체 네트워크의 파라미터는 71개다.",
+    "g₂ 는 시그모이드가 적절하다.",
+    "첫 활성함수 g₁ 은 표현력 손실 없이 생략할 수 있다.",
+    "손실함수는 이진 교차엔트로피가 적절하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "12·5 + 5 = 65 (A 참). 5·1 + 1 = 6 이므로 합계 71 (B 참). 이진 분류의 출력 활성함수는 시그모이드 (C 참). g₁ 을 생략하면 전체가 선형이 되어 표현력이 크게 떨어진다 (D 거짓). 이진 분류에는 BCE (E 참).",
+   "topic_ko": "MLP 파라미터 계산과 활성함수·손실",
+   "prompt_ko": "입력 12개, 첫 층 뉴런 5개, 출력 뉴런 1개인 MLP 로 이진 분류를 한다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "첫 번째 층의 파라미터는 65개다.",
+    "전체 네트워크의 파라미터는 71개다.",
+    "g₂ 는 시그모이드가 적절하다.",
+    "첫 활성함수 g₁ 은 표현력 손실 없이 생략할 수 있다.",
+    "손실함수는 이진 교차엔트로피가 적절하다."
+   ],
+   "explanation_ko": "12·5 + 5 = 65 (A 참). 5·1 + 1 = 6 이므로 합계 71 (B 참). 이진 분류의 출력 활성함수는 시그모이드 (C 참). g₁ 을 생략하면 전체가 선형이 되어 표현력이 크게 떨어진다 (D 거짓). 이진 분류에는 BCE (E 참).",
+   "topic_en": "MLP parameter count, activations and loss",
+   "prompt_en": "An MLP solves a binary classification task with 12 input variables, 5 neurons in the first layer, and 1 output neuron. Which statements are true?",
+   "options_en": [
+    "The first layer has 65 parameters.",
+    "The whole network has 71 parameters.",
+    "g₂ should be a sigmoid.",
+    "g₁ (the first activation) can be omitted without a loss in expressive power.",
+    "The loss function should be binary cross-entropy."
+   ],
+   "explanation_en": "12·5 + 5 = 65 (A true). The second layer has 5·1 + 1 = 6, so the total is 71 (B true). A binary output uses a sigmoid (C true). Omitting g₁ makes the whole network linear (D false). Binary classification uses BCE (E true)."
+  },
+  {
+   "id": "M-05",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "과대적합 진단과 조기 종료·대응",
+   "prompt": "학습 중 검증 손실은 계속 증가하고 훈련 손실은 계속 감소한다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "이것은 과대적합의 신호다.",
+    "조기 종료(early stopping) 기준으로는 검증 손실이 최소인 지점에서 멈추는 것이 좋다.",
+    "훈련 데이터를 더 모으면 과대적합이 줄어드는 경향이 있다.",
+    "테스트 예제 수를 줄이면 과대적합이 더 심해진다.",
+    "파라미터 수를 늘리면 과대적합이 더 심해지는 경향이 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "훈련 손실은 감소하는데 검증 손실이 증가하면 과대적합 (A 참). 검증 손실 최소 지점에서 멈추는 것이 조기 종료의 원리 (B 참). 훈련 데이터가 많으면 일반화가 좋아져 완화된다 (C 참). 테스트 예제 수는 과대적합 정도를 바꾸지 않는다(평가 신뢰도만 변함) (D 거짓). 파라미터가 많으면 표현력이 커져 과대적합이 심해진다 (E 참).",
+   "topic_ko": "과대적합 진단과 조기 종료·대응",
+   "prompt_ko": "학습 중 검증 손실은 계속 증가하고 훈련 손실은 계속 감소한다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "이것은 과대적합의 신호다.",
+    "조기 종료(early stopping) 기준으로는 검증 손실이 최소인 지점에서 멈추는 것이 좋다.",
+    "훈련 데이터를 더 모으면 과대적합이 줄어드는 경향이 있다.",
+    "테스트 예제 수를 줄이면 과대적합이 더 심해진다.",
+    "파라미터 수를 늘리면 과대적합이 더 심해지는 경향이 있다."
+   ],
+   "explanation_ko": "훈련 손실은 감소하는데 검증 손실이 증가하면 과대적합 (A 참). 검증 손실 최소 지점에서 멈추는 것이 조기 종료의 원리 (B 참). 훈련 데이터가 많으면 일반화가 좋아져 완화된다 (C 참). 테스트 예제 수는 과대적합 정도를 바꾸지 않는다(평가 신뢰도만 변함) (D 거짓). 파라미터가 많으면 표현력이 커져 과대적합이 심해진다 (E 참).",
+   "topic_en": "Overfitting: diagnosis, early stopping, remedies",
+   "prompt_en": "During training, the validation loss keeps increasing while the training loss keeps decreasing. Which statements are true?",
+   "options_en": [
+    "This is a sign of overfitting.",
+    "According to early stopping, we should stop around the minimum of the validation loss.",
+    "Obtaining more training data tends to reduce overfitting.",
+    "Decreasing the number of test examples makes overfitting more severe.",
+    "Increasing the number of parameters tends to make overfitting more severe."
+   ],
+   "explanation_en": "Falling training loss with rising validation loss means overfitting (A true). Early stopping stops near the minimum of the validation loss (B true). More training data improves generalization (C true). The test-set size does not change overfitting (D false). More parameters increase capacity and overfitting (E true)."
+  },
+  {
+   "id": "M-06",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "정규방정식의 차원(m=300, n=6)",
+   "prompt": "MSE 와 정규화된 정규방정식 θ = (XᵀX + λI)⁻¹Xᵀy 를 쓴다. 환자 m = 300, 입력 변수 n = 6 (더미 열 x₀ = 1 포함)일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "X 는 300×7 이다.",
+    "y 는 300×1 이다.",
+    "θ 는 7개 원소를 갖는다.",
+    "I 는 300×300 이다.",
+    "I 는 7×7 이다.",
+    "콜레스테롤 수치는 y 에 들어 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E",
+    "F"
+   ],
+   "explanation": "X = m×(n+1) = 300×7 (A 참). 레이블 y 는 예제마다 하나씩 300×1 (B 참). θ 는 (n+1) = 7개 (C 참). I 는 파라미터 개수와 같은 (n+1)×(n+1) = 7×7 이며 300×300 이 아니다 (D 거짓, E 참). 정답 레이블(콜레스테롤)은 y 에 있다 (F 참).",
+   "topic_ko": "정규방정식의 차원(m=300, n=6)",
+   "prompt_ko": "MSE 와 정규화된 정규방정식 θ = (XᵀX + λI)⁻¹Xᵀy 를 쓴다. 환자 m = 300, 입력 변수 n = 6 (더미 열 x₀ = 1 포함)일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "X 는 300×7 이다.",
+    "y 는 300×1 이다.",
+    "θ 는 7개 원소를 갖는다.",
+    "I 는 300×300 이다.",
+    "I 는 7×7 이다.",
+    "콜레스테롤 수치는 y 에 들어 있다."
+   ],
+   "explanation_ko": "X = m×(n+1) = 300×7 (A 참). 레이블 y 는 예제마다 하나씩 300×1 (B 참). θ 는 (n+1) = 7개 (C 참). I 는 파라미터 개수와 같은 (n+1)×(n+1) = 7×7 이며 300×300 이 아니다 (D 거짓, E 참). 정답 레이블(콜레스테롤)은 y 에 있다 (F 참).",
+   "topic_en": "Normal equation dimensions (m=300, n=6)",
+   "prompt_en": "We use linear regression with MSE and the regularized normal equation θ = (XᵀX + λI)⁻¹Xᵀy. There are m = 300 patients and n = 6 input variables (with the dummy column x₀ = 1). Which statements are true?",
+   "options_en": [
+    "X is 300×7.",
+    "y is 300×1.",
+    "θ has 7 elements.",
+    "I is 300×300.",
+    "I is 7×7.",
+    "The cholesterol levels are in y."
+   ],
+   "explanation_en": "X is m×(n+1) = 300×7 (A true). There is one label per example, so y is 300×1 (B true). θ has n+1 = 7 elements (C true). I is (n+1)×(n+1) = 7×7, not 300×300 (D false, E true). The labels (cholesterol levels) are in y (F true)."
+  },
+  {
+   "id": "M-07",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "특징 스케일링의 목적과 성질",
+   "prompt": "특징 스케일링(feature scaling)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "목적은 입력 변수들을 같은 크기(order of magnitude)로 맞추는 것이다.",
+    "하지 않으면 경사하강법의 수렴이 느려질 수 있다.",
+    "min-max 스케일링이 표준화(standardization)보다 이상치에 더 강건하다.",
+    "x′ = (x − μ)/σ 에서 μ 는 평균, σ 는 표준편차다.",
+    "표준화 값은 항상 [0, 1] 범위다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "스케일링의 목적은 입력들의 크기를 맞추는 것 (A 참). 스케일 차이가 크면 손실 곡면이 길쭉해져 수렴이 느려진다 (B 참). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 **민감**하다 (C 거짓). x′ = (x − μ)/σ 에서 μ 는 평균, σ 는 표준편차 (D 참). 표준화 값은 제한이 없어 음수·1 초과도 가능하다 (E 거짓).",
+   "topic_ko": "특징 스케일링의 목적과 성질",
+   "prompt_ko": "특징 스케일링(feature scaling)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "목적은 입력 변수들을 같은 크기(order of magnitude)로 맞추는 것이다.",
+    "하지 않으면 경사하강법의 수렴이 느려질 수 있다.",
+    "min-max 스케일링이 표준화(standardization)보다 이상치에 더 강건하다.",
+    "x′ = (x − μ)/σ 에서 μ 는 평균, σ 는 표준편차다.",
+    "표준화 값은 항상 [0, 1] 범위다."
+   ],
+   "explanation_ko": "스케일링의 목적은 입력들의 크기를 맞추는 것 (A 참). 스케일 차이가 크면 손실 곡면이 길쭉해져 수렴이 느려진다 (B 참). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 **민감**하다 (C 거짓). x′ = (x − μ)/σ 에서 μ 는 평균, σ 는 표준편차 (D 참). 표준화 값은 제한이 없어 음수·1 초과도 가능하다 (E 거짓).",
+   "topic_en": "Feature scaling: purpose and properties",
+   "prompt_en": "Feature scaling. Which statements are true?",
+   "options_en": [
+    "Its purpose is to bring the input variables to the same order of magnitude.",
+    "Without it, gradient descent may converge more slowly.",
+    "Min-max scaling is more robust to outliers than standardization.",
+    "In x′ = (x − μ)/σ, μ is the mean and σ is the standard deviation.",
+    "Standardized values are always in [0, 1]."
+   ],
+   "explanation_en": "Scaling aligns the magnitudes of the inputs (A true). Very different scales make the loss surface elongated and slow down convergence (B true). Min-max scaling depends on the min/max, so it is MORE sensitive to outliers (C false). In x′ = (x − μ)/σ, μ is the mean and σ the standard deviation (D true). Standardized values are not limited to [0,1] (E false)."
+  },
+  {
+   "id": "M-08",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "파라미터 학습과 배치 크기의 영향",
+   "prompt": "신경망 학습에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "파라미터(가중치)는 보통 경사하강법 계열 알고리즘으로 학습한다.",
+    "하이퍼파라미터는 보통 경사하강법으로 학습하지 않는다.",
+    "미니배치 SGD 에서 배치가 클수록 메모리가 더 필요하다.",
+    "배치가 작으면 그래디언트 추정이 더 잡음적이다.",
+    "배치가 크면 그래디언트 추정의 분산이 더 크다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "θ(W, b) 는 경사하강법 계열로 최적화한다 (A 참). 하이퍼파라미터는 미분 대상이 아니며 탐색으로 고른다 (B 참). 배치가 크면 활성값·그래디언트 메모리가 커진다 (C 참). 표본이 적으면 평균 추정의 분산이 커져 잡음이 커진다 (D 참). 배치가 크면 표본이 많아 오히려 분산이 **작아진다** (E 거짓).",
+   "topic_ko": "파라미터 학습과 배치 크기의 영향",
+   "prompt_ko": "신경망 학습에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "파라미터(가중치)는 보통 경사하강법 계열 알고리즘으로 학습한다.",
+    "하이퍼파라미터는 보통 경사하강법으로 학습하지 않는다.",
+    "미니배치 SGD 에서 배치가 클수록 메모리가 더 필요하다.",
+    "배치가 작으면 그래디언트 추정이 더 잡음적이다.",
+    "배치가 크면 그래디언트 추정의 분산이 더 크다."
+   ],
+   "explanation_ko": "θ(W, b) 는 경사하강법 계열로 최적화한다 (A 참). 하이퍼파라미터는 미분 대상이 아니며 탐색으로 고른다 (B 참). 배치가 크면 활성값·그래디언트 메모리가 커진다 (C 참). 표본이 적으면 평균 추정의 분산이 커져 잡음이 커진다 (D 참). 배치가 크면 표본이 많아 오히려 분산이 **작아진다** (E 거짓).",
+   "topic_en": "Parameter training and the effect of batch size",
+   "prompt_en": "Training neural networks. Which statements are true?",
+   "options_en": [
+    "The parameters (weights) are usually trained with a gradient-descent-based algorithm.",
+    "The hyperparameters are usually not trained with gradient descent.",
+    "A larger batch size in mini-batch SGD needs more memory.",
+    "A smaller batch size gives a noisier gradient estimate.",
+    "A larger batch size gives a higher-variance gradient estimate."
+   ],
+   "explanation_en": "θ (W, b) is optimized by gradient descent (A true). Hyperparameters are not differentiable and are searched (B true). Larger batches need more activation/gradient memory (C true). Fewer samples give a higher-variance (noisier) estimate (D true). A larger batch gives LESS noise (lower variance) (E false)."
+  },
+  {
+   "id": "M-09",
+   "part": "A",
+   "lecture": "Lecture 6",
+   "topic": "계산 그래프 노드별 그래디언트 계산",
+   "prompt": "J 의 계산 그래프에 다음 노드들이 있다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "노드 c = b² 에서 b = −2, grad_c = 3 이면 grad_b = −12 다.",
+    "노드 c = b² 에서 b = −2, grad_c = 3 이면 grad_b = 12 다.",
+    "노드 c = a + b 에서 grad_c = 3 이면 grad_a = grad_b = 3 이다.",
+    "노드 c = a·b 에서 a = 2, b = 5, grad_c = 3 이면 grad_a = 15 다.",
+    "노드 c = a·b 에서 a = 2, b = 5, grad_c = 3 이면 grad_b = 6 이다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "제곱 노드는 grad_b = grad_c·2b = 3·2·(−2) = −12 (A 참, B 거짓). 덧셈 노드는 그래디언트를 그대로 전달 (C 참). 곱셈 노드는 서로의 입력을 곱한다: grad_a = grad_c·b = 15, grad_b = grad_c·a = 6 (D·E 참).",
+   "topic_ko": "계산 그래프 노드별 그래디언트 계산",
+   "prompt_ko": "J 의 계산 그래프에 다음 노드들이 있다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "노드 c = b² 에서 b = −2, grad_c = 3 이면 grad_b = −12 다.",
+    "노드 c = b² 에서 b = −2, grad_c = 3 이면 grad_b = 12 다.",
+    "노드 c = a + b 에서 grad_c = 3 이면 grad_a = grad_b = 3 이다.",
+    "노드 c = a·b 에서 a = 2, b = 5, grad_c = 3 이면 grad_a = 15 다.",
+    "노드 c = a·b 에서 a = 2, b = 5, grad_c = 3 이면 grad_b = 6 이다."
+   ],
+   "explanation_ko": "제곱 노드는 grad_b = grad_c·2b = 3·2·(−2) = −12 (A 참, B 거짓). 덧셈 노드는 그래디언트를 그대로 전달 (C 참). 곱셈 노드는 서로의 입력을 곱한다: grad_a = grad_c·b = 15, grad_b = grad_c·a = 6 (D·E 참).",
+   "topic_en": "Gradients of computational graph nodes",
+   "prompt_en": "Backpropagation. The computational graph of J contains these nodes. Which statements are true?",
+   "options_en": [
+    "Node c = b², with b = −2 and grad_c = 3: grad_b = −12.",
+    "Node c = b², with b = −2 and grad_c = 3: grad_b = 12.",
+    "Node c = a + b, with grad_c = 3: grad_a = grad_b = 3.",
+    "Node c = a·b, with a = 2, b = 5, and grad_c = 3: grad_a = 15.",
+    "Node c = a·b, with a = 2, b = 5, and grad_c = 3: grad_b = 6."
+   ],
+   "explanation_en": "The square node gives grad_b = grad_c·2b = 3·2·(−2) = −12 (A true, B false). The addition node passes the gradient through (C true). The multiplication node swaps the other input: grad_a = grad_c·b = 15 and grad_b = grad_c·a = 6 (D and E true)."
+  },
+  {
+   "id": "M-10",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "슬라이싱·정수배열·newaxis 의 shape",
+   "prompt": "my_array 는 shape (32, 5) 인 numpy.ndarray 다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array[:, 2:4].shape == (32, 2)",
+    "my_array[-1].shape == (1, 5)",
+    "my_array[::2, :].shape == (16, 5)",
+    "my_array[[3], [1]].shape == (1,)",
+    "my_array[:, [0, 0, 1]].shape == (32, 3)",
+    "my_array[None, :, :].shape == (1, 32, 5)"
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D",
+    "E",
+    "F"
+   ],
+   "explanation": "기본 슬라이스는 축을 유지하므로 (32,2) (A 참). my_array[-1] 은 마지막 행만 뽑아 (5,) 이며 (1,5) 가 아니다 (B 거짓). ::2 는 행 16개를 고른다 (C 참). [[3],[1]] 은 두 축을 동시에 정수 배열로 인덱싱해 (1,) (D 참). 열 인덱스 3개 → (32,3) (E 참). None 은 새 축을 추가해 (1,32,5) (F 참).",
+   "topic_ko": "슬라이싱·정수배열·newaxis 의 shape",
+   "prompt_ko": "my_array 는 shape (32, 5) 인 numpy.ndarray 다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array[:, 2:4].shape == (32, 2)",
+    "my_array[-1].shape == (1, 5)",
+    "my_array[::2, :].shape == (16, 5)",
+    "my_array[[3], [1]].shape == (1,)",
+    "my_array[:, [0, 0, 1]].shape == (32, 3)",
+    "my_array[None, :, :].shape == (1, 32, 5)"
+   ],
+   "explanation_ko": "기본 슬라이스는 축을 유지하므로 (32,2) (A 참). my_array[-1] 은 마지막 행만 뽑아 (5,) 이며 (1,5) 가 아니다 (B 거짓). ::2 는 행 16개를 고른다 (C 참). [[3],[1]] 은 두 축을 동시에 정수 배열로 인덱싱해 (1,) (D 참). 열 인덱스 3개 → (32,3) (E 참). None 은 새 축을 추가해 (1,32,5) (F 참).",
+   "topic_en": "Shapes of slicing, integer-array indexing and newaxis",
+   "prompt_en": "`my_array` is a numpy.ndarray with shape (32, 5). Which statements are true?",
+   "options_en": [
+    "`my_array[:, 2:4].shape == (32, 2)`",
+    "`my_array[-1].shape == (1, 5)`",
+    "`my_array[::2, :].shape == (16, 5)`",
+    "`my_array[[3], [1]].shape == (1,)`",
+    "`my_array[:, [0, 0, 1]].shape == (32, 3)`",
+    "`my_array[None, :, :].shape == (1, 32, 5)`"
+   ],
+   "explanation_en": "A basic slice keeps the axis, giving (32,2) (A true). my_array[-1] selects the last row, so it is (5,), not (1,5) (B false). ::2 picks 16 rows (C true). [[3],[1]] indexes two axes with integer arrays, giving (1,) (D true). Three column indices give (32,3) (E true). None inserts a new axis, giving (1,32,5) (F true)."
+  },
+  {
+   "id": "M-11",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅 오류 판별(여러 shape)",
+   "prompt": "a 는 (32, 5), b5 는 (5,), c 는 (32, 1), d 는 (1, 32) 이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
+   "options": [
+    "a + b5",
+    "a * c",
+    "a + d",
+    "a - a.mean(axis=0)",
+    "a - a.mean(axis=1)"
+   ],
+   "correct": [
+    "C",
+    "E"
+   ],
+   "explanation": "(32,5)+(5,) 는 열 방향으로 확장되어 가능 (A 거짓). (32,5)*(32,1) 도 가능 (B 거짓). (32,5)+(1,32) 는 마지막 축 5 대 32 가 맞지 않아 오류 (C 참). mean(axis=0) 은 (5,) 이므로 가능 (D 거짓). mean(axis=1) 은 (32,) 이므로 마지막 축 5 와 맞지 않아 오류 (E 참).",
+   "topic_ko": "브로드캐스팅 오류 판별(여러 shape)",
+   "prompt_ko": "a 는 (32, 5), b5 는 (5,), c 는 (32, 1), d 는 (1, 32) 이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
+   "options_ko": [
+    "a + b5",
+    "a * c",
+    "a + d",
+    "a - a.mean(axis=0)",
+    "a - a.mean(axis=1)"
+   ],
+   "explanation_ko": "(32,5)+(5,) 는 열 방향으로 확장되어 가능 (A 거짓). (32,5)*(32,1) 도 가능 (B 거짓). (32,5)+(1,32) 는 마지막 축 5 대 32 가 맞지 않아 오류 (C 참). mean(axis=0) 은 (5,) 이므로 가능 (D 거짓). mean(axis=1) 은 (32,) 이므로 마지막 축 5 와 맞지 않아 오류 (E 참).",
+   "topic_en": "Which expressions raise a broadcasting error?",
+   "prompt_en": "`a` has shape (32, 5), `b5` has shape (5,), `c` has shape (32, 1), and `d` has shape (1, 32). Which expressions raise \"ValueError: operands could not be broadcast together\"?",
+   "options_en": [
+    "`a + b5`",
+    "`a * c`",
+    "`a + d`",
+    "`a - a.mean(axis=0)`",
+    "`a - a.mean(axis=1)`"
+   ],
+   "explanation_en": "(32,5)+(5,) broadcasts along the columns (A false). (32,5)*(32,1) also broadcasts (B false). (32,5)+(1,32) mismatches the trailing axes 5 vs 32 (C true). mean(axis=0) is (5,) so it works (D false). mean(axis=1) is (32,) which does not match the trailing 5 (E true)."
+  },
+  {
+   "id": "M-12",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "reshape(3,-1) 배열의 집계와 마스킹",
+   "prompt": "my_array = np.arange(6).reshape(3, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array.shape == (3, 2)",
+    "my_array.sum(axis=0) 은 [6, 9] 다.",
+    "my_array[my_array % 2 == 1] 은 [1, 3, 5] 다.",
+    "(my_array > 2).sum(axis=1) 은 [0, 1, 2] 다.",
+    "np.all(my_array >= 0, axis=0) 은 [True, True] 다.",
+    "np.any(my_array > 4) 는 False 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "6개를 (3, -1) 로 바꾸면 (3,2) (A 참). 행렬은 [[0,1],[2,3],[4,5]] 이고 axis=0 합은 [0+2+4, 1+3+5] = [6,9] (B 참). 홀수만 뽑으면 [1,3,5] (C 참). 행별로 2 초과 개수는 0, 1, 2 (D 참). 모든 원소가 0 이상이므로 [True,True] (E 참). 5 > 4 이므로 np.any(my_array > 4) 는 True 이며 False 가 아니다 (F 거짓).",
+   "topic_ko": "reshape(3,-1) 배열의 집계와 마스킹",
+   "prompt_ko": "my_array = np.arange(6).reshape(3, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array.shape == (3, 2)",
+    "my_array.sum(axis=0) 은 [6, 9] 다.",
+    "my_array[my_array % 2 == 1] 은 [1, 3, 5] 다.",
+    "(my_array > 2).sum(axis=1) 은 [0, 1, 2] 다.",
+    "np.all(my_array >= 0, axis=0) 은 [True, True] 다.",
+    "np.any(my_array > 4) 는 False 다."
+   ],
+   "explanation_ko": "6개를 (3, -1) 로 바꾸면 (3,2) (A 참). 행렬은 [[0,1],[2,3],[4,5]] 이고 axis=0 합은 [0+2+4, 1+3+5] = [6,9] (B 참). 홀수만 뽑으면 [1,3,5] (C 참). 행별로 2 초과 개수는 0, 1, 2 (D 참). 모든 원소가 0 이상이므로 [True,True] (E 참). 5 > 4 이므로 np.any(my_array > 4) 는 True 이며 False 가 아니다 (F 거짓).",
+   "topic_en": "Aggregation and masking on a reshape(3,-1) array",
+   "prompt_en": "`my_array = np.arange(6).reshape(3, -1)`. Which statements are true?",
+   "options_en": [
+    "`my_array.shape == (3, 2)`",
+    "`my_array.sum(axis=0)` equals `[6, 9]`",
+    "`my_array[my_array % 2 == 1]` equals `[1, 3, 5]`",
+    "`(my_array > 2).sum(axis=1)` equals `[0, 1, 2]`",
+    "`np.all(my_array >= 0, axis=0)` equals `[True, True]`",
+    "`np.any(my_array > 4)` is False."
+   ],
+   "explanation_en": "Reshaping 6 elements to (3, -1) gives (3,2) (A true). The matrix is [[0,1],[2,3],[4,5]] and the axis=0 sum is [0+2+4, 1+3+5] = [6,9] (B true). The odd elements are [1,3,5] (C true). The per-row count above 2 is 0, 1, 2 (D true). All elements are ≥ 0 (E true). Since 5 > 4, np.any(my_array > 4) is True, not False (F false)."
+  },
+  {
+   "id": "M-13",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "뷰와 복사본 판별(my_array 수정 여부)",
+   "prompt": "my_array = np.arange(6).reshape(2, 3) 이고, 아래 방법으로 my_array2 를 만든 뒤 my_array2[:] = 99 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
+   "options": [
+    "my_array2 = my_array.T",
+    "my_array2 = my_array[0]",
+    "my_array2 = my_array[:, 1:]",
+    "my_array2 = my_array[:, [0, 2]]",
+    "my_array2 = my_array.flatten()",
+    "my_array2 = my_array + 0"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "전치(.T)는 뷰 (A 참). 정수 하나로 인덱싱(my_array[0])도 뷰 (B 참). 기본 슬라이스 [:, 1:] 도 뷰 (C 참). 정수 배열 인덱싱 [:, [0, 2]] 은 복사본 (D 거짓). flatten() 은 복사본 (E 거짓). 산술 연산(+ 0)은 새 배열 (F 거짓).",
+   "topic_ko": "뷰와 복사본 판별(my_array 수정 여부)",
+   "prompt_ko": "my_array = np.arange(6).reshape(2, 3) 이고, 아래 방법으로 my_array2 를 만든 뒤 my_array2[:] = 99 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
+   "options_ko": [
+    "my_array2 = my_array.T",
+    "my_array2 = my_array[0]",
+    "my_array2 = my_array[:, 1:]",
+    "my_array2 = my_array[:, [0, 2]]",
+    "my_array2 = my_array.flatten()",
+    "my_array2 = my_array + 0"
+   ],
+   "explanation_ko": "전치(.T)는 뷰 (A 참). 정수 하나로 인덱싱(my_array[0])도 뷰 (B 참). 기본 슬라이스 [:, 1:] 도 뷰 (C 참). 정수 배열 인덱싱 [:, [0, 2]] 은 복사본 (D 거짓). flatten() 은 복사본 (E 거짓). 산술 연산(+ 0)은 새 배열 (F 거짓).",
+   "topic_en": "Views vs copies: which operations modify my_array?",
+   "prompt_en": "`my_array = np.arange(6).reshape(2, 3)`. Then `my_array2` is created in one of the ways below, and we run `my_array2[:] = 99`. In which cases will the elements of `my_array` be affected?",
+   "options_en": [
+    "`my_array2 = my_array.T`",
+    "`my_array2 = my_array[0]`",
+    "`my_array2 = my_array[:, 1:]`",
+    "`my_array2 = my_array[:, [0, 2]]`",
+    "`my_array2 = my_array.flatten()`",
+    "`my_array2 = my_array + 0`"
+   ],
+   "explanation_en": "Transpose (.T) returns a view (A true). A single integer index also returns a view (B true). A basic slice [:, 1:] is a view (C true). Integer-array indexing [:, [0, 2]] returns a copy (D false). flatten() returns a copy (E false). Arithmetic (+ 0) creates a new array (F false)."
+  },
+  {
+   "id": "M-14",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "unique / bincount / 불리언 집계",
+   "prompt": "v = np.array([2, 0, 2, 1, 0, 2]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.unique(v) 는 [0, 1, 2] 다.",
+    "np.bincount(v) 는 [2, 1, 3] 이다.",
+    "np.count_nonzero(v == 2) == 3",
+    "v[v != 0] 은 [2, 1, 2] 다.",
+    "np.unique(v != 0) 은 [False, True] 다.",
+    "np.bincount(v) 의 길이는 2다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "unique 는 정렬된 고유값 [0,1,2] (A 참). bincount 는 값 i 의 개수를 i번째 원소에 담아 [2,1,3] (B 참). 2가 3개 (C 참). v[v != 0] 은 0을 제외한 [2,2,1,2] 이며 [2,1,2] 가 아니다 (D 거짓). v != 0 은 불리언 배열이고 unique 는 [False,True] (E 참). bincount 길이는 최댓값+1 = 3 (F 거짓).",
+   "topic_ko": "unique / bincount / 불리언 집계",
+   "prompt_ko": "v = np.array([2, 0, 2, 1, 0, 2]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.unique(v) 는 [0, 1, 2] 다.",
+    "np.bincount(v) 는 [2, 1, 3] 이다.",
+    "np.count_nonzero(v == 2) == 3",
+    "v[v != 0] 은 [2, 1, 2] 다.",
+    "np.unique(v != 0) 은 [False, True] 다.",
+    "np.bincount(v) 의 길이는 2다."
+   ],
+   "explanation_ko": "unique 는 정렬된 고유값 [0,1,2] (A 참). bincount 는 값 i 의 개수를 i번째 원소에 담아 [2,1,3] (B 참). 2가 3개 (C 참). v[v != 0] 은 0을 제외한 [2,2,1,2] 이며 [2,1,2] 가 아니다 (D 거짓). v != 0 은 불리언 배열이고 unique 는 [False,True] (E 참). bincount 길이는 최댓값+1 = 3 (F 거짓).",
+   "topic_en": "unique / bincount / boolean aggregation",
+   "prompt_en": "`v = np.array([2, 0, 2, 1, 0, 2])`. Which statements are true?",
+   "options_en": [
+    "`np.unique(v)` equals `[0, 1, 2]`",
+    "`np.bincount(v)` equals `[2, 1, 3]`",
+    "`np.count_nonzero(v == 2) == 3`",
+    "`v[v != 0]` equals `[2, 1, 2]`",
+    "`np.unique(v != 0)` equals `[False, True]`",
+    "`np.bincount(v)` has length 2."
+   ],
+   "explanation_en": "unique gives the sorted distinct values [0,1,2] (A true). bincount stores the count of value i at index i: [2,1,3] (B true). There are three 2s (C true). v[v != 0] keeps the non-zeros: [2,2,1,2], not [2,1,2] (D false). v != 0 is a boolean array whose unique values are [False,True] (E true). The length of bincount is max+1 = 3 (F false)."
+  },
+  {
+   "id": "M-15",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅·집계·행렬곱의 shape",
+   "prompt": "my_array = np.ones((4, 3)) 이고 my_array2 = np.ones(3) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(my_array + my_array2).shape == (4, 3)",
+    "(my_array[:, None, :] + my_array2).shape == (4, 1, 3)",
+    "(my_array[:, None, :] + my_array[None, :, :]).shape == (4, 4, 3)",
+    "np.sum(my_array, axis=1).shape == (3,)",
+    "np.mean(my_array, axis=0, keepdims=True).shape == (1, 3)",
+    "(my_array @ my_array2).shape == (4,)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E",
+    "F"
+   ],
+   "explanation": "(4,3)+(3,) 는 열 방향 확장으로 (4,3) (A 참). (4,1,3)+(3,) → (4,1,3) (B 참). (4,1,3)+(1,4,3) → (4,4,3) (C 참). sum(axis=1) 은 행을 합치므로 (4,) 이며 (3,) 이 아니다 (D 거짓). mean(axis=0, keepdims=True) 은 (1,3) (E 참). (4,3) @ (3,) → (4,) (F 참).",
+   "topic_ko": "브로드캐스팅·집계·행렬곱의 shape",
+   "prompt_ko": "my_array = np.ones((4, 3)) 이고 my_array2 = np.ones(3) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(my_array + my_array2).shape == (4, 3)",
+    "(my_array[:, None, :] + my_array2).shape == (4, 1, 3)",
+    "(my_array[:, None, :] + my_array[None, :, :]).shape == (4, 4, 3)",
+    "np.sum(my_array, axis=1).shape == (3,)",
+    "np.mean(my_array, axis=0, keepdims=True).shape == (1, 3)",
+    "(my_array @ my_array2).shape == (4,)"
+   ],
+   "explanation_ko": "(4,3)+(3,) 는 열 방향 확장으로 (4,3) (A 참). (4,1,3)+(3,) → (4,1,3) (B 참). (4,1,3)+(1,4,3) → (4,4,3) (C 참). sum(axis=1) 은 행을 합치므로 (4,) 이며 (3,) 이 아니다 (D 거짓). mean(axis=0, keepdims=True) 은 (1,3) (E 참). (4,3) @ (3,) → (4,) (F 참).",
+   "topic_en": "Shapes of broadcasting, aggregation and matrix product",
+   "prompt_en": "`my_array = np.ones((4, 3))` and `my_array2 = np.ones(3)`. Which statements are true?",
+   "options_en": [
+    "`(my_array + my_array2).shape == (4, 3)`",
+    "`(my_array[:, None, :] + my_array2).shape == (4, 1, 3)`",
+    "`(my_array[:, None, :] + my_array[None, :, :]).shape == (4, 4, 3)`",
+    "`np.sum(my_array, axis=1).shape == (3,)`",
+    "`np.mean(my_array, axis=0, keepdims=True).shape == (1, 3)`",
+    "`(my_array @ my_array2).shape == (4,)`"
+   ],
+   "explanation_en": "(4,3)+(3,) broadcasts along the columns giving (4,3) (A true). (4,1,3)+(3,) gives (4,1,3) (B true). (4,1,3)+(1,4,3) gives (4,4,3) (C true). sum(axis=1) collapses the columns, so the shape is (4,), not (3,) (D false). mean(axis=0, keepdims=True) is (1,3) (E true). (4,3) @ (3,) gives (4,) (F true)."
   }
  ]
 };</script>
@@ -9507,7 +10154,7 @@ function applyStaticI18n() {
   "exam_minutes": 45,
   "exam_pass": 7.0,
   "numpy_per_mock": 6,
-  "count": 20,
+  "count": 21,
   "primary": 10
  },
  "mocks": [
@@ -9516,21 +10163,21 @@ function applyStaticI18n() {
    "label": "모의고사 1",
    "label_en": "Mock Exam 1",
    "questions": [
-    "N-13",
-    "N-05",
-    "L5-14",
-    "N-27",
-    "L4-11",
-    "L1-07",
+    "N-25",
+    "N-23",
+    "N-12",
     "N-04",
-    "N-16",
-    "L4-14",
-    "L5-16",
-    "L3-07",
-    "N-32",
-    "L7-10",
-    "L5-13",
-    "L4-08"
+    "L1-06",
+    "L5-08",
+    "L7-13",
+    "L6-09",
+    "L7-18",
+    "L3-12",
+    "N-31",
+    "L5-09",
+    "L4-18",
+    "L5-05",
+    "N-17"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9540,21 +10187,21 @@ function applyStaticI18n() {
    "label": "모의고사 2",
    "label_en": "Mock Exam 2",
    "questions": [
-    "L2-08",
-    "L4-18",
-    "N-29",
-    "N-08",
-    "L7-12",
+    "L5-04",
+    "L6-02",
+    "L6-08",
+    "L6-04",
+    "L3-05",
+    "L4-01",
+    "N-22",
+    "N-13",
     "L1-05",
-    "N-02",
-    "L7-07",
-    "L5-15",
-    "N-12",
-    "L3-14",
-    "N-03",
-    "L3-16",
-    "L7-06",
-    "N-17"
+    "L3-02",
+    "N-15",
+    "N-08",
+    "N-32",
+    "N-05",
+    "M-04"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9564,21 +10211,21 @@ function applyStaticI18n() {
    "label": "모의고사 3",
    "label_en": "Mock Exam 3",
    "questions": [
-    "L4-15",
-    "L2-03",
-    "N-26",
-    "L1-06",
-    "L6-03",
+    "L1-10",
     "N-19",
-    "L6-06",
-    "N-23",
-    "L3-06",
-    "N-18",
-    "N-34",
-    "L1-09",
-    "L7-18",
-    "L3-05",
-    "N-01"
+    "L6-12",
+    "M-13",
+    "M-12",
+    "M-07",
+    "L3-09",
+    "N-24",
+    "N-14",
+    "L4-07",
+    "L2-02",
+    "L4-06",
+    "L3-16",
+    "L3-04",
+    "N-18"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9588,21 +10235,21 @@ function applyStaticI18n() {
    "label": "모의고사 4",
    "label_en": "Mock Exam 4",
    "questions": [
-    "N-25",
-    "N-15",
-    "L5-02",
-    "L6-08",
-    "N-22",
-    "L7-02",
-    "N-24",
-    "L2-11",
-    "L3-17",
-    "L4-06",
-    "L7-11",
-    "L7-17",
-    "L2-10",
-    "N-30",
-    "N-11"
+    "L5-01",
+    "L1-09",
+    "N-21",
+    "M-15",
+    "L5-07",
+    "L4-12",
+    "L6-01",
+    "N-29",
+    "N-16",
+    "N-03",
+    "L7-01",
+    "L5-12",
+    "L4-05",
+    "N-02",
+    "L3-08"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9612,21 +10259,21 @@ function applyStaticI18n() {
    "label": "모의고사 5",
    "label_en": "Mock Exam 5",
    "questions": [
-    "L1-12",
-    "L5-03",
-    "L2-01",
-    "L4-05",
-    "N-20",
-    "L4-13",
-    "N-28",
-    "L2-09",
-    "N-21",
-    "L2-02",
-    "N-31",
+    "M-06",
     "N-33",
-    "L4-03",
+    "L4-11",
+    "M-10",
+    "M-14",
+    "N-01",
+    "L5-13",
+    "L7-10",
+    "L3-10",
     "N-06",
-    "L5-09"
+    "N-26",
+    "L5-10",
+    "L1-11",
+    "L4-04",
+    "L6-11"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9636,21 +10283,21 @@ function applyStaticI18n() {
    "label": "모의고사 6",
    "label_en": "Mock Exam 6",
    "questions": [
-    "L3-13",
-    "N-27",
-    "L1-02",
-    "L6-04",
-    "N-09",
-    "N-07",
-    "L5-07",
-    "L2-06",
-    "L3-04",
-    "N-16",
-    "L7-13",
-    "N-14",
-    "L7-14",
-    "L6-09",
-    "N-10"
+    "L4-10",
+    "M-11",
+    "N-28",
+    "L2-03",
+    "L5-15",
+    "L5-16",
+    "L7-07",
+    "N-30",
+    "L4-08",
+    "L5-03",
+    "N-34",
+    "N-11",
+    "N-20",
+    "L6-05",
+    "L3-17"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9660,21 +10307,21 @@ function applyStaticI18n() {
    "label": "모의고사 7",
    "label_en": "Mock Exam 7",
    "questions": [
-    "N-29",
-    "N-04",
-    "L6-11",
-    "L3-09",
-    "L4-02",
-    "N-13",
-    "N-05",
-    "L4-04",
-    "L6-10",
-    "N-32",
-    "L7-04",
-    "L4-01",
-    "L5-11",
-    "L3-18",
-    "N-17"
+    "N-09",
+    "N-23",
+    "L2-08",
+    "N-27",
+    "L4-17",
+    "L2-07",
+    "N-12",
+    "N-07",
+    "L1-02",
+    "M-02",
+    "L2-04",
+    "N-10",
+    "L4-16",
+    "L5-02",
+    "L7-12"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9684,21 +10331,21 @@ function applyStaticI18n() {
    "label": "모의고사 8",
    "label_en": "Mock Exam 8",
    "questions": [
-    "L5-04",
-    "L4-16",
-    "L3-08",
-    "L1-03",
-    "N-08",
-    "L1-11",
-    "N-19",
-    "N-02",
-    "N-12",
-    "L6-12",
-    "N-18",
-    "L3-15",
-    "L5-06",
-    "L7-08",
-    "N-03"
+    "L3-07",
+    "L2-12",
+    "N-31",
+    "N-13",
+    "L2-10",
+    "L6-10",
+    "N-32",
+    "M-05",
+    "L3-13",
+    "N-17",
+    "L4-15",
+    "N-25",
+    "L7-17",
+    "L6-03",
+    "N-04"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9708,21 +10355,21 @@ function applyStaticI18n() {
    "label": "모의고사 9",
    "label_en": "Mock Exam 9",
    "questions": [
-    "N-24",
-    "L6-13",
-    "L2-07",
-    "L1-08",
-    "L6-01",
-    "N-26",
-    "N-23",
-    "L5-18",
-    "N-34",
-    "N-01",
-    "N-25",
-    "L4-09",
-    "L3-10",
-    "L5-08",
-    "L3-03"
+    "L7-09",
+    "L2-05",
+    "M-13",
+    "L1-01",
+    "L7-16",
+    "N-05",
+    "L5-14",
+    "N-08",
+    "L4-03",
+    "N-15",
+    "N-22",
+    "L1-03",
+    "L7-15",
+    "L2-06",
+    "N-24"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9732,21 +10379,21 @@ function applyStaticI18n() {
    "label": "모의고사 10",
    "label_en": "Mock Exam 10",
    "questions": [
-    "N-11",
-    "L7-16",
-    "N-30",
-    "N-28",
-    "N-33",
-    "L4-12",
-    "L6-05",
-    "L7-01",
-    "L3-02",
-    "N-15",
-    "L4-10",
+    "N-18",
+    "N-21",
+    "M-09",
+    "L7-03",
+    "N-03",
+    "L7-14",
+    "N-14",
+    "L3-18",
     "L1-04",
-    "N-22",
-    "L7-05",
-    "L4-07"
+    "L7-11",
+    "L3-14",
+    "L3-06",
+    "L6-06",
+    "M-12",
+    "N-19"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9756,21 +10403,21 @@ function applyStaticI18n() {
    "label": "추가 세트 1",
    "label_en": "Extra Set 1",
    "questions": [
-    "N-06",
-    "L6-02",
-    "L6-07",
-    "N-07",
-    "N-31",
-    "N-14",
-    "L7-03",
-    "L3-12",
-    "N-20",
-    "L2-12",
-    "L5-10",
-    "L7-09",
-    "L5-12",
-    "L2-05",
-    "N-21"
+    "L3-15",
+    "L2-11",
+    "L1-08",
+    "L5-06",
+    "N-01",
+    "L3-01",
+    "N-16",
+    "L4-02",
+    "M-14",
+    "L7-05",
+    "N-29",
+    "N-02",
+    "L5-18",
+    "M-15",
+    "L1-07"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9780,21 +10427,21 @@ function applyStaticI18n() {
    "label": "추가 세트 2",
    "label_en": "Extra Set 2",
    "questions": [
-    "L7-15",
-    "N-32",
-    "N-09",
-    "L1-01",
-    "N-27",
-    "N-10",
-    "L5-17",
+    "L3-03",
+    "N-34",
+    "M-03",
+    "L7-02",
+    "N-26",
+    "N-06",
     "L3-11",
-    "L5-01",
-    "L2-04",
-    "L4-17",
-    "N-16",
-    "L5-05",
-    "N-13",
-    "L3-01"
+    "L7-04",
+    "L5-17",
+    "N-30",
+    "L2-01",
+    "M-10",
+    "L1-12",
+    "L4-13",
+    "N-33"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9804,21 +10451,21 @@ function applyStaticI18n() {
    "label": "추가 세트 3",
    "label_en": "Extra Set 3",
    "questions": [
-    "L1-10",
-    "L1-06",
-    "L3-18",
+    "N-27",
+    "N-28",
+    "L7-06",
+    "M-01",
+    "L6-07",
+    "N-20",
+    "N-11",
+    "L4-09",
     "L7-08",
-    "L7-12",
-    "N-29",
-    "N-03",
-    "N-12",
-    "L1-01",
-    "L4-16",
-    "N-05",
-    "L2-05",
-    "N-17",
-    "N-04",
-    "L3-01"
+    "M-11",
+    "L4-14",
+    "L2-09",
+    "L6-13",
+    "L5-11",
+    "N-07"
    ],
    "minutes": 45,
    "pass": 7.0
@@ -9990,6 +10637,31 @@ function applyStaticI18n() {
    ],
    "minutes": 45,
    "pass": 7.0
+  },
+  {
+   "id": "mock21",
+   "label": "최종 모의고사",
+   "label_en": "Final Mock Exam",
+   "final": true,
+   "questions": [
+    "M-01",
+    "M-02",
+    "M-03",
+    "M-04",
+    "M-05",
+    "M-06",
+    "M-07",
+    "M-08",
+    "M-09",
+    "M-10",
+    "M-11",
+    "M-12",
+    "M-13",
+    "M-14",
+    "M-15"
+   ],
+   "minutes": 45,
+   "pass": 7.0
   }
  ]
 };</script>
@@ -10013,8 +10685,8 @@ var CURRICULUM = [
         open: true,
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
-          { id: "mocks", label: { ko: "모의고사 20세트", en: "Mock exams (20 sets)" } },
-          { id: "bank", label: { ko: "문제은행 212문항", en: "Question bank (212)" } },
+          { id: "mocks", label: { ko: "모의고사 21세트", en: "Mock exams (21 sets)" } },
+          { id: "bank", label: { ko: "문제은행 227문항", en: "Question bank (227)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
           { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
@@ -10429,14 +11101,24 @@ function scoreClass(score) {
   }
   function mockRowHtml(m, i) {
     const best = (store.mockBest || {})[m.id];
+    const isFinal = !!m.final;
     const isReal = MOCKS ? i < MOCKS.meta.primary : i < 10;
-    return '<div class="mockRow">' +
-      '<span class="tag">' + t(isReal ? "home.mock.tagReal" : "home.mock.tagExtra") + "</span>" +
+    const tagKey = isFinal ? "home.mock.tagFinal" : (isReal ? "home.mock.tagReal" : "home.mock.tagExtra");
+    return '<div class="mockRow' + (isFinal ? " final" : "") + '">' +
+      '<span class="tag' + (isFinal ? " finalTag" : "") + '">' + t(tagKey) + "</span>" +
       '<span class="name">' + esc(mockLabel(m)) + "</span>" +
       '<span class="best">' + (best !== undefined ? tf("home.mock.best", best, m.questions.length) : t("home.mock.none")) + "</span>" +
       '<button class="btn sm primary" data-mock="' + m.id + '">' + t("home.start") + "</button>" +
       '<span class="meta">' + tf("home.mock.meta", m.questions.length, m.minutes, m.pass) + "</span>" +
       "</div>";
+  }
+  /* 최종 모의고사(있으면)와 나머지 세트를 나눈다 */
+  function splitMocks() {
+    if (!MOCKS) return { finalSet: [], rest: [] };
+    return {
+      finalSet: MOCKS.mocks.filter(function (m) { return m.final; }),
+      rest: MOCKS.mocks.filter(function (m) { return !m.final; })
+    };
   }
   function wireMockButtons() {
     document.querySelectorAll("[data-mock]").forEach(function (b) {
@@ -10495,8 +11177,10 @@ function scoreClass(score) {
       '<div class="note"><button class="linkish" id="seeAll">' + t("ov.seeAll") + "</button></div>";
     const mockHead = t("ov.mocks") + '<span class="grow"></span><button class="linkish" id="mocksAll">' +
       t("mocks.titleShort") + " →</button>";
+    const sm = splitMocks();
     const mockBody = MOCKS
-      ? MOCKS.mocks.slice(0, 3).map(function (m, i) { return mockRowHtml(m, i); }).join("") +
+      ? sm.finalSet.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
+        sm.rest.slice(0, sm.finalSet.length ? 2 : 3).map(function (m, i) { return mockRowHtml(m, i); }).join("") +
         '<div class="note">' + tf("ov.note", MOCKS.meta.primary) + "</div>"
       : '<div class="panelBody muted">' + t("home.mock.empty") + "</div>";
 
@@ -10537,16 +11221,25 @@ function scoreClass(score) {
       return;
     }
     const primary = MOCKS.meta.primary;
-    const real = MOCKS.mocks.slice(0, primary);
-    const extra = MOCKS.mocks.slice(primary);
+    const sm = splitMocks();
+    const real = sm.rest.slice(0, primary);
+    const extra = sm.rest.slice(primary);
+    const finalPanel = sm.finalSet.length
+      ? '<div class="panel finalPanel" style="margin-bottom:16px">' +
+        '<div class="panelHead">' + t("mocks.final") + "</div>" +
+        '<div class="panelNote">' + t("mocks.finalNote") + "</div>" +
+        sm.finalSet.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
+        "</div>"
+      : "";
     app.innerHTML =
+      finalPanel +
       '<div class="panel" style="margin-bottom:16px">' +
       '<div class="panelHead">' + t("mocks.titleShort") + "</div>" +
       '<div class="panelBody muted">' + tf("home.mock.meta", META.exam_questions, META.exam_minutes, META.exam_pass) +
       "<br>" + esc(metaNote()) + "</div>" +
       '<div class="panelHead">' + tf("mocks.real", primary) + "</div>" +
       real.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
-      '<div class="panelHead">' + tf("mocks.extra", primary + 1, MOCKS.mocks.length) + "</div>" +
+      '<div class="panelHead">' + tf("mocks.extra", primary + 1, sm.rest.length) + "</div>" +
       extra.map(function (m, i) { return mockRowHtml(m, primary + i); }).join("") +
       '<div class="note">' + tf("ov.note", primary) + "</div></div>";
     wireMockButtons();
