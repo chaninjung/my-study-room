@@ -7214,10 +7214,16 @@ function scoreClass(score) {
 /* ===== app.js — 시험 대비 문제 앱 (vanilla JS, DOM) ===== */
 (function () {
   "use strict";
-  const DATA = window.__QUESTION_DATA__;
-  const MOCKS = window.__MOCK_DATA__ || null;
-  const META = DATA.meta;
-  const ALL = DATA.questions;
+  /* 데이터는 '부팅 시점'에 읽는다.
+     비밀번호 게이트가 켜져 있으면 이 스크립트가 실행될 때는 아직 복호화 전(null)이고,
+     게이트가 복호화를 마친 뒤 window.__bootApp() 을 호출한다. */
+  let DATA = null, MOCKS = null, META = null, ALL = [];
+  function resolveData() {
+    DATA = window.__QUESTION_DATA__ || null;
+    MOCKS = window.__MOCK_DATA__ || null;
+    META = (DATA && DATA.meta) || {};
+    ALL = (DATA && DATA.questions) || [];
+  }
   const LS_KEY = "dnd_tt1_v1";
   const GLOSSARY_COUNT = 411;   /* glossary.json 의 용어 수 (테스트가 일치 여부를 검사) */
   const app = document.getElementById("app");
@@ -8183,6 +8189,7 @@ function scoreClass(score) {
 
   /* ---------- 부팅 (게이트가 있으면 복호화 후 게이트가 호출) ---------- */
   function boot() {
+    resolveData();
     /* 사이드바 토글 / 상단 링크 */
     if (el("sbToggle")) {
       el("sbToggle").onclick = function () {
