@@ -605,8 +605,8 @@ var I18N = {
   "home.mock.head":      { ko: "모의고사 — 실제 시험 형식 (%s문항 / %s분 / 통과 %s점)",
                            en: "Mock exams — real exam format (%s questions / %s min / pass %s)" },
   "home.mock.empty":     { ko: "모의고사 데이터가 없습니다.", en: "No mock exam data." },
-  "home.mock.note":      { ko: "세트 1~%s 은 실전 세트, 이후 세트는 문제은행의 모든 문항을 커버하기 위한 추가 세트입니다.",
-                           en: "Sets 1-%s follow the real exam format; the later sets are extra sets that cover every question in the bank." },
+  "home.mock.note":      { ko: "세트 1~%s 은 실전 세트, 이후 세트는 문제은행의 모든 문항을 커버하기 위한 추가·연습 세트입니다.",
+                           en: "Sets 1-%s follow the real exam format; the later sets are extra/practice sets that cover every question in the bank." },
   "home.mock.tagReal":   { ko: "실전", en: "Exam" },
   "home.mock.tagExtra":  { ko: "추가", en: "Extra" },
   "home.mock.meta":      { ko: "%s문항 · %s분 · 통과 %s점", en: "%s Q · %s min · pass %s" },
@@ -679,12 +679,12 @@ var I18N2 = {
   "ov.quick":      { ko: "바로 시작", en: "Quick start" },
   "ov.recent":     { ko: "최근 기록", en: "Recent records" },
   "ov.seeAll":     { ko: "전체 기록 보기", en: "See all records" },
-  "ov.note":       { ko: "모의고사 1~%s 은 실제 시험 형식(15문항·45분·통과 7점), 이후 세트는 문제은행 전체를 커버하기 위한 추가 세트입니다.",
-                     en: "Sets 1-%s follow the real exam format (15 questions, 45 min, pass 7); later sets cover the whole bank." },
+  "ov.note":       { ko: "모의고사 1~%s 은 실제 시험 형식(15문항·45분·통과 7점), 이후 세트는 추가·연습 세트로 문제은행 전체를 커버합니다.",
+                     en: "Sets 1-%s follow the real exam format (15 questions, 45 min, pass 7); later extra/practice sets cover the whole bank." },
   "mocks.title":   { ko: "모의고사 — 실제 시험 형식", en: "Mock exams — real exam format" },
   "mocks.titleShort": { ko: "실제 시험 형식", en: "Exam format" },
   "mocks.real":    { ko: "실전 세트 (1~%s)", en: "Exam-format sets (1-%s)" },
-  "mocks.extra":   { ko: "추가 세트 (%s~%s) — 전 문항 커버", en: "Extra sets (%s-%s) — full coverage" },
+  "mocks.extra":   { ko: "추가 · 연습 세트 (%s~%s)", en: "Extra & practice sets (%s-%s)" },
   "bank.title":    { ko: "문제은행", en: "Question bank" },
   "bank.perLecture": { ko: "강의별 문항 수", en: "Questions per lecture" },
   "bank.list":     { ko: "전체 문항 목록", en: "All questions" },
@@ -6721,6 +6721,2783 @@ function applyStaticI18n() {
     "The result shape of colors[idx] is (K, H, W)."
    ],
    "explanation_en": "A true. B true (the (H,W) index plus the last axis 3). C true. D true. E false."
+  },
+  {
+   "id": "S1-01",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "지도·비지도 학습과 회귀/분류의 구분",
+   "prompt": "회귀(regression)·분류(classification)와 지도·비지도 학습의 구분에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "선형 회귀는 회귀 문제를 푸는 지도학습 방법이다.",
+    "로지스틱 회귀는 분류 문제를 푸는 지도학습 방법이다.",
+    "로지스틱 회귀는 출력이 연속값이므로 어떤 회귀 문제든 풀 수 있다.",
+    "선형 회귀는 비지도학습 방법이다.",
+    "오토인코더로 데이터를 압축하는 데에는 레이블이 필요 없다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "E"
+   ],
+   "explanation": "선형 회귀 = 회귀를 위한 지도학습 (A 참). 로지스틱 회귀 = 분류를 위한 지도학습 (B 참). 로지스틱 회귀의 출력은 시그모이드로 (0,1) 확률값에 제한되므로 일반적인 회귀 문제를 풀 수 없다 (C 거짓). 선형 회귀는 레이블이 필요하므로 지도학습 (D 거짓). 압축·차원축소는 레이블 없이 가능한 비지도학습 (E 참).",
+   "topic_ko": "지도·비지도 학습과 회귀/분류의 구분",
+   "prompt_ko": "회귀(regression)·분류(classification)와 지도·비지도 학습의 구분에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "선형 회귀는 회귀 문제를 푸는 지도학습 방법이다.",
+    "로지스틱 회귀는 분류 문제를 푸는 지도학습 방법이다.",
+    "로지스틱 회귀는 출력이 연속값이므로 어떤 회귀 문제든 풀 수 있다.",
+    "선형 회귀는 비지도학습 방법이다.",
+    "오토인코더로 데이터를 압축하는 데에는 레이블이 필요 없다."
+   ],
+   "explanation_ko": "선형 회귀 = 회귀를 위한 지도학습 (A 참). 로지스틱 회귀 = 분류를 위한 지도학습 (B 참). 로지스틱 회귀의 출력은 시그모이드로 (0,1) 확률값에 제한되므로 일반적인 회귀 문제를 풀 수 없다 (C 거짓). 선형 회귀는 레이블이 필요하므로 지도학습 (D 거짓). 압축·차원축소는 레이블 없이 가능한 비지도학습 (E 참).",
+   "topic_en": "Supervised vs unsupervised; regression vs classification",
+   "prompt_en": "Which of the following statements are true?",
+   "options_en": [
+    "Linear regression is a supervised method for regression.",
+    "Logistic regression is a supervised method for classification.",
+    "Logistic regression can solve any regression task, because its output is continuous.",
+    "Linear regression is an unsupervised method.",
+    "Compressing data with an autoencoder needs no labels."
+   ],
+   "explanation_en": "Linear regression = supervised regression (A true). Logistic regression = supervised classification (B true). The logistic output is squeezed into (0,1), so it cannot solve general regression tasks (C false). Linear regression needs labels, so it is supervised (D false). Compression / dimensionality reduction needs no labels (E true)."
+  },
+  {
+   "id": "S1-02",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "설명가능성과 안전성(적대적 예제·배경 학습)",
+   "prompt": "설명가능성(explainability)과 안전성(safety)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "이미지의 아주 작은 특정 변경만으로도 신경망의 레이블 추정이 크게 바뀔 수 있다.",
+    "신경망의 결정은 형식적으로 검증(formal verification)하기 쉽다.",
+    "신경망은 동물이 아니라 배경(background)을 학습할 수 있다.",
+    "적대적 공격(adversarial attack)은 항상 네트워크 구조와 파라미터를 알아야만 가능하다."
+   ],
+   "correct": [
+    "A",
+    "C"
+   ],
+   "explanation": "적대적 예제는 픽셀 몇 개만 바꿔도 추정을 뒤집을 수 있다 (A 참). 신경망 결정의 형식적 검증은 매우 어렵다 (B 거짓). 배경·상관관계를 지름길로 학습하는 경우가 흔하다 (C 참). 적대적 공격은 구조를 모르는 black-box 상황에서도 가능하다 (D 거짓).",
+   "topic_ko": "설명가능성과 안전성(적대적 예제·배경 학습)",
+   "prompt_ko": "설명가능성(explainability)과 안전성(safety)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "이미지의 아주 작은 특정 변경만으로도 신경망의 레이블 추정이 크게 바뀔 수 있다.",
+    "신경망의 결정은 형식적으로 검증(formal verification)하기 쉽다.",
+    "신경망은 동물이 아니라 배경(background)을 학습할 수 있다.",
+    "적대적 공격(adversarial attack)은 항상 네트워크 구조와 파라미터를 알아야만 가능하다."
+   ],
+   "explanation_ko": "적대적 예제는 픽셀 몇 개만 바꿔도 추정을 뒤집을 수 있다 (A 참). 신경망 결정의 형식적 검증은 매우 어렵다 (B 거짓). 배경·상관관계를 지름길로 학습하는 경우가 흔하다 (C 참). 적대적 공격은 구조를 모르는 black-box 상황에서도 가능하다 (D 거짓).",
+   "topic_en": "Explainability and safety (adversarial examples, background learning)",
+   "prompt_en": "Which statements about explainability and safety are true?",
+   "options_en": [
+    "A small, specific change to an image can change a network's label estimate a lot.",
+    "Neural network decisions are easy to formally verify.",
+    "A network can learn the background of a picture instead of the animal.",
+    "Adversarial attacks always need the network's architecture and parameters."
+   ],
+   "explanation_en": "A few changed pixels can flip the estimate (A true). Formal verification of network decisions is very hard (B false). Learning the background is a common shortcut (C true). Attacks work even without knowing the architecture (D false)."
+  },
+  {
+   "id": "S1-03",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "다변량 선형 회귀의 차원(X, θ, y)",
+   "prompt": "환자의 체중·나이·키·성별로 콜레스테롤 수치를 예측하려 한다. 환자는 200명이고, 더미 변수 x₀ = 1 을 포함한 y = Xθ 표기를 쓸 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "X 는 200×4 이다.",
+    "X 는 200×5 이다.",
+    "θ 는 5개 원소를 갖는다.",
+    "y 는 200개 원소(200×1)를 갖는다.",
+    "콜레스테롤 값은 X 나 θ 가 아니라 y 에 들어 있다."
+   ],
+   "correct": [
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "더미 변수 x₀ = 1 을 포함하면 X 는 m×(n+1) = 200×5 (A 거짓, B 참). θ 도 (n+1) = 5개 원소 (C 참). 레이블 y 는 예제마다 하나씩 200개 (D 참). 정답 레이블(콜레스테롤)은 y 에 있고, X 에는 입력 특징, θ 에는 가중치가 있다 (E 참).",
+   "topic_ko": "다변량 선형 회귀의 차원(X, θ, y)",
+   "prompt_ko": "환자의 체중·나이·키·성별로 콜레스테롤 수치를 예측하려 한다. 환자는 200명이고, 더미 변수 x₀ = 1 을 포함한 y = Xθ 표기를 쓸 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "X 는 200×4 이다.",
+    "X 는 200×5 이다.",
+    "θ 는 5개 원소를 갖는다.",
+    "y 는 200개 원소(200×1)를 갖는다.",
+    "콜레스테롤 값은 X 나 θ 가 아니라 y 에 들어 있다."
+   ],
+   "explanation_ko": "더미 변수 x₀ = 1 을 포함하면 X 는 m×(n+1) = 200×5 (A 거짓, B 참). θ 도 (n+1) = 5개 원소 (C 참). 레이블 y 는 예제마다 하나씩 200개 (D 참). 정답 레이블(콜레스테롤)은 y 에 있고, X 에는 입력 특징, θ 에는 가중치가 있다 (E 참).",
+   "topic_en": "Shape of X, theta and y in multivariate linear regression",
+   "prompt_en": "Task: predict cholesterol from weight, age, height and sex. There are 200 patients. Using y = Xθ with the dummy variable x₀ = 1, which statements are true?",
+   "options_en": [
+    "X is 200×4.",
+    "X is 200×5.",
+    "θ has 5 elements.",
+    "y has 200 elements (200×1).",
+    "The cholesterol values are in y, not in X or θ."
+   ],
+   "explanation_en": "With the dummy variable, X is m×(n+1) = 200×5 (A false, B true). θ has n+1 = 5 elements (C true). There is one label per example, so y has 200 elements (D true). The labels live in y; X holds the inputs and θ the parameters (E true)."
+  },
+  {
+   "id": "S1-04",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "선형 회귀 선택과 손실·최적화 대상",
+   "prompt": "같은 문제(200명 환자의 콜레스테롤 예측)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "로지스틱 회귀보다 선형 회귀가 더 적절하다.",
+    "MSE 가 적절한 손실함수다.",
+    "학습은 θ 에 대해 J 를 최소화하는 것이다.",
+    "학습은 X 를 최소화하는 것이다.",
+    "환자의 나이 값은 θ 에 저장된다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "콜레스테롤은 연속값이므로 회귀 문제 → 선형 회귀가 적절 (A 참). 연속 레이블에는 MSE (B 참). 최적화 대상은 파라미터 θ (C 참). X 는 주어진 데이터이므로 최소화 대상이 아니다 (D 거짓). 나이 같은 입력 특징은 X 에 있고 θ 에는 가중치가 있다 (E 거짓).",
+   "topic_ko": "선형 회귀 선택과 손실·최적화 대상",
+   "prompt_ko": "같은 문제(200명 환자의 콜레스테롤 예측)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "로지스틱 회귀보다 선형 회귀가 더 적절하다.",
+    "MSE 가 적절한 손실함수다.",
+    "학습은 θ 에 대해 J 를 최소화하는 것이다.",
+    "학습은 X 를 최소화하는 것이다.",
+    "환자의 나이 값은 θ 에 저장된다."
+   ],
+   "explanation_ko": "콜레스테롤은 연속값이므로 회귀 문제 → 선형 회귀가 적절 (A 참). 연속 레이블에는 MSE (B 참). 최적화 대상은 파라미터 θ (C 참). X 는 주어진 데이터이므로 최소화 대상이 아니다 (D 거짓). 나이 같은 입력 특징은 X 에 있고 θ 에는 가중치가 있다 (E 거짓).",
+   "topic_en": "Model choice, loss and the object of optimization",
+   "prompt_en": "Same task (predicting cholesterol for 200 patients). Which statements are true?",
+   "options_en": [
+    "Linear regression is a better choice than logistic regression.",
+    "MSE is a suitable loss.",
+    "We minimize J with respect to θ.",
+    "We minimize X.",
+    "The patients' ages are stored in θ."
+   ],
+   "explanation_en": "Cholesterol is continuous, so this is regression and linear regression fits (A true). MSE is the loss for continuous labels (B true). We optimize the parameters θ (C true). X is given data, not something we minimize (D false). Inputs such as age are in X; θ holds weights (E false)."
+  },
+  {
+   "id": "S1-05",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "볼록 문제와 전역 최솟값 보장",
+   "prompt": "충분히 작은 스텝 크기(학습률)를 쓰면 경사하강법이 전역 최솟값을 찾는 것이 보장되는 경우를 모두 고르시오.",
+   "options": [
+    "MSE 를 쓰는 선형 회귀",
+    "이진 교차엔트로피를 쓰는 로지스틱 회귀",
+    "MSE 를 쓰는 MLP",
+    "시그모이드 출력에 MSE 를 쓰는 로지스틱 회귀",
+    "위 보기 중 비볼록(non-convex) 문제는 없다"
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "MSE + 선형 회귀는 볼록이므로 전역 최솟값이 보장된다 (A 참). 시그모이드 + BCE 도 볼록 (B 참). MLP + MSE 는 비볼록이라 지역 최솟값이 생길 수 있다 (C 거짓). 시그모이드 + MSE 조합도 비볼록 (D 거짓). 비볼록 문제가 있으므로 E 거짓.",
+   "topic_ko": "볼록 문제와 전역 최솟값 보장",
+   "prompt_ko": "충분히 작은 스텝 크기(학습률)를 쓰면 경사하강법이 전역 최솟값을 찾는 것이 보장되는 경우를 모두 고르시오.",
+   "options_ko": [
+    "MSE 를 쓰는 선형 회귀",
+    "이진 교차엔트로피를 쓰는 로지스틱 회귀",
+    "MSE 를 쓰는 MLP",
+    "시그모이드 출력에 MSE 를 쓰는 로지스틱 회귀",
+    "위 보기 중 비볼록(non-convex) 문제는 없다"
+   ],
+   "explanation_ko": "MSE + 선형 회귀는 볼록이므로 전역 최솟값이 보장된다 (A 참). 시그모이드 + BCE 도 볼록 (B 참). MLP + MSE 는 비볼록이라 지역 최솟값이 생길 수 있다 (C 거짓). 시그모이드 + MSE 조합도 비볼록 (D 거짓). 비볼록 문제가 있으므로 E 거짓.",
+   "topic_en": "Convexity: when is the global minimum guaranteed?",
+   "prompt_en": "Gradient descent is guaranteed (with a small enough step size) to find the global minimum for:",
+   "options_en": [
+    "Linear regression with MSE.",
+    "Logistic regression with binary cross-entropy.",
+    "An MLP with MSE.",
+    "Logistic regression with MSE loss on the sigmoid output.",
+    "None of the above are non-convex problems."
+   ],
+   "explanation_en": "MSE + linear regression is convex, so the global minimum is guaranteed (A true). Sigmoid + BCE is convex too (B true). An MLP with MSE is non-convex and may have local minima (C false). Sigmoid + MSE is also non-convex (D false). An MLP and sigmoid-with-MSE are non-convex, so E is false."
+  },
+  {
+   "id": "S1-06",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "이진 분류 문제 설정(모델·차원·손실)",
+   "prompt": "환자 100명의 혈액 검사값 2개로 병이 있는지(ill / healthy)를 예측하려 한다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "선형 회귀보다 로지스틱 회귀가 더 적절하다.",
+    "모델의 파라미터는 3개다.",
+    "더미 열을 포함하면 X 는 100×3 이다.",
+    "손실함수는 이진 교차엔트로피(BCE)가 적절하다.",
+    "ŷ 는 임의의 실수값이 될 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "출력이 두 클래스이므로 로지스틱 회귀 (A 참). 입력 2개 + 더미 변수 → 파라미터 3개 (B 참). X = m×(n+1) = 100×3 (C 참). 이진 분류에는 BCE (D 참). 로지스틱 회귀의 출력은 시그모이드를 거쳐 (0,1) 사이로 제한된다 (E 거짓).",
+   "topic_ko": "이진 분류 문제 설정(모델·차원·손실)",
+   "prompt_ko": "환자 100명의 혈액 검사값 2개로 병이 있는지(ill / healthy)를 예측하려 한다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "선형 회귀보다 로지스틱 회귀가 더 적절하다.",
+    "모델의 파라미터는 3개다.",
+    "더미 열을 포함하면 X 는 100×3 이다.",
+    "손실함수는 이진 교차엔트로피(BCE)가 적절하다.",
+    "ŷ 는 임의의 실수값이 될 수 있다."
+   ],
+   "explanation_ko": "출력이 두 클래스이므로 로지스틱 회귀 (A 참). 입력 2개 + 더미 변수 → 파라미터 3개 (B 참). X = m×(n+1) = 100×3 (C 참). 이진 분류에는 BCE (D 참). 로지스틱 회귀의 출력은 시그모이드를 거쳐 (0,1) 사이로 제한된다 (E 거짓).",
+   "topic_en": "Setting up a binary classification task",
+   "prompt_en": "Task: 100 patients, 2 blood-test values, label = ill or healthy. Which statements are true?",
+   "options_en": [
+    "Logistic regression is more suitable than linear regression.",
+    "The model has 3 parameters.",
+    "X is 100×3 with the dummy column.",
+    "The loss should be binary cross-entropy.",
+    "ŷ can be any real number."
+   ],
+   "explanation_en": "With two classes, logistic regression is the right choice (A true). Two inputs plus the dummy give 3 parameters (B true). X is m×(n+1) = 100×3 (C true). Binary classification uses BCE (D true). ŷ is squeezed into (0,1) by the sigmoid (E false)."
+  },
+  {
+   "id": "S1-07",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "분류를 선형 회귀로 풀 때의 문제",
+   "prompt": "분류 문제를 선형 회귀로 풀지 않는 이유로 옳은 것을 모두 고르시오.",
+   "options": [
+    "선형 회귀는 이상치(outlier)에 민감하다.",
+    "멀리 떨어진 정답 데이터 하나가 결정경계를 크게 움직일 수 있다.",
+    "선형 회귀는 [0, 1] 밖의 값을 출력할 수 없다.",
+    "로지스틱 회귀는 대신 0과 1 사이의 확률을 출력한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "선형 회귀는 제곱오차를 쓰므로 이상치에 민감하다 (A 참). 멀리 떨어진 올바른 점 하나가 경계를 끌어당겨 결정경계가 흔들린다 (B 참). 선형 회귀는 오히려 [0,1] 밖의 값도 출력하며, 잘라내면 되므로 이것은 결정적 문제가 아니다 (C 거짓). 로지스틱 회귀는 시그모이드로 확률을 출력한다 (D 참).",
+   "topic_ko": "분류를 선형 회귀로 풀 때의 문제",
+   "prompt_ko": "분류 문제를 선형 회귀로 풀지 않는 이유로 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "선형 회귀는 이상치(outlier)에 민감하다.",
+    "멀리 떨어진 정답 데이터 하나가 결정경계를 크게 움직일 수 있다.",
+    "선형 회귀는 [0, 1] 밖의 값을 출력할 수 없다.",
+    "로지스틱 회귀는 대신 0과 1 사이의 확률을 출력한다."
+   ],
+   "explanation_ko": "선형 회귀는 제곱오차를 쓰므로 이상치에 민감하다 (A 참). 멀리 떨어진 올바른 점 하나가 경계를 끌어당겨 결정경계가 흔들린다 (B 참). 선형 회귀는 오히려 [0,1] 밖의 값도 출력하며, 잘라내면 되므로 이것은 결정적 문제가 아니다 (C 거짓). 로지스틱 회귀는 시그모이드로 확률을 출력한다 (D 참).",
+   "topic_en": "Why not use linear regression for classification?",
+   "prompt_en": "Why not use linear regression for classification?",
+   "options_en": [
+    "It is sensitive to outliers.",
+    "A far-away correct point can move the decision boundary.",
+    "It cannot output values outside [0, 1].",
+    "Logistic regression instead outputs a probability between 0 and 1."
+   ],
+   "explanation_en": "Squared error makes linear regression sensitive to outliers (A true). One far-away correct point can drag the boundary (B true). Linear regression does output values outside [0,1], and clipping is possible, so C is not the real problem (C false). Logistic regression outputs a probability (D true)."
+  },
+  {
+   "id": "S1-08",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "정규화된 정규방정식",
+   "prompt": "정규화된 정규방정식 θ = (XᵀX + λI)⁻¹Xᵀy 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "한 번의 계산으로 최소제곱 해를 구한다.",
+    "I 는 (n+1)×(n+1) 단위행렬이다.",
+    "λ = 0 이면 정규화가 없는 정규방정식이 된다.",
+    "X 에는 입력이, y 에는 레이블이 들어 있다.",
+    "로지스틱 회귀를 학습하는 데 쓰인다.",
+    "많은 반복(iteration)이 필요하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "정규방정식은 반복 없이 한 번에 최소제곱 해를 준다 (A 참, F 거짓). I 는 파라미터 개수와 같은 (n+1)×(n+1) 단위행렬 (B 참). λ = 0 이면 θ = (XᵀX)⁻¹Xᵀy 로 원래 정규방정식 (C 참). X = 입력 행렬, y = 레이블 벡터 (D 참). 로지스틱 회귀는 비선형 가설함수라 정규방정식으로 풀 수 없다 (E 거짓).",
+   "topic_ko": "정규화된 정규방정식",
+   "prompt_ko": "정규화된 정규방정식 θ = (XᵀX + λI)⁻¹Xᵀy 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "한 번의 계산으로 최소제곱 해를 구한다.",
+    "I 는 (n+1)×(n+1) 단위행렬이다.",
+    "λ = 0 이면 정규화가 없는 정규방정식이 된다.",
+    "X 에는 입력이, y 에는 레이블이 들어 있다.",
+    "로지스틱 회귀를 학습하는 데 쓰인다.",
+    "많은 반복(iteration)이 필요하다."
+   ],
+   "explanation_ko": "정규방정식은 반복 없이 한 번에 최소제곱 해를 준다 (A 참, F 거짓). I 는 파라미터 개수와 같은 (n+1)×(n+1) 단위행렬 (B 참). λ = 0 이면 θ = (XᵀX)⁻¹Xᵀy 로 원래 정규방정식 (C 참). X = 입력 행렬, y = 레이블 벡터 (D 참). 로지스틱 회귀는 비선형 가설함수라 정규방정식으로 풀 수 없다 (E 거짓).",
+   "topic_en": "Regularized normal equation",
+   "prompt_en": "About θ = (XᵀX + λI)⁻¹Xᵀy. Which are true?",
+   "options_en": [
+    "It gives the least-squares solution in one step.",
+    "I is the identity matrix, (n+1)×(n+1).",
+    "λ = 0 gives the non-regularized normal equation.",
+    "X holds the inputs and y holds the labels.",
+    "It is used to train logistic regression.",
+    "It needs many iterations."
+   ],
+   "explanation_en": "The normal equation solves least squares in one step (A true, F false). I is the (n+1)×(n+1) identity matrix (B true). λ = 0 gives the plain normal equation (C true). X holds inputs and y holds labels (D true). Logistic regression is non-linear, so the normal equation does not apply (E false)."
+  },
+  {
+   "id": "S1-09",
+   "part": "A",
+   "lecture": "Lecture 2",
+   "topic": "MSE 손실함수 수식의 구성요소",
+   "prompt": "J(Θ) = 1/(2m) Σⱼ₌₁ᵐ (ŷ⁽ʲ⁾ − y⁽ʲ⁾)² 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "회귀를 위한 MSE 형태의 손실함수다.",
+    "j 는 훈련 예제의 인덱스다.",
+    "m 은 훈련 예제의 개수다.",
+    "J(Θ) 는 스칼라다.",
+    "이진 분류에 가장 적합한 선택이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "제곱오차의 평균이므로 MSE (A 참). 위첨자 (j) 는 j번째 훈련 예제 (B 참). m 은 예제 개수 (C 참). 모든 예제의 오차를 하나의 수로 합치므로 스칼라 (D 참). 이진 분류에는 교차엔트로피가 적합하다 (E 거짓).",
+   "topic_ko": "MSE 손실함수 수식의 구성요소",
+   "prompt_ko": "J(Θ) = 1/(2m) Σⱼ₌₁ᵐ (ŷ⁽ʲ⁾ − y⁽ʲ⁾)² 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "회귀를 위한 MSE 형태의 손실함수다.",
+    "j 는 훈련 예제의 인덱스다.",
+    "m 은 훈련 예제의 개수다.",
+    "J(Θ) 는 스칼라다.",
+    "이진 분류에 가장 적합한 선택이다."
+   ],
+   "explanation_ko": "제곱오차의 평균이므로 MSE (A 참). 위첨자 (j) 는 j번째 훈련 예제 (B 참). m 은 예제 개수 (C 참). 모든 예제의 오차를 하나의 수로 합치므로 스칼라 (D 참). 이진 분류에는 교차엔트로피가 적합하다 (E 거짓).",
+   "topic_en": "MSE loss formula: the meaning of each symbol",
+   "prompt_en": "About J(Θ) = 1/(2m) Σⱼ₌₁ᵐ (ŷ⁽ʲ⁾ − y⁽ʲ⁾)². Which are true?",
+   "options_en": [
+    "It is an MSE-type loss for regression.",
+    "j indexes the training examples.",
+    "m is the number of training examples.",
+    "J(Θ) is a scalar.",
+    "It is the best choice for binary classification."
+   ],
+   "explanation_en": "It is the mean squared error (A true). The superscript (j) indexes the j-th example (B true). m is the number of examples (C true). Everything is reduced to a single number, so J is a scalar (D true). Binary classification should use cross-entropy (E false)."
+  },
+  {
+   "id": "S1-10",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "회귀 MLP의 활성함수 선택",
+   "prompt": "회귀를 위한 2층 MLP(20 입력 → 은닉 10 → 출력 1)의 활성함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "g₁ 은 ReLU 같은 비선형 함수여야 한다.",
+    "g₂ 는 생략하는 것(항등함수)이 좋다.",
+    "g₂ 는 시그모이드여야 한다.",
+    "g₁ 과 g₂ 를 모두 제거하면 선형 회귀와 같은 모델이 된다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "은닉층에는 비선형성이 필요하다 (A 참). 회귀의 출력은 범위 제한이 없어야 하므로 마지막 활성함수는 항등함수 (B 참). 시그모이드를 쓰면 출력이 (0,1)로 제한되어 회귀에 부적합하다 (C 거짓). 비선형성이 없으면 층을 쌓아도 하나의 선형변환과 같아진다 (D 참).",
+   "topic_ko": "회귀 MLP의 활성함수 선택",
+   "prompt_ko": "회귀를 위한 2층 MLP(20 입력 → 은닉 10 → 출력 1)의 활성함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "g₁ 은 ReLU 같은 비선형 함수여야 한다.",
+    "g₂ 는 생략하는 것(항등함수)이 좋다.",
+    "g₂ 는 시그모이드여야 한다.",
+    "g₁ 과 g₂ 를 모두 제거하면 선형 회귀와 같은 모델이 된다."
+   ],
+   "explanation_ko": "은닉층에는 비선형성이 필요하다 (A 참). 회귀의 출력은 범위 제한이 없어야 하므로 마지막 활성함수는 항등함수 (B 참). 시그모이드를 쓰면 출력이 (0,1)로 제한되어 회귀에 부적합하다 (C 거짓). 비선형성이 없으면 층을 쌓아도 하나의 선형변환과 같아진다 (D 참).",
+   "topic_en": "Activation functions of a regression MLP",
+   "prompt_en": "For a 2-layer MLP for regression (20 inputs → 10 hidden → 1 output), which statements about the activations are true?",
+   "options_en": [
+    "g₁ should be a nonlinearity such as ReLU.",
+    "g₂ should be omitted (identity).",
+    "g₂ should be sigmoid.",
+    "If both g₁ and g₂ are removed, the model is equivalent to linear regression."
+   ],
+   "explanation_en": "The hidden layer needs a nonlinearity (A true). A regression output must be unrestricted, so the last activation is the identity (B true). A sigmoid would limit the output to (0,1) (C false). Without nonlinearities the network collapses to a single linear map (D true)."
+  },
+  {
+   "id": "S1-11",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "소프트맥스의 성질과 갱신 규칙",
+   "prompt": "소프트맥스(softmax)와 파라미터 갱신 규칙 θ := θ − α·grad 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "소프트맥스 출력은 항상 양수다.",
+    "소프트맥스 출력의 합은 1이다.",
+    "그래디언트는 J 가 가장 가파르게 증가하는 방향을 가리킨다.",
+    "J 를 감소시키고 싶으므로 그래디언트를 뺀다.",
+    "α 는 학습률(learning rate)이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "지수함수를 쓰므로 항상 양수 (A 참). 합이 1인 확률분포를 만든다 (B 참). 그래디언트는 최대 증가 방향 (C 참). 감소시키려면 반대 방향으로 이동해야 하므로 뺀다 (D 참). α 는 스텝 크기, 즉 학습률 (E 참).",
+   "topic_ko": "소프트맥스의 성질과 갱신 규칙",
+   "prompt_ko": "소프트맥스(softmax)와 파라미터 갱신 규칙 θ := θ − α·grad 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "소프트맥스 출력은 항상 양수다.",
+    "소프트맥스 출력의 합은 1이다.",
+    "그래디언트는 J 가 가장 가파르게 증가하는 방향을 가리킨다.",
+    "J 를 감소시키고 싶으므로 그래디언트를 뺀다.",
+    "α 는 학습률(learning rate)이다."
+   ],
+   "explanation_ko": "지수함수를 쓰므로 항상 양수 (A 참). 합이 1인 확률분포를 만든다 (B 참). 그래디언트는 최대 증가 방향 (C 참). 감소시키려면 반대 방향으로 이동해야 하므로 뺀다 (D 참). α 는 스텝 크기, 즉 학습률 (E 참).",
+   "topic_en": "Softmax properties and the update rule",
+   "prompt_en": "Which are true about softmax and the update rule θ := θ − α·grad?",
+   "options_en": [
+    "Softmax outputs are positive.",
+    "Softmax outputs sum to 1.",
+    "The gradient points toward the steepest increase of J.",
+    "We subtract the gradient because we want to decrease J.",
+    "α is the learning rate."
+   ],
+   "explanation_en": "The exponential makes every output positive (A true). The outputs form a probability distribution summing to 1 (B true). The gradient points in the direction of the steepest increase (C true). To decrease J we step in the opposite direction (D true). α is the step size, i.e. the learning rate (E true)."
+  },
+  {
+   "id": "S1-12",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "L2 정규화의 효과",
+   "prompt": "L2 정규화(페널티 λ·Σθⱼ²)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "λ = 0 이면 원래 모델이 된다.",
+    "λ 가 매우 크면 파라미터가 0 쪽으로 밀려 과소적합이 된다.",
+    "편향 θ₀ 는 페널티에 포함되지 않는다.",
+    "과대적합을 줄이는 데 도움이 된다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "λ = 0 이면 페널티가 사라져 원래 모델 (A 참). λ 가 크면 가중치가 0으로 수축해 모델이 단순해지고 과소적합이 될 수 있다 (B 참). 관례적으로 편향 θ₀ 는 정규화하지 않는다 (C 참). 가중치 크기를 제한하면 분산이 줄어 과대적합이 완화된다 (D 참).",
+   "topic_ko": "L2 정규화의 효과",
+   "prompt_ko": "L2 정규화(페널티 λ·Σθⱼ²)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "λ = 0 이면 원래 모델이 된다.",
+    "λ 가 매우 크면 파라미터가 0 쪽으로 밀려 과소적합이 된다.",
+    "편향 θ₀ 는 페널티에 포함되지 않는다.",
+    "과대적합을 줄이는 데 도움이 된다."
+   ],
+   "explanation_ko": "λ = 0 이면 페널티가 사라져 원래 모델 (A 참). λ 가 크면 가중치가 0으로 수축해 모델이 단순해지고 과소적합이 될 수 있다 (B 참). 관례적으로 편향 θ₀ 는 정규화하지 않는다 (C 참). 가중치 크기를 제한하면 분산이 줄어 과대적합이 완화된다 (D 참).",
+   "topic_en": "Effect of L2 regularization",
+   "prompt_en": "L2 regularization (penalty λ·Σθⱼ²). Which are true?",
+   "options_en": [
+    "λ = 0 gives the original model.",
+    "A very large λ pushes the parameters toward 0 (underfitting).",
+    "The bias θ₀ is not penalized.",
+    "It helps reduce overfitting."
+   ],
+   "explanation_en": "With λ = 0 the penalty vanishes (A true). A large λ shrinks the weights toward 0 and can cause underfitting (B true). By convention the bias θ₀ is not penalized (C true). Limiting the weight magnitude reduces variance and overfitting (D true)."
+  },
+  {
+   "id": "S1-13",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "과대적합을 심하게 만드는 변화",
+   "prompt": "과대적합(overfitting)을 더 심하게 만드는 변화를 모두 고르시오.",
+   "options": [
+    "훈련 예제 수를 줄인다.",
+    "테스트 예제 수를 줄인다.",
+    "훈련 예제 수를 늘린다.",
+    "모델 파라미터 수를 줄인다.",
+    "모델 파라미터 수를 늘린다."
+   ],
+   "correct": [
+    "A",
+    "E"
+   ],
+   "explanation": "훈련 데이터가 적을수록 과대적합 위험이 커진다 (A 참). 테스트 예제 수는 과대적합 정도를 바꾸지 않는다(평가의 신뢰도만 변한다) (B 거짓). 훈련 데이터가 많으면 일반화가 좋아져 완화된다 (C 거짓). 파라미터를 줄이면 모델이 단순해져 완화된다 (D 거짓). 파라미터가 많으면 표현력이 커져 과대적합이 심해진다 (E 참).",
+   "topic_ko": "과대적합을 심하게 만드는 변화",
+   "prompt_ko": "과대적합(overfitting)을 더 심하게 만드는 변화를 모두 고르시오.",
+   "options_ko": [
+    "훈련 예제 수를 줄인다.",
+    "테스트 예제 수를 줄인다.",
+    "훈련 예제 수를 늘린다.",
+    "모델 파라미터 수를 줄인다.",
+    "모델 파라미터 수를 늘린다."
+   ],
+   "explanation_ko": "훈련 데이터가 적을수록 과대적합 위험이 커진다 (A 참). 테스트 예제 수는 과대적합 정도를 바꾸지 않는다(평가의 신뢰도만 변한다) (B 거짓). 훈련 데이터가 많으면 일반화가 좋아져 완화된다 (C 거짓). 파라미터를 줄이면 모델이 단순해져 완화된다 (D 거짓). 파라미터가 많으면 표현력이 커져 과대적합이 심해진다 (E 참).",
+   "topic_en": "What makes overfitting more severe?",
+   "prompt_en": "Which changes make overfitting MORE severe?",
+   "options_en": [
+    "Fewer training examples",
+    "Fewer test examples",
+    "More training examples",
+    "Fewer model parameters",
+    "More model parameters"
+   ],
+   "explanation_en": "Less training data increases the overfitting risk (A true). The test-set size does not change how much the model overfits; it only affects how reliable the estimate is (B false). More training data improves generalization (C false). Fewer parameters make the model simpler (D false). More parameters increase capacity and overfitting (E true)."
+  },
+  {
+   "id": "S1-14",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "조기 종료(early stopping)",
+   "prompt": "조기 종료(early stopping)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "과대적합을 줄인다.",
+    "검증 손실이 더 이상 좋아지지 않으면 멈춘다.",
+    "훈련 손실이 증가하기 시작하면 멈춘다.",
+    "언제 멈출지 결정하는 데 테스트 손실을 쓰는 것이 올바르다.",
+    "가장 좋았던 검증 상태의 파라미터를 유지한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "E"
+   ],
+   "explanation": "검증 성능이 나빠지기 전에 멈추면 과대적합이 완화된다 (A 참). 기준은 검증 손실 (B 참). 훈련 손실은 보통 계속 감소하므로 기준이 될 수 없다 (C 거짓). 테스트셋을 결정에 쓰면 정보가 새어 낙관적 편향이 생긴다 (D 거짓). 최적 검증 시점의 파라미터를 저장한다 (E 참).",
+   "topic_ko": "조기 종료(early stopping)",
+   "prompt_ko": "조기 종료(early stopping)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "과대적합을 줄인다.",
+    "검증 손실이 더 이상 좋아지지 않으면 멈춘다.",
+    "훈련 손실이 증가하기 시작하면 멈춘다.",
+    "언제 멈출지 결정하는 데 테스트 손실을 쓰는 것이 올바르다.",
+    "가장 좋았던 검증 상태의 파라미터를 유지한다."
+   ],
+   "explanation_ko": "검증 성능이 나빠지기 전에 멈추면 과대적합이 완화된다 (A 참). 기준은 검증 손실 (B 참). 훈련 손실은 보통 계속 감소하므로 기준이 될 수 없다 (C 거짓). 테스트셋을 결정에 쓰면 정보가 새어 낙관적 편향이 생긴다 (D 거짓). 최적 검증 시점의 파라미터를 저장한다 (E 참).",
+   "topic_en": "Early stopping",
+   "prompt_en": "Early stopping. Which are true?",
+   "options_en": [
+    "It reduces overfitting.",
+    "Stop when the validation loss stops improving.",
+    "Stop when the training loss starts to increase.",
+    "Using the test loss to decide when to stop is correct.",
+    "We keep the parameters from the best validation state."
+   ],
+   "explanation_en": "Stopping before validation performance degrades reduces overfitting (A true). The criterion is the validation loss (B true). The training loss normally keeps falling, so it is not a good criterion (C false). Using the test set for decisions leaks information (D false). We keep the parameters of the best validation state (E true)."
+  },
+  {
+   "id": "S1-15",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "손실값으로 과소/과대적합 진단",
+   "prompt": "훈련/테스트 손실 값으로 진단한 다음 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "J_train ≈ 700, J_test ≈ 700 → 과소적합",
+    "J_train ≈ 250, J_test ≈ 800 → 과대적합",
+    "J_train = 0, J_test 가 매우 큼 → 과대적합",
+    "J_train ≈ J_test ≈ 400 이고 둘 다 감소 중 → 적절한 상태",
+    "훈련 손실은 감소하는데 검증 손실이 증가 → 정상적인 학습 동작"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "둘 다 높으면 과소적합(높은 편향) (A 참). 훈련은 낮은데 테스트가 높으면 과대적합(높은 분산) (B 참). 훈련 데이터를 완전히 외운 극단적 과대적합 (C 참). 둘 다 낮고 함께 감소하면 적절한 상태 (D 참). 검증 손실 증가는 과대적합의 신호이며 정상 동작이 아니다 (E 거짓).",
+   "topic_ko": "손실값으로 과소/과대적합 진단",
+   "prompt_ko": "훈련/테스트 손실 값으로 진단한 다음 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "J_train ≈ 700, J_test ≈ 700 → 과소적합",
+    "J_train ≈ 250, J_test ≈ 800 → 과대적합",
+    "J_train = 0, J_test 가 매우 큼 → 과대적합",
+    "J_train ≈ J_test ≈ 400 이고 둘 다 감소 중 → 적절한 상태",
+    "훈련 손실은 감소하는데 검증 손실이 증가 → 정상적인 학습 동작"
+   ],
+   "explanation_ko": "둘 다 높으면 과소적합(높은 편향) (A 참). 훈련은 낮은데 테스트가 높으면 과대적합(높은 분산) (B 참). 훈련 데이터를 완전히 외운 극단적 과대적합 (C 참). 둘 다 낮고 함께 감소하면 적절한 상태 (D 참). 검증 손실 증가는 과대적합의 신호이며 정상 동작이 아니다 (E 거짓).",
+   "topic_en": "Diagnosing overfitting / underfitting from loss values",
+   "prompt_en": "Which cases show overfitting or underfitting?",
+   "options_en": [
+    "J_train ≈ 700, J_test ≈ 700: underfitting",
+    "J_train ≈ 250, J_test ≈ 800: overfitting",
+    "J_train = 0, J_test huge: overfitting",
+    "J_train ≈ J_test ≈ 400, both decreasing: \"just right\"",
+    "Validation loss rising while training loss falls: normal behavior"
+   ],
+   "explanation_en": "Both high means underfitting / high bias (A true). Low training loss with high test loss means overfitting / high variance (B true). Memorizing the training set is extreme overfitting (C true). Both low and decreasing together is a good state (D true). Rising validation loss is the overfitting sign, not normal behavior (E false)."
+  },
+  {
+   "id": "S1-16",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "과대적합을 줄이는 방법",
+   "prompt": "과대적합을 줄이는 방법을 모두 고르시오.",
+   "options": [
+    "더 단순한 모델",
+    "더 많은 훈련 데이터",
+    "L2 정규화",
+    "드롭아웃(dropout)",
+    "층을 더 추가"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "단순한 모델은 분산을 낮춘다 (A 참). 데이터가 많으면 일반화가 좋아진다 (B 참). L2 정규화는 가중치 크기를 제한한다 (C 참). 드롭아웃은 강한 정규화 효과가 있다 (D 참). 층을 추가하면 복잡도가 올라가 과대적합이 심해진다 (E 거짓).",
+   "topic_ko": "과대적합을 줄이는 방법",
+   "prompt_ko": "과대적합을 줄이는 방법을 모두 고르시오.",
+   "options_ko": [
+    "더 단순한 모델",
+    "더 많은 훈련 데이터",
+    "L2 정규화",
+    "드롭아웃(dropout)",
+    "층을 더 추가"
+   ],
+   "explanation_ko": "단순한 모델은 분산을 낮춘다 (A 참). 데이터가 많으면 일반화가 좋아진다 (B 참). L2 정규화는 가중치 크기를 제한한다 (C 참). 드롭아웃은 강한 정규화 효과가 있다 (D 참). 층을 추가하면 복잡도가 올라가 과대적합이 심해진다 (E 거짓).",
+   "topic_en": "Ways to reduce overfitting",
+   "prompt_en": "Which reduce overfitting?",
+   "options_en": [
+    "A simpler model",
+    "More training data",
+    "L2 regularization",
+    "Dropout",
+    "Adding more layers"
+   ],
+   "explanation_en": "A simpler model has lower variance (A true). More data improves generalization (B true). L2 limits the weight magnitude (C true). Dropout is a strong regularizer (D true). More layers add complexity (E false)."
+  },
+  {
+   "id": "S1-17",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "데이터 분할(훈련/검증/테스트)",
+   "prompt": "훈련/검증/테스트 데이터 분할에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "검증집합은 하이퍼파라미터를 조정하는 데 쓴다.",
+    "테스트집합은 최종 평가에만 쓴다.",
+    "세 집합은 서로 겹치지 않아야 한다.",
+    "하이퍼파라미터는 보통 경사하강법으로 학습한다.",
+    "파라미터 θ(W, b) 는 경사하강법으로 학습한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "검증집합은 하이퍼파라미터 선택과 조기 종료에 쓴다 (A 참). 테스트집합은 마지막 성능 추정에만 쓴다 (B 참). 데이터 누출을 막기 위해 서로소여야 한다 (C 참). 하이퍼파라미터는 학습되지 않으며 탐색(grid/random 등)으로 고른다 (D 거짓). θ 는 경사하강법으로 최적화한다 (E 참).",
+   "topic_ko": "데이터 분할(훈련/검증/테스트)",
+   "prompt_ko": "훈련/검증/테스트 데이터 분할에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "검증집합은 하이퍼파라미터를 조정하는 데 쓴다.",
+    "테스트집합은 최종 평가에만 쓴다.",
+    "세 집합은 서로 겹치지 않아야 한다.",
+    "하이퍼파라미터는 보통 경사하강법으로 학습한다.",
+    "파라미터 θ(W, b) 는 경사하강법으로 학습한다."
+   ],
+   "explanation_ko": "검증집합은 하이퍼파라미터 선택과 조기 종료에 쓴다 (A 참). 테스트집합은 마지막 성능 추정에만 쓴다 (B 참). 데이터 누출을 막기 위해 서로소여야 한다 (C 참). 하이퍼파라미터는 학습되지 않으며 탐색(grid/random 등)으로 고른다 (D 거짓). θ 는 경사하강법으로 최적화한다 (E 참).",
+   "topic_en": "Train / validation / test splits",
+   "prompt_en": "Data splits. Which are true?",
+   "options_en": [
+    "The validation set is used to tune hyperparameters.",
+    "The test set is used only for the final evaluation.",
+    "The three sets must be disjoint.",
+    "Hyperparameters are usually trained by gradient descent.",
+    "Parameters θ (W, b) are trained by gradient descent."
+   ],
+   "explanation_en": "The validation set is used for hyperparameter choice and early stopping (A true). The test set is only for the final estimate (B true). The sets must be disjoint to avoid leakage (C true). Hyperparameters are not trained; they are searched (D false). θ is optimized by gradient descent (E true)."
+  },
+  {
+   "id": "S1-18",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "하이퍼파라미터 식별",
+   "prompt": "다음 중 하이퍼파라미터인 것을 모두 고르시오.",
+   "options": [
+    "학습률 α",
+    "층별 뉴런 수",
+    "가중치 행렬 W₁",
+    "L2 정규화 강도 λ",
+    "편향 벡터 b₂"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "학습률은 사람이 정하는 하이퍼파라미터 (A 참). 구조(뉴런 수)도 하이퍼파라미터 (B 참). W₁ 은 데이터로 학습되는 파라미터 (C 거짓). λ 는 정규화 강도를 정하는 하이퍼파라미터 (D 참). b₂ 도 학습되는 파라미터 (E 거짓).",
+   "topic_ko": "하이퍼파라미터 식별",
+   "prompt_ko": "다음 중 하이퍼파라미터인 것을 모두 고르시오.",
+   "options_ko": [
+    "학습률 α",
+    "층별 뉴런 수",
+    "가중치 행렬 W₁",
+    "L2 정규화 강도 λ",
+    "편향 벡터 b₂"
+   ],
+   "explanation_ko": "학습률은 사람이 정하는 하이퍼파라미터 (A 참). 구조(뉴런 수)도 하이퍼파라미터 (B 참). W₁ 은 데이터로 학습되는 파라미터 (C 거짓). λ 는 정규화 강도를 정하는 하이퍼파라미터 (D 참). b₂ 도 학습되는 파라미터 (E 거짓).",
+   "topic_en": "Which quantities are hyperparameters?",
+   "prompt_en": "Which are hyperparameters?",
+   "options_en": [
+    "Learning rate α",
+    "Number of neurons per layer",
+    "The weight matrix W₁",
+    "L2 strength λ",
+    "The bias vector b₂"
+   ],
+   "explanation_en": "The learning rate is set by the engineer (A true). Architecture choices such as the number of neurons are hyperparameters (B true). W₁ is learned from data (C false). λ sets the regularization strength (D true). b₂ is also learned (E false)."
+  },
+  {
+   "id": "S1-19",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "미니배치 SGD의 특성",
+   "prompt": "미니배치 SGD 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "배치가 크면 메모리와 계산량이 더 필요하다.",
+    "배치가 크면 그래디언트 추정이 덜 잡음적이다.",
+    "배치가 작으면 추정의 분산이 커져 더 잡음적이다.",
+    "배치가 작을 때는 학습률을 더 작게 잡아야 할 수 있다.",
+    "SGD 는 매 스텝마다 전체 데이터셋을 사용한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "배치가 크면 한 스텝의 메모리·계산 비용이 커진다 (A 참). 표본이 많을수록 평균 추정의 분산이 작아 그래디언트가 안정적이다 (B 참). 반대로 배치가 작으면 잡음이 커진다 (C 참). 잡음이 크면 발산을 막기 위해 학습률을 줄이는 경우가 있다 (D 참). 전체 데이터셋을 쓰는 것은 배치 경사하강법이다 (E 거짓).",
+   "topic_ko": "미니배치 SGD의 특성",
+   "prompt_ko": "미니배치 SGD 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "배치가 크면 메모리와 계산량이 더 필요하다.",
+    "배치가 크면 그래디언트 추정이 덜 잡음적이다.",
+    "배치가 작으면 추정의 분산이 커져 더 잡음적이다.",
+    "배치가 작을 때는 학습률을 더 작게 잡아야 할 수 있다.",
+    "SGD 는 매 스텝마다 전체 데이터셋을 사용한다."
+   ],
+   "explanation_ko": "배치가 크면 한 스텝의 메모리·계산 비용이 커진다 (A 참). 표본이 많을수록 평균 추정의 분산이 작아 그래디언트가 안정적이다 (B 참). 반대로 배치가 작으면 잡음이 커진다 (C 참). 잡음이 크면 발산을 막기 위해 학습률을 줄이는 경우가 있다 (D 참). 전체 데이터셋을 쓰는 것은 배치 경사하강법이다 (E 거짓).",
+   "topic_en": "Properties of mini-batch SGD",
+   "prompt_en": "Mini-batch SGD. Which are true?",
+   "options_en": [
+    "A larger batch needs more memory and compute.",
+    "A larger batch gives a less noisy gradient estimate.",
+    "A smaller batch gives a noisier (higher-variance) estimate.",
+    "With small batches, we may need a smaller learning rate.",
+    "SGD uses the entire dataset in every step."
+   ],
+   "explanation_en": "A larger batch costs more memory and compute per step (A true). More samples reduce the variance of the mean estimate (B true). Small batches are noisier (C true). Noisier gradients may require a smaller learning rate (D true). Using the whole dataset is batch gradient descent (E false)."
+  },
+  {
+   "id": "S1-20",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "MLP 층 구성과 과제별 출력",
+   "prompt": "MLP 의 층 구성에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "입력 '층'과 출력 '층'의 뉴런에는 파라미터가 없고, 파라미터는 층 사이 연결에 있다.",
+    "비선형성이 없으면 층을 쌓아도 하나의 선형 층과 같다.",
+    "이진 분류에는 시그모이드 출력 + 이진 교차엔트로피를 쓴다.",
+    "다중 클래스에는 소프트맥스 출력 + 교차엔트로피를 쓰고 정답 레이블은 one-hot 이다.",
+    "torch.nn.Linear 는 완전연결층(fully connected)이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "입력은 데이터 자체이고 출력 뉴런도 값을 받기만 하므로, 파라미터는 층 사이의 가중치·편향에 있다 (A 참). 비선형성이 없으면 합성해도 선형 (B 참). 이진 분류 = 시그모이드 + BCE (C 참). 다중 클래스 = 소프트맥스 + 교차엔트로피 + one-hot (D 참). nn.Linear 는 W·x + b 완전연결층 (E 참).",
+   "topic_ko": "MLP 층 구성과 과제별 출력",
+   "prompt_ko": "MLP 의 층 구성에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "입력 '층'과 출력 '층'의 뉴런에는 파라미터가 없고, 파라미터는 층 사이 연결에 있다.",
+    "비선형성이 없으면 층을 쌓아도 하나의 선형 층과 같다.",
+    "이진 분류에는 시그모이드 출력 + 이진 교차엔트로피를 쓴다.",
+    "다중 클래스에는 소프트맥스 출력 + 교차엔트로피를 쓰고 정답 레이블은 one-hot 이다.",
+    "torch.nn.Linear 는 완전연결층(fully connected)이다."
+   ],
+   "explanation_ko": "입력은 데이터 자체이고 출력 뉴런도 값을 받기만 하므로, 파라미터는 층 사이의 가중치·편향에 있다 (A 참). 비선형성이 없으면 합성해도 선형 (B 참). 이진 분류 = 시그모이드 + BCE (C 참). 다중 클래스 = 소프트맥스 + 교차엔트로피 + one-hot (D 참). nn.Linear 는 W·x + b 완전연결층 (E 참).",
+   "topic_en": "MLP layer structure and task-specific outputs",
+   "prompt_en": "Which are true about the MLP layers?",
+   "options_en": [
+    "The input \"layer\" and output \"layer\" have no parameters.",
+    "Without nonlinearities, stacked layers equal one linear layer.",
+    "For binary classification: sigmoid output + binary cross-entropy.",
+    "For multi-class: softmax output + cross-entropy, with a one-hot true label.",
+    "`torch.nn.Linear` is a fully connected layer."
+   ],
+   "explanation_en": "The input is the data and the output neurons just receive values; the parameters live in the connections between layers (A true). Without nonlinearities the composition is still linear (B true). Binary classification uses sigmoid + BCE (C true). Multi-class uses softmax + cross-entropy with one-hot labels (D true). nn.Linear is a fully connected W·x + b layer (E true)."
+  },
+  {
+   "id": "S1-21",
+   "part": "A",
+   "lecture": "Lecture 6",
+   "topic": "역전파의 원리(계산 그래프·연쇄법칙)",
+   "prompt": "역전파(backpropagation)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "계산 그래프의 노드는 기본 연산(elementary operation)들이다.",
+    "기본 연산의 미분만 있으면 된다.",
+    "간선을 따라 기본 미분을 곱해 나간다(연쇄법칙).",
+    "공유되는 중간 결과를 재사용하면 중복 계산을 피할 수 있다.",
+    "역방향 계산에는 순방향 계산의 값이 전혀 필요 없다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "그래프의 각 노드는 덧셈·곱셈 같은 기본 연산이다 (A 참). 미리 알고 있는 기본 미분만 조합하면 된다 (B 참). 연쇄법칙으로 국소 미분을 곱해 나간다 (C 참). 공유 노드의 그래디언트를 모아 한 번만 계산하면 중복이 줄어든다 (D 참). 곱셈 노드의 미분에는 순방향에서 구한 값이 필요하다 (E 거짓).",
+   "topic_ko": "역전파의 원리(계산 그래프·연쇄법칙)",
+   "prompt_ko": "역전파(backpropagation)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "계산 그래프의 노드는 기본 연산(elementary operation)들이다.",
+    "기본 연산의 미분만 있으면 된다.",
+    "간선을 따라 기본 미분을 곱해 나간다(연쇄법칙).",
+    "공유되는 중간 결과를 재사용하면 중복 계산을 피할 수 있다.",
+    "역방향 계산에는 순방향 계산의 값이 전혀 필요 없다."
+   ],
+   "explanation_ko": "그래프의 각 노드는 덧셈·곱셈 같은 기본 연산이다 (A 참). 미리 알고 있는 기본 미분만 조합하면 된다 (B 참). 연쇄법칙으로 국소 미분을 곱해 나간다 (C 참). 공유 노드의 그래디언트를 모아 한 번만 계산하면 중복이 줄어든다 (D 참). 곱셈 노드의 미분에는 순방향에서 구한 값이 필요하다 (E 거짓).",
+   "topic_en": "Backpropagation: computation graph and chain rule",
+   "prompt_en": "Backpropagation. Which are true?",
+   "options_en": [
+    "Nodes of the computational graph are elementary operations.",
+    "We only need derivatives of elementary operations.",
+    "We multiply elementary derivatives along edges (chain rule).",
+    "Reusing shared sub-results avoids repeated computation.",
+    "The backward pass needs no values from the forward pass."
+   ],
+   "explanation_en": "Each node is an elementary operation (A true). Only known elementary derivatives are needed (B true). Local derivatives are multiplied along the edges (C true). Sharing common sub-results avoids recomputation (D true). The backward pass uses forward values (E false)."
+  },
+  {
+   "id": "S1-22",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "정밀도·재현율·혼동행렬",
+   "prompt": "정밀도(precision)·재현율(recall)·혼동행렬에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "정밀도는 양성으로 예측한 것 중 실제 양성의 비율이다.",
+    "재현율은 실제 양성 중 우리가 찾아낸 비율이다.",
+    "완벽한 분류기는 대각선 혼동행렬을 갖는다.",
+    "RMSE 와 MAE 는 분류 지표다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "정밀도 = TP/(TP+FP) (A 참). 재현율 = TP/(TP+FN) (B 참). 오류가 없으면 비대각 원소가 0이라 대각선 행렬이 된다 (C 참). RMSE·MAE 는 회귀 지표다 (D 거짓).",
+   "topic_ko": "정밀도·재현율·혼동행렬",
+   "prompt_ko": "정밀도(precision)·재현율(recall)·혼동행렬에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "정밀도는 양성으로 예측한 것 중 실제 양성의 비율이다.",
+    "재현율은 실제 양성 중 우리가 찾아낸 비율이다.",
+    "완벽한 분류기는 대각선 혼동행렬을 갖는다.",
+    "RMSE 와 MAE 는 분류 지표다."
+   ],
+   "explanation_ko": "정밀도 = TP/(TP+FP) (A 참). 재현율 = TP/(TP+FN) (B 참). 오류가 없으면 비대각 원소가 0이라 대각선 행렬이 된다 (C 참). RMSE·MAE 는 회귀 지표다 (D 거짓).",
+   "topic_en": "Precision, recall and the confusion matrix",
+   "prompt_en": "Which are true?",
+   "options_en": [
+    "Precision is the fraction of predicted positives that are really positive.",
+    "Recall is the fraction of real positives that we found.",
+    "A perfect classifier has a diagonal confusion matrix.",
+    "RMSE and MAE are classification metrics."
+   ],
+   "explanation_en": "Precision = TP/(TP+FP) (A true). Recall = TP/(TP+FN) (B true). With no errors the off-diagonal entries are zero (C true). RMSE and MAE are regression metrics (D false)."
+  },
+  {
+   "id": "S1-23",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "노이즈·드롭아웃·데이터 증강",
+   "prompt": "노이즈 추가·드롭아웃·데이터 증강에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "노이즈는 학습 중에만 추가한다.",
+    "드롭아웃은 일부 값을 0으로 만든다.",
+    "드롭아웃을 쓰면 훈련 손실이 실제보다 높게 보일 수 있다.",
+    "드롭아웃은 테스트 시에도 적용한다.",
+    "데이터 증강은 새로운 훈련 예제를 만들어 낸다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "노이즈는 훈련 시 정규화 효과로만 사용한다 (A 참). 드롭아웃은 무작위로 뉴런 출력을 0으로 만든다 (B 참). 훈련 중 일부 뉴런이 꺼져 있어 손실이 실제보다 크게 보인다 (C 참). 평가/추론 시에는 전체 뉴런을 사용한다 (D 거짓). 변환으로 훈련 예제를 늘린다 (E 참).",
+   "topic_ko": "노이즈·드롭아웃·데이터 증강",
+   "prompt_ko": "노이즈 추가·드롭아웃·데이터 증강에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "노이즈는 학습 중에만 추가한다.",
+    "드롭아웃은 일부 값을 0으로 만든다.",
+    "드롭아웃을 쓰면 훈련 손실이 실제보다 높게 보일 수 있다.",
+    "드롭아웃은 테스트 시에도 적용한다.",
+    "데이터 증강은 새로운 훈련 예제를 만들어 낸다."
+   ],
+   "explanation_ko": "노이즈는 훈련 시 정규화 효과로만 사용한다 (A 참). 드롭아웃은 무작위로 뉴런 출력을 0으로 만든다 (B 참). 훈련 중 일부 뉴런이 꺼져 있어 손실이 실제보다 크게 보인다 (C 참). 평가/추론 시에는 전체 뉴런을 사용한다 (D 거짓). 변환으로 훈련 예제를 늘린다 (E 참).",
+   "topic_en": "Noise, dropout and data augmentation",
+   "prompt_en": "Noise, dropout, augmentation. Which are true?",
+   "options_en": [
+    "Noise is added only during training.",
+    "Dropout sets some values to zero.",
+    "With dropout, the training loss can look higher than it really is.",
+    "Dropout is also applied at test time.",
+    "Data augmentation creates new training examples."
+   ],
+   "explanation_en": "Noise is used only while training as a regularizer (A true). Dropout randomly zeroes some activations (B true). While training, some units are off, so the loss looks larger (C true). At evaluation time all units are used (D false). Augmentation creates extra training examples (E true)."
+  },
+  {
+   "id": "S1-24",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "CNN의 필터·풀링·채널",
+   "prompt": "합성곱 신경망(CNN)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "필터는 학습되는 파라미터다.",
+    "같은 필터를 모든 위치에 적용한다(이동 등변성).",
+    "풀링은 해상도를 낮추고 수용영역(receptive field)을 넓힌다.",
+    "입력 채널 P, 필터 Q개이면 출력 채널은 Q개이고 각 필터는 P개 채널을 갖는다.",
+    "고해상도 이미지에는 MLP 가 CNN 보다 낫다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "필터(가중치)는 역전파로 학습된다 (A 참). 가중치 공유로 이동 등변성을 얻는다 (B 참). 풀링은 크기를 줄이고 수용영역을 넓힌다 (C 참). (P, kh, kw) 필터 Q개 → 출력 채널 Q개 (D 참). 고해상도 이미지에는 파라미터 효율적인 CNN 이 유리하다 (E 거짓).",
+   "topic_ko": "CNN의 필터·풀링·채널",
+   "prompt_ko": "합성곱 신경망(CNN)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "필터는 학습되는 파라미터다.",
+    "같은 필터를 모든 위치에 적용한다(이동 등변성).",
+    "풀링은 해상도를 낮추고 수용영역(receptive field)을 넓힌다.",
+    "입력 채널 P, 필터 Q개이면 출력 채널은 Q개이고 각 필터는 P개 채널을 갖는다.",
+    "고해상도 이미지에는 MLP 가 CNN 보다 낫다."
+   ],
+   "explanation_ko": "필터(가중치)는 역전파로 학습된다 (A 참). 가중치 공유로 이동 등변성을 얻는다 (B 참). 풀링은 크기를 줄이고 수용영역을 넓힌다 (C 참). (P, kh, kw) 필터 Q개 → 출력 채널 Q개 (D 참). 고해상도 이미지에는 파라미터 효율적인 CNN 이 유리하다 (E 거짓).",
+   "topic_en": "CNN: filters, pooling and channels",
+   "prompt_en": "CNN. Which are true?",
+   "options_en": [
+    "Filters are learned parameters.",
+    "The same filter is applied at every location (translation equivariance).",
+    "Pooling reduces resolution and enlarges the receptive field.",
+    "With P input channels and Q filters: Q output channels, and each filter has P channels.",
+    "An MLP is better than a CNN for high-resolution images."
+   ],
+   "explanation_en": "Filters are learned by backpropagation (A true). Weight sharing gives translation equivariance (B true). Pooling shrinks the map and enlarges the receptive field (C true). Q filters of shape (P, kh, kw) produce Q output channels (D true). CNNs are much more parameter-efficient for large images (E false)."
+  },
+  {
+   "id": "S1-25",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "합성곱 층 파라미터 수 계산",
+   "prompt": "합성곱 층의 필터가 16개, 입력 채널이 6개, 커널 크기가 5×5 이고 필터마다 편향이 1개일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "필터 하나의 가중치는 150개다.",
+    "편향은 16개다.",
+    "전체 파라미터 수는 2416개다.",
+    "출력 채널은 16개다.",
+    "출력 채널은 6개다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "6×5×5 = 150 (A 참). 필터마다 편향 1개 → 16개 (B 참). 16×(150+1) = 2416 (C 참). 필터 수 = 출력 채널 수 = 16 (D 참, E 거짓).",
+   "topic_ko": "합성곱 층 파라미터 수 계산",
+   "prompt_ko": "합성곱 층의 필터가 16개, 입력 채널이 6개, 커널 크기가 5×5 이고 필터마다 편향이 1개일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "필터 하나의 가중치는 150개다.",
+    "편향은 16개다.",
+    "전체 파라미터 수는 2416개다.",
+    "출력 채널은 16개다.",
+    "출력 채널은 6개다."
+   ],
+   "explanation_ko": "6×5×5 = 150 (A 참). 필터마다 편향 1개 → 16개 (B 참). 16×(150+1) = 2416 (C 참). 필터 수 = 출력 채널 수 = 16 (D 참, E 거짓).",
+   "topic_en": "Parameter count of a convolution layer",
+   "prompt_en": "A conv layer has 16 filters, 6 input channels, 5×5 kernels and one bias per filter. Which are true?",
+   "options_en": [
+    "Each filter has 150 weights.",
+    "There are 16 biases.",
+    "Total parameters: 2416.",
+    "There are 16 output channels.",
+    "There are 6 output channels."
+   ],
+   "explanation_en": "6×5×5 = 150 weights per filter (A true). One bias per filter gives 16 biases (B true). 16×(150+1) = 2416 (C true). The number of filters equals the number of output channels = 16 (D true, E false)."
+  },
+  {
+   "id": "S1-26",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅 오류 판별 (a + b)",
+   "prompt": "a 의 shape 이 (32, 5) 이고 b 의 shape 이 (32,) 일 때 \"operands could not be broadcast together\" 오류가 발생하는 것을 모두 고르시오.",
+   "options": [
+    "a + b",
+    "a + b[:, None]",
+    "a + b[None, :]",
+    "a + 1"
+   ],
+   "correct": [
+    "A",
+    "C"
+   ],
+   "explanation": "브로드캐스팅은 마지막 축부터 크기를 비교한다. (32,) 은 (5,) 와 맞지 않으므로 a + b 는 오류 (A 참). b[:, None] 은 (32, 1) 이 되어 열 방향으로 확장 가능 (B 거짓). b[None, :] 은 (1, 32) 이므로 (32, 5) 와 맞지 않는다 (C 참). 스칼라는 항상 브로드캐스팅된다 (D 거짓).",
+   "topic_ko": "브로드캐스팅 오류 판별 (a + b)",
+   "prompt_ko": "a 의 shape 이 (32, 5) 이고 b 의 shape 이 (32,) 일 때 \"operands could not be broadcast together\" 오류가 발생하는 것을 모두 고르시오.",
+   "options_ko": [
+    "a + b",
+    "a + b[:, None]",
+    "a + b[None, :]",
+    "a + 1"
+   ],
+   "explanation_ko": "브로드캐스팅은 마지막 축부터 크기를 비교한다. (32,) 은 (5,) 와 맞지 않으므로 a + b 는 오류 (A 참). b[:, None] 은 (32, 1) 이 되어 열 방향으로 확장 가능 (B 거짓). b[None, :] 은 (1, 32) 이므로 (32, 5) 와 맞지 않는다 (C 참). 스칼라는 항상 브로드캐스팅된다 (D 거짓).",
+   "topic_en": "Broadcasting error: a + b with shapes (32,5) and (32,)",
+   "prompt_en": "`a` has shape (32, 5) and `b` has shape (32,). Which raise \"operands could not be broadcast together\"?",
+   "options_en": [
+    "`a + b`",
+    "`a + b[:, None]`",
+    "`a + b[None, :]`",
+    "`a + 1`"
+   ],
+   "explanation_en": "Broadcasting compares the trailing dimensions: (32,) against (5,) fails, so a + b raises (A true). b[:, None] is (32, 1) and broadcasts along columns (B false). b[None, :] is (1, 32) and does not match (32, 5) (C true). Scalars always broadcast (D false)."
+  },
+  {
+   "id": "S1-27",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "뷰(view) 인 경우: x 가 수정됨",
+   "prompt": "x = np.arange(4) 이고 x 로부터 y 를 만든 뒤 y[:] = 99 를 실행할 때, x 가 수정되는 경우를 모두 고르시오.",
+   "options": [
+    "y = x.reshape(2, 2) 후 y[:, :] = 99",
+    "y = x.T",
+    "y = np.append(x, 42)",
+    "y = x[1:2]"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "reshape 은 뷰를 돌려준다 (A 참). 전치(.T)도 뷰다 (B 참). np.append 는 새 배열을 만들어 복사하므로 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이싱은 뷰다 (D 참).",
+   "topic_ko": "뷰(view) 인 경우: x 가 수정됨",
+   "prompt_ko": "x = np.arange(4) 이고 x 로부터 y 를 만든 뒤 y[:] = 99 를 실행할 때, x 가 수정되는 경우를 모두 고르시오.",
+   "options_ko": [
+    "y = x.reshape(2, 2) 후 y[:, :] = 99",
+    "y = x.T",
+    "y = np.append(x, 42)",
+    "y = x[1:2]"
+   ],
+   "explanation_ko": "reshape 은 뷰를 돌려준다 (A 참). 전치(.T)도 뷰다 (B 참). np.append 는 새 배열을 만들어 복사하므로 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이싱은 뷰다 (D 참).",
+   "topic_en": "Views: which operations modify x?",
+   "prompt_en": "`x = np.arange(4)`; `y` is made from `x`; then we run `y[:] = 99`. After which operations is `x` modified?",
+   "options_en": [
+    "`y = x.reshape(2, 2)` (then `y[:, :] = 99`)",
+    "`y = x.T`",
+    "`y = np.append(x, 42)`",
+    "`y = x[1:2]`"
+   ],
+   "explanation_en": "Reshape returns a view (A true). Transpose returns a view (B true). np.append creates a new array, so x is untouched (C false). A basic slice is a view (D true)."
+  },
+  {
+   "id": "S1-28",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "복사본(copy) 인 경우: x 가 수정되지 않음",
+   "prompt": "같은 상황(x = np.arange(4), y[:] = 99)에서 x 가 수정되지 않는 경우를 모두 고르시오.",
+   "options": [
+    "y = x[[1, 2]]",
+    "y = x[x \u003c 2]",
+    "y = x + x",
+    "y = x[1:3]"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "정수 배열(fancy) 인덱싱은 복사본을 만든다 (A 참). 불리언 마스크도 복사본이다 (B 참). 산술 연산은 새 배열을 만든다 (C 참). 기본 슬라이스는 뷰이므로 원본이 수정된다 (D 거짓).",
+   "topic_ko": "복사본(copy) 인 경우: x 가 수정되지 않음",
+   "prompt_ko": "같은 상황(x = np.arange(4), y[:] = 99)에서 x 가 수정되지 않는 경우를 모두 고르시오.",
+   "options_ko": [
+    "y = x[[1, 2]]",
+    "y = x[x \u003c 2]",
+    "y = x + x",
+    "y = x[1:3]"
+   ],
+   "explanation_ko": "정수 배열(fancy) 인덱싱은 복사본을 만든다 (A 참). 불리언 마스크도 복사본이다 (B 참). 산술 연산은 새 배열을 만든다 (C 참). 기본 슬라이스는 뷰이므로 원본이 수정된다 (D 거짓).",
+   "topic_en": "Copies: which operations leave x unchanged?",
+   "prompt_en": "Same setup. After which operations is `x` NOT modified?",
+   "options_en": [
+    "`y = x[[1, 2]]`",
+    "`y = x[x \u003c 2]`",
+    "`y = x + x`",
+    "`y = x[1:3]`"
+   ],
+   "explanation_en": "Integer-array (fancy) indexing returns a copy (A true). A boolean mask returns a copy (B true). Arithmetic creates a new array (C true). A basic slice is a view, so D modifies x (D false)."
+  },
+  {
+   "id": "S1-29",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅 오류 판별 (shape 조합)",
+   "prompt": "다음 shape 조합 중 브로드캐스팅 오류가 발생하는 것을 모두 고르시오.",
+   "options": [
+    "(3, 4) + (4,)",
+    "(3, 4) + (3,)",
+    "(3, 1) + (1, 4)",
+    "(3,) + (3, 1)",
+    "(2, 3) + (3, 2)"
+   ],
+   "correct": [
+    "B",
+    "E"
+   ],
+   "explanation": "(3,4)+(4,) 는 열 방향 확장으로 (3,4) (A 거짓). (3,4)+(3,) 는 마지막 축 4 대 3 이 맞지 않아 오류 (B 참). (3,1)+(1,4) 는 (3,4) (C 거짓). (3,)+(3,1) 은 (3,3) (D 거짓). (2,3)+(3,2) 는 3 대 2 가 맞지 않아 오류 (E 참).",
+   "topic_ko": "브로드캐스팅 오류 판별 (shape 조합)",
+   "prompt_ko": "다음 shape 조합 중 브로드캐스팅 오류가 발생하는 것을 모두 고르시오.",
+   "options_ko": [
+    "(3, 4) + (4,)",
+    "(3, 4) + (3,)",
+    "(3, 1) + (1, 4)",
+    "(3,) + (3, 1)",
+    "(2, 3) + (3, 2)"
+   ],
+   "explanation_ko": "(3,4)+(4,) 는 열 방향 확장으로 (3,4) (A 거짓). (3,4)+(3,) 는 마지막 축 4 대 3 이 맞지 않아 오류 (B 참). (3,1)+(1,4) 는 (3,4) (C 거짓). (3,)+(3,1) 은 (3,3) (D 거짓). (2,3)+(3,2) 는 3 대 2 가 맞지 않아 오류 (E 참).",
+   "topic_en": "Broadcasting error: shape combinations",
+   "prompt_en": "Which raise a broadcasting error?",
+   "options_en": [
+    "(3, 4) + (4,)",
+    "(3, 4) + (3,)",
+    "(3, 1) + (1, 4)",
+    "(3,) + (3, 1)",
+    "(2, 3) + (3, 2)"
+   ],
+   "explanation_en": "(3,4)+(4,) broadcasts along the columns to (3,4) (A false). (3,4)+(3,) mismatches the last axis 4 vs 3 (B true). (3,1)+(1,4) gives (3,4) (C false). (3,)+(3,1) gives (3,3) (D false). (2,3)+(3,2) mismatches 3 vs 2 (E true)."
+  },
+  {
+   "id": "S2-01",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "비지도학습 과제의 종류",
+   "prompt": "비지도학습 과제에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "군집화(clustering)는 레이블 없이 비슷한 예제를 묶는다.",
+    "차원축소에서는 입력 x 와 복원값 x̂ 의 차이를 최소화한다.",
+    "노이즈 제거(denoising)는 사람이 만든 레이블 없이 정식화할 수 있다.",
+    "표본 생성(sample generation)은 데이터의 분포를 학습하려 한다.",
+    "분류(classification)에는 레이블이 필요 없다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "군집화는 레이블 없이 유사도로 묶는 비지도학습 (A 참). 오토인코더류의 차원축소는 재구성 오차를 최소화한다 (B 참). 노이즈 제거는 목표를 입력에서 만들 수 있어 레이블이 필요 없다 (C 참). 생성 모델은 데이터 분포를 학습한다 (D 참). 분류는 레이블이 필요하므로 지도학습이다 (E 거짓).",
+   "topic_ko": "비지도학습 과제의 종류",
+   "prompt_ko": "비지도학습 과제에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "군집화(clustering)는 레이블 없이 비슷한 예제를 묶는다.",
+    "차원축소에서는 입력 x 와 복원값 x̂ 의 차이를 최소화한다.",
+    "노이즈 제거(denoising)는 사람이 만든 레이블 없이 정식화할 수 있다.",
+    "표본 생성(sample generation)은 데이터의 분포를 학습하려 한다.",
+    "분류(classification)에는 레이블이 필요 없다."
+   ],
+   "explanation_ko": "군집화는 레이블 없이 유사도로 묶는 비지도학습 (A 참). 오토인코더류의 차원축소는 재구성 오차를 최소화한다 (B 참). 노이즈 제거는 목표를 입력에서 만들 수 있어 레이블이 필요 없다 (C 참). 생성 모델은 데이터 분포를 학습한다 (D 참). 분류는 레이블이 필요하므로 지도학습이다 (E 거짓).",
+   "topic_en": "Unsupervised learning tasks",
+   "prompt_en": "Which statements about unsupervised learning tasks are true?",
+   "options_en": [
+    "Clustering groups similar examples without labels.",
+    "In dimensionality reduction, we minimize the difference between the input x and its reconstruction x̂.",
+    "Denoising can be formulated without human-made labels.",
+    "Sample generation tries to learn the distribution of the data.",
+    "Classification needs no labels."
+   ],
+   "explanation_en": "Clustering groups similar examples without labels (A true). Autoencoder-style dimensionality reduction minimizes the reconstruction error (B true). Denoising can be formulated from the input itself (C true). Generative models learn the data distribution (D true). Classification needs labels, so it is supervised (E false)."
+  },
+  {
+   "id": "S2-02",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "지도학습의 목표와 2단계 절차",
+   "prompt": "지도학습의 목표와 절차에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "목표는 손실 J 를 최소화하는 θ* 를 찾는 것이다.",
+    "1단계는 훈련집합에서 파라미터를 학습하는 것이다.",
+    "2단계는 새롭고 레이블 없는 예제의 레이블을 추정하는 것이다.",
+    "목표는 J 를 최대화하는 것이다.",
+    "레이블이 있는 데이터를 만드는 데 많은 사람의 노동이 필요할 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "손실 최소화가 목표 (A 참). 학습 단계에서 θ 를 찾는다 (B 참). 이후 새 입력의 레이블을 추정(추론)한다 (C 참). 최대화가 아니라 최소화한다 (D 거짓). 주석(annotation)에는 큰 인적 비용이 든다 (E 참).",
+   "topic_ko": "지도학습의 목표와 2단계 절차",
+   "prompt_ko": "지도학습의 목표와 절차에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "목표는 손실 J 를 최소화하는 θ* 를 찾는 것이다.",
+    "1단계는 훈련집합에서 파라미터를 학습하는 것이다.",
+    "2단계는 새롭고 레이블 없는 예제의 레이블을 추정하는 것이다.",
+    "목표는 J 를 최대화하는 것이다.",
+    "레이블이 있는 데이터를 만드는 데 많은 사람의 노동이 필요할 수 있다."
+   ],
+   "explanation_ko": "손실 최소화가 목표 (A 참). 학습 단계에서 θ 를 찾는다 (B 참). 이후 새 입력의 레이블을 추정(추론)한다 (C 참). 최대화가 아니라 최소화한다 (D 거짓). 주석(annotation)에는 큰 인적 비용이 든다 (E 참).",
+   "topic_en": "Goal and two-step procedure of supervised learning",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "Supervised learning goal: find θ* that minimizes the loss J.",
+    "Step 1 is learning the parameters on the training set.",
+    "Step 2 is estimating labels for new, unlabeled examples.",
+    "The goal is to maximize J.",
+    "Producing labeled data can need a lot of human work."
+   ],
+   "explanation_en": "The goal is to minimize the loss (A true). Step 1 learns θ on the training set (B true). Step 2 estimates labels for new inputs (C true). We minimize J, not maximize it (D false). Annotating data is expensive (E true)."
+  },
+  {
+   "id": "S2-03",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "정규방정식의 차원(m=50, n=3)",
+   "prompt": "정규방정식을 예제 수 m = 50, 입력 변수 n = 3 (더미 열 x₀ = 1 포함) 으로 쓸 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "XᵀX 는 4×4 이다.",
+    "I 는 50×50 이다.",
+    "θ 는 4개 원소를 갖는다.",
+    "Xᵀy 는 4개 원소를 갖는다.",
+    "XᵀX 는 3×3 이다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "X 는 50×4 이므로 XᵀX 는 4×4 (A 참, E 거짓). I 는 (n+1)×(n+1) = 4×4 (B 거짓). θ 도 4개 원소 (C 참). Xᵀy 도 4개 원소 (D 참).",
+   "topic_ko": "정규방정식의 차원(m=50, n=3)",
+   "prompt_ko": "정규방정식을 예제 수 m = 50, 입력 변수 n = 3 (더미 열 x₀ = 1 포함) 으로 쓸 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "XᵀX 는 4×4 이다.",
+    "I 는 50×50 이다.",
+    "θ 는 4개 원소를 갖는다.",
+    "Xᵀy 는 4개 원소를 갖는다.",
+    "XᵀX 는 3×3 이다."
+   ],
+   "explanation_ko": "X 는 50×4 이므로 XᵀX 는 4×4 (A 참, E 거짓). I 는 (n+1)×(n+1) = 4×4 (B 거짓). θ 도 4개 원소 (C 참). Xᵀy 도 4개 원소 (D 참).",
+   "topic_en": "Dimensions in the normal equation (m=50, n=3)",
+   "prompt_en": "Normal equation with m = 50 examples and n = 3 input variables (with the dummy column x₀ = 1).",
+   "options_en": [
+    "XᵀX is 4×4.",
+    "I is 50×50.",
+    "θ has 4 elements.",
+    "Xᵀy has 4 elements.",
+    "XᵀX is 3×3."
+   ],
+   "explanation_en": "X is 50×4, so XᵀX is 4×4 (A true, E false). I is (n+1)×(n+1) = 4×4 (B false). θ has 4 elements (C true). Xᵀy has 4 elements (D true)."
+  },
+  {
+   "id": "S2-04",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "정규방정식·유사역행렬의 안정성",
+   "prompt": "θ = (XᵀX + λI)⁻¹Xᵀy 와 NumPy 구현 np.matmul(np.linalg.pinv(X), y) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "λI 는 역행렬 계산을 안정적으로 만든다.",
+    "정규화가 없으면 XᵀX 가 역행렬을 갖지 않을 수 있다.",
+    "유사역행렬(Moore–Penrose pseudoinverse)도 정확한 해를 얻는 또 다른 방법이다.",
+    "λ 가 크면 파라미터가 더 작은 값으로 밀린다.",
+    "이 방법은 반복적이며 학습률이 필요하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "λI 를 더하면 특이(singular)에 가까운 행렬도 안정적으로 역행렬을 구한다 (A 참). XᵀX 가 특이하면 역행렬이 존재하지 않는다 (B 참). pinv 로도 최소제곱 해를 얻을 수 있다 (C 참). λ 는 가중치를 0 방향으로 수축시킨다 (D 참). 정규방정식과 pinv 는 한 번에 푸는 방법이며 반복이 없다 (E 거짓).",
+   "topic_ko": "정규방정식·유사역행렬의 안정성",
+   "prompt_ko": "θ = (XᵀX + λI)⁻¹Xᵀy 와 NumPy 구현 np.matmul(np.linalg.pinv(X), y) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "λI 는 역행렬 계산을 안정적으로 만든다.",
+    "정규화가 없으면 XᵀX 가 역행렬을 갖지 않을 수 있다.",
+    "유사역행렬(Moore–Penrose pseudoinverse)도 정확한 해를 얻는 또 다른 방법이다.",
+    "λ 가 크면 파라미터가 더 작은 값으로 밀린다.",
+    "이 방법은 반복적이며 학습률이 필요하다."
+   ],
+   "explanation_ko": "λI 를 더하면 특이(singular)에 가까운 행렬도 안정적으로 역행렬을 구한다 (A 참). XᵀX 가 특이하면 역행렬이 존재하지 않는다 (B 참). pinv 로도 최소제곱 해를 얻을 수 있다 (C 참). λ 는 가중치를 0 방향으로 수축시킨다 (D 참). 정규방정식과 pinv 는 한 번에 푸는 방법이며 반복이 없다 (E 거짓).",
+   "topic_en": "Normal equation vs pseudoinverse (numerical stability)",
+   "prompt_en": "About θ = (XᵀX + λI)⁻¹Xᵀy and its NumPy form `np.matmul(np.linalg.pinv(X), y)`:",
+   "options_en": [
+    "λI helps to keep the inverse stable.",
+    "Without regularization, XᵀX may not be invertible.",
+    "The pseudoinverse (Moore–Penrose) is another way to get an exact solution.",
+    "A large λ pushes the parameters toward smaller values.",
+    "The method is iterative and needs a learning rate."
+   ],
+   "explanation_en": "Adding λI stabilizes the inverse of a nearly singular matrix (A true). If XᵀX is singular it has no inverse (B true). pinv also gives the least-squares solution (C true). λ shrinks the weights toward 0 (D true). The normal equation and the pseudoinverse are one-step solutions, not iterative (E false)."
+  },
+  {
+   "id": "S2-05",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "BCE를 쓰는 이유(MSE의 비볼록성)",
+   "prompt": "로지스틱 회귀에 MSE 대신 이진 교차엔트로피(BCE)를 쓰는 이유로 옳은 것을 모두 고르시오.",
+   "options": [
+    "시그모이드 + 제곱오차는 볼록하지 않다.",
+    "이 경우 MSE 는 지역 최솟값을 여러 개 가질 수 있다.",
+    "로지스틱 가설함수와 BCE 조합은 볼록하다.",
+    "y = 1 인데 ŷ → 0 이면 BCE 는 매우 커진다.",
+    "BCE 는 미분이 불가능하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "시그모이드 + 제곱오차는 비볼록이다 (A 참). 비볼록이면 지역 최솟값이 생길 수 있다 (B 참). 시그모이드 + BCE 는 볼록이라 전역 최솟값으로 수렴한다 (C 참). −log(ŷ) 는 ŷ → 0 에서 발산하므로 잘못된 확신에 큰 벌점을 준다 (D 참). BCE 는 미분 가능하고 그래디언트가 깔끔하다 (E 거짓).",
+   "topic_ko": "BCE를 쓰는 이유(MSE의 비볼록성)",
+   "prompt_ko": "로지스틱 회귀에 MSE 대신 이진 교차엔트로피(BCE)를 쓰는 이유로 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "시그모이드 + 제곱오차는 볼록하지 않다.",
+    "이 경우 MSE 는 지역 최솟값을 여러 개 가질 수 있다.",
+    "로지스틱 가설함수와 BCE 조합은 볼록하다.",
+    "y = 1 인데 ŷ → 0 이면 BCE 는 매우 커진다.",
+    "BCE 는 미분이 불가능하다."
+   ],
+   "explanation_ko": "시그모이드 + 제곱오차는 비볼록이다 (A 참). 비볼록이면 지역 최솟값이 생길 수 있다 (B 참). 시그모이드 + BCE 는 볼록이라 전역 최솟값으로 수렴한다 (C 참). −log(ŷ) 는 ŷ → 0 에서 발산하므로 잘못된 확신에 큰 벌점을 준다 (D 참). BCE 는 미분 가능하고 그래디언트가 깔끔하다 (E 거짓).",
+   "topic_en": "Why BCE instead of MSE for logistic regression",
+   "prompt_en": "Why do we use binary cross-entropy (BCE) and not MSE for logistic regression?",
+   "options_en": [
+    "Sigmoid + squared error is not convex.",
+    "MSE here may have several local minima.",
+    "BCE with the logistic hypothesis is convex.",
+    "For y = 1 and ŷ → 0, BCE becomes very large.",
+    "BCE is not differentiable."
+   ],
+   "explanation_en": "Sigmoid + squared error is non-convex (A true), so it can have local minima (B true). Sigmoid + BCE is convex (C true). −log(ŷ) diverges as ŷ → 0, heavily penalizing confident mistakes (D true). BCE is differentiable and convex for logistic regression (E false)."
+  },
+  {
+   "id": "S2-06",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "경사하강법 NumPy 구현의 차원",
+   "prompt": "강의의 NumPy 코드 (h = sigmoid(np.dot(X, theta)), gradient = np.dot(X.T, (h - y)) / y.size, theta -= lr * gradient, X 는 (m, n+1), y 와 h 는 (m,)) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "gradient 의 shape 은 (n+1,) 이다.",
+    "마지막 줄은 경사하강법의 한 스텝이다.",
+    "eps 는 log(0) 과 0으로 나누기를 피하기 위해 쓴다.",
+    "X 를 전치하지 않고 np.dot(X, (h - y)) 로도 같은 결과가 나온다.",
+    "평균 손실은 스칼라다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "Xᵀ(m, n+1) · (h−y)(m,) → (n+1,) (A 참). θ 를 그래디언트 반대 방향으로 갱신하는 한 스텝 (B 참). eps 는 log(0) 과 0 나누기를 막는다 (C 참). (m, n+1)·(m,) 는 shape 이 맞지 않아 Xᵀ 가 반드시 필요하다 (D 거짓). 평균 손실은 하나의 수, 즉 스칼라 (E 참).",
+   "topic_ko": "경사하강법 NumPy 구현의 차원",
+   "prompt_ko": "강의의 NumPy 코드 (h = sigmoid(np.dot(X, theta)), gradient = np.dot(X.T, (h - y)) / y.size, theta -= lr * gradient, X 는 (m, n+1), y 와 h 는 (m,)) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "gradient 의 shape 은 (n+1,) 이다.",
+    "마지막 줄은 경사하강법의 한 스텝이다.",
+    "eps 는 log(0) 과 0으로 나누기를 피하기 위해 쓴다.",
+    "X 를 전치하지 않고 np.dot(X, (h - y)) 로도 같은 결과가 나온다.",
+    "평균 손실은 스칼라다."
+   ],
+   "explanation_ko": "Xᵀ(m, n+1) · (h−y)(m,) → (n+1,) (A 참). θ 를 그래디언트 반대 방향으로 갱신하는 한 스텝 (B 참). eps 는 log(0) 과 0 나누기를 막는다 (C 참). (m, n+1)·(m,) 는 shape 이 맞지 않아 Xᵀ 가 반드시 필요하다 (D 거짓). 평균 손실은 하나의 수, 즉 스칼라 (E 참).",
+   "topic_en": "Shapes in the NumPy gradient descent implementation",
+   "prompt_en": "NumPy code from the lecture: `h = sigmoid(np.dot(X, theta))`, `gradient = np.dot(X.T, (h - y)) / y.size`, `theta -= lr * gradient`. X is (m, n+1), y and h are (m,).",
+   "options_en": [
+    "gradient has shape (n+1,).",
+    "The last line is one step of gradient descent.",
+    "`eps` avoids log(0) and division by zero.",
+    "`np.dot(X, (h - y))` without transposing X would also work.",
+    "The mean loss is a scalar."
+   ],
+   "explanation_en": "Xᵀ(m, n+1) · (h−y)(m,) → (n+1,) (A true). The last line is one gradient step (B true). eps avoids log(0) and division by zero (C true). (m, n+1)·(m,) is a shape mismatch, so Xᵀ is required (D false). The mean loss is a single number (E true)."
+  },
+  {
+   "id": "S2-07",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "특징 스케일링 수치 계산",
+   "prompt": "특징값 [1, 2, 3, 10] (평균 4, 모표준편차 σ ≈ 3.54) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "min-max 스케일링한 3 의 값은 약 0.22 이다.",
+    "min-max 스케일링 후 네 값 중 셋이 0.23 미만이다.",
+    "평균은 4 이다.",
+    "표준화한 10 의 값은 약 1.70 이다.",
+    "표준화 값은 항상 [0, 1] 범위다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "(3−1)/(10−1) = 0.222 (A 참). 값은 0, 0.11, 0.22, 1 이므로 셋이 0.23 미만 (B 참). (1+2+3+10)/4 = 4 (C 참). (10−4)/3.54 ≈ 1.70 (D 참). 표준화 값은 범위 제한이 없어 음수나 1 초과도 가능하다 (E 거짓).",
+   "topic_ko": "특징 스케일링 수치 계산",
+   "prompt_ko": "특징값 [1, 2, 3, 10] (평균 4, 모표준편차 σ ≈ 3.54) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "min-max 스케일링한 3 의 값은 약 0.22 이다.",
+    "min-max 스케일링 후 네 값 중 셋이 0.23 미만이다.",
+    "평균은 4 이다.",
+    "표준화한 10 의 값은 약 1.70 이다.",
+    "표준화 값은 항상 [0, 1] 범위다."
+   ],
+   "explanation_ko": "(3−1)/(10−1) = 0.222 (A 참). 값은 0, 0.11, 0.22, 1 이므로 셋이 0.23 미만 (B 참). (1+2+3+10)/4 = 4 (C 참). (10−4)/3.54 ≈ 1.70 (D 참). 표준화 값은 범위 제한이 없어 음수나 1 초과도 가능하다 (E 거짓).",
+   "topic_en": "Feature scaling: numeric example",
+   "prompt_en": "Feature values: [1, 2, 3, 10]. (Use the population standard deviation σ ≈ 3.54 and mean 4.)",
+   "options_en": [
+    "Min-max scaling of the value 3 is about 0.22.",
+    "After min-max scaling, three of the four values are below 0.23.",
+    "The mean is 4.",
+    "The standardized value of 10 is about 1.70.",
+    "Standardized values are always in [0, 1]."
+   ],
+   "explanation_en": "(3−1)/(10−1) = 0.222 (A true). The values become 0, 0.11, 0.22, 1, so three are below 0.23 (B true). (1+2+3+10)/4 = 4 (C true). (10−4)/3.54 ≈ 1.70 (D true). Standardized values are not limited to [0, 1] (E false)."
+  },
+  {
+   "id": "S2-08",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "다중 클래스를 정수 회귀로 푸는 문제",
+   "prompt": "다중 클래스 분류에서 클래스 이름을 그대로 회귀(예: 개 = 1, 고양이 = 2, 앵무새 = 3)로 예측할 때의 문제에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "회귀 모델은 클래스 사이에 순서와 거리 관계가 있다고 가정한다.",
+    "½마리 개 + ½마리 앵무새는 고양이 1마리와 같은 값으로 취급된다.",
+    "더 나은 방법은 클래스마다 확률을 하나씩 추정하는 것이다.",
+    "클래스 확률의 합은 1이어야 한다.",
+    "교차엔트로피와 함께 one-hot 레이블을 사용한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "정수 레이블은 잘못된 순서·거리 가정을 만든다 (A 참). 1과 3의 중간값 2가 고양이로 해석되는 문제가 생긴다 (B 참). 클래스별 확률 추정이 올바른 접근이다 (C 참). 확률분포이므로 합이 1 (D 참). 다중 클래스는 소프트맥스 + 교차엔트로피 + one-hot 을 쓴다 (E 참).",
+   "topic_ko": "다중 클래스를 정수 회귀로 푸는 문제",
+   "prompt_ko": "다중 클래스 분류에서 클래스 이름을 그대로 회귀(예: 개 = 1, 고양이 = 2, 앵무새 = 3)로 예측할 때의 문제에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "회귀 모델은 클래스 사이에 순서와 거리 관계가 있다고 가정한다.",
+    "½마리 개 + ½마리 앵무새는 고양이 1마리와 같은 값으로 취급된다.",
+    "더 나은 방법은 클래스마다 확률을 하나씩 추정하는 것이다.",
+    "클래스 확률의 합은 1이어야 한다.",
+    "교차엔트로피와 함께 one-hot 레이블을 사용한다."
+   ],
+   "explanation_ko": "정수 레이블은 잘못된 순서·거리 가정을 만든다 (A 참). 1과 3의 중간값 2가 고양이로 해석되는 문제가 생긴다 (B 참). 클래스별 확률 추정이 올바른 접근이다 (C 참). 확률분포이므로 합이 1 (D 참). 다중 클래스는 소프트맥스 + 교차엔트로피 + one-hot 을 쓴다 (E 참).",
+   "topic_en": "Why plain regression fails for multi-class labels",
+   "prompt_en": "Multi-class classification (dog = 1, cat = 2, parrot = 3 with plain regression).",
+   "options_en": [
+    "The regression model assumes an order and distances between classes.",
+    "½ dog + ½ parrot would be treated like 1 cat.",
+    "A better way is to estimate one probability per class.",
+    "The class probabilities should sum to 1.",
+    "One-hot encoded labels are used with cross-entropy."
+   ],
+   "explanation_en": "Integer labels impose a wrong order and distance (A true). The midpoint of 1 and 3 is interpreted as a cat (B true). Estimating one probability per class is the right approach (C true). They form a distribution summing to 1 (D true). Multi-class uses softmax + cross-entropy with one-hot labels (E true)."
+  },
+  {
+   "id": "S2-09",
+   "part": "A",
+   "lecture": "Lecture 2",
+   "topic": "선형 회귀·경사하강법의 성질",
+   "prompt": "선형 회귀와 경사하강법에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "MSE 손실은 θ 에 대해 이차식이며 볼록하다.",
+    "파라미터가 2개면 손실 곡면은 타원 포물면(elliptic paraboloid)이다.",
+    "격자탐색(grid search)은 파라미터 수가 늘면 평가 횟수가 지수적으로 증가한다.",
+    "그래디언트는 가장 가파르게 증가하는 방향을 가리킨다.",
+    "학습률 α 가 매우 커도 수렴이 보장된다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "MSE 는 θ 의 이차식이라 볼록하다 (A 참). 파라미터 2개면 그릇 모양의 타원 포물면 (B 참). 격자탐색은 차원이 늘면 조합이 지수적으로 늘어난다 (C 참). 그래디언트는 최대 증가 방향이다 (D 참). α 가 너무 크면 발산하거나 진동한다 (E 거짓).",
+   "topic_ko": "선형 회귀·경사하강법의 성질",
+   "prompt_ko": "선형 회귀와 경사하강법에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "MSE 손실은 θ 에 대해 이차식이며 볼록하다.",
+    "파라미터가 2개면 손실 곡면은 타원 포물면(elliptic paraboloid)이다.",
+    "격자탐색(grid search)은 파라미터 수가 늘면 평가 횟수가 지수적으로 증가한다.",
+    "그래디언트는 가장 가파르게 증가하는 방향을 가리킨다.",
+    "학습률 α 가 매우 커도 수렴이 보장된다."
+   ],
+   "explanation_ko": "MSE 는 θ 의 이차식이라 볼록하다 (A 참). 파라미터 2개면 그릇 모양의 타원 포물면 (B 참). 격자탐색은 차원이 늘면 조합이 지수적으로 늘어난다 (C 참). 그래디언트는 최대 증가 방향이다 (D 참). α 가 너무 크면 발산하거나 진동한다 (E 거짓).",
+   "topic_en": "Properties of linear regression and gradient descent",
+   "prompt_en": "Linear regression and gradient descent. Which are true?",
+   "options_en": [
+    "The MSE loss is quadratic and convex in θ.",
+    "With 2 parameters, the loss surface is an elliptic paraboloid.",
+    "Grid search needs exponentially more evaluations as parameters increase.",
+    "The gradient gives the direction of the steepest increase.",
+    "With a very large α, convergence is still guaranteed."
+   ],
+   "explanation_en": "MSE is quadratic in θ and convex (A true). With two parameters the surface is a bowl-shaped elliptic paraboloid (B true). Grid search grows exponentially with the number of parameters (C true). The gradient points in the steepest increase direction (D true). A large α can diverge (E false)."
+  },
+  {
+   "id": "S2-10",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "다중 클래스 교차엔트로피 수치 계산",
+   "prompt": "교차엔트로피 J = −(1/m) Σⱼ Σᵢ yᵢ log(ŷᵢ) 에서 어떤 예제의 참 레이블 y = [0, 1, 0, 0] 이고 추정값 ŷ = [0.64, 0.21, 0.06, 0.09] 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "이 예제의 손실은 −log(0.21) ≈ 1.56 (자연로그) 이다.",
+    "참 클래스의 항만 0이 아니다.",
+    "참 클래스의 ŷ 가 1 에 가까워지면 손실은 0 에 가까워진다.",
+    "클래스가 2개(K = 2)이면 이진 교차엔트로피와 같아진다.",
+    "참 레이블 y 는 소프트맥스 출력이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "y 가 one-hot 이라 참 클래스 항만 남아 −log(0.21) ≈ 1.56 (A 참, B 참). ŷ → 1 이면 −log(1) = 0 (C 참). 클래스 2개면 BCE 와 같은 형태가 된다 (D 참). y 는 one-hot 정답 레이블이고 소프트맥스 출력은 ŷ 다 (E 거짓).",
+   "topic_ko": "다중 클래스 교차엔트로피 수치 계산",
+   "prompt_ko": "교차엔트로피 J = −(1/m) Σⱼ Σᵢ yᵢ log(ŷᵢ) 에서 어떤 예제의 참 레이블 y = [0, 1, 0, 0] 이고 추정값 ŷ = [0.64, 0.21, 0.06, 0.09] 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "이 예제의 손실은 −log(0.21) ≈ 1.56 (자연로그) 이다.",
+    "참 클래스의 항만 0이 아니다.",
+    "참 클래스의 ŷ 가 1 에 가까워지면 손실은 0 에 가까워진다.",
+    "클래스가 2개(K = 2)이면 이진 교차엔트로피와 같아진다.",
+    "참 레이블 y 는 소프트맥스 출력이다."
+   ],
+   "explanation_ko": "y 가 one-hot 이라 참 클래스 항만 남아 −log(0.21) ≈ 1.56 (A 참, B 참). ŷ → 1 이면 −log(1) = 0 (C 참). 클래스 2개면 BCE 와 같은 형태가 된다 (D 참). y 는 one-hot 정답 레이블이고 소프트맥스 출력은 ŷ 다 (E 거짓).",
+   "topic_en": "Cross-entropy: numeric example",
+   "prompt_en": "Cross-entropy: J = −(1/m) Σⱼ Σᵢ yᵢ log(ŷᵢ). One example has true label y = [0, 1, 0, 0] and estimate ŷ = [0.64, 0.21, 0.06, 0.09].",
+   "options_en": [
+    "The loss for this example is −log(0.21) ≈ 1.56 (natural log).",
+    "Only the true-class term is non-zero.",
+    "If ŷ for the true class → 1, the loss → 0.",
+    "For k = 2 it equals binary cross-entropy.",
+    "The true label y is the softmax output."
+   ],
+   "explanation_en": "With a one-hot y only the true-class term survives: −log(0.21) ≈ 1.56 (A true, B true). As ŷ → 1 the loss → 0 (C true). With K = 2 it reduces to BCE (D true). y is the one-hot label and ŷ is the softmax output (E false)."
+  },
+  {
+   "id": "S2-11",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "MLP 파라미터 수(입력 3, 은닉 2, 출력 1)",
+   "prompt": "입력 n 개 → 은닉 뉴런 2개 → 출력 1개인 2층 MLP 에서 n = 3 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "W₁ ∈ ℝ^(2×3)",
+    "W₂ ∈ ℝ^(1×2)",
+    "b₁ ∈ ℝ¹",
+    "전체 파라미터 수는 11개다.",
+    "Θ 는 모든 가중치 행렬과 편향 벡터를 포함한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "W₁ 은 (은닉, 입력) = 2×3 (A 참). W₂ 는 (출력, 은닉) = 1×2 (B 참). b₁ 은 은닉 뉴런 수만큼 2개이므로 ℝ² (C 거짓). 6 + 2 + 2 + 1 = 11 (D 참). Θ 는 모든 W 와 b 를 묶은 표기 (E 참).",
+   "topic_ko": "MLP 파라미터 수(입력 3, 은닉 2, 출력 1)",
+   "prompt_ko": "입력 n 개 → 은닉 뉴런 2개 → 출력 1개인 2층 MLP 에서 n = 3 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "W₁ ∈ ℝ^(2×3)",
+    "W₂ ∈ ℝ^(1×2)",
+    "b₁ ∈ ℝ¹",
+    "전체 파라미터 수는 11개다.",
+    "Θ 는 모든 가중치 행렬과 편향 벡터를 포함한다."
+   ],
+   "explanation_ko": "W₁ 은 (은닉, 입력) = 2×3 (A 참). W₂ 는 (출력, 은닉) = 1×2 (B 참). b₁ 은 은닉 뉴런 수만큼 2개이므로 ℝ² (C 거짓). 6 + 2 + 2 + 1 = 11 (D 참). Θ 는 모든 W 와 b 를 묶은 표기 (E 참).",
+   "topic_en": "Parameter count of a 2-layer MLP (n=3, hidden=2, out=1)",
+   "prompt_en": "A two-layer MLP has n inputs, 2 hidden neurons, 1 output. Take n = 3.",
+   "options_en": [
+    "W₁ ∈ ℝ^(2×3)",
+    "W₂ ∈ ℝ^(1×2)",
+    "b₁ ∈ ℝ¹",
+    "The total number of parameters is 11.",
+    "Θ contains all weight matrices and bias vectors."
+   ],
+   "explanation_en": "W₁ is (hidden, input) = 2×3 (A true). W₂ is (output, hidden) = 1×2 (B true). b₁ has one element per hidden neuron, so it is in ℝ² (C false). 6 + 2 + 2 + 1 = 11 (D true). Θ collects all W and b (E true)."
+  },
+  {
+   "id": "S2-12",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "MNIST MLP(784→100→10) 파라미터 수",
+   "prompt": "28×28 이미지를 쓰는 MLP (784 → 100 → 10) 의 파라미터 수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "첫 번째 층은 78,500개다.",
+    "두 번째 층은 1,010개다.",
+    "전체는 79,510개다.",
+    "전체는 784 × 100 × 10 개다.",
+    "소프트맥스가 10개의 파라미터를 추가한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "784·100 + 100 = 78,500 (A 참). 100·10 + 10 = 1,010 (B 참). 합계 79,510 (C 참). 파라미터 수는 층별로 더한 값이며 곱이 아니다 (D 거짓). 소프트맥스는 학습 파라미터가 없다 (E 거짓).",
+   "topic_ko": "MNIST MLP(784→100→10) 파라미터 수",
+   "prompt_ko": "28×28 이미지를 쓰는 MLP (784 → 100 → 10) 의 파라미터 수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "첫 번째 층은 78,500개다.",
+    "두 번째 층은 1,010개다.",
+    "전체는 79,510개다.",
+    "전체는 784 × 100 × 10 개다.",
+    "소프트맥스가 10개의 파라미터를 추가한다."
+   ],
+   "explanation_ko": "784·100 + 100 = 78,500 (A 참). 100·10 + 10 = 1,010 (B 참). 합계 79,510 (C 참). 파라미터 수는 층별로 더한 값이며 곱이 아니다 (D 거짓). 소프트맥스는 학습 파라미터가 없다 (E 거짓).",
+   "topic_en": "Parameter count of a 784→100→10 MLP",
+   "prompt_en": "An MLP for 28×28 images: 784 → 100 → 10.",
+   "options_en": [
+    "The first layer has 78,500 parameters.",
+    "The second layer has 1,010 parameters.",
+    "The total is 79,510 parameters.",
+    "The total is 784 × 100 × 10.",
+    "Softmax adds 10 extra parameters."
+   ],
+   "explanation_en": "784·100 + 100 = 78,500 (A true). 100·10 + 10 = 1,010 (B true). The total is 79,510 (C true). Parameters are summed per layer, not multiplied (D false). Softmax has no learnable parameters (E false)."
+  },
+  {
+   "id": "S2-13",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "MLP 파라미터 수(4→8→4→3)",
+   "prompt": "4 입력 → 8 → 4 → 3 출력인 다중 클래스 MLP 의 파라미터 수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "1층은 40개다.",
+    "2층은 36개다.",
+    "3층은 15개다.",
+    "전체는 91개다.",
+    "마지막 활성함수는 소프트맥스가 적절하다.",
+    "마지막 활성함수는 항등함수가 적절하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "4·8 + 8 = 40 (A 참). 8·4 + 4 = 36 (B 참). 4·3 + 3 = 15 (C 참). 합계 91 (D 참). 다중 클래스 출력은 소프트맥스 (E 참, F 거짓).",
+   "topic_ko": "MLP 파라미터 수(4→8→4→3)",
+   "prompt_ko": "4 입력 → 8 → 4 → 3 출력인 다중 클래스 MLP 의 파라미터 수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "1층은 40개다.",
+    "2층은 36개다.",
+    "3층은 15개다.",
+    "전체는 91개다.",
+    "마지막 활성함수는 소프트맥스가 적절하다.",
+    "마지막 활성함수는 항등함수가 적절하다."
+   ],
+   "explanation_ko": "4·8 + 8 = 40 (A 참). 8·4 + 4 = 36 (B 참). 4·3 + 3 = 15 (C 참). 합계 91 (D 참). 다중 클래스 출력은 소프트맥스 (E 참, F 거짓).",
+   "topic_en": "Parameter count of a 4→8→4→3 MLP",
+   "prompt_en": "An MLP with 4 inputs → 8 → 4 → 3 outputs (multi-class).",
+   "options_en": [
+    "Layer 1 has 40 parameters.",
+    "Layer 2 has 36 parameters.",
+    "Layer 3 has 15 parameters.",
+    "The total is 91 parameters.",
+    "The last activation should be softmax.",
+    "The last activation should be the identity."
+   ],
+   "explanation_en": "4·8 + 8 = 40 (A true). 8·4 + 4 = 36 (B true). 4·3 + 3 = 15 (C true). The total is 91 (D true). A multi-class output uses softmax, so E is true and F is false."
+  },
+  {
+   "id": "S2-14",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "소프트맥스 수치 계산",
+   "prompt": "소프트맥스의 계산 결과에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "softmax([0, 0, 0, 0]) = [0.25, 0.25, 0.25, 0.25]",
+    "softmax([ln 2, 0]) = [2/3, 1/3]",
+    "모든 입력에 같은 상수를 더해도 출력은 변하지 않는다.",
+    "소프트맥스 출력은 음수가 될 수 있다.",
+    "출력의 합은 1이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "모든 입력이 같으면 균등분포가 된다 (A 참). e^(ln 2) = 2 이므로 2/3, 1/3 (B 참). 분자·분모에 같은 인수가 곱해져 약분되므로 상수 이동에 불변 (C 참). 지수함수라서 항상 양수 (D 거짓). 확률분포이므로 합이 1 (E 참).",
+   "topic_ko": "소프트맥스 수치 계산",
+   "prompt_ko": "소프트맥스의 계산 결과에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "softmax([0, 0, 0, 0]) = [0.25, 0.25, 0.25, 0.25]",
+    "softmax([ln 2, 0]) = [2/3, 1/3]",
+    "모든 입력에 같은 상수를 더해도 출력은 변하지 않는다.",
+    "소프트맥스 출력은 음수가 될 수 있다.",
+    "출력의 합은 1이다."
+   ],
+   "explanation_ko": "모든 입력이 같으면 균등분포가 된다 (A 참). e^(ln 2) = 2 이므로 2/3, 1/3 (B 참). 분자·분모에 같은 인수가 곱해져 약분되므로 상수 이동에 불변 (C 참). 지수함수라서 항상 양수 (D 거짓). 확률분포이므로 합이 1 (E 참).",
+   "topic_en": "Softmax: numeric examples",
+   "prompt_en": "Softmax numbers.",
+   "options_en": [
+    "softmax([0, 0, 0, 0]) = [0.25, 0.25, 0.25, 0.25]",
+    "softmax([ln 2, 0]) = [2/3, 1/3]",
+    "Adding the same constant to all inputs does not change the output.",
+    "Softmax outputs can be negative.",
+    "The outputs sum to 1."
+   ],
+   "explanation_en": "Equal inputs give the uniform distribution (A true). e^(ln 2) = 2, so the outputs are 2/3 and 1/3 (B true). A constant shift cancels in the ratio (C true). The exponential keeps outputs positive (D false). The outputs sum to 1 (E true)."
+  },
+  {
+   "id": "S2-15",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "L2 정규화 수식과 효과",
+   "prompt": "L2 정규화 J_reg = J_MSE + (λ/2m) Σⱼ θⱼ² 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "합은 보통 j = 1 부터 시작한다(θ₀ 는 페널티 없음).",
+    "λ = 0 이면 원래 모델이 된다.",
+    "λ 가 매우 크면 과소적합이 될 수 있다.",
+    "큰 파라미터 값에 벌점을 준다.",
+    "합에 편향 θ₀ 도 포함된다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "관례적으로 편향 θ₀ 는 정규화하지 않으므로 j = 1 부터 시작한다 (A 참, E 거짓). λ = 0 이면 정규화가 사라진다 (B 참). λ 가 너무 크면 가중치가 0으로 수축해 과소적합이 된다 (C 참). 큰 가중치에 벌점을 주어 작은 값을 선호하게 만든다 (D 참).",
+   "topic_ko": "L2 정규화 수식과 효과",
+   "prompt_ko": "L2 정규화 J_reg = J_MSE + (λ/2m) Σⱼ θⱼ² 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "합은 보통 j = 1 부터 시작한다(θ₀ 는 페널티 없음).",
+    "λ = 0 이면 원래 모델이 된다.",
+    "λ 가 매우 크면 과소적합이 될 수 있다.",
+    "큰 파라미터 값에 벌점을 준다.",
+    "합에 편향 θ₀ 도 포함된다."
+   ],
+   "explanation_ko": "관례적으로 편향 θ₀ 는 정규화하지 않으므로 j = 1 부터 시작한다 (A 참, E 거짓). λ = 0 이면 정규화가 사라진다 (B 참). λ 가 너무 크면 가중치가 0으로 수축해 과소적합이 된다 (C 참). 큰 가중치에 벌점을 주어 작은 값을 선호하게 만든다 (D 참).",
+   "topic_en": "L2 regularization: formula and effects",
+   "prompt_en": "L2 regularization: J_reg = J_MSE + (λ/2m) Σⱼ θⱼ².",
+   "options_en": [
+    "The sum usually starts at j = 1 (θ₀ is not penalized).",
+    "λ = 0 gives the original model.",
+    "A very large λ can cause underfitting.",
+    "It penalizes large parameter values.",
+    "The sum includes the bias θ₀."
+   ],
+   "explanation_en": "By convention the bias θ₀ is not regularized, so the sum starts at j = 1 (A true, E false). With λ = 0 the penalty vanishes (B true). A huge λ shrinks the weights toward 0 and causes underfitting (C true). Large weights are penalized (D true)."
+  },
+  {
+   "id": "S2-16",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "과대적합 진단과 대응(훈련 0.05 / 검증 0.60)",
+   "prompt": "훈련 손실 0.05, 검증 손실 0.60 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "과대적합일 가능성이 높다.",
+    "훈련 데이터를 늘리면 도움이 될 수 있다.",
+    "드롭아웃이 도움이 될 수 있다.",
+    "모델을 훨씬 크게 만들면 도움이 될 것이다.",
+    "조기 종료가 도움이 될 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "훈련 손실은 매우 낮고 검증 손실은 높은 전형적 과대적합 (A 참). 데이터를 늘리면 분산이 줄어든다 (B 참). 드롭아웃은 정규화 효과가 있다 (C 참). 모델을 키우면 과대적합이 더 심해진다 (D 거짓). 조기 종료도 완화책이 된다 (E 참).",
+   "topic_ko": "과대적합 진단과 대응(훈련 0.05 / 검증 0.60)",
+   "prompt_ko": "훈련 손실 0.05, 검증 손실 0.60 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "과대적합일 가능성이 높다.",
+    "훈련 데이터를 늘리면 도움이 될 수 있다.",
+    "드롭아웃이 도움이 될 수 있다.",
+    "모델을 훨씬 크게 만들면 도움이 될 것이다.",
+    "조기 종료가 도움이 될 수 있다."
+   ],
+   "explanation_ko": "훈련 손실은 매우 낮고 검증 손실은 높은 전형적 과대적합 (A 참). 데이터를 늘리면 분산이 줄어든다 (B 참). 드롭아웃은 정규화 효과가 있다 (C 참). 모델을 키우면 과대적합이 더 심해진다 (D 거짓). 조기 종료도 완화책이 된다 (E 참).",
+   "topic_en": "Overfitting diagnosis and remedies",
+   "prompt_en": "Training loss 0.05, validation loss 0.60.",
+   "options_en": [
+    "The model is probably overfitting.",
+    "More training data may help.",
+    "Dropout may help.",
+    "Using a much larger model will probably help.",
+    "Early stopping may help."
+   ],
+   "explanation_en": "Very low training loss with a high validation loss is classic overfitting (A true). More data reduces variance (B true). Dropout regularizes (C true). A larger model makes overfitting worse (D false). Early stopping also helps (E true)."
+  },
+  {
+   "id": "S2-17",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "과소적합 진단(훈련 0.90 / 검증 0.95)",
+   "prompt": "훈련 손실 0.90, 검증 손실 0.95 로 둘 다 높을 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "과소적합(높은 편향)일 가능성이 높다.",
+    "더 복잡한 모델이 도움이 될 수 있다.",
+    "정규화를 더 강하게 하면 도움이 될 것이다.",
+    "훈련 데이터를 늘리는 것만으로 해결된다."
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "둘 다 높으면 과소적합, 즉 높은 편향이다 (A 참). 표현력을 키우면 도움이 된다 (B 참). 정규화를 강하게 하면 더 단순해져 과소적합이 악화된다 (C 거짓). 데이터만 늘리는 것으로는 편향 문제가 해결되지 않는다 (D 거짓).",
+   "topic_ko": "과소적합 진단(훈련 0.90 / 검증 0.95)",
+   "prompt_ko": "훈련 손실 0.90, 검증 손실 0.95 로 둘 다 높을 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "과소적합(높은 편향)일 가능성이 높다.",
+    "더 복잡한 모델이 도움이 될 수 있다.",
+    "정규화를 더 강하게 하면 도움이 될 것이다.",
+    "훈련 데이터를 늘리는 것만으로 해결된다."
+   ],
+   "explanation_ko": "둘 다 높으면 과소적합, 즉 높은 편향이다 (A 참). 표현력을 키우면 도움이 된다 (B 참). 정규화를 강하게 하면 더 단순해져 과소적합이 악화된다 (C 거짓). 데이터만 늘리는 것으로는 편향 문제가 해결되지 않는다 (D 거짓).",
+   "topic_en": "Underfitting diagnosis (0.90 / 0.95)",
+   "prompt_en": "Training loss 0.90 and validation loss 0.95, both high.",
+   "options_en": [
+    "The model is probably underfitting (high bias).",
+    "A more complex model may help.",
+    "Stronger regularization will help.",
+    "More training data alone will fix it."
+   ],
+   "explanation_en": "Both high means underfitting / high bias (A true). Increasing capacity helps (B true). Stronger regularization makes underfitting worse (C false). More data alone does not fix a bias problem (D false)."
+  },
+  {
+   "id": "S2-18",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "검증집합과 테스트집합의 역할",
+   "prompt": "검증집합과 테스트집합의 역할에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "테스트집합으로 하이퍼파라미터를 조정하면 테스트 성능 추정이 낙관적으로 편향된다.",
+    "검증 손실은 조기 종료에 사용된다.",
+    "테스트집합은 학습과 하이퍼파라미터 선택에 영향을 주면 안 된다.",
+    "데이터가 적을 때는 교차검증이 유용하다.",
+    "분할 비율은 항상 정확히 50% / 25% / 25% 여야 한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "테스트셋을 튜닝에 쓰면 정보가 새어 낙관적 편향이 생긴다 (A 참). 검증 손실로 조기 종료 시점을 정한다 (B 참). 테스트셋은 마지막 평가 전용이다 (C 참). 데이터가 적으면 k-fold 교차검증이 유용하다 (D 참). 비율은 자유롭게 정할 수 있다 (E 거짓).",
+   "topic_ko": "검증집합과 테스트집합의 역할",
+   "prompt_ko": "검증집합과 테스트집합의 역할에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "테스트집합으로 하이퍼파라미터를 조정하면 테스트 성능 추정이 낙관적으로 편향된다.",
+    "검증 손실은 조기 종료에 사용된다.",
+    "테스트집합은 학습과 하이퍼파라미터 선택에 영향을 주면 안 된다.",
+    "데이터가 적을 때는 교차검증이 유용하다.",
+    "분할 비율은 항상 정확히 50% / 25% / 25% 여야 한다."
+   ],
+   "explanation_ko": "테스트셋을 튜닝에 쓰면 정보가 새어 낙관적 편향이 생긴다 (A 참). 검증 손실로 조기 종료 시점을 정한다 (B 참). 테스트셋은 마지막 평가 전용이다 (C 참). 데이터가 적으면 k-fold 교차검증이 유용하다 (D 참). 비율은 자유롭게 정할 수 있다 (E 거짓).",
+   "topic_en": "Validation set vs test set",
+   "prompt_en": "Validation set vs test set.",
+   "options_en": [
+    "Tuning hyperparameters on the test set makes the test estimate too optimistic.",
+    "The validation loss is used for early stopping.",
+    "The test set must not influence training or hyperparameter choice.",
+    "Cross-validation is useful when we have little data.",
+    "The split must always be exactly 50% / 25% / 25%."
+   ],
+   "explanation_en": "Tuning on the test set leaks information and biases the estimate (A true). The validation loss drives early stopping (B true). The test set is only for the final estimate (C true). With little data, k-fold cross-validation helps (D true). The proportions can change (e.g. 70/20/10) (E false)."
+  },
+  {
+   "id": "S2-19",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "하이퍼파라미터 탐색 방법",
+   "prompt": "하이퍼파라미터 탐색 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "격자탐색(grid search)",
+    "무작위탐색(random search)",
+    "베이지안 최적화(Bayesian optimization)",
+    "진화/유전 알고리즘",
+    "보통 훈련 손실에 대한 일반적인 경사하강법"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "격자탐색·무작위탐색·베이지안 최적화·진화 알고리즘이 대표적인 탐색 방법이다 (A~D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓).",
+   "topic_ko": "하이퍼파라미터 탐색 방법",
+   "prompt_ko": "하이퍼파라미터 탐색 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "격자탐색(grid search)",
+    "무작위탐색(random search)",
+    "베이지안 최적화(Bayesian optimization)",
+    "진화/유전 알고리즘",
+    "보통 훈련 손실에 대한 일반적인 경사하강법"
+   ],
+   "explanation_ko": "격자탐색·무작위탐색·베이지안 최적화·진화 알고리즘이 대표적인 탐색 방법이다 (A~D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓).",
+   "topic_en": "Hyperparameter search methods",
+   "prompt_en": "Hyperparameter search methods.",
+   "options_en": [
+    "Grid search",
+    "Random search",
+    "Bayesian optimization",
+    "Evolutionary / genetic algorithms",
+    "Usually plain gradient descent on the training loss"
+   ],
+   "explanation_en": "Grid search, random search, Bayesian optimization and evolutionary algorithms are the standard approaches (A–D true). Plain gradient descent generally cannot be used for hyperparameters (E false)."
+  },
+  {
+   "id": "S2-20",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "하이퍼파라미터를 포함한 학습 절차",
+   "prompt": "하이퍼파라미터 Ψ 를 포함한 모델 학습 절차에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "θ 는 훈련집합에서 최적화한다.",
+    "각 Ψ 는 검증집합에서 평가한다.",
+    "검증 성능으로 최적의 Ψ* 를 고른다.",
+    "테스트집합은 최종 성능 추정에 쓴다.",
+    "Ψ 는 θ 와 함께 SGD 로 최적화한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "θ 는 훈련집합에서 경사하강법으로 최적화한다 (A 참). Ψ 후보를 검증집합에서 평가한다 (B 참). 검증 성능이 가장 좋은 Ψ 를 고른다 (C 참). 테스트집합은 마지막 성능 추정에 쓴다 (D 참). Ψ 는 미분 대상이 아니며 탐색으로 고른다 (E 거짓).",
+   "topic_ko": "하이퍼파라미터를 포함한 학습 절차",
+   "prompt_ko": "하이퍼파라미터 Ψ 를 포함한 모델 학습 절차에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "θ 는 훈련집합에서 최적화한다.",
+    "각 Ψ 는 검증집합에서 평가한다.",
+    "검증 성능으로 최적의 Ψ* 를 고른다.",
+    "테스트집합은 최종 성능 추정에 쓴다.",
+    "Ψ 는 θ 와 함께 SGD 로 최적화한다."
+   ],
+   "explanation_ko": "θ 는 훈련집합에서 경사하강법으로 최적화한다 (A 참). Ψ 후보를 검증집합에서 평가한다 (B 참). 검증 성능이 가장 좋은 Ψ 를 고른다 (C 참). 테스트집합은 마지막 성능 추정에 쓴다 (D 참). Ψ 는 미분 대상이 아니며 탐색으로 고른다 (E 거짓).",
+   "topic_en": "Training procedure with hyperparameters Ψ",
+   "prompt_en": "Model training procedure with hyperparameters Ψ.",
+   "options_en": [
+    "θ is optimized on the training set.",
+    "Each Ψ is evaluated on the validation set.",
+    "The best Ψ* is chosen by validation performance.",
+    "The test set is used for the final estimate.",
+    "Ψ is optimized with SGD together with θ."
+   ],
+   "explanation_en": "θ is optimized on the training set (A true). Each Ψ candidate is evaluated on the validation set (B true). The best Ψ* is picked by validation performance (C true). The test set gives the final estimate (D true). Ψ is not differentiable and is searched (E false)."
+  },
+  {
+   "id": "S2-21",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "에폭·스텝 계산과 최적화 알고리즘",
+   "prompt": "훈련 예제가 60,000개이고 미니배치 크기가 100 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "1 에폭은 600 스텝이다.",
+    "배치 경사하강법은 1 에폭에 1 스텝이다.",
+    "GPU 메모리가 배치 크기를 제한하는 경우가 많다.",
+    "배치가 작으면 스텝당 비용은 싸지만 잡음이 크다.",
+    "Adam 과 RMSprop 은 SGD 의 변형이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "60,000 / 100 = 600 스텝 (A 참). 전체를 한 번에 쓰면 1 에폭에 1 스텝 (B 참). 배치가 크면 활성값·그래디언트 메모리가 커져 GPU 메모리가 제한 요인이 된다 (C 참). 작은 배치는 저렴하지만 분산이 크다 (D 참). Adam·RMSprop 은 적응적 학습률을 쓰는 SGD 계열이다 (E 참).",
+   "topic_ko": "에폭·스텝 계산과 최적화 알고리즘",
+   "prompt_ko": "훈련 예제가 60,000개이고 미니배치 크기가 100 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "1 에폭은 600 스텝이다.",
+    "배치 경사하강법은 1 에폭에 1 스텝이다.",
+    "GPU 메모리가 배치 크기를 제한하는 경우가 많다.",
+    "배치가 작으면 스텝당 비용은 싸지만 잡음이 크다.",
+    "Adam 과 RMSprop 은 SGD 의 변형이다."
+   ],
+   "explanation_ko": "60,000 / 100 = 600 스텝 (A 참). 전체를 한 번에 쓰면 1 에폭에 1 스텝 (B 참). 배치가 크면 활성값·그래디언트 메모리가 커져 GPU 메모리가 제한 요인이 된다 (C 참). 작은 배치는 저렴하지만 분산이 크다 (D 참). Adam·RMSprop 은 적응적 학습률을 쓰는 SGD 계열이다 (E 참).",
+   "topic_en": "Epochs, steps and optimizers",
+   "prompt_en": "Training set has 60,000 examples, and the mini-batch size is 100.",
+   "options_en": [
+    "One epoch has 600 steps.",
+    "Batch gradient descent takes 1 step per epoch.",
+    "GPU memory often limits the batch size.",
+    "A smaller batch gives a noisier but cheaper step.",
+    "Adam and RMSprop are variants of SGD."
+   ],
+   "explanation_en": "60,000 / 100 = 600 steps (A true). Using the whole set gives 1 step per epoch (B true). Large batches need more activation/gradient memory (C true). Small batches are cheap but noisy (D true). Adam and RMSprop are adaptive-learning-rate variants of SGD (E true)."
+  },
+  {
+   "id": "S2-22",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "단일 뉴런의 한계와 XOR 문제",
+   "prompt": "단일 뉴런과 작은 신경망에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "두 개의 선형 결정경계를 2층 뉴런으로 결합할 수 있다(AND).",
+    "단일 뉴런은 AND 와 OR 를 표현할 수 있다.",
+    "단일 뉴런은 XOR 를 풀 수 있다.",
+    "은닉층이 없는 네트워크로 XOR 를 풀 수 있다.",
+    "iris 예제에서 단일 직선으로 'versicolor' 를 분리할 수 없다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "E"
+   ],
+   "explanation": "두 선형 경계를 AND 로 결합하면 비선형 영역을 표현할 수 있다 (A 참). AND·OR 는 선형 분리 가능하므로 단일 뉴런으로 표현된다 (B 참). XOR 는 선형 분리 불가라 단일 뉴런으로는 불가능하다 (C 거짓). 은닉층이 없으면 XOR 를 풀 수 없다 (D 거짓). iris 에서 versicolor 는 직선 하나로 분리되지 않는다 (E 참).",
+   "topic_ko": "단일 뉴런의 한계와 XOR 문제",
+   "prompt_ko": "단일 뉴런과 작은 신경망에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "두 개의 선형 결정경계를 2층 뉴런으로 결합할 수 있다(AND).",
+    "단일 뉴런은 AND 와 OR 를 표현할 수 있다.",
+    "단일 뉴런은 XOR 를 풀 수 있다.",
+    "은닉층이 없는 네트워크로 XOR 를 풀 수 있다.",
+    "iris 예제에서 단일 직선으로 'versicolor' 를 분리할 수 없다."
+   ],
+   "explanation_ko": "두 선형 경계를 AND 로 결합하면 비선형 영역을 표현할 수 있다 (A 참). AND·OR 는 선형 분리 가능하므로 단일 뉴런으로 표현된다 (B 참). XOR 는 선형 분리 불가라 단일 뉴런으로는 불가능하다 (C 거짓). 은닉층이 없으면 XOR 를 풀 수 없다 (D 거짓). iris 에서 versicolor 는 직선 하나로 분리되지 않는다 (E 참).",
+   "topic_en": "Limits of a single neuron and the XOR problem",
+   "prompt_en": "Single neurons and small networks.",
+   "options_en": [
+    "Two linear decision boundaries can be combined by a second-layer neuron (AND).",
+    "A single neuron can represent AND and OR.",
+    "A single neuron can solve XOR.",
+    "A network without any hidden layer can solve XOR.",
+    "In the iris example, a single straight line cannot isolate \"versicolor\"."
+   ],
+   "explanation_en": "Combining two half-planes with AND gives a non-linear region (A true). AND and OR are linearly separable, so one neuron suffices (B true). XOR is not linearly separable, so a single neuron fails (C false). Without a hidden layer XOR cannot be solved (D false). In the iris example versicolor is not isolated by one line (E true)."
+  },
+  {
+   "id": "S2-23",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "인공 뉴런(퍼셉트론)의 성질",
+   "prompt": "인공 뉴런(퍼셉트론)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "가중합 + 편향을 계산한 뒤 활성함수를 적용한다.",
+    "시그모이드를 쓰면 (다변량) 로지스틱 회귀와 같다.",
+    "가중치는 양수도 음수도 될 수 있다.",
+    "헤비사이드 계단함수는 그래디언트 학습에 좋은 활성함수다.",
+    "이 모델은 Rosenblatt(1958) 에서 나왔다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "뉴런은 가중합 + 편향을 계산한 뒤 활성함수를 적용한다 (A 참). 시그모이드 뉴런은 로지스틱 회귀와 같다 (B 참). 가중치 부호는 자유롭다 (C 참). 계단함수는 거의 모든 곳에서 미분이 0이라 경사하강법에 부적합하다 (D 거짓). 퍼셉트론은 Rosenblatt(1958) 에서 제안되었다 (E 참).",
+   "topic_ko": "인공 뉴런(퍼셉트론)의 성질",
+   "prompt_ko": "인공 뉴런(퍼셉트론)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "가중합 + 편향을 계산한 뒤 활성함수를 적용한다.",
+    "시그모이드를 쓰면 (다변량) 로지스틱 회귀와 같다.",
+    "가중치는 양수도 음수도 될 수 있다.",
+    "헤비사이드 계단함수는 그래디언트 학습에 좋은 활성함수다.",
+    "이 모델은 Rosenblatt(1958) 에서 나왔다."
+   ],
+   "explanation_ko": "뉴런은 가중합 + 편향을 계산한 뒤 활성함수를 적용한다 (A 참). 시그모이드 뉴런은 로지스틱 회귀와 같다 (B 참). 가중치 부호는 자유롭다 (C 참). 계단함수는 거의 모든 곳에서 미분이 0이라 경사하강법에 부적합하다 (D 거짓). 퍼셉트론은 Rosenblatt(1958) 에서 제안되었다 (E 참).",
+   "topic_en": "Artificial neuron (perceptron) facts",
+   "prompt_en": "Artificial neuron facts.",
+   "options_en": [
+    "It computes a weighted sum plus a bias, then an activation.",
+    "With sigmoid, it is a (multivariate) logistic regression.",
+    "Its weights can be positive or negative.",
+    "A Heaviside step function is a good activation for gradient training.",
+    "The model is from Rosenblatt, 1958."
+   ],
+   "explanation_en": "A neuron computes a weighted sum plus bias and applies an activation (A true). A sigmoid neuron equals logistic regression (B true). Weights may be positive or negative (C true). The step function has zero derivative almost everywhere, so it is unusable for gradient training (D false). The perceptron is from Rosenblatt (1958) (E true)."
+  },
+  {
+   "id": "S2-24",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "MLP 활성함수의 역할",
+   "prompt": "MLP 의 활성함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "중간층에는 항상 비선형성이 필요하다.",
+    "비선형성이 없는 선형층의 적층은 하나의 선형층과 같다.",
+    "마지막 활성함수는 과제에 따라 달라진다.",
+    "ReLU 는 계산이 저렴하다.",
+    "ReLU 의 출력은 임의의 실수값이 될 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "비선형성이 없으면 표현력이 선형 모델과 같아지므로 중간층에 필요하다 (A·B 참). 회귀는 항등, 이진 분류는 시그모이드, 다중 클래스는 소프트맥스를 쓴다 (C 참). ReLU 는 max(0, z) 로 계산이 저렴하다 (D 참). ReLU 의 출력은 0 이상이다 (E 거짓).",
+   "topic_ko": "MLP 활성함수의 역할",
+   "prompt_ko": "MLP 의 활성함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "중간층에는 항상 비선형성이 필요하다.",
+    "비선형성이 없는 선형층의 적층은 하나의 선형층과 같다.",
+    "마지막 활성함수는 과제에 따라 달라진다.",
+    "ReLU 는 계산이 저렴하다.",
+    "ReLU 의 출력은 임의의 실수값이 될 수 있다."
+   ],
+   "explanation_ko": "비선형성이 없으면 표현력이 선형 모델과 같아지므로 중간층에 필요하다 (A·B 참). 회귀는 항등, 이진 분류는 시그모이드, 다중 클래스는 소프트맥스를 쓴다 (C 참). ReLU 는 max(0, z) 로 계산이 저렴하다 (D 참). ReLU 의 출력은 0 이상이다 (E 거짓).",
+   "topic_en": "Role of activation functions in an MLP",
+   "prompt_en": "Activation functions in an MLP.",
+   "options_en": [
+    "We always need intermediate nonlinearities.",
+    "Stacked linear layers without nonlinearities are equivalent to one linear layer.",
+    "The last activation depends on the task.",
+    "ReLU is cheap to compute.",
+    "ReLU outputs can be any real number."
+   ],
+   "explanation_en": "Without nonlinearity the network is only linear, so intermediate nonlinearities are essential (A true, B true). The output activation depends on the task (C true). ReLU = max(0, z) is cheap (D true). ReLU outputs are ≥ 0 (E false)."
+  },
+  {
+   "id": "S2-25",
+   "part": "A",
+   "lecture": "Lecture 6",
+   "topic": "역전파 알고리즘의 절차",
+   "prompt": "역전파 알고리즘의 절차에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "파라미터 초기값은 무작위로 정해도 된다.",
+    "순방향 단계에서 데이터와 현재 파라미터를 대입한다.",
+    "갱신 단계에서 θ := θ − α·grad 를 적용한다.",
+    "실제 구현에서는 미니배치를 사용한다.",
+    "J = 0 이 될 때까지 반복해야만 멈춘다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "무작위 초기화로 대칭을 깬다 (A 참). 순방향으로 예측과 손실을 계산한다 (B 참). 갱신 규칙을 적용한다 (C 참). 계산 효율을 위해 미니배치를 쓴다 (D 참). 정해진 반복 횟수나 조기 종료로 멈추며, J = 0 이 될 때까지 반복하는 것은 현실적이지 않다 (E 거짓).",
+   "topic_ko": "역전파 알고리즘의 절차",
+   "prompt_ko": "역전파 알고리즘의 절차에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "파라미터 초기값은 무작위로 정해도 된다.",
+    "순방향 단계에서 데이터와 현재 파라미터를 대입한다.",
+    "갱신 단계에서 θ := θ − α·grad 를 적용한다.",
+    "실제 구현에서는 미니배치를 사용한다.",
+    "J = 0 이 될 때까지 반복해야만 멈춘다."
+   ],
+   "explanation_ko": "무작위 초기화로 대칭을 깬다 (A 참). 순방향으로 예측과 손실을 계산한다 (B 참). 갱신 규칙을 적용한다 (C 참). 계산 효율을 위해 미니배치를 쓴다 (D 참). 정해진 반복 횟수나 조기 종료로 멈추며, J = 0 이 될 때까지 반복하는 것은 현실적이지 않다 (E 거짓).",
+   "topic_en": "Steps of the backpropagation algorithm",
+   "prompt_en": "The backpropagation algorithm.",
+   "options_en": [
+    "Initial parameter values can be random.",
+    "In the forward step, we substitute data and current parameters.",
+    "In the update step, θ := θ − α·grad.",
+    "In practice, a mini-batch is used.",
+    "It stops only when J = 0."
+   ],
+   "explanation_en": "Random initialization breaks the symmetry (A true). The forward pass substitutes data and parameters (B true). The update rule is applied (C true). Mini-batches are used for efficiency (D true). Training stops after a number of iterations or by early stopping; waiting for J = 0 is unrealistic (E false)."
+  },
+  {
+   "id": "S2-26",
+   "part": "A",
+   "lecture": "Lecture 6",
+   "topic": "PyTorch 코드의 의미",
+   "prompt": "다음 PyTorch 코드에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "torch.nn.Linear(784, 100) 의 가중치 행렬 shape 은 (100, 784) 이다.",
+    "nn.Sequential(nn.Linear(d, h), nn.ReLU(), nn.Linear(h, 1)) 은 회귀용 2층 MLP 다.",
+    "torch.nn.BCELoss() 는 이진 분류용이다.",
+    "torch.nn.Linear 는 ReLU 를 자동으로 적용한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "nn.Linear(in, out) 의 weight 는 (out, in) = (100, 784) (A 참). 선형-비선형-선형 구조의 회귀 MLP (B 참). BCELoss 는 이진 교차엔트로피 손실 (C 참). nn.Linear 는 활성함수를 포함하지 않는다 (D 거짓).",
+   "topic_ko": "PyTorch 코드의 의미",
+   "prompt_ko": "다음 PyTorch 코드에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "torch.nn.Linear(784, 100) 의 가중치 행렬 shape 은 (100, 784) 이다.",
+    "nn.Sequential(nn.Linear(d, h), nn.ReLU(), nn.Linear(h, 1)) 은 회귀용 2층 MLP 다.",
+    "torch.nn.BCELoss() 는 이진 분류용이다.",
+    "torch.nn.Linear 는 ReLU 를 자동으로 적용한다."
+   ],
+   "explanation_ko": "nn.Linear(in, out) 의 weight 는 (out, in) = (100, 784) (A 참). 선형-비선형-선형 구조의 회귀 MLP (B 참). BCELoss 는 이진 교차엔트로피 손실 (C 참). nn.Linear 는 활성함수를 포함하지 않는다 (D 거짓).",
+   "topic_en": "Meaning of PyTorch code",
+   "prompt_en": "PyTorch code.",
+   "options_en": [
+    "`torch.nn.Linear(784, 100)` has a weight matrix of shape (100, 784).",
+    "`nn.Sequential(nn.Linear(d, h), nn.ReLU(), nn.Linear(h, 1))` is a 2-layer MLP for regression.",
+    "`torch.nn.BCELoss()` is for binary classification.",
+    "`torch.nn.Linear` applies a ReLU automatically."
+   ],
+   "explanation_en": "nn.Linear(in, out) stores weight as (out, in) = (100, 784) (A true). The linear–nonlinear–linear stack is a regression MLP (B true). BCELoss is binary cross-entropy (C true). nn.Linear has no activation (D false)."
+  },
+  {
+   "id": "S2-27",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "다중 클래스 균형 지표",
+   "prompt": "다중 클래스 분류의 균형 지표(balanced metrics)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "각 클래스를 차례로 양성으로, 나머지를 음성으로 취급한다.",
+    "결과를 K 개 클래스에 대해 평균낸다.",
+    "클래스가 불균형할 때 도움이 된다.",
+    "단순 정확도(accuracy)는 항상 신뢰할 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "one-vs-rest 로 클래스별 정밀도·재현율을 계산한다 (A 참). 매크로/마이크로 평균을 낸다 (B 참). 불균형 데이터에서 유용하다 (C 참). 98마리 개 / 2마리 고양이 예시처럼 정확도는 불균형에서 오해를 부른다 (D 거짓).",
+   "topic_ko": "다중 클래스 균형 지표",
+   "prompt_ko": "다중 클래스 분류의 균형 지표(balanced metrics)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "각 클래스를 차례로 양성으로, 나머지를 음성으로 취급한다.",
+    "결과를 K 개 클래스에 대해 평균낸다.",
+    "클래스가 불균형할 때 도움이 된다.",
+    "단순 정확도(accuracy)는 항상 신뢰할 수 있다."
+   ],
+   "explanation_ko": "one-vs-rest 로 클래스별 정밀도·재현율을 계산한다 (A 참). 매크로/마이크로 평균을 낸다 (B 참). 불균형 데이터에서 유용하다 (C 참). 98마리 개 / 2마리 고양이 예시처럼 정확도는 불균형에서 오해를 부른다 (D 거짓).",
+   "topic_en": "Balanced metrics for multi-class classification",
+   "prompt_en": "Balanced metrics for multi-class classification.",
+   "options_en": [
+    "Each class is treated in turn as \"positive\", the others as \"negative\".",
+    "The results are averaged over the K classes.",
+    "It helps when the classes are imbalanced.",
+    "Plain accuracy is always reliable."
+   ],
+   "explanation_en": "One-vs-rest gives per-class precision/recall (A true). The results are macro/micro averaged (B true). This helps with imbalanced data (C true). With 98 dogs and 2 cats, plain accuracy is misleading (D false)."
+  },
+  {
+   "id": "S2-28",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "데이터 증강의 적절성",
+   "prompt": "데이터 증강(data augmentation)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "MNIST 에서는 이동과 약간의 회전이 합리적이다.",
+    "MNIST 에서 일부 뒤집기는 '7' 처럼 유효하지 않은 숫자를 만들 수 있다.",
+    "사진에서는 좌우 반전과 색 변화가 합리적이다.",
+    "소리에서는 늘이기(stretch)와 주파수 변화가 합리적이다.",
+    "어떤 변환이든 모든 데이터에 유효하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "숫자는 이동·미세 회전이 자연스럽다 (A 참). 상하 반전하면 7 등이 깨진다 (B 참). 사진은 반전·색 변환이 자연스럽다 (C 참). 오디오는 시간 늘이기·주파수 변화가 자연스럽다 (D 참). 변환은 데이터 종류에 맞아야 한다 (E 거짓).",
+   "topic_ko": "데이터 증강의 적절성",
+   "prompt_ko": "데이터 증강(data augmentation)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "MNIST 에서는 이동과 약간의 회전이 합리적이다.",
+    "MNIST 에서 일부 뒤집기는 '7' 처럼 유효하지 않은 숫자를 만들 수 있다.",
+    "사진에서는 좌우 반전과 색 변화가 합리적이다.",
+    "소리에서는 늘이기(stretch)와 주파수 변화가 합리적이다.",
+    "어떤 변환이든 모든 데이터에 유효하다."
+   ],
+   "explanation_ko": "숫자는 이동·미세 회전이 자연스럽다 (A 참). 상하 반전하면 7 등이 깨진다 (B 참). 사진은 반전·색 변환이 자연스럽다 (C 참). 오디오는 시간 늘이기·주파수 변화가 자연스럽다 (D 참). 변환은 데이터 종류에 맞아야 한다 (E 거짓).",
+   "topic_en": "Choosing appropriate data augmentation",
+   "prompt_en": "Data augmentation.",
+   "options_en": [
+    "For MNIST, translation and slight rotation are reasonable.",
+    "For MNIST, some flips can create invalid digits (e.g., a \"7\").",
+    "For photos, flipping and color changes are reasonable.",
+    "For sounds, stretching and frequency changes are reasonable.",
+    "Any transformation is valid for any data."
+   ],
+   "explanation_en": "Digits tolerate translation and small rotations (A true). Vertical flips can break digits such as 7 (B true). Photos tolerate flips and color changes (C true). Audio tolerates time stretching and pitch shifts (D true). The transformation must match the data type (E false)."
+  },
+  {
+   "id": "S2-29",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "합성곱·풀링 크기 계산",
+   "prompt": "합성곱과 풀링의 크기 계산에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "7×7 입력에 3×3 필터(패딩 없음)를 적용하면 5×5 가 나온다.",
+    "같은 입력에서 7×7 이 나온다.",
+    "출력 픽셀 하나는 필터와 이미지 패치의 내적(원소별 곱의 합)이다.",
+    "4×4 특징맵에 2×2 최대 풀링을 적용하면 2×2 가 된다.",
+    "풀링 층에도 학습되는 필터가 있다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "7 − 3 + 1 = 5 이므로 5×5 (A 참, B 거짓). 합성곱은 필터와 패치의 내적이다 (C 참). 4 / 2 = 2 (D 참). 풀링은 학습 파라미터가 없다 (E 거짓).",
+   "topic_ko": "합성곱·풀링 크기 계산",
+   "prompt_ko": "합성곱과 풀링의 크기 계산에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "7×7 입력에 3×3 필터(패딩 없음)를 적용하면 5×5 가 나온다.",
+    "같은 입력에서 7×7 이 나온다.",
+    "출력 픽셀 하나는 필터와 이미지 패치의 내적(원소별 곱의 합)이다.",
+    "4×4 특징맵에 2×2 최대 풀링을 적용하면 2×2 가 된다.",
+    "풀링 층에도 학습되는 필터가 있다."
+   ],
+   "explanation_ko": "7 − 3 + 1 = 5 이므로 5×5 (A 참, B 거짓). 합성곱은 필터와 패치의 내적이다 (C 참). 4 / 2 = 2 (D 참). 풀링은 학습 파라미터가 없다 (E 거짓).",
+   "topic_en": "Convolution and pooling output sizes",
+   "prompt_en": "Convolution and pooling sizes.",
+   "options_en": [
+    "A 7×7 input with a 3×3 filter (no padding) gives a 5×5 output.",
+    "The same input gives a 7×7 output.",
+    "Each output pixel is a scalar product of the filter and an image patch.",
+    "2×2 max pooling on a 4×4 map gives 2×2.",
+    "Pooling layers have learnable filters."
+   ],
+   "explanation_en": "7 − 3 + 1 = 5 (A true, B false). A convolution is the inner product of the filter and a patch (C true). 4 / 2 = 2 (D true). Pooling has no learnable parameters (E false)."
+  },
+  {
+   "id": "S2-30",
+   "part": "A",
+   "lecture": "Lecture 7",
+   "topic": "CNN과 MLP의 비교",
+   "prompt": "CNN 과 MLP 의 비교에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "합성곱 층은 이동 등변성(translation equivariant)을 갖는다.",
+    "학습된 ConvNet 은 (이상적으로) 이동 불변(translation invariant)이다.",
+    "고해상도 이미지에서 MLP 는 모든 위치마다 패턴을 따로 학습해야 한다.",
+    "CNN 은 소리, 시계열, MRI 영상에도 쓸 수 있다.",
+    "CNN 은 이미지에만 동작한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "가중치 공유로 합성곱 층은 이동 등변성을 갖는다 (A 참). 풀링과 계층 구조로 이동 불변성을 얻는다 (B 참). MLP 는 위치마다 별도 가중치가 필요하다 (C 참). 1D/2D/3D 합성곱으로 오디오·시계열·의료영상에도 적용된다 (D 참, E 거짓).",
+   "topic_ko": "CNN과 MLP의 비교",
+   "prompt_ko": "CNN 과 MLP 의 비교에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "합성곱 층은 이동 등변성(translation equivariant)을 갖는다.",
+    "학습된 ConvNet 은 (이상적으로) 이동 불변(translation invariant)이다.",
+    "고해상도 이미지에서 MLP 는 모든 위치마다 패턴을 따로 학습해야 한다.",
+    "CNN 은 소리, 시계열, MRI 영상에도 쓸 수 있다.",
+    "CNN 은 이미지에만 동작한다."
+   ],
+   "explanation_ko": "가중치 공유로 합성곱 층은 이동 등변성을 갖는다 (A 참). 풀링과 계층 구조로 이동 불변성을 얻는다 (B 참). MLP 는 위치마다 별도 가중치가 필요하다 (C 참). 1D/2D/3D 합성곱으로 오디오·시계열·의료영상에도 적용된다 (D 참, E 거짓).",
+   "topic_en": "CNN vs MLP",
+   "prompt_en": "CNN vs MLP.",
+   "options_en": [
+    "A conv layer is translation equivariant.",
+    "A trained ConvNet is (ideally) translation invariant.",
+    "An MLP on high-resolution images must learn each pattern at every location.",
+    "CNNs can be used for sounds, time series, and MRI scans.",
+    "CNNs work only on images."
+   ],
+   "explanation_en": "Weight sharing makes conv layers translation equivariant (A true). Pooling plus hierarchy gives (ideal) translation invariance (B true). An MLP needs separate weights per location (C true). 1D/2D/3D convolutions apply to audio, time series and medical images (D true, E false)."
+  },
+  {
+   "id": "S2-31",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅 ValueError 판별",
+   "prompt": "다음 중 ValueError(\"operands could not be broadcast together\") 가 발생하는 것을 모두 고르시오.",
+   "options": [
+    "np.zeros((4, 3)) + np.zeros((3, 4))",
+    "np.zeros((3, 4)) + np.zeros(3)",
+    "np.zeros((3, 4)) + np.zeros(4)",
+    "np.zeros((2, 3)) + np.zeros((2, 1))",
+    "np.zeros((2, 3)) + np.zeros((3, 2))"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "E"
+   ],
+   "explanation": "마지막 축부터 비교한다. (4,3)+(3,4) 는 3 대 4 가 맞지 않아 오류 (A 참). (3,4)+(3,) 도 4 대 3 불일치 (B 참). (3,4)+(4,) 는 열 방향 확장으로 가능 (C 거짓). (2,3)+(2,1) 은 1 이 확장되어 가능 (D 거짓). (2,3)+(3,2) 는 3 대 2 불일치 (E 참).",
+   "topic_ko": "브로드캐스팅 ValueError 판별",
+   "prompt_ko": "다음 중 ValueError(\"operands could not be broadcast together\") 가 발생하는 것을 모두 고르시오.",
+   "options_ko": [
+    "np.zeros((4, 3)) + np.zeros((3, 4))",
+    "np.zeros((3, 4)) + np.zeros(3)",
+    "np.zeros((3, 4)) + np.zeros(4)",
+    "np.zeros((2, 3)) + np.zeros((2, 1))",
+    "np.zeros((2, 3)) + np.zeros((3, 2))"
+   ],
+   "explanation_ko": "마지막 축부터 비교한다. (4,3)+(3,4) 는 3 대 4 가 맞지 않아 오류 (A 참). (3,4)+(3,) 도 4 대 3 불일치 (B 참). (3,4)+(4,) 는 열 방향 확장으로 가능 (C 거짓). (2,3)+(2,1) 은 1 이 확장되어 가능 (D 거짓). (2,3)+(3,2) 는 3 대 2 불일치 (E 참).",
+   "topic_en": "Which operations raise a broadcasting ValueError?",
+   "prompt_en": "Which operations raise a ValueError (\"operands could not be broadcast together\")?",
+   "options_en": [
+    "`np.zeros((4, 3)) + np.zeros((3, 4))`",
+    "`np.zeros((3, 4)) + np.zeros(3)`",
+    "`np.zeros((3, 4)) + np.zeros(4)`",
+    "`np.zeros((2, 3)) + np.zeros((2, 1))`",
+    "`np.zeros((2, 3)) + np.zeros((3, 2))`"
+   ],
+   "explanation_en": "Comparing trailing axes: (4,3)+(3,4) mismatches 3 vs 4 (A true). (3,4)+(3,) mismatches 4 vs 3 (B true). (3,4)+(4,) broadcasts along columns (C false). (2,3)+(2,1) broadcasts the 1 (D false). (2,3)+(3,2) mismatches 3 vs 2 (E true)."
+  },
+  {
+   "id": "S2-32",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "np.where와 불리언 마스킹",
+   "prompt": "x = np.array([5, -1, 3, -2]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.where(x > 0, x, 0) 은 [5, 0, 3, 0] 이다.",
+    "np.sum(x > 0) == 2",
+    "(x > 0).dtype 은 bool 이다.",
+    "np.where(x > 0) 은 (array([0, 2]),) 를 반환한다.",
+    "x[x > 0] = 0 을 실행하면 x 는 [0, -1, 3, -2] 이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "조건이 참인 위치는 x, 거짓인 위치는 0 (A 참). 양수가 2개 (B 참). 비교 연산 결과는 bool 배열 (C 참). 인자가 하나면 조건을 만족하는 인덱스 튜플을 반환 (D 참). 실행 후 x = [0, -1, 0, -2] 이다 (E 거짓).",
+   "topic_ko": "np.where와 불리언 마스킹",
+   "prompt_ko": "x = np.array([5, -1, 3, -2]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.where(x > 0, x, 0) 은 [5, 0, 3, 0] 이다.",
+    "np.sum(x > 0) == 2",
+    "(x > 0).dtype 은 bool 이다.",
+    "np.where(x > 0) 은 (array([0, 2]),) 를 반환한다.",
+    "x[x > 0] = 0 을 실행하면 x 는 [0, -1, 3, -2] 이다."
+   ],
+   "explanation_ko": "조건이 참인 위치는 x, 거짓인 위치는 0 (A 참). 양수가 2개 (B 참). 비교 연산 결과는 bool 배열 (C 참). 인자가 하나면 조건을 만족하는 인덱스 튜플을 반환 (D 참). 실행 후 x = [0, -1, 0, -2] 이다 (E 거짓).",
+   "topic_en": "np.where and boolean masking",
+   "prompt_en": "`x = np.array([5, -1, 3, -2])`",
+   "options_en": [
+    "`np.where(x > 0, x, 0)` equals `[5, 0, 3, 0]`",
+    "`np.sum(x > 0) == 2`",
+    "`(x > 0).dtype` is bool.",
+    "`np.where(x > 0)` returns `(array([0, 2]),)`",
+    "After `x[x > 0] = 0`, x equals `[0, -1, 3, -2]`"
+   ],
+   "explanation_en": "Where the condition holds we keep x, otherwise 0 (A true). There are two positive values (B true). A comparison yields a bool array (C true). With one argument np.where returns index tuples (D true). After the assignment x is [0, −1, 0, −2] (E false)."
+  },
+  {
+   "id": "S2-33",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "dtype과 연산 결과",
+   "prompt": "NumPy 자료형(dtype)과 연산에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.array([1, 2.5]).dtype 은 실수형이다.",
+    "np.array([1, 2, 3]) / 2 는 [0.5, 1., 1.5] 이다.",
+    "np.array([1, 2, 3]) // 2 는 [0, 1, 1] 이다.",
+    "np.array([True, False, True]).sum() == 2",
+    "np.arange(3) + 0.5 의 dtype 은 정수형이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "정수와 실수가 섞이면 실수형으로 승격된다 (A 참). / 는 실수 나눗셈 (B 참). // 는 몫 (C 참). bool 은 True=1 로 합산된다 (D 참). 실수를 더하면 실수형이 된다 (E 거짓).",
+   "topic_ko": "dtype과 연산 결과",
+   "prompt_ko": "NumPy 자료형(dtype)과 연산에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.array([1, 2.5]).dtype 은 실수형이다.",
+    "np.array([1, 2, 3]) / 2 는 [0.5, 1., 1.5] 이다.",
+    "np.array([1, 2, 3]) // 2 는 [0, 1, 1] 이다.",
+    "np.array([True, False, True]).sum() == 2",
+    "np.arange(3) + 0.5 의 dtype 은 정수형이다."
+   ],
+   "explanation_ko": "정수와 실수가 섞이면 실수형으로 승격된다 (A 참). / 는 실수 나눗셈 (B 참). // 는 몫 (C 참). bool 은 True=1 로 합산된다 (D 참). 실수를 더하면 실수형이 된다 (E 거짓).",
+   "topic_en": "dtypes and arithmetic results",
+   "prompt_en": "Data types.",
+   "options_en": [
+    "`np.array([1, 2.5]).dtype` is a float type.",
+    "`np.array([1, 2, 3]) / 2` equals `[0.5, 1., 1.5]`",
+    "`np.array([1, 2, 3]) // 2` equals `[0, 1, 1]`",
+    "`np.array([True, False, True]).sum() == 2`",
+    "`np.arange(3) + 0.5` has an integer dtype."
+   ],
+   "explanation_en": "Mixing ints and floats promotes to float (A true). / is true division (B true). // is floor division (C true). bools sum as True=1 (D true). Adding a float promotes to float (E false)."
+  },
+  {
+   "id": "S2-34",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "배열 생성 함수(arange/linspace/reshape)",
+   "prompt": "배열 생성 함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.arange(0, 10, 3) 은 [0, 3, 6, 9] 이다.",
+    "np.linspace(0, 1, 5) 는 5개 원소를 갖는다.",
+    "np.arange(5).reshape(5, -1).shape == (5, 1)",
+    "np.arange(10).reshape(-1, 5).shape == (5, 2)",
+    "np.ones(3).shape == (3,)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "0, 3, 6, 9 (A 참). linspace 는 개수를 지정한다 (B 참). (5, -1) 은 (5, 1) (C 참). reshape(-1, 5) 는 (2, 5) 이므로 (5, 2) 가 아니다 (D 거짓). ones(3) 은 1차원 (E 참).",
+   "topic_ko": "배열 생성 함수(arange/linspace/reshape)",
+   "prompt_ko": "배열 생성 함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.arange(0, 10, 3) 은 [0, 3, 6, 9] 이다.",
+    "np.linspace(0, 1, 5) 는 5개 원소를 갖는다.",
+    "np.arange(5).reshape(5, -1).shape == (5, 1)",
+    "np.arange(10).reshape(-1, 5).shape == (5, 2)",
+    "np.ones(3).shape == (3,)"
+   ],
+   "explanation_ko": "0, 3, 6, 9 (A 참). linspace 는 개수를 지정한다 (B 참). (5, -1) 은 (5, 1) (C 참). reshape(-1, 5) 는 (2, 5) 이므로 (5, 2) 가 아니다 (D 거짓). ones(3) 은 1차원 (E 참).",
+   "topic_en": "Array creation functions",
+   "prompt_en": "Creating arrays.",
+   "options_en": [
+    "`np.arange(0, 10, 3)` equals `[0, 3, 6, 9]`",
+    "`np.linspace(0, 1, 5)` has 5 elements.",
+    "`np.arange(5).reshape(5, -1).shape == (5, 1)`",
+    "`np.arange(10).reshape(-1, 5).shape == (5, 2)`",
+    "`np.ones(3).shape == (3,)`"
+   ],
+   "explanation_en": "0, 3, 6, 9 (A true). linspace takes a count (B true). (5, −1) gives (5, 1) (C true). reshape(−1, 5) gives (2, 5) (D false). ones(3) is 1-D (E true)."
+  },
+  {
+   "id": "S2-35",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "concatenate / stack / append",
+   "prompt": "p = np.zeros((2, 3)), q = np.ones((2, 3)) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.concatenate([p, q], axis=0).shape == (4, 3)",
+    "np.concatenate([p, q], axis=1).shape == (2, 6)",
+    "np.stack([p, q]).shape == (2, 2, 3)",
+    "np.concatenate([p, np.ones((2, 4))], axis=0) 는 동작하며 (2, 7) 을 반환한다.",
+    "np.append(np.arange(4), 42).shape == (5,)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "axis=0 은 행 방향 결합으로 (4, 3) (A 참). axis=1 은 열 방향으로 (2, 6) (B 참). stack 은 새 축을 만들어 (2, 2, 3) (C 참). axis=0 결합은 열 수가 같아야 하므로 (2, 4) 와는 오류가 난다 (D 거짓). append 는 이어 붙여 (5,) (E 참).",
+   "topic_ko": "concatenate / stack / append",
+   "prompt_ko": "p = np.zeros((2, 3)), q = np.ones((2, 3)) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.concatenate([p, q], axis=0).shape == (4, 3)",
+    "np.concatenate([p, q], axis=1).shape == (2, 6)",
+    "np.stack([p, q]).shape == (2, 2, 3)",
+    "np.concatenate([p, np.ones((2, 4))], axis=0) 는 동작하며 (2, 7) 을 반환한다.",
+    "np.append(np.arange(4), 42).shape == (5,)"
+   ],
+   "explanation_ko": "axis=0 은 행 방향 결합으로 (4, 3) (A 참). axis=1 은 열 방향으로 (2, 6) (B 참). stack 은 새 축을 만들어 (2, 2, 3) (C 참). axis=0 결합은 열 수가 같아야 하므로 (2, 4) 와는 오류가 난다 (D 거짓). append 는 이어 붙여 (5,) (E 참).",
+   "topic_en": "concatenate, stack and append",
+   "prompt_en": "`p = np.zeros((2, 3))`, `q = np.ones((2, 3))`",
+   "options_en": [
+    "`np.concatenate([p, q], axis=0).shape == (4, 3)`",
+    "`np.concatenate([p, q], axis=1).shape == (2, 6)`",
+    "`np.stack([p, q]).shape == (2, 2, 3)`",
+    "`np.concatenate([p, np.ones((2, 4))], axis=0)` works and returns shape (2, 7).",
+    "`np.append(np.arange(4), 42).shape == (5,)`"
+   ],
+   "explanation_en": "axis=0 stacks rows giving (4, 3) (A true). axis=1 stacks columns giving (2, 6) (B true). stack adds a new axis giving (2, 2, 3) (C true). Joining along axis=0 requires the same number of columns, so (2, 4) raises (D false). append concatenates giving (5,) (E true)."
+  },
+  {
+   "id": "S2-36",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "뷰와 복사본 판별(X 수정 여부)",
+   "prompt": "X = np.arange(6).reshape(2, 3) 일 때, 다음 중 X 를 변경하는 것을 모두 고르시오.",
+   "options": [
+    "y = X[0]; y[0] = 100",
+    "z = X[:, [0, 1]]; z[0, 0] = -5",
+    "f = X.flatten(); f[0] = 9",
+    "r = X.reshape(-1); r[0] = 9",
+    "m = X[X > 2]; m[:] = 0"
+   ],
+   "correct": [
+    "A",
+    "D"
+   ],
+   "explanation": "기본 인덱스 X[0] 은 뷰다 (A 참). fancy 인덱싱은 복사본 (B 거짓). flatten() 은 복사본 (C 거짓). reshape 은 뷰 (D 참). 불리언 마스크는 복사본 (E 거짓).",
+   "topic_ko": "뷰와 복사본 판별(X 수정 여부)",
+   "prompt_ko": "X = np.arange(6).reshape(2, 3) 일 때, 다음 중 X 를 변경하는 것을 모두 고르시오.",
+   "options_ko": [
+    "y = X[0]; y[0] = 100",
+    "z = X[:, [0, 1]]; z[0, 0] = -5",
+    "f = X.flatten(); f[0] = 9",
+    "r = X.reshape(-1); r[0] = 9",
+    "m = X[X > 2]; m[:] = 0"
+   ],
+   "explanation_ko": "기본 인덱스 X[0] 은 뷰다 (A 참). fancy 인덱싱은 복사본 (B 거짓). flatten() 은 복사본 (C 거짓). reshape 은 뷰 (D 참). 불리언 마스크는 복사본 (E 거짓).",
+   "topic_en": "Which operations modify X? (views vs copies)",
+   "prompt_en": "`X = np.arange(6).reshape(2, 3)`. Which of these change X?",
+   "options_en": [
+    "`y = X[0]; y[0] = 100`",
+    "`z = X[:, [0, 1]]; z[0, 0] = -5`",
+    "`f = X.flatten(); f[0] = 9`",
+    "`r = X.reshape(-1); r[0] = 9`",
+    "`m = X[X > 2]; m[:] = 0`"
+   ],
+   "explanation_en": "A basic row index returns a view (A true). Fancy indexing returns a copy (B false). flatten() returns a copy (C false). reshape returns a view (D true). A boolean mask returns a copy (E false)."
+  },
+  {
+   "id": "S2-37",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "논리 연산과 불리언 인덱싱",
+   "prompt": "v = np.arange(1, 7) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(v > 2) & (v \u003c 5) 는 [F, F, T, T, F, F] 이다.",
+    "v[(v > 2) & (v \u003c 5)] 는 [3, 4] 이다.",
+    "(v > 2) and (v \u003c 5) 는 원소별로 동작한다.",
+    "~(v > 2) 는 처음 두 원소에서 True 다.",
+    "np.count_nonzero(v % 2 == 0) == 3"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "3, 4 만 참이므로 [F,F,T,T,F,F] (A 참). 마스크로 뽑으면 [3, 4] (B 참). 파이썬의 and 는 배열에서 ValueError 가 나며 & 를 써야 한다 (C 거짓). ~ 는 논리 부정이라 1, 2 에서 True (D 참). 짝수 2, 4, 6 → 3개 (E 참).",
+   "topic_ko": "논리 연산과 불리언 인덱싱",
+   "prompt_ko": "v = np.arange(1, 7) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(v > 2) & (v \u003c 5) 는 [F, F, T, T, F, F] 이다.",
+    "v[(v > 2) & (v \u003c 5)] 는 [3, 4] 이다.",
+    "(v > 2) and (v \u003c 5) 는 원소별로 동작한다.",
+    "~(v > 2) 는 처음 두 원소에서 True 다.",
+    "np.count_nonzero(v % 2 == 0) == 3"
+   ],
+   "explanation_ko": "3, 4 만 참이므로 [F,F,T,T,F,F] (A 참). 마스크로 뽑으면 [3, 4] (B 참). 파이썬의 and 는 배열에서 ValueError 가 나며 & 를 써야 한다 (C 거짓). ~ 는 논리 부정이라 1, 2 에서 True (D 참). 짝수 2, 4, 6 → 3개 (E 참).",
+   "topic_en": "Logical operators and boolean indexing",
+   "prompt_en": "`v = np.arange(1, 7)`",
+   "options_en": [
+    "`(v > 2) & (v \u003c 5)` equals `[F, F, T, T, F, F]`",
+    "`v[(v > 2) & (v \u003c 5)]` equals `[3, 4]`",
+    "`(v > 2) and (v \u003c 5)` works elementwise.",
+    "`~(v > 2)` is True for the first two elements.",
+    "`np.count_nonzero(v % 2 == 0) == 3`"
+   ],
+   "explanation_en": "Only 3 and 4 qualify, so [F,F,T,T,F,F] (A true). The mask selects [3, 4] (B true). Python's and raises a ValueError on arrays; use & (C false). ~ negates, so the first two are True (D true). The even numbers 2, 4, 6 give 3 (E true)."
+  },
+  {
+   "id": "S2-38",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "손실 계산의 조용한 브로드캐스팅 버그",
+   "prompt": "yp 의 shape 이 (6,) 이고 yy 의 shape 이 (6, 1) 일 때 손실 계산의 함정에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "(yp - yy).shape == (6, 6)",
+    "오류가 발생하지 않는다.",
+    "np.mean((yp - yy) ** 2) 는 스칼라이지만 잘못된 값이다.",
+    "yp - yy[:, 0] 는 (6,) 이며 의도한 계산이다.",
+    "yp - yy 는 ValueError 를 발생시킨다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "(6,) − (6,1) 은 브로드캐스팅되어 (6,6) 이 된다 (A 참). 예외 없이 조용히 계산된다 (B 참). 결과는 스칼라이지만 값이 잘못된다 (C 참). yy[:, 0] 로 (6,) 으로 맞추면 의도한 계산이 된다 (D 참). 오류가 나지 않으므로 E 거짓.",
+   "topic_ko": "손실 계산의 조용한 브로드캐스팅 버그",
+   "prompt_ko": "yp 의 shape 이 (6,) 이고 yy 의 shape 이 (6, 1) 일 때 손실 계산의 함정에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(yp - yy).shape == (6, 6)",
+    "오류가 발생하지 않는다.",
+    "np.mean((yp - yy) ** 2) 는 스칼라이지만 잘못된 값이다.",
+    "yp - yy[:, 0] 는 (6,) 이며 의도한 계산이다.",
+    "yp - yy 는 ValueError 를 발생시킨다."
+   ],
+   "explanation_ko": "(6,) − (6,1) 은 브로드캐스팅되어 (6,6) 이 된다 (A 참). 예외 없이 조용히 계산된다 (B 참). 결과는 스칼라이지만 값이 잘못된다 (C 참). yy[:, 0] 로 (6,) 으로 맞추면 의도한 계산이 된다 (D 참). 오류가 나지 않으므로 E 거짓.",
+   "topic_en": "A silent broadcasting bug in loss computation",
+   "prompt_en": "Loss pitfall: `yp` has shape (6,), `yy` has shape (6, 1).",
+   "options_en": [
+    "`(yp - yy).shape == (6, 6)`",
+    "It does not raise an error.",
+    "`np.mean((yp - yy) ** 2)` is a scalar, but the wrong value.",
+    "`yp - yy[:, 0]` has shape (6,) and is the intended computation.",
+    "`yp - yy` raises a ValueError."
+   ],
+   "explanation_en": "(6,) − (6,1) broadcasts to (6, 6) (A true). No exception is raised (B true). The mean is a scalar but the wrong value (C true). yy[:, 0] restores (6,) and gives the intended result (D true). Since no error is raised, E is false."
+  },
+  {
+   "id": "S2-39",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "NumPy로 소프트맥스 구현(axis/keepdims)",
+   "prompt": "Z 의 shape 이 (6, 4) 이고 e = np.exp(Z) 일 때 소프트맥스 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "e / e.sum(axis=1, keepdims=True) 는 각 행의 합이 1이 된다.",
+    "e.sum(axis=1, keepdims=True).shape == (6, 1)",
+    "e / e.sum(axis=1) 는 shape 이 호환되어 동작한다.",
+    "e / e.sum(axis=0) 는 각 열을 정규화하며 행 단위가 아니다.",
+    "소프트맥스 출력의 shape 은 (6, 4) 이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "keepdims 로 (6,1) 을 만들어 행 단위로 나누면 각 행의 합이 1 (A 참). shape 은 (6,1) (B 참). (6,4) / (6,) 는 마지막 축 4 대 6 이 맞지 않아 오류 (C 거짓). axis=0 은 열 합이므로 열 정규화가 된다 (D 참). 출력 shape 은 입력과 같다 (E 참).",
+   "topic_ko": "NumPy로 소프트맥스 구현(axis/keepdims)",
+   "prompt_ko": "Z 의 shape 이 (6, 4) 이고 e = np.exp(Z) 일 때 소프트맥스 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "e / e.sum(axis=1, keepdims=True) 는 각 행의 합이 1이 된다.",
+    "e.sum(axis=1, keepdims=True).shape == (6, 1)",
+    "e / e.sum(axis=1) 는 shape 이 호환되어 동작한다.",
+    "e / e.sum(axis=0) 는 각 열을 정규화하며 행 단위가 아니다.",
+    "소프트맥스 출력의 shape 은 (6, 4) 이다."
+   ],
+   "explanation_ko": "keepdims 로 (6,1) 을 만들어 행 단위로 나누면 각 행의 합이 1 (A 참). shape 은 (6,1) (B 참). (6,4) / (6,) 는 마지막 축 4 대 6 이 맞지 않아 오류 (C 거짓). axis=0 은 열 합이므로 열 정규화가 된다 (D 참). 출력 shape 은 입력과 같다 (E 참).",
+   "topic_en": "Implementing softmax in NumPy (axis / keepdims)",
+   "prompt_en": "Softmax in NumPy: `Z` has shape (6, 4), `e = np.exp(Z)`.",
+   "options_en": [
+    "`e / e.sum(axis=1, keepdims=True)` has rows that sum to 1.",
+    "`e.sum(axis=1, keepdims=True).shape == (6, 1)`",
+    "`e / e.sum(axis=1)` works, because the shapes are compatible.",
+    "`e / e.sum(axis=0)` normalizes each column, not each row.",
+    "The softmax output has shape (6, 4)."
+   ],
+   "explanation_en": "keepdims gives (6, 1), so row-wise division makes each row sum to 1 (A true). The shape is (6, 1) (B true). (6,4) / (6,) mismatches 4 vs 6 and raises (C false). axis=0 sums columns, so it normalizes columns (D true). The output shape equals the input shape (E true)."
+  },
+  {
+   "id": "S2-40",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "newaxis와 외적(outer product)",
+   "prompt": "r = np.arange(3) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "r[:, None].shape == (3, 1)",
+    "r[None, :].shape == (1, 3)",
+    "(r[:, None] + r[None, :]).shape == (3, 3)",
+    "r[:, None] * r[None, :] 의 첫 행은 0으로만 이루어져 있다(외적).",
+    "r[:, None] 은 r.reshape(1, 3) 과 같다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "newaxis 로 (3,1) (A 참). (1,3) (B 참). 브로드캐스팅으로 (3,3) (C 참). r[0] = 0 이므로 외적의 첫 행은 0 (D 참). r[:, None] 은 (3,1) 이고 reshape(1, 3) 은 (1,3) 이라 서로 다르다 (E 거짓).",
+   "topic_ko": "newaxis와 외적(outer product)",
+   "prompt_ko": "r = np.arange(3) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "r[:, None].shape == (3, 1)",
+    "r[None, :].shape == (1, 3)",
+    "(r[:, None] + r[None, :]).shape == (3, 3)",
+    "r[:, None] * r[None, :] 의 첫 행은 0으로만 이루어져 있다(외적).",
+    "r[:, None] 은 r.reshape(1, 3) 과 같다."
+   ],
+   "explanation_ko": "newaxis 로 (3,1) (A 참). (1,3) (B 참). 브로드캐스팅으로 (3,3) (C 참). r[0] = 0 이므로 외적의 첫 행은 0 (D 참). r[:, None] 은 (3,1) 이고 reshape(1, 3) 은 (1,3) 이라 서로 다르다 (E 거짓).",
+   "topic_en": "newaxis and the outer product",
+   "prompt_en": "`r = np.arange(3)`",
+   "options_en": [
+    "`r[:, None].shape == (3, 1)`",
+    "`r[None, :].shape == (1, 3)`",
+    "`(r[:, None] + r[None, :]).shape == (3, 3)`",
+    "`r[:, None] * r[None, :]` has a first row of zeros (outer product).",
+    "`r[:, None]` equals `r.reshape(1, 3)`."
+   ],
+   "explanation_en": "newaxis gives (3, 1) (A true). And (1, 3) (B true). Broadcasting gives (3, 3) (C true). Since r[0] = 0 the first row of the outer product is 0 (D true). r[:, None] is (3,1) while reshape(1, 3) is (1,3), so they differ (E false)."
   }
  ]
 };</script>
@@ -6730,7 +9507,7 @@ function applyStaticI18n() {
   "exam_minutes": 45,
   "exam_pass": 7.0,
   "numpy_per_mock": 6,
-  "count": 13,
+  "count": 20,
   "primary": 10
  },
  "mocks": [
@@ -7045,6 +9822,174 @@ function applyStaticI18n() {
    ],
    "minutes": 45,
    "pass": 7.0
+  },
+  {
+   "id": "mock14",
+   "label": "연습 세트 1",
+   "label_en": "Practice Set 1",
+   "questions": [
+    "S1-12",
+    "S2-21",
+    "S2-33",
+    "S2-15",
+    "S1-23",
+    "S2-30",
+    "S2-35",
+    "S2-24",
+    "S2-40",
+    "S2-34",
+    "S1-02",
+    "S2-10",
+    "S2-38",
+    "S2-14",
+    "S2-31"
+   ],
+   "minutes": 45,
+   "pass": 7.0
+  },
+  {
+   "id": "mock15",
+   "label": "연습 세트 2",
+   "label_en": "Practice Set 2",
+   "questions": [
+    "S2-16",
+    "S1-21",
+    "S2-32",
+    "S2-28",
+    "S1-04",
+    "S2-25",
+    "S2-39",
+    "S2-18",
+    "S1-27",
+    "S1-08",
+    "S2-27",
+    "S1-17",
+    "S2-36",
+    "S1-28",
+    "S1-29"
+   ],
+   "minutes": 45,
+   "pass": 7.0
+  },
+  {
+   "id": "mock16",
+   "label": "연습 세트 3",
+   "label_en": "Practice Set 3",
+   "questions": [
+    "S1-07",
+    "S1-14",
+    "S1-19",
+    "S1-26",
+    "S2-38",
+    "S1-25",
+    "S2-05",
+    "S2-31",
+    "S2-07",
+    "S1-10",
+    "S2-33",
+    "S2-04",
+    "S2-11",
+    "S2-37",
+    "S2-34"
+   ],
+   "minutes": 45,
+   "pass": 7.0
+  },
+  {
+   "id": "mock17",
+   "label": "연습 세트 4",
+   "label_en": "Practice Set 4",
+   "questions": [
+    "S1-06",
+    "S2-17",
+    "S2-02",
+    "S2-39",
+    "S2-36",
+    "S1-13",
+    "S2-35",
+    "S2-26",
+    "S2-32",
+    "S1-24",
+    "S2-03",
+    "S2-40",
+    "S1-29",
+    "S1-03",
+    "S2-01"
+   ],
+   "minutes": 45,
+   "pass": 7.0
+  },
+  {
+   "id": "mock18",
+   "label": "연습 세트 5",
+   "label_en": "Practice Set 5",
+   "questions": [
+    "S1-28",
+    "S2-34",
+    "S2-12",
+    "S2-37",
+    "S2-22",
+    "S2-38",
+    "S1-27",
+    "S1-26",
+    "S2-23",
+    "S1-15",
+    "S2-08",
+    "S2-20",
+    "S2-06",
+    "S1-05",
+    "S2-09"
+   ],
+   "minutes": 45,
+   "pass": 7.0
+  },
+  {
+   "id": "mock19",
+   "label": "연습 세트 6",
+   "label_en": "Practice Set 6",
+   "questions": [
+    "S2-40",
+    "S2-33",
+    "S2-29",
+    "S1-09",
+    "S1-01",
+    "S1-22",
+    "S2-36",
+    "S2-31",
+    "S2-13",
+    "S1-11",
+    "S2-19",
+    "S2-32",
+    "S2-35",
+    "S1-20",
+    "S1-16"
+   ],
+   "minutes": 45,
+   "pass": 7.0
+  },
+  {
+   "id": "mock20",
+   "label": "연습 세트 7",
+   "label_en": "Practice Set 7",
+   "questions": [
+    "S1-27",
+    "S2-10",
+    "S1-29",
+    "S1-26",
+    "S1-23",
+    "S1-18",
+    "S2-39",
+    "S1-28",
+    "S2-37",
+    "S2-21",
+    "S2-14",
+    "S2-15",
+    "S2-24",
+    "S1-02",
+    "S2-30"
+   ],
+   "minutes": 45,
+   "pass": 7.0
   }
  ]
 };</script>
@@ -7068,8 +10013,8 @@ var CURRICULUM = [
         open: true,
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
-          { id: "mocks", label: { ko: "모의고사 13세트", en: "Mock exams (13 sets)" } },
-          { id: "bank", label: { ko: "문제은행 143문항", en: "Question bank (143)" } },
+          { id: "mocks", label: { ko: "모의고사 20세트", en: "Mock exams (20 sets)" } },
+          { id: "bank", label: { ko: "문제은행 212문항", en: "Question bank (212)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
           { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
