@@ -1,22 +1,23 @@
-# DND Theory Test 1 — 연습 문제 앱
+# My Study Room — 학습 허브 (2026 가을학기 · DND 이론 테스트 1)
 
-Deep Network Development 2026 Autumn **이론 테스트 1 대비 개인 학습용 연습 앱**입니다.
+**학기 → 과목 → 섹션** 구조의 개인 학습 사이트입니다.
 GitHub Pages로 배포하면 폰·태블릿·노트북 어디서든 같은 주소로 열 수 있습니다.
 
-- `index.html` — 문제 앱 (문제 143문항 + 모의고사 13세트 내장, 설치/서버 불필요)
-  - 실제 시험 포털 형식: 좌측 문항 팔레트(Sections) · 중앙 문제/보기 · 우측 타이머 + Overview(응답/미응답/검토/북마크) · 상단 `제출 및 검토`
+- `index.html` — 학습 허브 (왼쪽 사이드바 · 문제 143문항 + 모의고사 13세트 내장)
+  - 사이드바: `2026 가을학기 → Deep Network Development → 개요 / 모의고사 / 문제은행 / 오답 복습 / 용어집 / 인쇄 / 기록`
+  - 실제 시험 포털 형식: 좌측 문항 팔레트(Sections) · 중앙 문제/보기 · 우측 타이머 + Overview · 상단 `제출 및 검토`
   - **상단 `한국어 | English` 버튼**으로 문제·보기·해설·UI 라벨을 즉시 전환 (시험은 영어로 출제됩니다)
 - `glossary.html` — **용어집/단어 암기** (핵심 단어 411개 + 핵심 문장 49개)
   - 단어 목록(검색·강의별 필터) · **플래시카드**(알아요/몰라요 진도 저장) · 핵심 문장(영어+한국어)
 - `print.html` — 인쇄/PDF용 모의고사 13세트 + 정답·해설 (**한국어/영어 토글**)
 
 ## 사용법
-- **온라인 (배포됨)**: **https://chaninjung.github.io/dnd-theory1-quiz/** — 주소창에 입력하면 바로 시작
+- **온라인 (배포됨)**: **https://chaninjung.github.io/my-study-room/** — 주소창에 입력하면 바로 시작
 - **오프라인**: `index.html` 파일을 브라우저로 열기 (서버 불필요)
 - **로컬 주소로 쓰고 싶다면**(상위 폴더의 도우미): `START_SERVER.bat` 더블클릭 → `http://localhost:8000`
 
 ## 배포 정보
-- 저장소: `chaninjung/dnd-theory1-quiz` · 브랜치 `main` · 루트(`/`) 배포 · HTTPS 적용
+- 저장소: `chaninjung/my-study-room` · 브랜치 `main` · 루트(`/`) 배포 · HTTPS 적용
 - 검색엔진 노출 차단: `robots.txt` + 페이지 `noindex`
 - 갱신 방법: 상위 폴더에서 `python build_site.py` → `git add -A` → `git commit` → `git push`
 - 상위 폴더의 **`DEPLOY_TO_GITHUB.bat`** 를 더블클릭하면 점검·커밋·푸시를 자동으로 안내합니다.

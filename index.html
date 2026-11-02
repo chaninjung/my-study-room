@@ -142,7 +142,86 @@ table.grid tr:last-child td{border-bottom:0}
 .pass{color:var(--ok);font-weight:700}
 .fail{color:var(--bad);font-weight:700}
 input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary)}
+/* 검색 입력 (문제은행 / 용어집 공용) */
+.search{width:100%;max-width:380px;height:38px;font-family:inherit;font-size:14px;padding:0 12px;
+  border:1px solid var(--border-2);border-radius:var(--r-sm);background:#fff;color:var(--text);
+  transition:border-color .15s,box-shadow .15s}
+.search::placeholder{color:var(--text-4)}
+.search:focus{outline:0;border-color:var(--primary);box-shadow:var(--focus)}
 footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
+</style>
+<style>/* ==========================================================================
+   shell.css — 앱 프레임 (왼쪽 사이드바: 학기 → 과목 → 섹션 + 본문)
+   ========================================================================== */
+.shell{display:flex;align-items:stretch;min-height:100vh}
+
+/* ---------- 사이드바 ---------- */
+.sidebar{width:276px;flex:0 0 276px;background:#fff;border-right:1px solid var(--border);
+  position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;z-index:40}
+.sbBrand{padding:16px 18px;border-bottom:1px solid var(--border)}
+.sbBrand a{display:block;font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.sbBrand a:hover{text-decoration:none;color:var(--primary)}
+.sbBrandSub{margin-top:3px;font-size:12px;color:var(--text-3);line-height:1.5}
+.sbNav{flex:1;padding:10px 10px 18px}
+.sbSem{margin-bottom:6px}
+.sbSemHead{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;border:0;background:none;
+  font-family:inherit;font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:.04em;
+  text-transform:uppercase;cursor:pointer;border-radius:var(--r-sm);text-align:left}
+.sbSemHead:hover{background:var(--surface-2);color:var(--text-2)}
+.sbSemHead .chev{width:0;height:0;flex:0 0 auto;border-left:4px solid currentColor;
+  border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transition:transform .15s}
+.sbSemHead.open .chev{transform:rotate(90deg) translateX(1px)}
+.sbSemSub{margin-left:auto;font-size:11px;font-weight:600;color:var(--text-4);letter-spacing:0;text-transform:none}
+.sbCourse{margin:2px 0 10px}
+.sbCourseHead{padding:6px 10px;font-size:13.5px;font-weight:700;color:var(--text)}
+.sbCourseSub{padding:0 10px 8px;font-size:11.5px;color:var(--text-4);line-height:1.5}
+.sbItems{display:flex;flex-direction:column;gap:1px}
+.sbItem{display:block;width:100%;text-align:left;padding:8px 10px 8px 16px;border:0;border-left:2px solid transparent;
+  background:none;font-family:inherit;font-size:13.5px;color:var(--text-2);cursor:pointer;border-radius:0 var(--r-sm) var(--r-sm) 0;
+  transition:background .15s,color .15s,border-color .15s}
+.sbItem:hover{background:var(--surface-2);color:var(--text);text-decoration:none}
+.sbItem.on{background:var(--primary-soft);color:var(--primary);font-weight:700;border-left-color:var(--primary)}
+.sbSoon{padding:8px 12px 12px;font-size:12px;color:var(--text-4);line-height:1.6;
+  border-left:2px dashed var(--border-2);margin-left:10px}
+.sbFoot{padding:12px 14px 16px;border-top:1px solid var(--border);background:var(--surface-2)}
+.sbFootTitle{font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.sbProgress{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--text-3)}
+.sbProgress div{display:flex}
+.sbProgress b{margin-left:auto;color:var(--text);font-variant-numeric:tabular-nums}
+.sbBackdrop{display:none}
+
+/* ---------- 본문 ---------- */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+
+/* ---------- 메뉴(햄버거) 버튼 ---------- */
+.sbToggle{display:none;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px;
+  border:1px solid var(--border-2);border-radius:var(--r-sm);background:#fff;cursor:pointer;box-shadow:var(--shadow-xs)}
+.sbToggle:hover{background:var(--surface-2)}
+.burger{position:relative;display:block;width:16px;height:2px;background:var(--text-2);border-radius:1px}
+.burger::before,.burger::after{content:"";position:absolute;left:0;width:16px;height:2px;background:var(--text-2);border-radius:1px}
+.burger::before{top:-5px}
+.burger::after{top:5px}
+
+/* ---------- 응시/결과 화면에서는 사이드바 숨김 (집중 모드) ---------- */
+body.view-quiz .sidebar,body.view-result .sidebar{display:none}
+body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
+
+/* ---------- 태블릿 이하: 사이드바를 드로어로 ---------- */
+@media (max-width:1024px){
+  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100%;width:290px;flex-basis:290px;
+    transform:translateX(-100%);transition:transform .22s ease;box-shadow:var(--shadow-md)}
+  body.sb-open .sidebar{transform:translateX(0)}
+  .sbBackdrop{display:block;position:fixed;inset:0;background:rgba(16,24,40,.4);z-index:35;
+    opacity:0;pointer-events:none;transition:opacity .22s}
+  body.sb-open .sbBackdrop{opacity:1;pointer-events:auto}
+  .sbToggle{display:inline-flex}
+  .sbFoot{display:none}
+}
+@media (max-width:560px){
+  .sidebar{width:86vw;flex-basis:86vw}
+  .sbBrand{padding:14px 14px}
+  .sbNav{padding:8px 8px 16px}
+}
 </style>
 <style>/* ==========================================================================
    exam.css — 문제 앱 전용 레이아웃 (시험 포털: 팔레트 / 문제 / 타이머·Overview)
@@ -217,7 +296,14 @@ footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 .bar{height:6px;background:#eaecf0;border-radius:99px;overflow:hidden}
 .bar > i{display:block;height:100%;width:0;background:var(--primary);border-radius:99px;transition:width .3s ease}
 
-/* ---------- 홈 ---------- */
+/* ---------- 홈 / 새 뷰 공통 ---------- */
+.pageTitle{font-size:20px;font-weight:700;margin:0 0 6px}
+.scoreGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.scoreChip{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:8px 10px;font-size:12.5px;color:var(--text-3);background:#fff}
+.scoreChip b{margin-left:auto;font-size:14px;color:var(--text-4);font-variant-numeric:tabular-nums}
+.scoreChip.done{border-color:var(--primary-border);background:var(--primary-soft);color:var(--primary)}
+.scoreChip.done b{color:var(--primary)}
 .homeHead{padding:20px 20px 8px}
 .homeHead h1{font-size:20px;font-weight:700;margin:0 0 6px}
 .rowGrid{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--surface-3);
@@ -386,22 +472,36 @@ footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="crumbs">
-    <span class="appName">DND Theory Test 1</span><span class="sep">&gt;</span><span class="cur" id="crumbCur" data-i18n="nav.mock">모의고사</span>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sbBrand">
+      <a href="#" id="brandLink" data-i18n="sb.brand">My Study Room</a>
+      <div class="sbBrandSub" id="brandSub"></div>
+    </div>
+    <nav class="sbNav" id="sbNav" aria-label="Courses"></nav>
+    <div class="sbFoot" id="sbFoot"></div>
+  </aside>
+  <div class="sbBackdrop" id="sbBackdrop"></div>
+  <div class="main">
+    <div class="topbar">
+      <button class="sbToggle" id="sbToggle" type="button" aria-label="Menu"><span class="burger"></span></button>
+      <div class="crumbs">
+        <span class="appName">My Study Room</span><span class="sep">&gt;</span><span class="cur" id="crumbCur" data-i18n="nav.mock">모의고사</span>
+      </div>
+      <div class="grow"></div>
+      <span class="langBox" role="group" aria-label="Language">
+        <button class="langBtn" data-lang="ko" type="button">한국어</button>
+        <button class="langBtn" data-lang="en" type="button">English</button>
+      </span>
+      <a class="linkish" href="glossary.html" data-i18n="nav.glossary">용어집</a>
+      <a class="linkish" href="print.html" data-i18n="nav.print">인쇄용 문제지</a>
+      <button class="linkish" id="homeLink" data-i18n="nav.home">홈</button>
+    </div>
+    <div class="wrap">
+      <div id="app"></div>
+      <footer data-i18n="footer">개인 학습용 · 기록은 이 브라우저에만 저장됩니다</footer>
+    </div>
   </div>
-  <div class="grow"></div>
-  <span class="langBox" role="group" aria-label="Language">
-    <button class="langBtn" data-lang="ko" type="button">한국어</button>
-    <button class="langBtn" data-lang="en" type="button">English</button>
-  </span>
-  <a class="linkish" href="glossary.html" data-i18n="nav.glossary">용어집</a>
-  <a class="linkish" href="print.html" data-i18n="nav.print">인쇄용 문제지</a>
-  <button class="linkish" id="homeLink" data-i18n="nav.exit">나가기</button>
-</div>
-<div class="wrap">
-  <div id="app"></div>
-  <footer data-i18n="footer">개인 학습용 연습 문제 · 기록은 이 브라우저에만 저장됩니다</footer>
 </div>
 <script id="i18n-logic">
 /* ===== i18n.js — 한국어/영어 UI 문자열과 언어 상태 =====
@@ -436,8 +536,17 @@ var I18N = {
   "nav.exit":      { ko: "나가기", en: "Exit" },
   "nav.home":      { ko: "홈", en: "Home" },
   "nav.langLabel": { ko: "언어", en: "Language" },
-  "footer":        { ko: "개인 학습용 연습 문제 · 기록은 이 브라우저에만 저장됩니다",
-                     en: "Personal study practice · your progress is stored only in this browser" },
+  "nav.menu":      { ko: "메뉴", en: "Menu" },
+  "footer":        { ko: "개인 학습용 · 기록은 이 브라우저에만 저장됩니다",
+                     en: "Personal study use · your progress is stored only in this browser" },
+
+  /* ---------- 사이드바 (학기 / 과목) ---------- */
+  "sb.brand":      { ko: "My Study Room", en: "My Study Room" },
+  "sb.soon":       { ko: "다음 학기 준비 중 — 과목이 추가될 예정입니다", en: "Coming soon — courses will be added here" },
+  "sb.progress":   { ko: "이 과목 진행 상황", en: "Progress in this course" },
+  "sb.best":       { ko: "최고 점수", en: "Best score" },
+  "sb.taken":      { ko: "응시한 세트", en: "Sets taken" },
+  "sb.wrong":      { ko: "저장된 오답", en: "Saved wrong" },
 
   /* ---------- 홈 ---------- */
   "home.grading":        { ko: "채점: ", en: "Grading: " },
@@ -479,6 +588,7 @@ var I18N = {
   "home.howto":          { ko: "응시 방법", en: "How to take the test" },
   "alert.minLecture":    { ko: "최소 3문항 이상이 되도록 강의를 선택하세요.",
                            en: "Select lectures so that at least 3 questions are included." },
+  "alert.confirmWrongClear": { ko: "오답 목록을 모두 비울까요?", en: "Clear all saved wrong answers?" },
   "alert.confirmReset":  { ko: "기록과 오답노트를 모두 지울까요?", en: "Delete all records and the wrong-answer list?" },
   "alert.noMock":        { ko: "모의고사 데이터를 찾을 수 없습니다.", en: "Mock exam data was not found." },
 
@@ -486,7 +596,8 @@ var I18N = {
   "mode.exam":  { ko: "실전 모드", en: "Exam mode" },
   "mode.all":   { ko: "전체 연습", en: "Full practice" },
   "mode.wrong": { ko: "오답 복습", en: "Wrong-answer review" },
-  "mode.range": { ko: "범위 연습", en: "Range practice" }
+  "mode.range": { ko: "범위 연습", en: "Range practice" },
+  "mode.one":   { ko: "문항 연습", en: "Single question" }
 };
 
 var I18N2 = {
@@ -505,6 +616,42 @@ var I18N2 = {
         "5. Press <b>Submit &amp; Review</b> in the right panel to score and see the explanations.<br>" +
         "6. Selecting only the options you are sure about still earns 0.5 for one mistake."
   },
+
+  /* ---------- 새 뷰: 개요 / 모의고사 / 문제은행 / 오답 / 기록 ---------- */
+  "ov.questions":  { ko: "문제", en: "Questions" },
+  "ov.mocks":      { ko: "모의고사 세트", en: "Mock sets" },
+  "ov.words":      { ko: "용어", en: "Words" },
+  "ov.best":       { ko: "최고 점수", en: "Best score" },
+  "ov.quick":      { ko: "바로 시작", en: "Quick start" },
+  "ov.recent":     { ko: "최근 기록", en: "Recent records" },
+  "ov.seeAll":     { ko: "전체 기록 보기", en: "See all records" },
+  "ov.note":       { ko: "모의고사 1~%s 은 실제 시험 형식(15문항·45분·통과 7점), 이후 세트는 문제은행 전체를 커버하기 위한 추가 세트입니다.",
+                     en: "Sets 1-%s follow the real exam format (15 questions, 45 min, pass 7); later sets cover the whole bank." },
+  "mocks.title":   { ko: "모의고사 — 실제 시험 형식", en: "Mock exams — real exam format" },
+  "mocks.real":    { ko: "실전 세트 (1~%s)", en: "Exam-format sets (1-%s)" },
+  "mocks.extra":   { ko: "추가 세트 (%s~%s) — 전 문항 커버", en: "Extra sets (%s-%s) — full coverage" },
+  "bank.title":    { ko: "문제은행", en: "Question bank" },
+  "bank.perLecture": { ko: "강의별 문항 수", en: "Questions per lecture" },
+  "bank.list":     { ko: "전체 문항 목록", en: "All questions" },
+  "bank.practice": { ko: "풀기", en: "Practice" },
+  "bank.answer":   { ko: "정답", en: "Answer" },
+  "bank.rangeHint": { ko: "강의를 선택해 범위 연습을 시작할 수 있습니다.", en: "Select lectures and start a range practice." },
+  "bank.search":   { ko: "문항 검색 (id · 주제 · 지문)", en: "Search questions (id · topic · text)" },
+  "th.lecture":    { ko: "강의", en: "Lecture" },
+  "th.count":      { ko: "문항 수", en: "Questions" },
+  "th.topic":      { ko: "주제", en: "Topic" },
+  "foundCount":    { ko: "%s문항", en: "%s questions" },
+  "wrong.title":   { ko: "오답 복습", en: "Wrong-answer review" },
+  "wrong.empty":   { ko: "저장된 오답이 없습니다. 모의고사를 풀면 틀린 문항이 자동으로 쌓입니다.",
+                     en: "No saved wrong answers yet. Wrong questions are collected automatically when you take a mock exam." },
+  "wrong.clear":   { ko: "오답 목록 비우기", en: "Clear the list" },
+  "wrong.start":   { ko: "오답만 다시 풀기", en: "Practice wrong answers only" },
+  "wrong.count":   { ko: "틀린 횟수", en: "Times wrong" },
+  "rec.title":     { ko: "학습 기록", en: "Study records" },
+  "rec.attempts":  { ko: "응시 횟수", en: "Attempts" },
+  "rec.average":   { ko: "평균 점수", en: "Average score" },
+  "rec.mockCount": { ko: "응시한 세트", en: "Sets taken" },
+  "rec.summary":   { ko: "세트별 최고 점수", en: "Best score per set" },
 
   /* ---------- 응시 화면 ---------- */
   "quiz.sections":          { ko: "섹션", en: "Sections" },
@@ -6836,6 +6983,58 @@ function applyStaticI18n() {
   }
  ]
 };</script>
+<script id="curriculum-data">
+/* ==========================================================================
+   curriculum.js — 학기 / 과목 / 섹션 트리 (왼쪽 사이드바 내비게이션 데이터)
+   새 학기·과목을 추가할 때는 이 배열만 수정하면 됩니다.
+   label / sub 은 { ko, en } 두 언어를 지원합니다.
+   ========================================================================== */
+var CURRICULUM = [
+  {
+    id: "s1",
+    label: { ko: "2026 가을학기", en: "2026 Autumn" },
+    sub: { ko: "1학기", en: "Semester 1" },
+    open: true,
+    courses: [
+      {
+        id: "dnd",
+        label: { ko: "Deep Network Development", en: "Deep Network Development" },
+        sub: { ko: "이론 7강 + NumPy 실습 · 이론 테스트 1", en: "7 theory lectures + NumPy labs · Theory Test 1" },
+        open: true,
+        items: [
+          { id: "overview", label: { ko: "개요", en: "Overview" } },
+          { id: "mocks", label: { ko: "모의고사 13세트", en: "Mock exams (13 sets)" } },
+          { id: "bank", label: { ko: "문제은행 143문항", en: "Question bank (143)" } },
+          { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
+          { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
+          { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
+          { id: "records", label: { ko: "학습 기록", en: "Study records" } }
+        ]
+      }
+    ]
+  },
+  {
+    id: "s2",
+    label: { ko: "2027 봄학기", en: "2027 Spring" },
+    sub: { ko: "2학기", en: "Semester 2" },
+    open: false,
+    courses: []
+  }
+];
+
+/* 과목을 추가하는 예시 (2학기 준비되면 s2.courses 에 붙여넣기)
+  {
+    id: "subj",
+    label: { ko: "과목명", en: "Course name" },
+    sub: { ko: "한 줄 설명", en: "One-line description" },
+    open: true,
+    items: [
+      { id: "overview", label: { ko: "개요", en: "Overview" } }
+    ]
+  }
+*/
+
+</script>
 <script id="core-logic">
 /* ===== core.js — DOM 비의존 순수 로직 (node로 단위 테스트 가능) ===== */
 const LETTERS = "ABCDEFGH";
@@ -6955,6 +7154,7 @@ function scoreClass(score) {
   const META = DATA.meta;
   const ALL = DATA.questions;
   const LS_KEY = "dnd_tt1_v1";
+  const GLOSSARY_COUNT = 411;   /* glossary.json 의 용어 수 (테스트가 일치 여부를 검사) */
   const app = document.getElementById("app");
 
   /* ---------- 저장소 ---------- */
@@ -7077,116 +7277,416 @@ function scoreClass(score) {
     });
   }
 
-  /* ---------- 홈 화면 ---------- */
-  function renderHome() {
+  /* ---------- 화면 라우팅 (사이드바: 학기 → 과목 → 섹션) ---------- */
+  let VIEW = "overview";
+  const LEC_ORDER = ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5", "Lecture 6", "Lecture 7", "NumPy"];
+
+  function label(o) { return (o && (o[LANG] || o.ko)) || ""; }
+  function wrongCount() {
+    return Object.keys(store.wrong).filter(function (id) { return store.wrong[id] > 0; }).length;
+  }
+  function currentCourse() {
+    for (let i = 0; i < CURRICULUM.length; i++) {
+      const sem = CURRICULUM[i];
+      for (let j = 0; j < sem.courses.length; j++) {
+        const c = sem.courses[j];
+        for (let k = 0; k < c.items.length; k++) {
+          if (c.items[k].id === VIEW) return { sem: sem, course: c };
+        }
+      }
+    }
+    return { sem: CURRICULUM[0], course: CURRICULUM[0].courses[0] };
+  }
+  function viewTitle() {
+    const c = currentCourse().course;
+    for (let k = 0; k < c.items.length; k++) {
+      if (c.items[k].id === VIEW) return label(c.items[k].label);
+    }
+    return label(c.label);
+  }
+  function go(view) {
+    /* 탐색 화면으로 이동 = 진행 중인 시험 세션 종료 */
     if (timerId) { clearInterval(timerId); timerId = null; }
     S = null;
-    setView("home");
-    setCrumb(t("nav.mock"));
+    VIEW = view;
+    setView("browse");
+    closeSidebar();
+    renderSidebar();
+    renderView();
+    const c = currentCourse();
+    setCrumb(label(c.sem.label) + " › " + label(c.course.label) + " › " + viewTitle());
+    try { if (window.scrollTo) window.scrollTo(0, 0); } catch (e) { /* ignore */ }
+  }
+  function renderView() {
+    if (VIEW === "mocks") return renderMocks();
+    if (VIEW === "bank") return renderBank();
+    if (VIEW === "wrong") return renderWrong();
+    if (VIEW === "records") return renderRecords();
+    return renderOverview();
+  }
+  function renderHome() { go("overview"); }
+
+  /* ---------- 사이드바 ---------- */
+  function closeSidebar() {
+    const b = document.body;
+    if (b) b.className = String(b.className || "").replace(/\s*sb-open/g, "");
+  }
+  function renderSidebar() {
+    const nav = el("sbNav");
+    if (nav) {
+      let html = "";
+      CURRICULUM.forEach(function (sem) {
+        html += '<div class="sbSem">';
+        html += '<button class="sbSemHead' + (sem.open ? " open" : "") + '" data-sem="' + sem.id + '" type="button">' +
+          '<span class="chev"></span><span>' + esc(label(sem.label)) + "</span>" +
+          '<span class="sbSemSub">' + esc(label(sem.sub)) + "</span></button>";
+        if (sem.open) {
+          if (!sem.courses.length) html += '<div class="sbSoon">' + t("sb.soon") + "</div>";
+          sem.courses.forEach(function (c) {
+            html += '<div class="sbCourse"><div class="sbCourseHead">' + esc(label(c.label)) + "</div>";
+            if (c.sub) html += '<div class="sbCourseSub">' + esc(label(c.sub)) + "</div>";
+            html += '<div class="sbItems">';
+            c.items.forEach(function (it) {
+              if (it.href) {
+                html += '<a class="sbItem" href="' + it.href + '">' + esc(label(it.label)) + "</a>";
+              } else {
+                html += '<button class="sbItem' + (VIEW === it.id ? " on" : "") + '" data-view="' + it.id +
+                  '" type="button">' + esc(label(it.label)) + "</button>";
+              }
+            });
+            html += "</div></div>";
+          });
+        }
+        html += "</div>";
+      });
+      nav.innerHTML = html;
+      nav.querySelectorAll("[data-view]").forEach(function (b) {
+        b.onclick = function () { go(b.getAttribute("data-view")); };
+      });
+      nav.querySelectorAll("[data-sem]").forEach(function (b) {
+        b.onclick = function () {
+          const id = b.getAttribute("data-sem");
+          CURRICULUM.forEach(function (s) { if (s.id === id) s.open = !s.open; });
+          renderSidebar();
+        };
+      });
+    }
+    const bs = el("brandSub");
+    if (bs) {
+      const c = currentCourse();
+      bs.textContent = label(c.sem.label) + " · " + label(c.course.label);
+    }
+    const foot = el("sbFoot");
+    if (foot) {
+      foot.innerHTML = '<div class="sbFootTitle">' + t("sb.progress") + '</div><div class="sbProgress">' +
+        "<div>" + t("sb.best") + "<b>" + (store.best || 0) + "</b></div>" +
+        "<div>" + t("sb.taken") + "<b>" + Object.keys(store.mockBest || {}).length + " / " +
+        (MOCKS ? MOCKS.mocks.length : 0) + "</b></div>" +
+        "<div>" + t("sb.wrong") + "<b>" + wrongCount() + "</b></div></div>";
+    }
+  }
+
+  /* ---------- 공통 조각 ---------- */
+  function histRowsHtml(limit) {
+    const hist = store.history.slice(-limit).reverse();
+    if (!hist.length) return '<tr><td colspan="4" class="muted">' + t("home.noRecords") + "</td></tr>";
+    return hist.map(function (h) {
+      return "<tr><td>" + esc(h.date) + "</td><td>" + esc(h.mode) + "</td><td>" + h.total + " / " + h.max +
+        '</td><td class="' + (h.total >= h.pass ? "pass" : "fail") + '">' +
+        (h.total >= h.pass ? "PASS" : "FAIL") + "</td></tr>";
+    }).join("");
+  }
+  function histTableHtml(limit) {
+    return '<table class="grid"><tr><th>' + t("home.th.date") + "</th><th>" + t("home.th.mode") + "</th><th>" +
+      t("home.th.score") + "</th><th>" + t("home.th.result") + "</th></tr>" + histRowsHtml(limit) + "</table>";
+  }
+  function mockRowHtml(m, i) {
+    const best = (store.mockBest || {})[m.id];
+    const isReal = MOCKS ? i < MOCKS.meta.primary : i < 10;
+    return '<div class="rowGrid"><span class="tag">' + t(isReal ? "home.mock.tagReal" : "home.mock.tagExtra") + "</span>" +
+      '<span class="name">' + esc(mockLabel(m)) + "</span>" +
+      '<span class="muted">' + tf("home.mock.meta", m.questions.length, m.minutes, m.pass) + "</span>" +
+      '<span class="grow"></span>' +
+      '<span class="muted">' + (best !== undefined ? tf("home.mock.best", best, m.questions.length) : t("home.mock.none")) + "</span>" +
+      '<button class="btn sm primary" data-mock="' + m.id + '">' + t("home.start") + "</button></div>";
+  }
+  function wireMockButtons() {
+    document.querySelectorAll("[data-mock]").forEach(function (b) {
+      b.onclick = function () { startMock(b.getAttribute("data-mock")); };
+    });
+  }
+  function lecChipsHtml() {
     const lec = byLecture(ALL);
-    const order = ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5", "Lecture 6", "Lecture 7", "NumPy"];
-    const chips = order.filter(function (k) { return lec[k]; }).map(function (k) {
+    return LEC_ORDER.filter(function (k) { return lec[k]; }).map(function (k) {
       return '<label class="fchip"><input type="checkbox" class="lecfilter" value="' + k + '"' +
         (k === "NumPy" ? "" : " checked") + "> " + k + ' <span class="muted">' + lec[k] + "</span></label>";
     }).join("");
+  }
+  function startOne(qid) {
+    const q = ALL.filter(function (x) { return x.id === qid; })[0];
+    if (!q) return;
+    newSession([q], {
+      mode: "one", label: t("mode.one") + " · " + qid, minutes: 3,
+      shuffleQuestions: false, shuffleOptions: false
+    });
+    renderQuiz();
+  }
+  function metaNote() {
+    return (LANG === "en" && META.real_exam_note_en) ? META.real_exam_note_en : META.real_exam_note;
+  }
+  function gradingNote() {
+    return (LANG === "en" && META.grading_note_en) ? META.grading_note_en : META.grading_note;
+  }
+  function statCard(key, value) {
+    return "<div>" + t(key) + "<b>" + value + "</b></div>";
+  }
+  function panel(titleHtml, bodyHtml, extra) {
+    return '<div class="panel"' + (extra || "") + "><div class=\"panelHead\">" + titleHtml + "</div>" + bodyHtml + "</div>";
+  }
 
-    const wrongN = Object.keys(store.wrong).filter(function (id) { return store.wrong[id] > 0; }).length;
-    const hist = store.history.slice(-5).reverse();
-
-    /* 모의고사 버튼 */
-    let mockHtml = "";
-    if (MOCKS && MOCKS.mocks) {
-      const mb = store.mockBest || {};
-      mockHtml = MOCKS.mocks.map(function (m, i) {
-        const best = mb[m.id];
-        return '<div class="rowGrid"><span class="tag">' + t(i < MOCKS.meta.primary ? "home.mock.tagReal" : "home.mock.tagExtra") + "</span>" +
-          '<span class="name">' + esc(mockLabel(m)) + "</span>" +
-          '<span class="muted">' + tf("home.mock.meta", m.questions.length, m.minutes, m.pass) + "</span>" +
-          '<span class="grow"></span>' +
-          '<span class="muted">' + (best !== undefined ? tf("home.mock.best", best, m.questions.length) : t("home.mock.none")) + "</span>" +
-          '<button class="btn sm primary" data-mock="' + m.id + '">' + t("home.start") + "</button></div>";
-      }).join("");
-    }
-    const histRows = hist.length
-      ? hist.map(function (h) {
-          return "<tr><td>" + esc(h.date) + "</td><td>" + esc(h.mode) + "</td><td>" + h.total + " / " + h.max +
-            '</td><td class="' + (h.total >= h.pass ? "pass" : "fail") + '">' + (h.total >= h.pass ? "PASS" : "FAIL") + "</td></tr>";
-        }).join("")
-      : '<tr><td colspan="4" class="muted">' + t("home.noRecords") + "</td></tr>";
-
-    const metaNote = (LANG === "en" && META.real_exam_note_en) ? META.real_exam_note_en : META.real_exam_note;
-    const gradingNote = (LANG === "en" && META.grading_note_en) ? META.grading_note_en : META.grading_note;
-
-    app.innerHTML =
-      '<div class="panel" style="margin-bottom:16px"><div class="homeHead">' +
-      "<h1>Deep Network Development 2026 Autumn — Theory Test 1</h1>" +
-      '<div class="muted">' + esc(metaNote) + "</div>" +
-      '<div class="muted">' + t("home.grading") + esc(gradingNote) + "</div></div></div>" +
-
-      '<div class="examWrap homeWrap">' +
-      "<div>" +
-      '<div class="panel" style="margin-bottom:16px">' +
-      '<div class="panelHead">' + tf("home.mock.head", META.exam_questions, META.exam_minutes, META.exam_pass) + "</div>" +
-      (mockHtml || '<div class="panelBody muted">' + t("home.mock.empty") + "</div>") +
-      '<div class="note">' + tf("home.mock.note", (MOCKS ? MOCKS.meta.primary : 10)) + "</div>" +
-      "</div>" +
-
-      '<div class="panel"><div class="panelHead">' + t("home.practice") + "</div>" +
+  /* ---------- 뷰 1: 개요 ---------- */
+  function renderOverview() {
+    const c = currentCourse();
+    const wrongN = wrongCount();
+    const quick =
       '<div class="rowGrid"><span class="name">' + t("home.mode.exam") + "</span>" +
       '<span class="muted">' + tf("home.mode.exam.sub", META.exam_questions, META.exam_minutes) + "</span>" +
-      '<span class="grow"></span><button class="btn sm" id="mExam">' + t("home.start") + "</button></div>" +
+      '<span class="grow"></span><button class="btn sm primary" id="mExam">' + t("home.start") + "</button></div>" +
       '<div class="rowGrid"><span class="name">' + t("home.mode.all") + "</span>" +
       '<span class="muted">' + tf("home.mode.all.sub", ALL.length) + "</span>" +
       '<span class="grow"></span><button class="btn sm" id="mAll">' + t("home.start") + "</button></div>" +
       '<div class="rowGrid"><span class="name">' + t("home.mode.wrong") + "</span>" +
       '<span class="muted">' + tf("home.mode.wrong.sub", wrongN) + "</span>" +
-      '<span class="grow"></span><button class="btn sm" id="mWrong"' + (wrongN ? "" : " disabled") + ">" + t("home.start") + "</button></div>" +
-      '<div class="panelBody"><div class="muted" style="margin-bottom:8px">' + t("home.byLecture") + "</div>" +
-      '<div class="row" style="margin-bottom:10px">' + chips + "</div>" +
-      '<div class="row"><button class="btn sm primary" id="mSel">' + t("home.startRange") + "</button>" +
-      '<button class="btn sm" id="selAll">' + t("home.selAll") + '</button><button class="btn sm" id="selNone">' + t("home.selNone") + "</button></div>" +
-      '<div class="row" style="margin-top:12px">' +
-      '<label class="chk"><input type="checkbox" id="optShufQ"> ' + t("home.shufQ") + "</label>" +
-      '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
+      '<span class="grow"></span><button class="btn sm" id="mWrong"' + (wrongN ? "" : " disabled") + ">" +
+      t("home.start") + "</button></div>";
+    const recent = histTableHtml(4) +
+      '<div class="note"><button class="linkish" id="seeAll">' + t("ov.seeAll") + "</button></div>";
+    const mockHead = t("ov.mocks") + '<span class="grow"></span><button class="linkish" id="mocksAll">' +
+      t("mocks.title") + " →</button>";
+    const mockBody = MOCKS
+      ? MOCKS.mocks.slice(0, 3).map(function (m, i) { return mockRowHtml(m, i); }).join("") +
+        '<div class="note">' + tf("ov.note", MOCKS.meta.primary) + "</div>"
+      : '<div class="panelBody muted">' + t("home.mock.empty") + "</div>";
+
+    app.innerHTML =
+      '<div class="panel" style="margin-bottom:16px"><div class="panelBody">' +
+      '<h1 class="pageTitle">' + esc(label(c.course.label)) + "</h1>" +
+      '<div class="muted">' + esc(label(c.sem.label)) + " · " + esc(label(c.sub)) + "</div>" +
+      '<div class="muted">' + t("home.grading") + esc(gradingNote()) + "</div>" +
+      '<div class="stat" style="margin-top:16px">' +
+      statCard("ov.questions", ALL.length) +
+      statCard("ov.mocks", MOCKS ? MOCKS.mocks.length : 0) +
+      statCard("ov.words", (typeof GLOSSARY_COUNT !== "undefined" ? GLOSSARY_COUNT : 411)) +
+      statCard("ov.best", store.best || 0) +
       "</div></div></div>" +
-      "</div>" +
 
+      '<div class="examWrap homeWrap">' +
       "<div>" +
-      '<div class="panel" style="margin-bottom:16px"><div class="panelHead">' + t("home.records") + "</div>" +
-      '<div class="panelBody"><div class="stat"><div>' + t("home.best") + "<b>" + store.best + "</b></div>" +
-      "<div>" + t("home.savedWrong") + "<b>" + wrongN + "</b></div>" +
-      "<div>" + t("home.mocksTaken") + "<b>" + Object.keys(store.mockBest || {}).length + " / " + (MOCKS ? MOCKS.mocks.length : 0) + "</b></div></div></div>" +
-      '<table class="grid"><tr><th>' + t("home.th.date") + "</th><th>" + t("home.th.mode") + "</th><th>" + t("home.th.score") + "</th><th>" + t("home.th.result") + "</th></tr>" + histRows + "</table>" +
-      '<div class="panelBody"><button class="btn sm" id="reset">' + t("home.reset") + "</button></div></div>" +
-
-      '<div class="panel"><div class="panelHead">' + t("home.howto") + '</div><div class="panelBody muted">' +
-      t("home.howto.body") +
-      "</div></div>" +
+      panel(t("ov.quick"), quick, ' style="margin-bottom:16px"') +
+      panel(t("home.howto"), '<div class="panelBody muted">' + t("home.howto.body") + "</div>") +
+      "</div>" +
+      "<div>" +
+      panel(t("ov.recent"), recent, ' style="margin-bottom:16px"') +
+      panel(mockHead, mockBody) +
       "</div></div>";
 
     el("mExam").onclick = function () { startMode("exam"); };
     el("mAll").onclick = function () { startMode("all"); };
-    document.querySelectorAll("[data-mock]").forEach(function (b) {
-      b.onclick = function () { startMock(b.getAttribute("data-mock")); };
+    if (el("mWrong") && wrongN) el("mWrong").onclick = function () { startMode("wrong"); };
+    el("seeAll").onclick = function () { go("records"); };
+    el("mocksAll").onclick = function () { go("mocks"); };
+    wireMockButtons();
+  }
+
+  /* ---------- 뷰 2: 모의고사 ---------- */
+  function renderMocks() {
+    if (!MOCKS) {
+      app.innerHTML = panel(t("mocks.title"), '<div class="panelBody muted">' + t("home.mock.empty") + "</div>");
+      return;
+    }
+    const primary = MOCKS.meta.primary;
+    const real = MOCKS.mocks.slice(0, primary);
+    const extra = MOCKS.mocks.slice(primary);
+    app.innerHTML =
+      '<div class="panel" style="margin-bottom:16px">' +
+      '<div class="panelHead">' + t("mocks.title") + "</div>" +
+      '<div class="panelBody muted">' + tf("home.mock.meta", META.exam_questions, META.exam_minutes, META.exam_pass) +
+      "<br>" + esc(metaNote()) + "</div>" +
+      '<div class="panelHead">' + tf("mocks.real", primary) + "</div>" +
+      real.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
+      '<div class="panelHead">' + tf("mocks.extra", primary + 1, MOCKS.mocks.length) + "</div>" +
+      extra.map(function (m, i) { return mockRowHtml(m, primary + i); }).join("") +
+      '<div class="note">' + tf("ov.note", primary) + "</div></div>";
+    wireMockButtons();
+  }
+
+  /* ---------- 뷰 3: 문제은행 ---------- */
+  function renderBank() {
+    const lec = byLecture(ALL);
+    const order = LEC_ORDER.filter(function (k) { return lec[k]; });
+    const lecRows = order.map(function (k) {
+      return "<tr><td><span class='tag " + (k === "NumPy" ? "num" : "lec") + "'>" + esc(k) + "</span></td>" +
+        "<td>" + lec[k] + "</td><td><button class='btn sm' data-lecstart='" + esc(k) + "'>" +
+        t("bank.practice") + "</button></td></tr>";
+    }).join("");
+    const rows = ALL.map(function (q, i) {
+      return '<tr data-idx="' + i + '" data-lec="' + esc(q.lecture) + '" data-text="' +
+        esc((q.id + " " + qf(q, "topic") + " " + qf(q, "prompt")).toLowerCase()) + '">' +
+        "<td>" + (i + 1) + "</td><td class='mono'>" + esc(q.id) + "</td>" +
+        "<td><span class='tag " + (q.part === "B" ? "num" : "lec") + "'>" + esc(q.lecture) + "</span></td>" +
+        "<td>" + esc(qf(q, "topic")) + "</td>" +
+        "<td class='mono'>" + q.correct.join(", ") + "</td>" +
+        '<td><button class="btn sm" data-one="' + q.id + '">' + t("bank.practice") + "</button></td></tr>";
+    }).join("");
+
+    app.innerHTML =
+      panel(t("bank.title") + '<span class="grow"></span><span class="muted" id="bankCount">' +
+        tf("foundCount", ALL.length) + "</span>",
+        '<div class="panelBody"><input id="bankQ" class="search" type="search" placeholder="' +
+        t("bank.search") + '"><div class="filterRow" id="lecChips">' + lecChipsHtml() + "</div>" +
+        '<div class="row" style="margin-top:12px">' +
+        '<button class="btn sm primary" id="mSel">' + t("home.startRange") + "</button>" +
+        '<button class="btn sm" id="selAll">' + t("home.selAll") + "</button>" +
+        '<button class="btn sm" id="selNone">' + t("home.selNone") + "</button>" +
+        '<span class="grow"></span>' +
+        '<label class="chk"><input type="checkbox" id="optShufQ"> ' + t("home.shufQ") + "</label>" +
+        '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
+        "</div>" +
+        '<div class="muted" style="margin-top:8px">' + t("bank.rangeHint") + "</div></div>",
+        ' style="margin-bottom:16px"') +
+      panel(t("bank.perLecture"),
+        '<table class="grid"><tr><th>' + t("th.lecture") + "</th><th>" + t("th.count") + "</th><th></th></tr>" +
+        lecRows + "</table>", ' style="margin-bottom:16px"') +
+      panel(t("bank.list"), '<table class="grid"><tr><th>#</th><th>ID</th><th>' + t("th.lecture") +
+        "</th><th>" + t("th.topic") + "</th><th>" + t("bank.answer") + "</th><th></th></tr>" + rows + "</table>");
+
+    el("bankQ").oninput = function () { filterBank(); };
+    document.querySelectorAll("#lecChips .lecfilter").forEach(function (c) {
+      c.onchange = function () { filterBank(); };
     });
-    if (wrongN) el("mWrong").onclick = function () { startMode("wrong"); };
-    el("selAll").onclick = function () { document.querySelectorAll(".lecfilter").forEach(function (c) { c.checked = true; }); };
-    el("selNone").onclick = function () { document.querySelectorAll(".lecfilter").forEach(function (c) { c.checked = false; }); };
+    document.querySelectorAll("[data-one]").forEach(function (b) {
+      b.onclick = function () { startOne(b.getAttribute("data-one")); };
+    });
+    document.querySelectorAll("[data-lecstart]").forEach(function (b) {
+      b.onclick = function () { startRange([b.getAttribute("data-lecstart")]); };
+    });
+    el("selAll").onclick = function () {
+      document.querySelectorAll(".lecfilter").forEach(function (c) { c.checked = true; });
+      filterBank();
+    };
+    el("selNone").onclick = function () {
+      document.querySelectorAll(".lecfilter").forEach(function (c) { c.checked = false; });
+      filterBank();
+    };
     el("mSel").onclick = function () {
-      const sel = Array.prototype.slice.call(document.querySelectorAll(".lecfilter:checked")).map(function (c) { return c.value; });
-      const pool = ALL.filter(function (q) { return sel.indexOf(q.lecture) !== -1; });
-      if (pool.length < 3) { alert(t("alert.minLecture")); return; }
-      newSession(pool, {
-        mode: "range", label: t("mode.range"),
-        minutes: Math.max(10, Math.round(pool.length * 1.2)),
-        shuffleQuestions: el("optShufQ").checked, shuffleOptions: el("optShufO").checked
+      startRange(Array.prototype.slice.call(document.querySelectorAll(".lecfilter:checked"))
+        .map(function (c) { return c.value; }));
+    };
+  }
+
+  /* 문제은행 표 필터 (검색어 + 강의 칩) */
+  function filterBank() {
+    const q = (el("bankQ") ? el("bankQ").value : "").trim().toLowerCase();
+    const sel = Array.prototype.slice.call(document.querySelectorAll(".lecfilter:checked"))
+      .map(function (c) { return c.value; });
+    let shown = 0;
+    document.querySelectorAll("tr[data-idx]").forEach(function (tr) {
+      const okLec = sel.indexOf(tr.getAttribute("data-lec")) !== -1;
+      const okTxt = !q || tr.getAttribute("data-text").indexOf(q) !== -1;
+      const show = okLec && okTxt;
+      tr.hidden = !show;
+      if (show) shown++;
+    });
+    const c = el("bankCount");
+    if (c) c.textContent = tf("foundCount", shown);
+  }
+
+  function startRange(lectures) {
+    const pool = ALL.filter(function (q) { return lectures.indexOf(q.lecture) !== -1; });
+    if (pool.length < 3) { alert(t("alert.minLecture")); return; }
+    newSession(pool, {
+      mode: "range", label: t("mode.range") + " · " + lectures.join(", "),
+      minutes: Math.max(10, Math.round(pool.length * 1.2)),
+      shuffleQuestions: el("optShufQ") ? el("optShufQ").checked : false,
+      shuffleOptions: el("optShufO") ? el("optShufO").checked : true
+    });
+    renderQuiz();
+  }
+
+  /* ---------- 뷰 4: 오답 복습 ---------- */
+  function renderWrong() {
+    const list = ALL.filter(function (q) { return store.wrong[q.id] > 0; });
+    if (!list.length) {
+      app.innerHTML = panel(t("wrong.title"),
+        '<div class="panelBody muted">' + t("wrong.empty") + "</div>" +
+        '<div class="note"><button class="linkish" id="goMocks">' + t("mocks.title") + " →</button></div>");
+      el("goMocks").onclick = function () { go("mocks"); };
+      return;
+    }
+    const rows = list.map(function (q) {
+      return "<tr><td class='mono'>" + esc(q.id) + "</td>" +
+        "<td><span class='tag " + (q.part === "B" ? "num" : "lec") + "'>" + esc(q.lecture) + "</span></td>" +
+        "<td>" + esc(qf(q, "topic")) + "</td>" +
+        "<td class='mono'>" + q.correct.join(", ") + "</td>" +
+        "<td>" + (store.wrong[q.id] || 0) + "</td>" +
+        '<td><button class="btn sm" data-one="' + q.id + '">' + t("bank.practice") + "</button></td></tr>";
+    }).join("");
+    app.innerHTML = panel(t("wrong.title") + '<span class="grow"></span><span class="muted">' +
+      tf("foundCount", list.length) + "</span>",
+      '<div class="panelBody row">' +
+      '<button class="btn primary" id="wStart">' + t("wrong.start") + "</button>" +
+      '<button class="btn" id="wClear">' + t("wrong.clear") + "</button></div>" +
+      '<table class="grid"><tr><th>ID</th><th>' + t("th.lecture") + "</th><th>" + t("th.topic") +
+      "</th><th>" + t("bank.answer") + "</th><th>" + t("wrong.count") + "</th><th></th></tr>" + rows + "</table>");
+    el("wStart").onclick = function () {
+      newSession(list, {
+        mode: "wrong", label: t("mode.wrong"),
+        minutes: Math.max(5, Math.round(list.length * 1.2)),
+        shuffleQuestions: false, shuffleOptions: true
       });
       renderQuiz();
     };
+    el("wClear").onclick = function () {
+      if (!confirm(t("alert.confirmWrongClear"))) return;
+      store.wrong = {};
+      saveStore();
+      go("wrong");
+    };
+    document.querySelectorAll("[data-one]").forEach(function (b) {
+      b.onclick = function () { startOne(b.getAttribute("data-one")); };
+    });
+  }
+
+  /* ---------- 뷰 5: 학습 기록 ---------- */
+  function renderRecords() {
+    const hist = store.history;
+    const total = hist.reduce(function (a, h) { return a + h.total; }, 0);
+    const avg = hist.length ? Math.round((total / hist.length) * 10) / 10 : 0;
+    const best = store.mockBest || {};
+    const chips = (MOCKS ? MOCKS.mocks : []).map(function (m) {
+      const b = best[m.id];
+      return '<span class="scoreChip' + (b !== undefined ? " done" : "") + '">' +
+        esc(mockLabel(m)) + "<b>" + (b !== undefined ? b : "-") + "</b></span>";
+    }).join("");
+    app.innerHTML =
+      panel(t("rec.title") + '<span class="grow"></span><span class="muted">' +
+        tf("foundCount", hist.length) + "</span>",
+        '<div class="panelBody"><div class="stat">' +
+        statCard("rec.attempts", hist.length) +
+        statCard("rec.average", avg) +
+        statCard("ov.best", store.best || 0) +
+        statCard("rec.mockCount", Object.keys(best).length + " / " + (MOCKS ? MOCKS.mocks.length : 0)) +
+        "</div></div>", ' style="margin-bottom:16px"') +
+      panel(t("rec.summary"), '<div class="panelBody"><div class="scoreGrid">' + chips + "</div></div>",
+        ' style="margin-bottom:16px"') +
+      panel(t("home.records"),
+        histTableHtml(50) +
+        '<div class="note"><button class="btn sm" id="reset">' + t("home.reset") + "</button></div>");
     el("reset").onclick = function () {
       if (!confirm(t("alert.confirmReset"))) return;
       store = { history: [], wrong: {}, best: 0, mockBest: {} };
-      saveStore(); renderHome();
+      saveStore();
+      go("records");
     };
   }
 
@@ -7549,7 +8049,10 @@ function scoreClass(score) {
       setCrumb(S.cfg.label);
       if (S.submitted) renderResult(S.auto); else renderQuiz();
     } else {
-      renderHome();
+      renderSidebar();
+      renderView();
+      const c = currentCourse();
+      setCrumb(label(c.sem.label) + " › " + label(c.course.label) + " › " + viewTitle());
     }
   }
   window.__setLang = function (v) {
@@ -7562,17 +8065,35 @@ function scoreClass(score) {
     b.onclick = function () { window.__setLang(b.getAttribute("data-lang")); };
   });
 
+  /* ---------- 사이드바 토글 / 상단 링크 ---------- */
+  if (el("sbToggle")) {
+    el("sbToggle").onclick = function () {
+      const open = document.body.className.indexOf("sb-open") === -1;
+      document.body.className = open
+        ? (document.body.className + " sb-open").replace(/^\s+/, "")
+        : document.body.className.replace(/\s*sb-open/g, "");
+    };
+  }
+  if (el("sbBackdrop")) el("sbBackdrop").onclick = function () { closeSidebar(); };
+  if (el("brandLink")) el("brandLink").onclick = function (e) { if (e && e.preventDefault) e.preventDefault(); go("overview"); };
+  if (el("homeLink")) el("homeLink").onclick = function () { go("overview"); };
+
   /* ---------- 시작 ---------- */
   applyStaticI18n();
-  renderHome();
+  go("overview");
   /* 디버그/테스트용 훅 */
   window.__app = {
     get S() { return S; },
     get store() { return store; },
     get lang() { return LANG; },
+    get view() { return VIEW; },
+    get curriculum() { return CURRICULUM; },
     setLang: window.__setLang,
+    go: go,
+    renderSidebar: renderSidebar,
     renderHome: renderHome, renderQuiz: renderQuiz, renderResult: renderResult,
-    startMode: startMode, startMock: startMock, submit: submit, askSubmit: askSubmit, toggleOption: toggleOption
+    startMode: startMode, startMock: startMock, startOne: startOne, startRange: startRange,
+    submit: submit, askSubmit: askSubmit, toggleOption: toggleOption
   };
 })();
 
