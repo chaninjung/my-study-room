@@ -61,8 +61,11 @@ h1,h2,h3,h4{letter-spacing:-.02em;margin:0}
 a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-/* 한글은 단어 중간에서 줄바꿈되지 않게 */
-.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{word-break:keep-all}
+/* 한글은 단어 중간에서 줄바꿈되지 않게 (긴 영문·코드는 필요할 때만 분리) */
+.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{
+  word-break:keep-all;overflow-wrap:anywhere}
+/* 그리드/플렉스 자식이 강제로 넘치지 않도록 */
+.panel,main,.side,.examWrap > *{min-width:0}
 .mono,.timer,.scoreNum,.stat b,.legend b,.ovRow span,table.grid td{font-variant-numeric:tabular-nums}
 
 /* ===================== 버튼 ===================== */
@@ -141,8 +144,7 @@ table.grid tr:last-child td{border-bottom:0}
 input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary)}
 footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 </style>
-<style>
-/* ==========================================================================
+<style>/* ==========================================================================
    glossary.css — 용어집 전용 (탭 / 검색 / 단어표 / 플래시카드 / 핵심 문장)
    ========================================================================== */
 .tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
@@ -187,12 +189,56 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
 .sent .en{font-weight:700;color:var(--primary);font-size:14.5px;line-height:1.65}
 .sent .koSent{color:var(--text-2);margin-top:6px}
 
-/* ---------- 반응형 / 인쇄 ---------- */
-@media (max-width:760px){
+/* ==========================================================================
+   반응형 — 태블릿 / 폰(세로·가로)
+   ========================================================================== */
+@media (max-width:1040px){
   table.grid th{position:static}
-  .term,.ko{white-space:normal}
-  .card .word{font-size:24px}
 }
+@media (max-width:860px){
+  .wrap{padding:16px 14px 44px}
+  .topbar{position:static;box-shadow:none}
+  .tab{flex:1 1 auto;min-width:0;padding:0 12px}
+  .search{max-width:none}
+  .cardBox{padding:16px 12px}
+  .card{min-height:180px;padding:20px 16px}
+  .card .word{font-size:26px}
+  .sent{padding:12px 14px}
+  .panelHead{padding:10px 14px}
+  .filterRow{padding:12px 14px}
+}
+@media (max-width:700px){
+  /* 단어 표 → 카드형 목록 (가로 스크롤 없이 읽기) */
+  table.grid.responsive thead{display:none}
+  table.grid.responsive,table.grid.responsive tbody,
+  table.grid.responsive tr,table.grid.responsive td{display:block;width:100%}
+  table.grid.responsive tr{border-bottom:1px solid var(--border);padding:11px 14px}
+  table.grid.responsive tr:hover{background:var(--surface-2)}
+  table.grid.responsive td{border:0;padding:0}
+  table.grid.responsive .term{font-size:14.5px;white-space:normal}
+  table.grid.responsive .ko{font-size:13.5px;font-weight:600;white-space:normal;margin-top:1px}
+  table.grid.responsive .def{font-size:12.5px;color:var(--text-3);margin-top:3px}
+  table.grid.responsive td:last-child{margin-top:6px}
+  .card .word{font-size:22px}
+  .stat{gap:18px}
+  .tabs{gap:4px}
+  .tab{padding:0 10px;font-size:13px}
+}
+@media (max-width:560px){
+  .wrap{padding:12px 10px 40px}
+  .panelBody{padding:12px}
+  .card{padding:18px 12px;min-height:160px}
+  .card .word{font-size:20px}
+  .card .back{font-size:17px}
+  .sent .en{font-size:13.5px}
+  .stat{gap:14px}
+  .stat > div b{font-size:17px}
+}
+@media (max-height:560px) and (orientation:landscape){
+  .card{min-height:150px}
+  .wrap{padding:12px 14px 32px}
+}
+
 @media print{
   body{background:#fff}
   .topbar,.tabs,.search,.filterRow,.btn,.langBox{display:none!important}
@@ -230,7 +276,7 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
         <input id="q" class="search" type="search" placeholder="단어 검색 / Search a word">
         <div class="filterRow" id="lecChips"></div>
       </div>
-      <table class="grid">
+      <table class="grid responsive">
         <thead><tr><th id="thTerm">Term</th><th id="thKo">뜻</th><th id="thDef">Definition</th><th id="thLec">강의</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>

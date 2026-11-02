@@ -50,8 +50,11 @@ h1,h2,h3,h4{letter-spacing:-.02em;margin:0}
 a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-/* 한글은 단어 중간에서 줄바꿈되지 않게 */
-.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{word-break:keep-all}
+/* 한글은 단어 중간에서 줄바꿈되지 않게 (긴 영문·코드는 필요할 때만 분리) */
+.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{
+  word-break:keep-all;overflow-wrap:anywhere}
+/* 그리드/플렉스 자식이 강제로 넘치지 않도록 */
+.panel,main,.side,.examWrap > *{min-width:0}
 .mono,.timer,.scoreNum,.stat b,.legend b,.ovRow span,table.grid td{font-variant-numeric:tabular-nums}
 
 /* ===================== 버튼 ===================== */
@@ -146,6 +149,14 @@ footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 .expl{color:var(--text-2);font-size:13px}
 .langBlock[hidden]{display:none}
 .bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+@media (max-width:760px){
+  .doc{padding:18px 14px 40px}
+  .doc h1{font-size:17px}
+  .opt{margin-left:10px}
+  .ans{padding:8px 10px}
+  .topbar{position:static;box-shadow:none;padding:8px 14px;gap:10px}
+  .crumbs{font-size:13.5px}
+}
 @media print{
   body{background:#fff}
   .topbar,.bar,.btn{display:none!important}

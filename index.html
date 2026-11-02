@@ -61,8 +61,11 @@ h1,h2,h3,h4{letter-spacing:-.02em;margin:0}
 a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-/* 한글은 단어 중간에서 줄바꿈되지 않게 */
-.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{word-break:keep-all}
+/* 한글은 단어 중간에서 줄바꿈되지 않게 (긴 영문·코드는 필요할 때만 분리) */
+.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{
+  word-break:keep-all;overflow-wrap:anywhere}
+/* 그리드/플렉스 자식이 강제로 넘치지 않도록 */
+.panel,main,.side,.examWrap > *{min-width:0}
 .mono,.timer,.scoreNum,.stat b,.legend b,.ovRow span,table.grid td{font-variant-numeric:tabular-nums}
 
 /* ===================== 버튼 ===================== */
@@ -141,8 +144,7 @@ table.grid tr:last-child td{border-bottom:0}
 input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary)}
 footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 </style>
-<style>
-/* ==========================================================================
+<style>/* ==========================================================================
    exam.css — 문제 앱 전용 레이아웃 (시험 포털: 팔레트 / 문제 / 타이머·Overview)
    ========================================================================== */
 .examWrap{display:grid;grid-template-columns:240px minmax(0,1fr) 300px;gap:18px;align-items:start}
@@ -241,24 +243,139 @@ footer{color:var(--text-4);font-size:12px;text-align:center;padding:26px 0 8px}
 .s00{color:var(--bad);font-weight:700}
 .prompt{white-space:pre-wrap;font-size:15px;line-height:1.7}
 
-/* ---------- 반응형 ---------- */
-@media (max-width:1080px){
-  .examWrap{grid-template-columns:minmax(0,1fr) 290px}
+/* ==========================================================================
+   반응형 — 데스크톱 / 노트북 / 태블릿 / 폰(세로·가로)
+   · 홈 화면은 .homeWrap (인라인 스타일 제거 → 미디어 쿼리가 실제로 적용됨)
+   · 860px 이하: 상단·하단 고정 바 + 목록 접힘 (앱 같은 모바일 레이아웃)
+   ========================================================================== */
+
+/* 데스크톱: 홈 화면 2열 (기존 인라인 grid-template-columns 를 대체) */
+.homeWrap{grid-template-columns:minmax(0,1fr) 340px}
+
+/* 모바일 전용 바: 데스크톱에서는 완전히 숨김 */
+.mbar,.mfoot{display:none}
+
+/* ---------- 노트북 (3열 유지, 폭만 축소) ---------- */
+@media (max-width:1280px){
+  .examWrap{grid-template-columns:220px minmax(0,1fr) 280px;gap:14px}
+  .homeWrap{grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+}
+@media (max-width:1120px){
+  .homeWrap{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- 좁은 노트북: 목록을 위쪽 가로줄로 ---------- */
+@media (max-width:1040px){
+  .examWrap{grid-template-columns:minmax(0,1fr) 260px;gap:14px}
   .side.left{grid-column:1 / -1;position:static}
   .palette{grid-template-columns:repeat(10,1fr)}
+  .side{top:70px}
+  .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 14px}
 }
-@media (max-width:820px){
-  .examWrap{grid-template-columns:minmax(0,1fr)}
-  .side.right,.side.left{position:static}
-  .palette{grid-template-columns:repeat(6,1fr)}
-  .timer{font-size:28px}
-  .wrap{padding:12px 12px 32px}
-  .qText,.opts,.actionBar,.qHead{padding-left:14px;padding-right:14px}
-  .qText{margin-left:14px;margin-right:14px}
+
+/* ---------- 태블릿 / 폰 ---------- */
+@media (max-width:860px){
+  .wrap{padding:14px 14px 40px}
+  body.view-quiz .wrap{padding:70px 14px 86px}   /* 상·하단 고정 바가 가리지 않도록 */
+  .topbar{position:static;box-shadow:none}
+  .examWrap,.homeWrap{grid-template-columns:minmax(0,1fr);gap:12px}
+  .side{position:static}
+
+  /* 상단 고정 바: 진행 / 타이머 / 문항 목록 */
+  .mbar{display:flex;align-items:center;gap:10px;position:fixed;top:0;left:0;right:0;z-index:30;
+    background:#fff;border-bottom:1px solid var(--border);padding:8px 14px;
+    box-shadow:0 1px 2px rgba(16,24,40,.06)}
+  .mbar .mprog{font-size:13px;font-weight:700;color:var(--text-2);white-space:nowrap}
+  .mbar .mtimer{margin-left:auto;font-size:20px;letter-spacing:0}
+
+  /* 하단 고정 바: 이전 / 다음·제출 */
+  .mfoot{display:flex;align-items:center;gap:8px;position:fixed;bottom:0;left:0;right:0;z-index:30;
+    background:#fff;border-top:1px solid var(--border);padding:8px 14px;
+    box-shadow:0 -2px 10px rgba(16,24,40,.06)}
+  .mfoot .grow{flex:1}
+  .mfoot #mNextBtn{min-width:140px}
+
+  /* 순서: 문제 → (목록) → 안내/개요 */
+  main.panel{order:1}
+  .side.left{order:2}
+  .side.right{order:3}
+
+  /* 문항 목록은 기본 접힘, '문항 목록' 버튼으로 펼침 */
+  .side.left{display:none}
+  body.palette-open .side.left{display:block}
+  .palette{grid-template-columns:repeat(auto-fill,minmax(46px,1fr))}
+  .pbtn{height:44px;font-size:13.5px}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+
+  /* 우측 패널: 상·하단 바로 대체되는 요소는 숨김 */
+  .side.right .timerBox,.side.right .sideSubmit{display:none}
+  .sideBtns{grid-template-columns:1fr 1fr}
+
+  .qText{padding:15px 16px;margin:12px 16px 16px;font-size:14.5px}
+  .opts{padding:0 16px}
+  .opt{padding:13px 14px;gap:10px}
+  .qHead{padding:14px 16px 0}
+  .actionBar{padding:6px 16px 16px}
+  .actionBar .btn{flex:1 1 auto}
+  .resTop{gap:16px;padding:16px}
+  .scoreNum{font-size:32px}
+  .homeHead{padding:16px 16px 6px}
+  .homeHead h1{font-size:17px}
+  .rowGrid{flex-wrap:wrap;gap:8px;padding:12px 14px}
+  .rowGrid .muted{flex-basis:100%}
+  .filterRow{padding:12px 14px}
 }
+
+/* ---------- 폰 (세로) ---------- */
+@media (max-width:560px){
+  .wrap{padding:12px 10px 36px}
+  body.view-quiz .wrap{padding:64px 10px 80px}
+  .topbar{padding:8px 12px;gap:10px;min-height:0}
+  .crumbs{font-size:13.5px}
+  .crumbs .cur{max-width:40vw}
+  .linkish{font-size:12.5px}
+  .langBtn{padding:5px 9px;font-size:12px}
+  .panelHead{padding:10px 12px;font-size:13px}
+  .panelBody{padding:12px}
+  .mbar{padding:7px 12px;gap:8px}
+  .mbar .mtimer{font-size:18px}
+  .mbar .mprog{font-size:12.5px}
+  .mfoot{padding:7px 10px}
+  .mfoot .btn{flex:0 0 auto}
+  .mfoot #mNextBtn{min-width:0;flex:1}
+  .qText{margin:10px 12px 14px;padding:14px;font-size:14px}
+  .opts{padding:0 12px}
+  .qHead{padding:12px 12px 0}
+  .actionBar{padding:6px 12px 14px}
+  .actionBar .chk{flex:1 1 45%}
+  .actionBar .btn{flex:1 1 100%}
+  .palette{grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:5px;padding:10px}
+  .pbtn{height:42px}
+  .sideBtns{grid-template-columns:1fr}
+  .stat{gap:16px}
+  .resTop{gap:12px;padding:14px}
+  .scoreNum{font-size:28px}
+  .qres .rHead{padding:10px 12px}
+  .qres .rBody{padding:12px}
+  .prompt{font-size:14px}
+  .legend{grid-template-columns:1fr}
+  table.grid th,table.grid td{padding:8px 10px}
+  .timerLabels{display:none}
+}
+
+/* ---------- 가로가 짧은 화면(폰 가로) ---------- */
+@media (max-height:560px) and (orientation:landscape){
+  .wrap{padding:12px 14px 32px}
+  body.view-quiz .wrap{padding:60px 14px 72px}
+  .qText{margin:8px 14px 10px;padding:12px}
+  .opt{padding:10px 12px;margin-bottom:8px}
+  .mbar,.mfoot{padding:6px 12px}
+  .palette{grid-template-columns:repeat(auto-fill,minmax(42px,1fr))}
+}
+
 @media print{
   body{background:#fff}
-  .topbar,.side,.btn,.actionBar,.bar,.timerBox{display:none!important}
+  .topbar,.side,.btn,.actionBar,.bar,.timerBox,.mbar,.mfoot{display:none!important}
   .examWrap{grid-template-columns:1fr}
   .panel{box-shadow:none;border-color:#c8ccd4}
 }
@@ -401,6 +518,8 @@ var I18N2 = {
   "quiz.submit":            { ko: "제출 및 검토", en: "Submit &amp; Review" },
   "quiz.next":              { ko: "저장 후 다음 &rarr;", en: "Save &amp; Next &rarr;" },
   "quiz.overview":          { ko: "개요", en: "Overview" },
+  "quiz.palette":           { ko: "문항 목록", en: "Questions" },
+  "quiz.paletteClose":      { ko: "닫기", en: "Close" },
   "quiz.ov.total":          { ko: "전체 문항", en: "Total Questions" },
   "quiz.ov.visited":        { ko: "방문", en: "Visited" },
   "quiz.ov.notvisited":     { ko: "방문 안 함", en: "Not Visited" },
@@ -6863,6 +6982,15 @@ function scoreClass(score) {
   function qf(q, field) { return questionField(q, field); }
   /* 모의고사 이름 (영어 이름이 있으면 사용) */
   function mockLabel(m) { return (LANG === "en" && m.label_en) ? m.label_en : m.label; }
+  /* 좁은 화면(모바일) 여부 — 테스트 스텁에서는 false */
+  function isNarrow() {
+    try {
+      if (typeof window !== "undefined" && window.matchMedia) {
+        return window.matchMedia("(max-width:860px)").matches;
+      }
+    } catch (e) { /* ignore */ }
+    return false;
+  }
 
   /* ---------- 상태 ---------- */
   let S = null;          // 현재 세션
@@ -6896,6 +7024,14 @@ function scoreClass(score) {
     if (el2) el2.textContent = text;
   }
 
+  /* 현재 화면 종류를 body 클래스로 표시 (모바일 고정 바 여백 계산용) */
+  function setView(v) {
+    const b = document.body;
+    if (!b) return;
+    const cls = String(b.className || "").replace(/\s*view-\w+/g, "");
+    b.className = (cls + " view-" + v).replace(/^\s+/, "");
+  }
+
   /* Overview 통계 */
   function stats() {
     const n = S.questions.length;
@@ -6918,19 +7054,30 @@ function scoreClass(score) {
     timerId = setInterval(function () {
       if (!S || S.submitted) return;
       S.remain--;
-      const t = el("timer");
-      if (t) {
-        t.textContent = formatClock(S.remain);
-        t.className = "timer" + (S.remain <= 60 ? " danger" : S.remain <= 300 ? " warn" : "");
-      }
+      paintTimers();
       if (S.remain <= 0) { clearInterval(timerId); submit(true); }
     }, 1000);
+  }
+
+  /* 데스크톱 우측 타이머 + 모바일 상단 타이머를 함께 갱신 */
+  function timerClass() {
+    return "timer" + (S.remain <= 60 ? " danger" : S.remain <= 300 ? " warn" : "");
+  }
+  function paintTimers() {
+    const cls = timerClass();
+    const t = el("timer");
+    if (t) { t.textContent = formatClock(S.remain); t.className = cls; }
+    document.querySelectorAll("[data-timer]").forEach(function (m) {
+      m.textContent = formatClock(S.remain);
+      m.className = cls + " mtimer";
+    });
   }
 
   /* ---------- 홈 화면 ---------- */
   function renderHome() {
     if (timerId) { clearInterval(timerId); timerId = null; }
     S = null;
+    setView("home");
     setCrumb(t("nav.mock"));
     const lec = byLecture(ALL);
     const order = ["Lecture 1", "Lecture 2", "Lecture 3", "Lecture 4", "Lecture 5", "Lecture 6", "Lecture 7", "NumPy"];
@@ -6972,7 +7119,7 @@ function scoreClass(score) {
       '<div class="muted">' + esc(metaNote) + "</div>" +
       '<div class="muted">' + t("home.grading") + esc(gradingNote) + "</div></div></div>" +
 
-      '<div class="examWrap" style="grid-template-columns:minmax(0,1fr) 320px">' +
+      '<div class="examWrap homeWrap">' +
       "<div>" +
       '<div class="panel" style="margin-bottom:16px">' +
       '<div class="panelHead">' + tf("home.mock.head", META.exam_questions, META.exam_minutes, META.exam_pass) + "</div>" +
@@ -7079,6 +7226,7 @@ function scoreClass(score) {
     const q = S.questions[S.cur];
     const ans = S.answers[q.sid];
     const revealed = !!S.revealed[q.sid];
+    setView("quiz");
     S.visited[q.sid] = true;
     const st = stats();
 
@@ -7109,6 +7257,13 @@ function scoreClass(score) {
 
     app.innerHTML =
       '<div class="examWrap">' +
+
+      /* ---- 모바일 전용: 상단 고정 바 (진행 / 타이머 / 문항 목록) ---- */
+      '<div class="mbar">' +
+      '<span class="mprog">Q ' + (S.cur + 1) + " / " + n + "</span>" +
+      '<span class="timer mtimer" data-timer>' + formatClock(S.remain) + "</span>" +
+      '<button class="btn sm" id="mPaletteBtn" aria-expanded="false">' + t("quiz.palette") + "</button>" +
+      "</div>" +
 
       /* ---- 좌측: 섹션 / 팔레트 ---- */
       '<aside class="side left panel">' +
@@ -7162,7 +7317,15 @@ function scoreClass(score) {
       ovRow(t("quiz.ov.book"), st.book) +
       "</div>" +
       '<div class="sideSubmit"><button class="btn primary wide" id="submitBtn">' + t("quiz.submit") + "</button></div>" +
-      "</aside></div>" +
+      "</aside>" +
+
+      /* ---- 모바일 전용: 하단 고정 바 (이전 / 다음·제출) ---- */
+      '<div class="mfoot">' +
+      '<button class="btn sm" id="mPrevBtn"' + (S.cur === 0 ? " disabled" : "") + ">" + t("quiz.prev") + "</button>" +
+      '<span class="grow"></span>' +
+      '<button class="btn sm primary" id="mNextBtn">' + (S.cur === n - 1 ? t("quiz.submit") : t("quiz.next")) + "</button>" +
+      "</div>" +
+      "</div>" +
 
       '<div class="panel" style="margin-top:16px"><div class="bar"><i style="width:' +
       Math.round((st.answered / n) * 100) + '%"></i></div>' +
@@ -7173,8 +7336,37 @@ function scoreClass(score) {
       o.onclick = function () { if (!revealed) toggleOption(q, o.getAttribute("data-k")); };
     });
     document.querySelectorAll("[data-jump]").forEach(function (b) {
-      b.onclick = function () { S.cur = parseInt(b.getAttribute("data-jump"), 10); renderQuiz(); };
+      b.onclick = function () {
+        S.cur = parseInt(b.getAttribute("data-jump"), 10);
+        closePaletteOnMobile();
+        renderQuiz();
+      };
     });
+    /* 모바일: 문항 목록 열고 닫기 */
+    function closePaletteOnMobile() {
+      if (isNarrow()) {
+        document.body.className = document.body.className.replace(/\s*palette-open/g, "");
+      }
+    }
+    if (el("mPaletteBtn")) {
+      el("mPaletteBtn").onclick = function () {
+        const open = document.body.className.indexOf("palette-open") === -1;
+        document.body.className = open
+          ? (document.body.className + " palette-open").replace(/^\s+/, "")
+          : document.body.className.replace(/\s*palette-open/g, "");
+        el("mPaletteBtn").textContent = open ? t("quiz.paletteClose") : t("quiz.palette");
+        el("mPaletteBtn").setAttribute("aria-expanded", open ? "true" : "false");
+      };
+    }
+    if (el("mPrevBtn")) el("mPrevBtn").onclick = function () { if (S.cur > 0) { S.cur--; renderQuiz(); } };
+    if (el("mNextBtn")) el("mNextBtn").onclick = function () {
+      if (S.cur < n - 1) { S.cur++; renderQuiz(); } else { askSubmit(); }
+    };
+    /* 언어 전환/재렌더 후에도 목록 버튼 라벨 동기화 */
+    if (el("mPaletteBtn") && document.body.className.indexOf("palette-open") !== -1) {
+      el("mPaletteBtn").textContent = t("quiz.paletteClose");
+      el("mPaletteBtn").setAttribute("aria-expanded", "true");
+    }
     el("prevBtn").onclick = function () { if (S.cur > 0) { S.cur--; renderQuiz(); } };
     el("nextBtn").onclick = function () {
       if (S.cur < n - 1) { S.cur++; renderQuiz(); } else { askSubmit(); }
@@ -7243,6 +7435,7 @@ function scoreClass(score) {
   function renderResult(auto) {
     const n = S.questions.length;
     const passed = S.total >= S.pass;
+    setView("result");
     const mistakes = S.results.reduce(function (a, r) { return a + r.mistakes; }, 0);
     const used = Math.max(0, S.cfg.minutes * 60 - S.remain);
     const wrongN = S.results.filter(function (r) { return r.score < 1.0; }).length;
