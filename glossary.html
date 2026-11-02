@@ -15,7 +15,7 @@
 <noscript><link rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
 <meta name="description" content="Deep Network Development 2026 Autumn - Theory Test 1 vocabulary and key sentences">
-<title>DND Theory Test 1 — 용어집 / Glossary</title>
+<title>My Study Room — 용어집 / Glossary</title>
 <style>/* ==========================================================================
    theme.css — 공용 디자인 시스템 (문제 앱 / 용어집 / 인쇄 페이지 공통)
    폰트: Pretendard Variable (CDN, 비동기) → Noto Sans KR → 시스템 폰트
@@ -62,8 +62,12 @@ a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 /* 한글은 단어 중간에서 줄바꿈되지 않게 (긴 영문·코드는 필요할 때만 분리) */
-.qText,.opt,.opt span,.expl,.prompt,.panelBody,.rowGrid .name,.rBody,.sent,.card,.note,td,th{
+.qText,.opt,.opt span,.expl,.prompt,.rBody,.sent,.card,.note,td,th{
   word-break:keep-all;overflow-wrap:anywhere}
+/* 좁은 flex 행에서는 글자가 한 글자씩 쪼개지지 않도록 (min-content 를 단어 단위로 유지) */
+.rowGrid,.rowGrid .name,.rowGrid .muted,.mockRow,.mockRow .name,.mockRow .meta,.mockRow .best,
+.stat > div,.legend div,.ovRow,.sbItem,.sbCourseHead,.scoreChip{
+  word-break:keep-all;overflow-wrap:normal;min-width:0}
 /* 그리드/플렉스 자식이 강제로 넘치지 않도록 */
 .panel,main,.side,.examWrap > *{min-width:0}
 .mono,.timer,.scoreNum,.stat b,.legend b,.ovRow span,table.grid td{font-variant-numeric:tabular-nums}
@@ -129,6 +133,27 @@ table.grid th,table.grid td{border-bottom:1px solid var(--surface-3);padding:10p
 table.grid th{color:var(--text-3);font-weight:600;font-size:12px;letter-spacing:.03em;text-transform:uppercase;background:var(--surface-2)}
 table.grid tbody tr:hover{background:#fcfcfd}
 table.grid tr:last-child td{border-bottom:0}
+
+/* ===================== 비밀번호 게이트 (선택 기능) ===================== */
+.gateWrap{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;
+  justify-content:center;padding:20px}
+.gateWrap[hidden]{display:none}
+.gateCard{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);
+  width:100%;max-width:400px;padding:26px 24px}
+.gateBadge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--primary);background:var(--primary-soft);border:1px solid var(--primary-border);
+  border-radius:99px;padding:2px 9px;margin-bottom:12px}
+.gateTitle{font-size:17px;font-weight:700;margin:0 0 8px}
+.gateSub{font-size:13px;color:var(--text-3);line-height:1.65;margin:0 0 18px}
+.gateErr{color:var(--bad);font-size:13px;margin:0 0 10px}
+.gateInput{width:100%;height:42px;font-family:inherit;font-size:15px;padding:0 12px;color:var(--text);
+  border:1px solid var(--border-2);border-radius:var(--r-sm);margin-bottom:12px;background:#fff}
+.gateInput:focus{outline:0;border-color:var(--primary);box-shadow:var(--focus)}
+.gateChk{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text-2);
+  margin:0 0 16px;line-height:1.5;cursor:pointer}
+.gateChk input{margin-top:2px}
+.gateFoot{font-size:11.5px;color:var(--text-4);line-height:1.6;margin-top:14px}
+body.gate-locked{overflow:hidden}
 
 /* ===================== 기타 공통 ===================== */
 .note{font-size:12.5px;color:var(--text-3);padding:12px 16px;border-top:1px solid var(--border);
@@ -328,6 +353,7 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
 
   <footer id="foot">개인 학습용 · 기록은 이 브라우저에만 저장됩니다</footer>
 </div>
+
 <script id="glossary-data">window.__GLOSSARY__ = {
  "terms": [
   {
@@ -3368,9 +3394,15 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
     if (state.tab === "list") renderList();
   }
 
-  /* ---------- 시작 ---------- */
-  applyStatic();
-  renderChips("lecChips", TERMS, "lecture", "lec", function () { renderList(); if (state.tab === "card") rebuildOrder(); });
+  /* ---------- 부팅 (비밀번호 게이트가 있으면 복호화 후 호출) ---------- */
+  function boot() {
+    if (window.__GLOSSARY__) {
+      DATA = window.__GLOSSARY__;
+      TERMS = DATA.terms || [];
+      SENTS = DATA.sentences || [];
+    }
+    applyStatic();
+    renderChips("lecChips", TERMS, "lecture", "lec", function () { renderList(); if (state.tab === "card") rebuildOrder(); });
   renderChips("sentChips", SENTS, "lecture", "sentLec", renderSents);
   renderList();
 
@@ -3420,6 +3452,10 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
     else if (e.key === "1") { mark(true); }
     else if (e.key === "2") { mark(false); }
   });
+
+  }
+  window.__bootGlossary = boot;
+  if (!window.__GATED__) boot();      /* 비밀번호 게이트가 없으면 바로 시작 */
 
   /* 디버그/테스트용 훅 */
   window.__glossary = {

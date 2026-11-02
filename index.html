@@ -15,7 +15,7 @@
 <noscript><link rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
 <meta name="description" content="Deep Network Development 2026 Autumn - Theory Test 1 practice test">
-<title>DND Theory Test 1 — 연습 문제</title>
+<title>My Study Room — 학습 허브</title>
 <style>/* ==========================================================================
    theme.css — 공용 디자인 시스템 (문제 앱 / 용어집 / 인쇄 페이지 공통)
    폰트: Pretendard Variable (CDN, 비동기) → Noto Sans KR → 시스템 폰트
@@ -134,6 +134,27 @@ table.grid th{color:var(--text-3);font-weight:600;font-size:12px;letter-spacing:
 table.grid tbody tr:hover{background:#fcfcfd}
 table.grid tr:last-child td{border-bottom:0}
 
+/* ===================== 비밀번호 게이트 (선택 기능) ===================== */
+.gateWrap{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;
+  justify-content:center;padding:20px}
+.gateWrap[hidden]{display:none}
+.gateCard{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow-md);
+  width:100%;max-width:400px;padding:26px 24px}
+.gateBadge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--primary);background:var(--primary-soft);border:1px solid var(--primary-border);
+  border-radius:99px;padding:2px 9px;margin-bottom:12px}
+.gateTitle{font-size:17px;font-weight:700;margin:0 0 8px}
+.gateSub{font-size:13px;color:var(--text-3);line-height:1.65;margin:0 0 18px}
+.gateErr{color:var(--bad);font-size:13px;margin:0 0 10px}
+.gateInput{width:100%;height:42px;font-family:inherit;font-size:15px;padding:0 12px;color:var(--text);
+  border:1px solid var(--border-2);border-radius:var(--r-sm);margin-bottom:12px;background:#fff}
+.gateInput:focus{outline:0;border-color:var(--primary);box-shadow:var(--focus)}
+.gateChk{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:var(--text-2);
+  margin:0 0 16px;line-height:1.5;cursor:pointer}
+.gateChk input{margin-top:2px}
+.gateFoot{font-size:11.5px;color:var(--text-4);line-height:1.6;margin-top:14px}
+body.gate-locked{overflow:hidden}
+
 /* ===================== 기타 공통 ===================== */
 .note{font-size:12.5px;color:var(--text-3);padding:12px 16px;border-top:1px solid var(--border);
   background:var(--surface-2);border-radius:0 0 var(--r-lg) var(--r-lg)}
@@ -143,6 +164,8 @@ table.grid tr:last-child td{border-bottom:0}
 .expl{background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--primary);
   border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 14px;margin-top:12px;font-size:13.5px;
   color:var(--text-2);white-space:pre-wrap}
+.revealHint{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);
+  font-size:12.5px;color:var(--text-3);white-space:normal}
 .pass{color:var(--ok);font-weight:700}
 .fail{color:var(--bad);font-weight:700}
 input[type=checkbox]{width:15px;height:15px;accent-color:var(--primary)}
@@ -276,6 +299,10 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 .opt.wrong .key{color:var(--bad)}
 .opt.missed{border-color:var(--warn-border);background:var(--warn-bg);box-shadow:inset 0 0 0 1px #f79009}
 .opt.missed .key{color:var(--warn)}
+/* 해설을 보는 중에도 '내가 고른 보기'를 알 수 있게 표시 */
+.opt .mineTag{margin-left:auto;flex:0 0 auto;align-self:center;font-size:11.5px;font-weight:700;
+  color:var(--primary);background:var(--primary-soft);border:1px solid var(--primary);
+  border-radius:999px;padding:1px 8px;white-space:nowrap}
 .actionBar{display:flex;align-items:center;gap:10px;padding:8px 20px 20px;flex-wrap:wrap}
 .actionBar .grow{flex:1}
 .chk{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--text-2);cursor:pointer}
@@ -527,6 +554,7 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
     </div>
   </div>
 </div>
+
 <script id="i18n-logic">
 /* ===== i18n.js — 한국어/영어 UI 문자열과 언어 상태 =====
    - LANG: "ko" | "en" (localStorage 에 저장)
@@ -693,6 +721,9 @@ var I18N2 = {
   "quiz.prev":              { ko: "&larr; 이전", en: "&larr; Previous" },
   "quiz.clear":             { ko: "응답 지우기", en: "Clear response" },
   "quiz.reveal":            { ko: "해설 보기", en: "Show explanation" },
+  "quiz.revealHide":        { ko: "해설 숨기기", en: "Hide explanation" },
+  "quiz.mine":              { ko: "내 선택", en: "My pick" },
+  "quiz.revealHint":        { ko: "해설을 보는 동안에도 보기를 눌러 답을 바꿀 수 있습니다.", en: "You can still change your selection while the explanation is shown." },
   "quiz.submit":            { ko: "제출 및 검토", en: "Submit &amp; Review" },
   "quiz.next":              { ko: "저장 후 다음 &rarr;", en: "Save &amp; Next &rarr;" },
   "quiz.overview":          { ko: "개요", en: "Overview" },
@@ -7792,6 +7823,9 @@ function scoreClass(score) {
     renderQuiz();
   }
 
+  /* 연습 모드에서만 '해설 보기/숨기기' 토글을 제공한다 (모의고사·실전은 시험처럼 숨김) */
+  function canReveal() { return !!(S && S.cfg) && S.cfg.mode !== "exam" && S.cfg.mode !== "mock"; }
+
   /* ---------- 문항 화면 (시험 포털 레이아웃) ---------- */
   function renderQuiz() {
     const n = S.questions.length;
@@ -7802,15 +7836,18 @@ function scoreClass(score) {
     S.visited[q.sid] = true;
     const st = stats();
 
-    const opts = qf(q, "options").map(function (t, i) {
+    const opts = qf(q, "options").map(function (txt, i) {
       const L = letterAt(i);
+      const mine = ans.indexOf(L) !== -1;
       let cls = "opt";
       if (revealed) {
         if (q.correct.indexOf(L) !== -1) cls += " correct";
-        else if (ans.indexOf(L) !== -1) cls += " wrong";
-      } else if (ans.indexOf(L) !== -1) cls += " sel";
+        else if (mine) cls += " wrong";
+        if (mine) cls += " mine";
+      } else if (mine) cls += " sel";
       return '<div class="' + cls + '" data-k="' + L + '"><span class="key">' + L.toLowerCase() +
-        ")</span><span>" + esc(t) + "</span></div>";
+        ")</span><span>" + esc(txt) + "</span>" +
+        (revealed && mine ? '<span class="mineTag">' + t("quiz.mine") + "</span>" : "") + "</div>";
     }).join("");
 
     const palette = S.questions.map(function (x, i) {
@@ -7860,14 +7897,15 @@ function scoreClass(score) {
       '<button class="linkish" id="flagBtn">' + t("quiz.mark") + "</button></div>" +
       '<div class="qText">' + esc(qf(q, "prompt")) + "</div>" +
       '<div class="opts">' + opts + "</div>" +
-      (revealed ? '<div class="opts"><div class="expl"><b>' + t("quiz.answer") + q.correct.join(", ") + "</b>\n" + esc(qf(q, "explanation")) + "</div></div>" : "") +
+      (revealed ? '<div class="opts"><div class="expl"><b>' + t("quiz.answer") + q.correct.join(", ") + "</b>\n" + esc(qf(q, "explanation")) +
+        '<div class="revealHint">' + t("quiz.revealHint") + "</div></div></div>" : "") +
       '<div class="actionBar">' +
       '<label class="chk"><input type="checkbox" id="flagChk"' + (S.flags[q.sid] ? " checked" : "") + "> " + t("quiz.mark") + "</label>" +
       '<label class="chk"><input type="checkbox" id="bookChk"' + (S.bookmarks[q.sid] ? " checked" : "") + "> " + t("quiz.legend.book") + "</label>" +
       '<span class="grow"></span>' +
       '<button class="btn" id="prevBtn"' + (S.cur === 0 ? " disabled" : "") + ">" + t("quiz.prev") + "</button>" +
       '<button class="btn" id="clearBtn">' + t("quiz.clear") + "</button>" +
-      (S.cfg.mode !== "exam" && S.cfg.mode !== "mock" ? '<button class="btn" id="revealBtn">' + t("quiz.reveal") + "</button>" : "") +
+      (canReveal() ? '<button class="btn" id="revealBtn" aria-pressed="' + (revealed ? "true" : "false") + '">' + t(revealed ? "quiz.revealHide" : "quiz.reveal") + "</button>" : "") +
       '<button class="btn primary" id="nextBtn">' + (S.cur === n - 1 ? t("quiz.submit") : t("quiz.next")) + "</button>" +
       "</div></main>" +
 
@@ -7909,7 +7947,7 @@ function scoreClass(score) {
       " · " + t("quiz.halfNote") + "</div></div>";
 
     document.querySelectorAll(".opt").forEach(function (o) {
-      o.onclick = function () { if (!revealed) toggleOption(q, o.getAttribute("data-k")); };
+      o.onclick = function () { toggleOption(q, o.getAttribute("data-k")); };
     });
     document.querySelectorAll("[data-jump]").forEach(function (b) {
       b.onclick = function () {
@@ -7951,7 +7989,10 @@ function scoreClass(score) {
     el("flagChk").onchange = function () { S.flags[q.sid] = el("flagChk").checked; renderQuiz(); };
     el("bookChk").onchange = function () { S.bookmarks[q.sid] = el("bookChk").checked; renderQuiz(); };
     el("clearBtn").onclick = function () { S.answers[q.sid] = []; renderQuiz(); };
-    if (el("revealBtn")) el("revealBtn").onclick = function () { S.revealed[q.sid] = true; renderQuiz(); };
+    if (el("revealBtn")) el("revealBtn").onclick = function () {
+      S.revealed[q.sid] = !S.revealed[q.sid];
+      renderQuiz();
+    };
     el("submitBtn").onclick = function () { askSubmit(); };
     el("aboutBtn").onclick = function () {
       alert(tf("quiz.about.body", n, S.timed ? (S.cfg.minutes + t("unit.min")) : t("quiz.noLimit"), S.pass));
@@ -8095,7 +8136,9 @@ function scoreClass(score) {
     if (tag === "INPUT" || tag === "TEXTAREA") return;
     if (e.key >= "1" && e.key <= "6") {
       const i = parseInt(e.key, 10) - 1;
-      if (i < q.options.length && !S.revealed[q.sid]) { toggleOption(q, letterAt(i)); e.preventDefault(); }
+      if (i < q.options.length) { toggleOption(q, letterAt(i)); e.preventDefault(); }
+    } else if ((e.key === "e" || e.key === "E") && canReveal()) {
+      S.revealed[q.sid] = !S.revealed[q.sid]; renderQuiz(); e.preventDefault();
     } else if (e.key === "ArrowRight" || e.key === "Enter") {
       if (S.cur < S.questions.length - 1) { S.cur++; renderQuiz(); e.preventDefault(); }
     } else if (e.key === "ArrowLeft") {
@@ -8138,22 +8181,27 @@ function scoreClass(score) {
     b.onclick = function () { window.__setLang(b.getAttribute("data-lang")); };
   });
 
-  /* ---------- 사이드바 토글 / 상단 링크 ---------- */
-  if (el("sbToggle")) {
-    el("sbToggle").onclick = function () {
-      const open = document.body.className.indexOf("sb-open") === -1;
-      document.body.className = open
-        ? (document.body.className + " sb-open").replace(/^\s+/, "")
-        : document.body.className.replace(/\s*sb-open/g, "");
-    };
-  }
-  if (el("sbBackdrop")) el("sbBackdrop").onclick = function () { closeSidebar(); };
-  if (el("brandLink")) el("brandLink").onclick = function (e) { if (e && e.preventDefault) e.preventDefault(); go("overview"); };
-  if (el("homeLink")) el("homeLink").onclick = function () { go("overview"); };
+  /* ---------- 부팅 (게이트가 있으면 복호화 후 게이트가 호출) ---------- */
+  function boot() {
+    /* 사이드바 토글 / 상단 링크 */
+    if (el("sbToggle")) {
+      el("sbToggle").onclick = function () {
+        const open = document.body.className.indexOf("sb-open") === -1;
+        document.body.className = open
+          ? (document.body.className + " sb-open").replace(/^\s+/, "")
+          : document.body.className.replace(/\s*sb-open/g, "");
+      };
+    }
+    if (el("sbBackdrop")) el("sbBackdrop").onclick = function () { closeSidebar(); };
+    if (el("brandLink")) el("brandLink").onclick = function (e) { if (e && e.preventDefault) e.preventDefault(); go("overview"); };
+    if (el("homeLink")) el("homeLink").onclick = function () { go("overview"); };
 
-  /* ---------- 시작 ---------- */
-  applyStaticI18n();
-  go("overview");
+    applyStaticI18n();
+    go("overview");
+  }
+  window.__bootApp = boot;
+  if (!window.__GATED__) boot();     /* 비밀번호 게이트가 없으면 바로 시작 */
+
   /* 디버그/테스트용 훅 */
   window.__app = {
     get S() { return S; },

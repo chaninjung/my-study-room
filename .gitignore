@@ -31,3 +31,7 @@ cli_state.json
 ../*.py
 ../*.bat
 ../print_*.md
+
+# Passcode file — never publish it (only the encrypted payload is deployed)
+../gate_passcode.txt
+gate_passcode.txt
