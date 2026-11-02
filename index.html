@@ -282,6 +282,8 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 .timer{font-size:34px;font-weight:700;color:var(--primary);letter-spacing:1px;line-height:1.1}
 .timer.warn{color:var(--warn)}
 .timer.danger{color:var(--bad)}
+.timer.free{color:var(--text-2)}          /* 연습 모드: 시간 제한 없음 (경과 시간) */
+.timerLabels.free{letter-spacing:0;text-transform:none;color:var(--text-3);font-size:11.5px}
 .timerLabels{display:flex;justify-content:center;gap:28px;font-size:11px;color:var(--text-4);
   margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
 .sideBtns{padding:12px;display:grid;gap:8px;border-bottom:1px solid var(--border)}
@@ -373,6 +375,8 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
     box-shadow:0 1px 2px rgba(16,24,40,.06)}
   .mbar .mprog{font-size:13px;font-weight:700;color:var(--text-2);white-space:nowrap}
   .mbar .mtimer{margin-left:auto;font-size:20px;letter-spacing:0}
+  .mbar .mfree{font-size:11px;font-weight:600;color:var(--text-3);border:1px solid var(--border);
+    border-radius:99px;padding:1px 7px;white-space:nowrap}
 
   /* 하단 고정 바: 이전 / 다음·제출 */
   .mfoot{display:flex;align-items:center;gap:8px;position:fixed;bottom:0;left:0;right:0;z-index:30;
@@ -597,7 +601,9 @@ var I18N = {
   "mode.all":   { ko: "전체 연습", en: "Full practice" },
   "mode.wrong": { ko: "오답 복습", en: "Wrong-answer review" },
   "mode.range": { ko: "범위 연습", en: "Range practice" },
-  "mode.one":   { ko: "문항 연습", en: "Single question" }
+  "mode.one":   { ko: "문항 연습", en: "Single question" },
+  "mode.untimed": { ko: "무제한", en: "no time limit" },
+  "mode.free":    { ko: "무제한", en: "untimed" }
 };
 
 var I18N2 = {
@@ -669,6 +675,13 @@ var I18N2 = {
   "quiz.submit":            { ko: "제출 및 검토", en: "Submit &amp; Review" },
   "quiz.next":              { ko: "저장 후 다음 &rarr;", en: "Save &amp; Next &rarr;" },
   "quiz.overview":          { ko: "개요", en: "Overview" },
+  "quiz.elapsed":           { ko: "경과 시간", en: "Elapsed" },
+  "quiz.noLimit":           { ko: "시간 제한 없음", en: "No time limit" },
+  "unit.min":               { ko: "분", en: " min" },
+  "opt.timed":              { ko: "시간 제한 사용 (모의고사처럼 타이머 작동)",
+                              en: "Use a time limit (timer runs like the mock exam)" },
+  "opt.timedHint":          { ko: "체크하지 않으면 시간 제한 없이 연습합니다. 경과 시간만 표시됩니다.",
+                              en: "Leave unchecked to practice without a time limit — only elapsed time is shown." },
   "quiz.palette":           { ko: "문항 목록", en: "Questions" },
   "quiz.paletteClose":      { ko: "닫기", en: "Close" },
   "quiz.ov.total":          { ko: "전체 문항", en: "Total Questions" },
@@ -684,10 +697,10 @@ var I18N2 = {
   "quiz.halfNote":          { ko: "확실히 참인 보기만 골라도 실수 1개 = 0.5점",
                               en: "One mistake still scores 0.5 — pick only what you are sure about" },
   "quiz.about.body": {
-    ko: "시험 안내\n\n· 문항 수: %s문항\n· 제한 시간: %s분\n· 통과 기준: %s점\n" +
+    ko: "시험 안내\n\n· 문항 수: %s문항\n· 제한 시간: %s\n· 통과 기준: %s점\n" +
         "· 채점: 완전 일치 1.0점 / 실수 1개 0.5점 / 실수 2개 이상 0점\n" +
         "· 보기 중 참인 것이 최소 1개, 여러 개일 수 있습니다.",
-    en: "Exam info\n\n- Questions: %s\n- Time limit: %s min\n- Pass mark: %s\n" +
+    en: "Exam info\n\n- Questions: %s\n- Time limit: %s\n- Pass mark: %s\n" +
         "- Grading: exact match 1.0 / one mistake 0.5 / two or more mistakes 0\n" +
         "- At least one option is correct, and there may be several."
   },
@@ -7202,6 +7215,7 @@ function scoreClass(score) {
 
   function newSession(questions, cfg) {
     const qs = buildSession(questions, cfg);
+    const timed = cfg.timed !== false;          /* 기본값: 시간 제한 있음 (모의고사) */
     S = {
       cfg: cfg,
       questions: qs,
@@ -7212,7 +7226,9 @@ function scoreClass(score) {
       visited: {},
       cur: 0,
       startAt: Date.now(),
-      remain: cfg.minutes * 60,
+      timed: timed,
+      remain: timed ? cfg.minutes * 60 : 0,
+      elapsed: 0,
       submitted: false,
       results: null,
       total: 0,
@@ -7257,22 +7273,30 @@ function scoreClass(score) {
     if (timerId) clearInterval(timerId);
     timerId = setInterval(function () {
       if (!S || S.submitted) return;
-      S.remain--;
-      paintTimers();
-      if (S.remain <= 0) { clearInterval(timerId); submit(true); }
+      if (S.timed) {
+        S.remain--;
+        paintTimers();
+        if (S.remain <= 0) { clearInterval(timerId); submit(true); }
+      } else {
+        /* 연습 모드: 제한 없음 → 경과 시간만 올라간다 (자동 제출 없음) */
+        S.elapsed++;
+        paintTimers();
+      }
     }, 1000);
   }
 
   /* 데스크톱 우측 타이머 + 모바일 상단 타이머를 함께 갱신 */
   function timerClass() {
+    if (!S.timed) return "timer free";
     return "timer" + (S.remain <= 60 ? " danger" : S.remain <= 300 ? " warn" : "");
   }
   function paintTimers() {
     const cls = timerClass();
+    const text = S.timed ? formatClock(S.remain) : formatClock(S.elapsed);
     const t = el("timer");
-    if (t) { t.textContent = formatClock(S.remain); t.className = cls; }
+    if (t) { t.textContent = text; t.className = cls; }
     document.querySelectorAll("[data-timer]").forEach(function (m) {
-      m.textContent = formatClock(S.remain);
+      m.textContent = text;
       m.className = cls + " mtimer";
     });
   }
@@ -7425,8 +7449,9 @@ function scoreClass(score) {
   function startOne(qid) {
     const q = ALL.filter(function (x) { return x.id === qid; })[0];
     if (!q) return;
+    /* 문항 1개 연습은 항상 시간 제한 없음 */
     newSession([q], {
-      mode: "one", label: t("mode.one") + " · " + qid, minutes: 3,
+      mode: "one", label: t("mode.one") + " · " + qid, minutes: 0, timed: false,
       shuffleQuestions: false, shuffleOptions: false
     });
     renderQuiz();
@@ -7458,7 +7483,10 @@ function scoreClass(score) {
       '<div class="rowGrid"><span class="name">' + t("home.mode.wrong") + "</span>" +
       '<span class="muted">' + tf("home.mode.wrong.sub", wrongN) + "</span>" +
       '<span class="grow"></span><button class="btn sm" id="mWrong"' + (wrongN ? "" : " disabled") + ">" +
-      t("home.start") + "</button></div>";
+      t("home.start") + "</button></div>" +
+      '<div class="panelBody"><div class="row">' +
+      '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
+      '</div><div class="muted" style="margin-top:6px">' + t("opt.timedHint") + "</div></div>";
     const recent = histTableHtml(4) +
       '<div class="note"><button class="linkish" id="seeAll">' + t("ov.seeAll") + "</button></div>";
     const mockHead = t("ov.mocks") + '<span class="grow"></span><button class="linkish" id="mocksAll">' +
@@ -7549,10 +7577,11 @@ function scoreClass(score) {
         '<button class="btn sm" id="selAll">' + t("home.selAll") + "</button>" +
         '<button class="btn sm" id="selNone">' + t("home.selNone") + "</button>" +
         '<span class="grow"></span>' +
+        '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
         '<label class="chk"><input type="checkbox" id="optShufQ"> ' + t("home.shufQ") + "</label>" +
         '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
         "</div>" +
-        '<div class="muted" style="margin-top:8px">' + t("bank.rangeHint") + "</div></div>",
+        '<div class="muted" style="margin-top:8px">' + t("bank.rangeHint") + " " + t("opt.timedHint") + "</div></div>",
         ' style="margin-bottom:16px"') +
       panel(t("bank.perLecture"),
         '<table class="grid"><tr><th>' + t("th.lecture") + "</th><th>" + t("th.count") + "</th><th></th></tr>" +
@@ -7604,9 +7633,11 @@ function scoreClass(score) {
   function startRange(lectures) {
     const pool = ALL.filter(function (q) { return lectures.indexOf(q.lecture) !== -1; });
     if (pool.length < 3) { alert(t("alert.minLecture")); return; }
+    const timed = timedChoice();
     newSession(pool, {
-      mode: "range", label: t("mode.range") + " · " + lectures.join(", "),
-      minutes: Math.max(10, Math.round(pool.length * 1.2)),
+      mode: "range", label: modeLabel("mode.range", timed) + " · " + lectures.join(", "),
+      minutes: timed ? Math.max(10, Math.round(pool.length * 1.2)) : 0,
+      timed: timed,
       shuffleQuestions: el("optShufQ") ? el("optShufQ").checked : false,
       shuffleOptions: el("optShufO") ? el("optShufO").checked : true
     });
@@ -7639,9 +7670,9 @@ function scoreClass(score) {
       '<table class="grid"><tr><th>ID</th><th>' + t("th.lecture") + "</th><th>" + t("th.topic") +
       "</th><th>" + t("bank.answer") + "</th><th>" + t("wrong.count") + "</th><th></th></tr>" + rows + "</table>");
     el("wStart").onclick = function () {
+      /* 오답 복습은 연습이므로 시간 제한 없음 */
       newSession(list, {
-        mode: "wrong", label: t("mode.wrong"),
-        minutes: Math.max(5, Math.round(list.length * 1.2)),
+        mode: "wrong", label: modeLabel("mode.wrong", false), minutes: 0, timed: false,
         shuffleQuestions: false, shuffleOptions: true
       });
       renderQuiz();
@@ -7706,19 +7737,34 @@ function scoreClass(score) {
     renderQuiz();
   }
 
+  /* 연습 모드의 '시간 제한' 선택 (체크박스가 없으면 = 무제한) */
+  function timedChoice() {
+    const c = el("optTimed");
+    return c ? !!c.checked : false;
+  }
+  function modeLabel(key, timed) {
+    return t(key) + (timed ? "" : " · " + t("mode.untimed"));
+  }
+
   function startMode(mode) {
     const shufQ = el("optShufQ") ? el("optShufQ").checked : false;
     const shufO = el("optShufO") ? el("optShufO").checked : true;
+    const timed = timedChoice();
     let pool, cfg;
     if (mode === "exam") {
+      /* 실전 모드는 항상 시간 제한 (실제 시험과 동일) */
       pool = pickExamSet(ALL, META.exam_questions, 6);
-      cfg = { mode: "exam", label: t("mode.exam"), minutes: META.exam_minutes, shuffleQuestions: false, shuffleOptions: shufO };
+      cfg = { mode: "exam", label: t("mode.exam"), minutes: META.exam_minutes,
+              timed: true, shuffleQuestions: false, shuffleOptions: shufO };
     } else if (mode === "all") {
       pool = ALL.slice();
-      cfg = { mode: "all", label: t("mode.all"), minutes: 60, shuffleQuestions: shufQ, shuffleOptions: shufO };
+      cfg = { mode: "all", label: modeLabel("mode.all", timed), minutes: timed ? 60 : 0,
+              timed: timed, shuffleQuestions: shufQ, shuffleOptions: shufO };
     } else {
       pool = ALL.filter(function (q) { return store.wrong[q.id] > 0; });
-      cfg = { mode: "wrong", label: t("mode.wrong"), minutes: Math.max(10, Math.round(pool.length * 1.2)), shuffleQuestions: shufQ, shuffleOptions: shufO };
+      cfg = { mode: "wrong", label: modeLabel("mode.wrong", timed),
+              minutes: timed ? Math.max(10, Math.round(pool.length * 1.2)) : 0,
+              timed: timed, shuffleQuestions: shufQ, shuffleOptions: shufO };
     }
     newSession(pool, cfg);
     renderQuiz();
@@ -7765,7 +7811,8 @@ function scoreClass(score) {
       /* ---- 모바일 전용: 상단 고정 바 (진행 / 타이머 / 문항 목록) ---- */
       '<div class="mbar">' +
       '<span class="mprog">Q ' + (S.cur + 1) + " / " + n + "</span>" +
-      '<span class="timer mtimer" data-timer>' + formatClock(S.remain) + "</span>" +
+      '<span class="timer mtimer" data-timer>' + (S.timed ? formatClock(S.remain) : formatClock(S.elapsed)) + "</span>" +
+      (S.timed ? "" : '<span class="mfree">' + t("mode.free") + "</span>") +
       '<button class="btn sm" id="mPaletteBtn" aria-expanded="false">' + t("quiz.palette") + "</button>" +
       "</div>" +
 
@@ -7804,9 +7851,12 @@ function scoreClass(score) {
 
       /* ---- 우측: 타이머 / Overview ---- */
       '<aside class="side right panel">' +
-      '<div class="timerBox"><div class="timer' + (S.remain <= 60 ? " danger" : S.remain <= 300 ? " warn" : "") +
-      '" id="timer">' + formatClock(S.remain) + "</div>" +
-      '<div class="timerLabels"><span>Hrs</span><span>Min</span><span>Sec</span></div></div>' +
+      '<div class="timerBox"><div class="' + timerClass() + '" id="timer">' +
+      (S.timed ? formatClock(S.remain) : formatClock(S.elapsed)) + "</div>" +
+      (S.timed
+        ? '<div class="timerLabels"><span>Hrs</span><span>Min</span><span>Sec</span></div>'
+        : '<div class="timerLabels free"><span>' + t("quiz.elapsed") + "</span></div>") +
+      "</div>" +
       '<div class="sideBtns">' +
       '<button class="btn sm wide" id="aboutBtn">' + t("quiz.about") + "</button>" +
       '<button class="btn sm wide" id="instrBtn">' + t("quiz.instr") + "</button>" +
@@ -7882,7 +7932,7 @@ function scoreClass(score) {
     if (el("revealBtn")) el("revealBtn").onclick = function () { S.revealed[q.sid] = true; renderQuiz(); };
     el("submitBtn").onclick = function () { askSubmit(); };
     el("aboutBtn").onclick = function () {
-      alert(tf("quiz.about.body", n, S.cfg.minutes, S.pass));
+      alert(tf("quiz.about.body", n, S.timed ? (S.cfg.minutes + t("unit.min")) : t("quiz.noLimit"), S.pass));
     };
     el("instrBtn").onclick = function () {
       alert(t("quiz.instr.body"));
@@ -7941,7 +7991,7 @@ function scoreClass(score) {
     const passed = S.total >= S.pass;
     setView("result");
     const mistakes = S.results.reduce(function (a, r) { return a + r.mistakes; }, 0);
-    const used = Math.max(0, S.cfg.minutes * 60 - S.remain);
+    const used = S.timed ? Math.max(0, S.cfg.minutes * 60 - S.remain) : S.elapsed;
     const wrongN = S.results.filter(function (r) { return r.score < 1.0; }).length;
 
     const rows = S.results.map(function (r, idx) {
@@ -7994,7 +8044,8 @@ function scoreClass(score) {
     el("retryWrong").onclick = function () {
       const bad = S.results.filter(function (r) { return r.score < 1.0; })
         .map(function (r) { const c = JSON.parse(JSON.stringify(r.q)); delete c.sid; return c; });
-      newSession(bad, { mode: "wrong", label: t("mode.wrong"), minutes: Math.max(5, Math.round(bad.length * 1.2)), shuffleQuestions: false, shuffleOptions: false });
+      newSession(bad, { mode: "wrong", label: modeLabel("mode.wrong", false), minutes: 0, timed: false,
+        shuffleQuestions: false, shuffleOptions: false });
       renderQuiz();
     };
     el("newExam").onclick = function () { startMode("exam"); };
