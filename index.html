@@ -3361,7 +3361,7 @@ function applyStaticI18n() {
     "D",
     "E"
    ],
-   "explanation": "Lecture 4 요약 슬라이드에 명시: 시험 포함 = 과소·과대적합 식별/대응, 하이퍼파라미터, 검증집합, 인공 뉴런(퍼셉트론) 모델. 시험 제외 = 다항식 보간, 생물학적 뉴런 모델과 인공 모델과의 차이. 따라서 A, B는 거짓. ⚠️ 함정: A — \"다항식 보간은 포함된다\" → \"제외된다\"이면 참. ⚠️ 함정: B — \"생물학적·인공 뉴런의 차이는 포함된다\" → \"제외된다\"이면 참.",
+   "explanation": "Lecture 4 요약 슬라이드에 명시된 시험 범위: 포함 = 인공 뉴런(퍼셉트론) 모델(C 참), 과소·과대적합의 식별과 대응(D 참), 검증집합과 하이퍼파라미터(E 참). 제외 = 다항식 보간(A 거짓), 생물학적 뉴런 모델과 인공 모델의 차이(B 거짓). ⚠️ 함정: A — \"다항식 보간은 포함된다\" → \"제외된다\"이면 참. ⚠️ 함정: B — \"생물학적·인공 뉴런의 차이는 포함된다\" → \"제외된다\"이면 참.",
    "topic_ko": "시험 범위: 포함/제외 (교수님 명시)",
    "prompt_ko": "교수님이 슬라이드에서 시험 범위 포함/제외를 명시한 내용에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -3371,7 +3371,7 @@ function applyStaticI18n() {
     "과소·과대적합의 식별과 대응 방법은 시험 범위에 포함된다.",
     "검증집합(validation set)과 하이퍼파라미터는 시험 범위에 포함된다."
    ],
-   "explanation_ko": "Lecture 4 요약 슬라이드에 명시: 시험 포함 = 과소·과대적합 식별/대응, 하이퍼파라미터, 검증집합, 인공 뉴런(퍼셉트론) 모델. 시험 제외 = 다항식 보간, 생물학적 뉴런 모델과 인공 모델과의 차이. 따라서 A, B는 거짓. ⚠️ 함정: A — \"다항식 보간은 포함된다\" → \"제외된다\"이면 참. ⚠️ 함정: B — \"생물학적·인공 뉴런의 차이는 포함된다\" → \"제외된다\"이면 참.",
+   "explanation_ko": "Lecture 4 요약 슬라이드에 명시된 시험 범위: 포함 = 인공 뉴런(퍼셉트론) 모델(C 참), 과소·과대적합의 식별과 대응(D 참), 검증집합과 하이퍼파라미터(E 참). 제외 = 다항식 보간(A 거짓), 생물학적 뉴런 모델과 인공 모델의 차이(B 거짓). ⚠️ 함정: A — \"다항식 보간은 포함된다\" → \"제외된다\"이면 참. ⚠️ 함정: B — \"생물학적·인공 뉴런의 차이는 포함된다\" → \"제외된다\"이면 참.",
    "topic_en": "Exam scope: included / excluded (stated by the professor)",
    "prompt_en": "Which of the following statements about what the professor stated on the slides as included in or excluded from the exam scope are true?",
    "options_en": [
@@ -3381,7 +3381,7 @@ function applyStaticI18n() {
     "Identifying and handling underfitting / overfitting are included in the exam scope.",
     "The validation set and hyperparameters are included in the exam scope."
    ],
-   "explanation_en": "The Lecture 4 summary slide states: included = identifying / handling under- and overfitting, hyperparameters, the validation set, the artificial neuron (perceptron) model. Excluded = polynomial interpolation, the differences between the biological neuron model and the artificial model. Therefore A and B are false. ⚠️ Trap: A — \"polynomial interpolation is included\" → \"it is excluded\" would make it TRUE. ⚠️ Trap: B — \"the difference between the neuron models is included\" → \"it is excluded\" would make it TRUE."
+   "explanation_en": "The Lecture 4 summary slide states the exam scope: included = the artificial neuron (perceptron) model (C true), identifying and handling under- and overfitting (D true), the validation set and hyperparameters (E true). Excluded = polynomial interpolation (A false), the differences between the biological neuron model and the artificial model (B false). ⚠️ Trap: A — \"polynomial interpolation is included\" → \"it is excluded\" would make it TRUE. ⚠️ Trap: B — \"the difference between the neuron models is included\" → \"it is excluded\" would make it TRUE."
   },
   {
    "id": "L5-01",
@@ -4216,7 +4216,7 @@ function applyStaticI18n() {
     "C",
     "D"
    ],
-   "explanation": "6단계: ① 기호적 미분 ② 파라미터 초기화 ③ 예시/미니배치 선택 ④ 순전파(대입) ⑤ 역전파(대입) ⑥ 파라미터 갱신 후 ③으로 반복 (A, B, C, D 참). E는 순서가 반대다 (거짓).",
+   "explanation": "6단계: ① 기호적 미분(A 참) ② 파라미터 초기화(B 참) ③ 예시/미니배치 선택(C 참) ④ 순전파(대입)(D 참) ⑤ 역전파(대입) ⑥ 파라미터 갱신 후 ③으로 반복. 따라서 E는 거짓 — 5단계는 역전파, 6단계는 파라미터 갱신 후 ③으로 돌아가는 단계다.",
    "topic_ko": "역전파 알고리즘의 6단계",
    "prompt_ko": "역전파 알고리즘의 절차(6단계)에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -4226,7 +4226,7 @@ function applyStaticI18n() {
     "4단계는 실제 데이터와 현재 파라미터 값을 대입하는 순전파(feed forward)다.",
     "5단계는 순전파이고 6단계가 기호적 미분이다."
    ],
-   "explanation_ko": "6단계: ① 기호적 미분 ② 파라미터 초기화 ③ 예시/미니배치 선택 ④ 순전파(대입) ⑤ 역전파(대입) ⑥ 파라미터 갱신 후 ③으로 반복 (A, B, C, D 참). E는 순서가 반대다 (거짓).",
+   "explanation_ko": "6단계: ① 기호적 미분(A 참) ② 파라미터 초기화(B 참) ③ 예시/미니배치 선택(C 참) ④ 순전파(대입)(D 참) ⑤ 역전파(대입) ⑥ 파라미터 갱신 후 ③으로 반복. 따라서 E는 거짓 — 5단계는 역전파, 6단계는 파라미터 갱신 후 ③으로 돌아가는 단계다.",
    "topic_en": "The six steps of the backpropagation algorithm",
    "prompt_en": "Which of the following statements about the procedure (6 steps) of the backpropagation algorithm are true?",
    "options_en": [
@@ -4236,7 +4236,7 @@ function applyStaticI18n() {
     "Step 4 is the forward pass (feed forward), substituting the actual data and the current parameter values.",
     "Step 5 is the forward pass and step 6 is the symbolic derivation."
    ],
-   "explanation_en": "Six steps: 1 symbolic derivation, 2 parameter initialization, 3 select an example/mini-batch, 4 forward pass (substitution), 5 backward pass (substitution), 6 update the parameters and go back to step 3 (A, B, C, D true). E reverses the order (false)."
+   "explanation_en": "Six steps: 1 symbolic derivation (A true), 2 parameter initialization (B true), 3 select an example/mini-batch (C true), 4 forward pass / substitution (D true), 5 backward pass / substitution, 6 update the parameters and go back to step 3. So E is false — step 5 is the backward pass and step 6 is the parameter update followed by returning to step 3."
   },
   {
    "id": "L6-04",
@@ -8683,7 +8683,7 @@ function applyStaticI18n() {
     "C",
     "D"
    ],
-   "explanation": "격자탐색·무작위탐색·베이지안 최적화·진화 알고리즘이 대표적인 탐색 방법이다 (A~D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓). ⚠️ 함정: E — \"경사하강법\" → \"격자·랜덤 탐색\"이면 참.",
+   "explanation": "대표적인 하이퍼파라미터 탐색 방법: 격자탐색(A 참), 무작위탐색(B 참), 베이지안 최적화(C 참), 진화/유전 알고리즘(D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓). ⚠️ 함정: E — \"경사하강법\" → \"격자·랜덤 탐색\"이면 참.",
    "topic_ko": "하이퍼파라미터 탐색 방법",
    "prompt_ko": "하이퍼파라미터 탐색 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -8693,7 +8693,7 @@ function applyStaticI18n() {
     "진화/유전 알고리즘",
     "보통 훈련 손실에 대한 일반적인 경사하강법"
    ],
-   "explanation_ko": "격자탐색·무작위탐색·베이지안 최적화·진화 알고리즘이 대표적인 탐색 방법이다 (A~D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓). ⚠️ 함정: E — \"경사하강법\" → \"격자·랜덤 탐색\"이면 참.",
+   "explanation_ko": "대표적인 하이퍼파라미터 탐색 방법: 격자탐색(A 참), 무작위탐색(B 참), 베이지안 최적화(C 참), 진화/유전 알고리즘(D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓). ⚠️ 함정: E — \"경사하강법\" → \"격자·랜덤 탐색\"이면 참.",
    "topic_en": "Hyperparameter search methods",
    "prompt_en": "Which statements about hyperparameter search methods are true?",
    "options_en": [
@@ -8703,7 +8703,7 @@ function applyStaticI18n() {
     "Evolutionary / genetic algorithms",
     "Usually plain gradient descent on the training loss"
    ],
-   "explanation_en": "Grid search, random search, Bayesian optimization and evolutionary algorithms are the standard approaches (A–D true). Plain gradient descent generally cannot be used for hyperparameters (E false). ⚠️ Trap: E — \"gradient descent\" → \"grid / random search\" would make it TRUE."
+   "explanation_en": "The standard hyperparameter search methods are grid search (A true), random search (B true), Bayesian optimization (C true) and evolutionary/genetic algorithms (D true). A gradient with respect to the hyperparameters generally cannot be computed, so plain gradient descent cannot be used (E false). ⚠️ Trap: E — \"gradient descent\" → \"grid / random search\" would make it TRUE."
   },
   {
    "id": "S2-20",
@@ -11531,7 +11531,7 @@ function applyStaticI18n() {
     "D",
     "E"
    ],
-   "explanation": "μ=평균, σ=표준편차, x′=변환된 값, x_min·x_max=최솟값·최댓값 (A~D 참). 스케일링은 변수별로 따로 한다 (E 참). min-max 후 값은 [0,1] 이지만 평균은 0이 아니다 (F 거짓). ⚠️ 함정: F — \"평균이 0\" → \"평균은 0이 아니다\"이면 참.",
+   "explanation": "μ=평균, σ=표준편차, x′=변환된 값, x_min·x_max=최솟값·최댓값 (A, B, C, D 참). 스케일링은 변수별로 따로 한다 (E 참). min-max 후 값은 [0,1] 이지만 평균은 0이 아니다 (F 거짓). ⚠️ 함정: F — \"평균이 0\" → \"평균은 0이 아니다\"이면 참.",
    "topic_ko": "특징 스케일링 공식의 기호",
    "prompt_ko": "표준화 x′ = (x − μ)/σ, min-max 스케일링 x′ = (x − x_min)/(x_max − x_min) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -11542,7 +11542,7 @@ function applyStaticI18n() {
     "스케일링은 입력 변수마다 독립적으로 수행한다.",
     "min-max 스케일링 후에는 평균이 항상 0이 된다."
    ],
-   "explanation_ko": "μ=평균, σ=표준편차, x′=변환된 값, x_min·x_max=최솟값·최댓값 (A~D 참). 스케일링은 변수별로 따로 한다 (E 참). min-max 후 값은 [0,1] 이지만 평균은 0이 아니다 (F 거짓). ⚠️ 함정: F — \"평균이 0\" → \"평균은 0이 아니다\"이면 참.",
+   "explanation_ko": "μ=평균, σ=표준편차, x′=변환된 값, x_min·x_max=최솟값·최댓값 (A, B, C, D 참). 스케일링은 변수별로 따로 한다 (E 참). min-max 후 값은 [0,1] 이지만 평균은 0이 아니다 (F 거짓). ⚠️ 함정: F — \"평균이 0\" → \"평균은 0이 아니다\"이면 참.",
    "topic_en": "Symbols in the feature scaling formulas",
    "prompt_en": "Standardization: x′ = (x − μ)/σ. Min-max scaling: x′ = (x − x_min)/(x_max − x_min). Which statements are true?",
    "options_en": [
@@ -11553,7 +11553,7 @@ function applyStaticI18n() {
     "The scaling is done independently for each input variable.",
     "After min-max scaling, the mean is always 0."
    ],
-   "explanation_en": "μ is the mean, σ the standard deviation, x′ the scaled value, and x_min/x_max the smallest and largest values (A–D true). Scaling is done per variable (E true). After min-max scaling the values are in [0,1] but the mean is not 0 (F false). ⚠️ Trap: F — \"the mean is always 0\" → \"the mean is not 0\" would make it TRUE."
+   "explanation_en": "μ is the mean, σ the standard deviation, x′ the scaled value, and x_min/x_max the smallest and largest values (A, B, C, D true). Scaling is done per variable (E true). After min-max scaling the values are in [0,1] but the mean is not 0 (F false). ⚠️ Trap: F — \"the mean is always 0\" → \"the mean is not 0\" would make it TRUE."
   },
   {
    "id": "D-19",
@@ -12414,7 +12414,7 @@ function applyStaticI18n() {
     "E",
     "F"
    ],
-   "explanation": "전체 (A), 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B), 행 하나는 (5,) (C), 1행부터 끝까지는 (31,5) (D), 마지막 열을 뺀 행은 (4,) (E), 정수 배열 [[0]] 로 인덱싱하면 (1,5) (F). 여섯 개 모두 맞다.",
+   "explanation": "전체 슬라이싱은 (32, 5) (A 참). 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B 참). 행 하나는 (5,) (C 참). 1행부터 끝까지는 (31, 5) (D 참). 마지막 열을 뺀 행은 (4,) (E 참). 정수 배열 [[0]] 로 인덱싱하면 축이 유지되어 (1, 5) (F 참). 여섯 개 모두 맞다.",
    "topic_ko": "(32, 5) 배열의 슬라이싱 shape",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12425,7 +12425,7 @@ function applyStaticI18n() {
     "my_array[0, :-1].shape == (4,)",
     "my_array[[0], :].shape == (1, 5)"
    ],
-   "explanation_ko": "전체 (A), 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B), 행 하나는 (5,) (C), 1행부터 끝까지는 (31,5) (D), 마지막 열을 뺀 행은 (4,) (E), 정수 배열 [[0]] 로 인덱싱하면 (1,5) (F). 여섯 개 모두 맞다.",
+   "explanation_ko": "전체 슬라이싱은 (32, 5) (A 참). 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B 참). 행 하나는 (5,) (C 참). 1행부터 끝까지는 (31, 5) (D 참). 마지막 열을 뺀 행은 (4,) (E 참). 정수 배열 [[0]] 로 인덱싱하면 축이 유지되어 (1, 5) (F 참). 여섯 개 모두 맞다.",
    "topic_en": "Slicing shapes of a (32, 5) array",
    "prompt_en": "my_array has shape (32, 5). Which statements are true?",
    "options_en": [
@@ -12436,7 +12436,7 @@ function applyStaticI18n() {
     "my_array[0, :-1].shape == (4,)",
     "my_array[[0], :].shape == (1, 5)"
    ],
-   "explanation_en": "All six are correct: the full array (A), a single column indexed by an integer drops the dimension giving (32,) (B), one row gives (5,) (C), rows 1..end give (31,5) (D), a row without its last column gives (4,) (E), and the integer-array index [[0]] keeps the axis giving (1,5) (F)."
+   "explanation_en": "The full slice is (32, 5) (A true). A single column indexed by an integer drops the axis, giving (32,) (B true). One row gives (5,) (C true). Rows 1..end give (31, 5) (D true). A row without its last column gives (4,) (E true). The integer-array index [[0]] keeps the axis, giving (1, 5) (F true). All six are correct."
   },
   {
    "id": "D-41",
