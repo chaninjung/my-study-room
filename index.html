@@ -12887,42 +12887,6 @@ function applyStaticI18n() {
    "explanation_en": "The whole array is (32,5) (A true). A single integer index drops that axis, so [:, 1] is (32,), not (32,1) (B false). Rows 1..end give (31,5) (C true). A row without its last column gives (4,) (D true). An integer *array* index [[0]] keeps the axis, giving (1,5) (E true). [[-1,-1], -1] gives (2,) (F true). ⚠️ Trap: B — \"(32, 1)\" → \"(32,)\" would make it TRUE."
   },
   {
-   "id": "NP-03",
-   "part": "B",
-   "lecture": "NumPy",
-   "topic": "브로드캐스팅 오류 판별",
-   "prompt": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
-   "options": [
-    "my_array1 + my_array2",
-    "my_array1 + my_array2[:, None]",
-    "my_array1 + my_array2[None, :]",
-    "my_array1 + 1"
-   ],
-   "correct": [
-    "A",
-    "C"
-   ],
-   "explanation": "브로드캐스팅은 뒤쪽(마지막) 차원부터 맞춘다. (32,5)+(32,) 는 마지막 차원 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향으로 확장되어 정상 (B 거짓). (1,32) 는 (32,5) 의 마지막 차원과 맞지 않아 오류 (C 참). 스칼라 1 은 항상 브로드캐스팅된다 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
-   "topic_ko": "브로드캐스팅 오류 판별",
-   "prompt_ko": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
-   "options_ko": [
-    "my_array1 + my_array2",
-    "my_array1 + my_array2[:, None]",
-    "my_array1 + my_array2[None, :]",
-    "my_array1 + 1"
-   ],
-   "explanation_ko": "브로드캐스팅은 뒤쪽(마지막) 차원부터 맞춘다. (32,5)+(32,) 는 마지막 차원 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향으로 확장되어 정상 (B 거짓). (1,32) 는 (32,5) 의 마지막 차원과 맞지 않아 오류 (C 참). 스칼라 1 은 항상 브로드캐스팅된다 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
-   "topic_en": "Which expressions raise a broadcasting error?",
-   "prompt_en": "my_array1 has shape (32, 5) and my_array2 has shape (32,), both numeric. Which expressions raise \"ValueError: operands could not be broadcast together …\"?",
-   "options_en": [
-    "my_array1 + my_array2",
-    "my_array1 + my_array2[:, None]",
-    "my_array1 + my_array2[None, :]",
-    "my_array1 + 1"
-   ],
-   "explanation_en": "Broadcasting aligns trailing dimensions. (32,5)+(32,) mismatches 5 vs 32 (A true). Reshaping to (32,1) broadcasts along the columns, so it works (B false). (1,32) does not match the last axis of (32,5) (C true). The scalar 1 always broadcasts (D false). ⚠️ Trap: B — \"(32, 1)\" → \"(1, 32)\" would make it TRUE. ⚠️ Trap: D — \"the scalar 1\" → an array with mismatching shape would make it TRUE."
-  },
-  {
    "id": "NP-04",
    "part": "B",
    "lecture": "NumPy",
@@ -13008,51 +12972,6 @@ function applyStaticI18n() {
    "explanation_en": "Aggregation with an axis returns an ndarray (A true). Without an axis everything is reduced to a single NumPy scalar (numpy.float64), which is not an ndarray (B and E false). A scalar has shape () (C true). keepdims=True keeps the axis, giving (32,1) (D true). ⚠️ Trap: B — \"numpy.ndarray\" → \"a NumPy scalar\" would make it TRUE. ⚠️ Trap: E — \"numpy.ndarray\" → \"a NumPy scalar\" would make it TRUE."
   },
   {
-   "id": "NP-06",
-   "part": "B",
-   "lecture": "NumPy",
-   "topic": "reshape(2,-1) 배열의 마스킹과 shape",
-   "prompt": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
-   "options": [
-    "my_array.shape == (2, 2)",
-    "(my_array * 2 + 1).shape == (2, 2)",
-    "my_array[my_array > 0].shape == (3,)",
-    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
-    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
-    "my_array[my_array > 0].shape == (2, 2)"
-   ],
-   "correct": [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E"
-   ],
-   "explanation": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이면서 짝수인 값은 2 하나뿐이라 (1,) (D 참). (2,2)*(2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
-   "topic_ko": "reshape(2,-1) 배열의 마스킹과 shape",
-   "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
-   "options_ko": [
-    "my_array.shape == (2, 2)",
-    "(my_array * 2 + 1).shape == (2, 2)",
-    "my_array[my_array > 0].shape == (3,)",
-    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
-    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
-    "my_array[my_array > 0].shape == (2, 2)"
-   ],
-   "explanation_ko": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이면서 짝수인 값은 2 하나뿐이라 (1,) (D 참). (2,2)*(2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
-   "topic_en": "Masking and shapes on a reshape(2,-1) array",
-   "prompt_en": "my_array = np.arange(4).reshape(2, -1). Which statements are true?",
-   "options_en": [
-    "my_array.shape == (2, 2)",
-    "(my_array * 2 + 1).shape == (2, 2)",
-    "my_array[my_array > 0].shape == (3,)",
-    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
-    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
-    "my_array[my_array > 0].shape == (2, 2)"
-   ],
-   "explanation_en": "The array is [[0,1],[2,3]]. Its shape is (2,2) (A true). Arithmetic keeps the shape (B true). The >0 mask selects [1,2,3], a 1-D array of shape (3,) (C true, F false). Only 2 is both >0 and even, giving (1,) (D true). (2,2)*(2,2,1) broadcasts to (2,2,2) (E true). ⚠️ Trap: F — \"(2, 2)\" → \"(3,)\" would make it TRUE."
-  },
-  {
    "id": "NP-07",
    "part": "B",
    "lecture": "NumPy",
@@ -13125,91 +13044,6 @@ function applyStaticI18n() {
     "my_array2 = my_array[1:3]"
    ],
    "explanation_en": "Integer-array (fancy) indexing returns a copy (A true). Reading with a boolean mask also returns a copy (B true). Arithmetic creates a new array (C true). The basic slice [1:3] is a view, so it does modify the original (D false). ⚠️ Trap: D — \"my_array[1:3]\" → \"fancy indexing\" would make it TRUE."
-  },
-  {
-   "id": "NP-09",
-   "part": "B",
-   "lecture": "NumPy",
-   "topic": "불리언 집계 (count_nonzero, any, all)",
-   "prompt": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
-   "options": [
-    "np.count_nonzero(my_array == 0) == 1",
-    "np.any(my_array == 0) 는 True 다.",
-    "np.all(my_array == 0, axis=1) 은 [False, False] 다.",
-    "np.all(my_array == 0, axis=1) 은 하나의 불리언 값이다.",
-    "np.count_nonzero(my_array == 0) == 2"
-   ],
-   "correct": [
-    "A",
-    "B",
-    "C"
-   ],
-   "explanation": "배열은 [[0,1],[2,3]] 이라 0 은 정확히 1개 (A 참, E 거짓). 0 이 하나라도 있으므로 any 는 True (B 참). 행마다 모두 0 인지 보면 [False, False] 이고 shape 은 (2,) (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
-   "topic_ko": "불리언 집계 (count_nonzero, any, all)",
-   "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
-   "options_ko": [
-    "np.count_nonzero(my_array == 0) == 1",
-    "np.any(my_array == 0) 는 True 다.",
-    "np.all(my_array == 0, axis=1) 은 [False, False] 다.",
-    "np.all(my_array == 0, axis=1) 은 하나의 불리언 값이다.",
-    "np.count_nonzero(my_array == 0) == 2"
-   ],
-   "explanation_ko": "배열은 [[0,1],[2,3]] 이라 0 은 정확히 1개 (A 참, E 거짓). 0 이 하나라도 있으므로 any 는 True (B 참). 행마다 모두 0 인지 보면 [False, False] 이고 shape 은 (2,) (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
-   "topic_en": "Boolean aggregation (count_nonzero, any, all)",
-   "prompt_en": "my_array = np.arange(4).reshape(2, -1). Which statements are true?",
-   "options_en": [
-    "np.count_nonzero(my_array == 0) == 1",
-    "np.any(my_array == 0) is True.",
-    "np.all(my_array == 0, axis=1) equals [False, False].",
-    "np.all(my_array == 0, axis=1) is a single boolean value.",
-    "np.count_nonzero(my_array == 0) == 2"
-   ],
-   "explanation_en": "The array is [[0,1],[2,3]], so exactly one 0 (A true, E false). Since at least one element is 0, any is True (B true). Checking each row for 'all zeros' gives [False, False] with shape (2,) (C true, D false). ⚠️ Trap: D — \"a single boolean\" → \"an array of shape (2,)\" would make it TRUE. ⚠️ Trap: E — \"2\" → \"1\" would make it TRUE."
-  },
-  {
-   "id": "NP-10",
-   "part": "B",
-   "lecture": "NumPy",
-   "topic": "unique / bincount / 정렬 / argsort / 마스크",
-   "prompt": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
-   "options": [
-    "np.unique(my_array) 는 [1, 2, 3] 이다.",
-    "np.unique(my_array == 0) 는 [False] 다.",
-    "np.bincount(my_array) 는 [0, 1, 1, 1] 이다.",
-    "np.sort(my_array)[::-1] 은 [3, 2, 1] 이다.",
-    "np.argsort(my_array) 는 [1, 2, 0] 이다.",
-    "my_array[my_array != 0] 은 [1, 2] 다."
-   ],
-   "correct": [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E"
-   ],
-   "explanation": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 라 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째 칸에 담아 [0,1,1,1] (C 참). 내림차순 정렬 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
-   "topic_ko": "unique / bincount / 정렬 / argsort / 마스크",
-   "prompt_ko": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
-   "options_ko": [
-    "np.unique(my_array) 는 [1, 2, 3] 이다.",
-    "np.unique(my_array == 0) 는 [False] 다.",
-    "np.bincount(my_array) 는 [0, 1, 1, 1] 이다.",
-    "np.sort(my_array)[::-1] 은 [3, 2, 1] 이다.",
-    "np.argsort(my_array) 는 [1, 2, 0] 이다.",
-    "my_array[my_array != 0] 은 [1, 2] 다."
-   ],
-   "explanation_ko": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 라 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째 칸에 담아 [0,1,1,1] (C 참). 내림차순 정렬 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
-   "topic_en": "unique / bincount / sort / argsort / masks",
-   "prompt_en": "my_array = np.array([3, 1, 2]). Which statements are true?",
-   "options_en": [
-    "np.unique(my_array) equals [1, 2, 3]",
-    "np.unique(my_array == 0) equals [False]",
-    "np.bincount(my_array) equals [0, 1, 1, 1]",
-    "np.sort(my_array)[::-1] equals [3, 2, 1]",
-    "np.argsort(my_array) equals [1, 2, 0]",
-    "my_array[my_array != 0] equals [1, 2]"
-   ],
-   "explanation_en": "unique gives the sorted distinct values [1,2,3] (A true). my_array == 0 is all False, so unique is [False] (B true). bincount stores the count of value i at index i: [0,1,1,1] (C true). Descending sort gives [3,2,1] (D true). argsort gives the original indices in sorted order: [1,2,0] (E true). There is no 0, so != 0 is all True and the result is [3,1,2] (F false). ⚠️ Trap: F — \"!= 0\" → \"== 0\" would make it TRUE."
   },
   {
    "id": "NP-11",
@@ -14663,21 +14497,17 @@ function applyStaticI18n() {
   },
   {
    "id": "mock24",
-   "label": "🧮 NumPy 집중 (30문항)",
-   "label_en": "NumPy focus — 30 questions",
+   "label": "🧮 NumPy 집중 (26문항)",
+   "label_en": "NumPy focus — 26 questions",
    "final": true,
    "full": true,
    "questions": [
     "NP-01",
     "NP-02",
-    "NP-03",
     "NP-04",
     "NP-05",
-    "NP-06",
     "NP-07",
     "NP-08",
-    "NP-09",
-    "NP-10",
     "NP-11",
     "NP-12",
     "NP-13",
@@ -14699,8 +14529,8 @@ function applyStaticI18n() {
     "NP-29",
     "NP-30"
    ],
-   "minutes": 60,
-   "pass": 14
+   "minutes": 52,
+   "pass": 12
   }
  ]
 };</script>
@@ -14726,7 +14556,7 @@ var CURRICULUM = [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
           { id: "random", label: { ko: "🎲 랜덤 문항 (1~100)", en: "🎲 Random draw (1-100)" } },
           { id: "mocks", label: { ko: "모의고사 24세트", en: "Mock exams (24 sets)" } },
-          { id: "bank", label: { ko: "문제은행 321문항", en: "Question bank (321)" } },
+          { id: "bank", label: { ko: "문제은행 317문항", en: "Question bank (317)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
           { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
@@ -15037,7 +14867,10 @@ function scoreClass(score) {
 
   function label(o) { return (o && (o[LANG] || o.ko)) || ""; }
   function wrongCount() {
-    return Object.keys(store.wrong).filter(function (id) { return store.wrong[id] > 0; }).length;
+    /* 문제은행에 존재하는 문항만 센다 — 삭제된 문항 id 가 오답노트에 남아 있어도 숫자가 어긋나지 않도록 */
+    return Object.keys(store.wrong).filter(function (id) {
+      return store.wrong[id] > 0 && ALL.some(function (q) { return q.id === id; });
+    }).length;
   }
   function currentCourse() {
     for (let i = 0; i < CURRICULUM.length; i++) {

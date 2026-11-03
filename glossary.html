@@ -86,13 +86,20 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 .btn.wide{width:100%}
 .btn.sm{height:32px;padding:0 12px;font-size:13px}
 
-/* ===================== 상단 바 / 언어 토글 ===================== */
+/* ===================== 상단 바 / 언어 토글 =====================
+   상단 바는 '화면이 바뀌어도 위치가 변하지 않도록' 고정한다:
+   - flex-wrap:nowrap  → 줄바꿈으로 내비게이션이 밀리지 않음
+   - 오른쪽 항목(langBox/linkish)은 flex:0 0 auto 로 절대 줄어들지 않음
+   - breadcrumb 만 줄어들고 말줄임(…) 처리됨                                   */
 .topbar{background:#fff;border-bottom:1px solid var(--border);min-height:60px;display:flex;align-items:center;
-  padding:10px 20px;gap:16px;position:sticky;top:0;z-index:20;flex-wrap:wrap;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.crumbs{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text);min-width:0}
+  padding:10px 20px;gap:16px;position:sticky;top:0;z-index:20;flex-wrap:nowrap;
+  box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.crumbs{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text);
+  min-width:0;flex:0 1 auto;overflow:hidden}
 .crumbs .sep{color:var(--text-4);font-weight:400}
-.crumbs .cur{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.topbar .grow{flex:1}
+.crumbs .cur{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.topbar .grow{flex:1 1 auto}
+.topbar .langBox,.topbar .linkish{flex:0 0 auto;white-space:nowrap}
 .linkish{color:var(--text-2);font-size:13.5px;font-weight:600;cursor:pointer;background:none;border:0;
   padding:6px 2px;font-family:inherit;transition:color .15s}
 .linkish:hover{color:var(--primary);text-decoration:none}
