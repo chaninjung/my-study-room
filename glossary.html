@@ -103,6 +103,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 .linkish{color:var(--text-2);font-size:13.5px;font-weight:600;cursor:pointer;background:none;border:0;
   padding:6px 2px;font-family:inherit;transition:color .15s}
 .linkish:hover{color:var(--primary);text-decoration:none}
+.linkish.on{color:var(--primary)}
 .langBox{display:inline-flex;border:1px solid var(--border-2);border-radius:var(--r-sm);overflow:hidden;
   background:#fff;box-shadow:var(--shadow-xs)}
 .langBtn{font-family:inherit;font-size:12.5px;font-weight:600;padding:6px 12px;border:0;background:#fff;
@@ -233,6 +234,10 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
 @media (max-width:860px){
   .wrap{padding:16px 14px 44px}
   .topbar{position:static;box-shadow:none}
+/* 폰에서는 상단 바 항목을 줄여도 '홈'은 항상 오른쪽 끝에 남는다 */
+@media (max-width:560px){
+  .topbar #navPrint{display:none}
+}
   .tab{flex:1 1 auto;min-width:0;padding:0 12px}
   .search{max-width:none}
   .cardBox{padding:16px 12px}
@@ -287,22 +292,25 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
 
 <div class="topbar">
   <div class="crumbs">
-    <span class="appName">DND Theory Test 1</span><span class="sep">&gt;</span><span class="cur" id="crumb">용어집 / Glossary</span>
+    <span class="appName">My Study Room</span><span class="sep">&gt;</span><span class="cur" id="crumb">용어집 / Glossary</span>
   </div>
   <div class="grow"></div>
   <span class="langBox" role="group" aria-label="Language">
     <button class="langBtn" data-lang="ko" type="button">한국어</button>
     <button class="langBtn" data-lang="en" type="button">English</button>
   </span>
-  <a class="linkish" href="index.html" id="navExam">연습 문제</a>
+  <!-- 상단 오른쪽 내비게이션은 모든 페이지에서 동일한 순서/위치를 유지한다 (마지막이 홈) -->
+  <a class="linkish on" href="glossary.html" id="navGloss" aria-current="page">용어집</a>
   <a class="linkish" href="print.html" id="navPrint">인쇄용 문제지</a>
-  <button class="linkish" id="printBtn" type="button">인쇄/PDF</button>
+  <a class="linkish" href="index.html" id="navHome">홈</a>
 </div>
 <div class="wrap">
   <div class="tabs">
     <button class="tab on" data-tab="list" type="button" id="tabList">단어 목록</button>
     <button class="tab" data-tab="card" type="button" id="tabCard">플래시카드</button>
     <button class="tab" data-tab="sent" type="button" id="tabSent">핵심 문장</button>
+    <span style="flex:1"></span>
+    <button class="btn sm" id="printBtn" type="button">인쇄/PDF</button>
   </div>
 
   <section id="sec-list">
@@ -3111,8 +3119,9 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
   /* ---------- 문자열 ---------- */
   var STR = {
     "crumb": { ko: "용어집", en: "Glossary" },
-    "navExam": { ko: "연습 문제", en: "Practice exam" },
+    "navGloss": { ko: "용어집", en: "Glossary" },
     "navPrint": { ko: "인쇄용 문제지", en: "Printable paper" },
+    "navHome": { ko: "홈", en: "Home" },
     "print": { ko: "인쇄/PDF", en: "Print / PDF" },
     "tabList": { ko: "단어 목록", en: "Word list" },
     "tabCard": { ko: "플래시카드", en: "Flashcards" },
@@ -3220,8 +3229,9 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
   /* ---------- 공통 UI ---------- */
   function applyStatic() {
     el("crumb").textContent = t("crumb");
-    el("navExam").textContent = t("navExam");
+    el("navGloss").textContent = t("navGloss");
     el("navPrint").textContent = t("navPrint");
+    el("navHome").textContent = t("navHome");
     el("printBtn").textContent = t("print");
     el("tabList").textContent = t("tabList");
     el("tabCard").textContent = t("tabCard");

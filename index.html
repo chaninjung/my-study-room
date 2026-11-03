@@ -103,6 +103,7 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 .linkish{color:var(--text-2);font-size:13.5px;font-weight:600;cursor:pointer;background:none;border:0;
   padding:6px 2px;font-family:inherit;transition:color .15s}
 .linkish:hover{color:var(--primary);text-decoration:none}
+.linkish.on{color:var(--primary)}
 .langBox{display:inline-flex;border:1px solid var(--border-2);border-radius:var(--r-sm);overflow:hidden;
   background:#fff;box-shadow:var(--shadow-xs)}
 .langBtn{font-family:inherit;font-size:12.5px;font-weight:600;padding:6px 12px;border:0;background:#fff;
@@ -428,7 +429,9 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 /* ---------- 태블릿 / 폰 ---------- */
 @media (max-width:860px){
   .wrap{padding:14px 14px 40px}
-  body.view-quiz .wrap{padding:70px 14px 86px}   /* 상·하단 고정 바가 가리지 않도록 */
+  /* 시험 화면에서는 상단 고정 바가 상단 바를 대신한다(겹침 방지) — 그 바에 '홈'이 항상 있다 */
+  body.view-quiz .topbar{display:none}
+  body.view-quiz .wrap{padding:56px 14px 86px}   /* 상·하단 고정 바가 가리지 않도록 */
   .topbar{position:static;box-shadow:none}
   .examWrap,.homeWrap{grid-template-columns:minmax(0,1fr);gap:12px}
   .side{position:static}
@@ -15501,11 +15504,23 @@ function scoreClass(score) {
   /* 시험 중 나가기 — 응답이 있으면 확인 후, 시작했던 목록 화면으로 돌아간다 */
   function exitQuiz() {
     if (!S) { go("overview"); return; }
+    if (!confirmIfAnswered()) return;
+    go(VIEW || "overview");
+  }
+
+  /* 응답이 있으면 확인을 묻는다 (없으면 그냥 통과) */
+  function confirmIfAnswered() {
+    if (!S) return true;
     const answered = Object.keys(S.answers).filter(function (k) {
       return (S.answers[k] || []).length > 0;
     }).length;
-    if (answered > 0 && !confirm(t("quiz.exitConfirm"))) return;
-    go(VIEW || "overview");
+    return answered === 0 || confirm(t("quiz.exitConfirm"));
+  }
+
+  /* 어디서든 '홈' — 시험 중이면 확인 후 개요 화면으로 */
+  function goHome() {
+    if (!confirmIfAnswered()) return;
+    go("overview");
   }
 
   /* ---------- 문항 화면 (시험 포털 레이아웃) ---------- */
@@ -15555,6 +15570,7 @@ function scoreClass(score) {
       '<span class="timer mtimer" data-timer>' + (S.timed ? formatClock(S.remain) : formatClock(S.elapsed)) + "</span>" +
       (S.timed ? "" : '<span class="mfree">' + t("mode.free") + "</span>") +
       '<button class="btn sm" id="mPaletteBtn" aria-expanded="false">' + t("quiz.palette") + "</button>" +
+      '<button class="btn sm" id="mHomeBtn">' + t("nav.home") + "</button>" +
       "</div>" +
 
       /* ---- 좌측: 섹션 / 팔레트 ---- */
@@ -15687,6 +15703,7 @@ function scoreClass(score) {
     };
     el("exitBtn").onclick = exitQuiz;
     if (el("mExitBtn")) el("mExitBtn").onclick = exitQuiz;
+    if (el("mHomeBtn")) el("mHomeBtn").onclick = goHome;
   }
 
   function toggleOption(q, k) {
@@ -15887,7 +15904,7 @@ function scoreClass(score) {
     }
     if (el("sbBackdrop")) el("sbBackdrop").onclick = function () { closeSidebar(); };
     if (el("brandLink")) el("brandLink").onclick = function (e) { if (e && e.preventDefault) e.preventDefault(); go("overview"); };
-    if (el("homeLink")) el("homeLink").onclick = function () { go("overview"); };
+    if (el("homeLink")) el("homeLink").onclick = function () { goHome(); };
 
     applyStaticI18n();
     go("overview");
