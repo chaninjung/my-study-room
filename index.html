@@ -290,6 +290,8 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 .qHead{display:flex;align-items:center;gap:10px;padding:16px 20px 0;flex-wrap:wrap}
 .qHead .qNum{font-weight:700;font-size:15px}
 .qHead .grow{flex:1}
+/* 문제 주제 — 보기만 보고 문맥을 알 수 없는 문항을 위해 지문 위에 주제를 항상 표시 */
+.qTopic{padding:10px 20px 0;font-size:13px;font-weight:600;color:var(--text-3)}
 .qText{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);
   padding:18px 20px;margin:14px 20px 20px;white-space:pre-wrap;font-size:15px;line-height:1.7}
 .opts{padding:0 20px}
@@ -769,6 +771,7 @@ var I18N2 = {
   "quiz.legend.notvisited": { ko: "방문 안 함", en: "Not Visited" },
   "quiz.mark":              { ko: "검토 표시", en: "Mark for review" },
   "quiz.answer":            { ko: "정답: ", en: "Answer: " },
+  "quiz.topic":             { ko: "주제:", en: "Topic:" },
   "quiz.prev":              { ko: "&larr; 이전", en: "&larr; Previous" },
   "quiz.clear":             { ko: "응답 지우기", en: "Clear response" },
   "quiz.reveal":            { ko: "해설 보기", en: "Show explanation" },
@@ -6804,7 +6807,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "선형 회귀 = 회귀를 위한 지도학습 (A 참). 로지스틱 회귀 = 분류를 위한 지도학습 (B 참). 로지스틱 회귀의 출력은 시그모이드로 (0,1) 확률값에 제한되므로 일반적인 회귀 문제를 풀 수 없다 (C 거짓). 선형 회귀는 레이블이 필요하므로 지도학습 (D 거짓). 압축·차원축소는 레이블 없이 가능한 비지도학습 (E 참). ⚠️ 함정: C — 로지스틱 출력은 0~1 제한 — \"어떤 회귀든\" → \"이진 분류만\"이면 참. ⚠️ 함정: D — \"비지도학습\" → \"지도학습\"이면 참.",
    "topic_en": "Supervised vs unsupervised; regression vs classification",
-   "prompt_en": "Which of the following statements are true?",
+   "prompt_en": "Which statements about regression, classification and the supervised/unsupervised distinction are true?",
    "options_en": [
     "Linear regression is a supervised method for regression.",
     "Logistic regression is a supervised method for classification.",
@@ -7081,7 +7084,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "정규방정식은 반복 없이 한 번에 최소제곱 해를 준다 (A 참, F 거짓). I 는 파라미터 개수와 같은 (n+1)×(n+1) 단위행렬 (B 참). λ = 0 이면 θ = (XᵀX)⁻¹Xᵀy 로 원래 정규방정식 (C 참). X = 입력 행렬, y = 레이블 벡터 (D 참). 로지스틱 회귀는 비선형 가설함수라 정규방정식으로 풀 수 없다 (E 거짓). ⚠️ 함정: E — \"로지스틱 회귀\" → \"선형 회귀\"이면 참. ⚠️ 함정: F — \"많은 반복이 필요\" → \"한 번에 계산한다\"이면 참.",
    "topic_en": "Regularized normal equation",
-   "prompt_en": "About θ = (XᵀX + λI)⁻¹Xᵀy. Which are true?",
+   "prompt_en": "Which statements about the regularized normal equation θ = (XᵀX + λI)⁻¹Xᵀy are true?",
    "options_en": [
     "It gives the least-squares solution in one step.",
     "I is the identity matrix, (n+1)×(n+1).",
@@ -7279,7 +7282,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "훈련 데이터가 적을수록 과대적합 위험이 커진다 (A 참). 테스트 예제 수는 과대적합 정도를 바꾸지 않는다(평가의 신뢰도만 변한다) (B 거짓). 훈련 데이터가 많으면 일반화가 좋아져 완화된다 (C 거짓). 파라미터를 줄이면 모델이 단순해져 완화된다 (D 거짓). 파라미터가 많으면 표현력이 커져 과대적합이 심해진다 (E 참). ⚠️ 함정: B — 테스트 예제 수는 과대적합 자체를 바꾸지 않는다. ⚠️ 함정: C — 훈련 예제를 \"늘린다\" → \"줄인다\"이면 참. ⚠️ 함정: D — 파라미터를 \"줄인다\" → \"늘린다\"이면 참.",
    "topic_en": "What makes overfitting more severe?",
-   "prompt_en": "Which changes make overfitting MORE severe?",
+   "prompt_en": "Which of the following changes make overfitting MORE severe?",
    "options_en": [
     "Fewer training examples",
     "Fewer test examples",
@@ -7319,7 +7322,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "검증 성능이 나빠지기 전에 멈추면 과대적합이 완화된다 (A 참). 기준은 검증 손실 (B 참). 훈련 손실은 보통 계속 감소하므로 기준이 될 수 없다 (C 거짓). 테스트셋을 결정에 쓰면 정보가 새어 낙관적 편향이 생긴다 (D 거짓). 최적 검증 시점의 파라미터를 저장한다 (E 참). ⚠️ 함정: C — \"훈련 손실이 증가\" → \"검증 손실이 개선되지 않을 때\"이면 참. ⚠️ 함정: D — \"테스트 손실\" → \"검증 손실\"이면 참.",
    "topic_en": "Early stopping",
-   "prompt_en": "Early stopping. Which are true?",
+   "prompt_en": "Which statements about early stopping are true?",
    "options_en": [
     "It reduces overfitting.",
     "Stop when the validation loss stops improving.",
@@ -7401,7 +7404,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "단순한 모델은 분산을 낮춘다 (A 참). 데이터가 많으면 일반화가 좋아진다 (B 참). L2 정규화는 가중치 크기를 제한한다 (C 참). 드롭아웃은 강한 정규화 효과가 있다 (D 참). 층을 추가하면 복잡도가 올라가 과대적합이 심해진다 (E 거짓). ⚠️ 함정: E — \"층을 더 추가\" → \"층을 줄인다\"이면 참.",
    "topic_en": "Ways to reduce overfitting",
-   "prompt_en": "Which reduce overfitting?",
+   "prompt_en": "Which of the following reduce overfitting?",
    "options_en": [
     "A simpler model",
     "More training data",
@@ -7442,7 +7445,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "검증집합은 하이퍼파라미터 선택과 조기 종료에 쓴다 (A 참). 테스트집합은 마지막 성능 추정에만 쓴다 (B 참). 데이터 누출을 막기 위해 서로소여야 한다 (C 참). 하이퍼파라미터는 학습되지 않으며 탐색(grid/random 등)으로 고른다 (D 거짓). θ 는 경사하강법으로 최적화한다 (E 참). ⚠️ 함정: D — \"경사하강법으로 학습\" → \"탐색으로 선택\"이면 참.",
    "topic_en": "Train / validation / test splits",
-   "prompt_en": "Data splits. Which are true?",
+   "prompt_en": "Which statements about splitting the data into training, validation and test sets are true?",
    "options_en": [
     "The validation set is used to tune hyperparameters.",
     "The test set is used only for the final evaluation.",
@@ -7482,7 +7485,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "학습률은 사람이 정하는 하이퍼파라미터 (A 참). 구조(뉴런 수)도 하이퍼파라미터 (B 참). W₁ 은 데이터로 학습되는 파라미터 (C 거짓). λ 는 정규화 강도를 정하는 하이퍼파라미터 (D 참). b₂ 도 학습되는 파라미터 (E 거짓). ⚠️ 함정: C — W₁ 은 학습되는 파라미터 — \"학습률 α\"라면 참.",
    "topic_en": "Which quantities are hyperparameters?",
-   "prompt_en": "Which are hyperparameters?",
+   "prompt_en": "Which of the following are hyperparameters?",
    "options_en": [
     "Learning rate α",
     "Number of neurons per layer",
@@ -7523,7 +7526,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "배치가 크면 한 스텝의 메모리·계산 비용이 커진다 (A 참). 표본이 많을수록 평균 추정의 분산이 작아 그래디언트가 안정적이다 (B 참). 반대로 배치가 작으면 잡음이 커진다 (C 참). 잡음이 크면 발산을 막기 위해 학습률을 줄이는 경우가 있다 (D 참). 전체 데이터셋을 쓰는 것은 배치 경사하강법이다 (E 거짓).",
    "topic_en": "Properties of mini-batch SGD",
-   "prompt_en": "Mini-batch SGD. Which are true?",
+   "prompt_en": "Which statements about mini-batch SGD are true?",
    "options_en": [
     "A larger batch needs more memory and compute.",
     "A larger batch gives a less noisy gradient estimate.",
@@ -7565,7 +7568,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "입력은 데이터 자체이고 출력 뉴런도 값을 받기만 하므로, 파라미터는 층 사이의 가중치·편향에 있다 (A 참). 비선형성이 없으면 합성해도 선형 (B 참). 이진 분류 = 시그모이드 + BCE (C 참). 다중 클래스 = 소프트맥스 + 교차엔트로피 + one-hot (D 참). nn.Linear 는 W·x + b 완전연결층 (E 참).",
    "topic_en": "MLP layer structure and task-specific outputs",
-   "prompt_en": "Which are true about the MLP layers?",
+   "prompt_en": "Which statements about the layer structure of an MLP are true?",
    "options_en": [
     "The input \"layer\" and output \"layer\" have no parameters.",
     "Without nonlinearities, stacked layers equal one linear layer.",
@@ -7606,7 +7609,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "그래프의 각 노드는 덧셈·곱셈 같은 기본 연산이다 (A 참). 미리 알고 있는 기본 미분만 조합하면 된다 (B 참). 연쇄법칙으로 국소 미분을 곱해 나간다 (C 참). 공유 노드의 그래디언트를 모아 한 번만 계산하면 중복이 줄어든다 (D 참). 곱셈 노드의 미분에는 순방향에서 구한 값이 필요하다 (E 거짓). ⚠️ 함정: E — \"전혀 필요 없다\" → \"순방향 값이 필요하다\"이면 참.",
    "topic_en": "Backpropagation: computation graph and chain rule",
-   "prompt_en": "Backpropagation. Which are true?",
+   "prompt_en": "Which statements about backpropagation are true?",
    "options_en": [
     "Nodes of the computational graph are elementary operations.",
     "We only need derivatives of elementary operations.",
@@ -7644,7 +7647,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "정밀도 = TP/(TP+FP) (A 참). 재현율 = TP/(TP+FN) (B 참). 오류가 없으면 비대각 원소가 0이라 대각선 행렬이 된다 (C 참). RMSE·MAE 는 회귀 지표다 (D 거짓).",
    "topic_en": "Precision, recall and the confusion matrix",
-   "prompt_en": "Which are true?",
+   "prompt_en": "Which statements about precision, recall and the confusion matrix are true?",
    "options_en": [
     "Precision is the fraction of predicted positives that are really positive.",
     "Recall is the fraction of real positives that we found.",
@@ -7725,7 +7728,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "필터(가중치)는 역전파로 학습된다 (A 참). 가중치 공유로 이동 등변성을 얻는다 (B 참). 풀링은 크기를 줄이고 수용영역을 넓힌다 (C 참). (P, kh, kw) 필터 Q개 → 출력 채널 Q개 (D 참). 고해상도 이미지에는 파라미터 효율적인 CNN 이 유리하다 (E 거짓).",
    "topic_en": "CNN: filters, pooling and channels",
-   "prompt_en": "CNN. Which are true?",
+   "prompt_en": "Which statements about convolutional neural networks (CNNs) are true?",
    "options_en": [
     "Filters are learned parameters.",
     "The same filter is applied at every location (translation equivariance).",
@@ -7915,7 +7918,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "(3,4)+(4,) 는 열 방향 확장으로 (3,4) (A 거짓). (3,4)+(3,) 는 마지막 축 4 대 3 이 맞지 않아 오류 (B 참). (3,1)+(1,4) 는 (3,4) (C 거짓). (3,)+(3,1) 은 (3,3) (D 거짓). (2,3)+(3,2) 는 3 대 2 가 맞지 않아 오류 (E 참).",
    "topic_en": "Broadcasting error: shape combinations",
-   "prompt_en": "Which raise a broadcasting error?",
+   "prompt_en": "Which of the following shape combinations raise a broadcasting error?",
    "options_en": [
     "(3, 4) + (4,)",
     "(3, 4) + (3,)",
@@ -7997,7 +8000,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "손실 최소화가 목표 (A 참). 학습 단계에서 θ 를 찾는다 (B 참). 이후 새 입력의 레이블을 추정(추론)한다 (C 참). 최대화가 아니라 최소화한다 (D 거짓). 주석(annotation)에는 큰 인적 비용이 든다 (E 참). ⚠️ 함정: D — \"최대화\" → \"최소화\"이면 참.",
    "topic_en": "Goal and two-step procedure of supervised learning",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about the goal and the two steps of supervised learning are true?",
    "options_en": [
     "Supervised learning goal: find θ* that minimizes the loss J.",
     "Step 1 is learning the parameters on the training set.",
@@ -8406,7 +8409,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "784·100 + 100 = 78,500 (A 참). 100·10 + 10 = 1,010 (B 참). 합계 79,510 (C 참). 파라미터 수는 층별로 더한 값이며 곱이 아니다 (D 거짓). 소프트맥스는 학습 파라미터가 없다 (E 거짓). ⚠️ 함정: E — \"소프트맥스가 10개 추가\" → \"소프트맥스는 학습 파라미터가 없다\"이면 참.",
    "topic_en": "Parameter count of a 784→100→10 MLP",
-   "prompt_en": "An MLP for 28×28 images: 784 → 100 → 10.",
+   "prompt_en": "Which statements about the number of parameters of an MLP for 28×28 images (784 → 100 → 10) are true?",
    "options_en": [
     "The first layer has 78,500 parameters.",
     "The second layer has 1,010 parameters.",
@@ -8492,7 +8495,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "모든 입력이 같으면 균등분포가 된다 (A 참). e^(ln 2) = 2 이므로 2/3, 1/3 (B 참). 분자·분모에 같은 인수가 곱해져 약분되므로 상수 이동에 불변 (C 참). 지수함수라서 항상 양수 (D 거짓). 확률분포이므로 합이 1 (E 참). ⚠️ 함정: D — \"음수가 될 수 있다\" → \"항상 양수다\"이면 참.",
    "topic_en": "Softmax: numeric examples",
-   "prompt_en": "Softmax numbers.",
+   "prompt_en": "Which statements about the numerical results of softmax are true?",
    "options_en": [
     "softmax([0, 0, 0, 0]) = [0.25, 0.25, 0.25, 0.25]",
     "softmax([ln 2, 0]) = [2/3, 1/3]",
@@ -8574,7 +8577,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "훈련 손실은 매우 낮고 검증 손실은 높은 전형적 과대적합 (A 참). 데이터를 늘리면 분산이 줄어든다 (B 참). 드롭아웃은 정규화 효과가 있다 (C 참). 모델을 키우면 과대적합이 더 심해진다 (D 거짓). 조기 종료도 완화책이 된다 (E 참). ⚠️ 함정: D — \"훨씬 크게 만들면 도움\" → \"더 단순하게 만들면 도움\"이면 참.",
    "topic_en": "Overfitting diagnosis and remedies",
-   "prompt_en": "Training loss 0.05, validation loss 0.60.",
+   "prompt_en": "With training loss 0.05 and validation loss 0.60, which statements are true?",
    "options_en": [
     "The model is probably overfitting.",
     "More training data may help.",
@@ -8651,7 +8654,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "테스트셋을 튜닝에 쓰면 정보가 새어 낙관적 편향이 생긴다 (A 참). 검증 손실로 조기 종료 시점을 정한다 (B 참). 테스트셋은 마지막 평가 전용이다 (C 참). 데이터가 적으면 k-fold 교차검증이 유용하다 (D 참). 비율은 자유롭게 정할 수 있다 (E 거짓). ⚠️ 함정: E — \"항상 50/25/25\" → \"비율은 자유롭게 정한다\"이면 참.",
    "topic_en": "Validation set vs test set",
-   "prompt_en": "Validation set vs test set.",
+   "prompt_en": "Which statements about the roles of the validation set and the test set are true?",
    "options_en": [
     "Tuning hyperparameters on the test set makes the test estimate too optimistic.",
     "The validation loss is used for early stopping.",
@@ -8692,7 +8695,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "격자탐색·무작위탐색·베이지안 최적화·진화 알고리즘이 대표적인 탐색 방법이다 (A~D 참). 하이퍼파라미터에 대한 그래디언트는 일반적으로 구할 수 없어 경사하강법을 쓸 수 없다 (E 거짓). ⚠️ 함정: E — \"경사하강법\" → \"격자·랜덤 탐색\"이면 참.",
    "topic_en": "Hyperparameter search methods",
-   "prompt_en": "Hyperparameter search methods.",
+   "prompt_en": "Which statements about hyperparameter search methods are true?",
    "options_en": [
     "Grid search",
     "Random search",
@@ -8815,7 +8818,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "두 선형 경계를 AND 로 결합하면 비선형 영역을 표현할 수 있다 (A 참). AND·OR 는 선형 분리 가능하므로 단일 뉴런으로 표현된다 (B 참). XOR 는 선형 분리 불가라 단일 뉴런으로는 불가능하다 (C 거짓). 은닉층이 없으면 XOR 를 풀 수 없다 (D 거짓). iris 에서 versicolor 는 직선 하나로 분리되지 않는다 (E 참). ⚠️ 함정: C — \"단일 뉴런으로 XOR 가능\" → \"불가능(은닉층 필요)\"이면 참. ⚠️ 함정: D — \"은닉층 없이 XOR\" → \"은닉층이 있어야\"이면 참.",
    "topic_en": "Limits of a single neuron and the XOR problem",
-   "prompt_en": "Single neurons and small networks.",
+   "prompt_en": "Which statements about a single neuron and small neural networks are true?",
    "options_en": [
     "Two linear decision boundaries can be combined by a second-layer neuron (AND).",
     "A single neuron can represent AND and OR.",
@@ -8856,7 +8859,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "뉴런은 가중합 + 편향을 계산한 뒤 활성함수를 적용한다 (A 참). 시그모이드 뉴런은 로지스틱 회귀와 같다 (B 참). 가중치 부호는 자유롭다 (C 참). 계단함수는 거의 모든 곳에서 미분이 0이라 경사하강법에 부적합하다 (D 거짓). 퍼셉트론은 Rosenblatt(1958) 에서 제안되었다 (E 참). ⚠️ 함정: D — \"계단함수가 좋다\" → \"미분 가능한 활성함수가 좋다\"이면 참.",
    "topic_en": "Artificial neuron (perceptron) facts",
-   "prompt_en": "Artificial neuron facts.",
+   "prompt_en": "Which statements about the artificial neuron (perceptron) are true?",
    "options_en": [
     "It computes a weighted sum plus a bias, then an activation.",
     "With sigmoid, it is a (multivariate) logistic regression.",
@@ -8897,7 +8900,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "비선형성이 없으면 표현력이 선형 모델과 같아지므로 중간층에 필요하다 (A·B 참). 회귀는 항등, 이진 분류는 시그모이드, 다중 클래스는 소프트맥스를 쓴다 (C 참). ReLU 는 max(0, z) 로 계산이 저렴하다 (D 참). ReLU 의 출력은 0 이상이다 (E 거짓). ⚠️ 함정: E — \"임의의 실수\" → \"0 이상\"이면 참.",
    "topic_en": "Role of activation functions in an MLP",
-   "prompt_en": "Activation functions in an MLP.",
+   "prompt_en": "Which statements about activation functions in an MLP are true?",
    "options_en": [
     "We always need intermediate nonlinearities.",
     "Stacked linear layers without nonlinearities are equivalent to one linear layer.",
@@ -8938,7 +8941,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "무작위 초기화로 대칭을 깬다 (A 참). 순방향으로 예측과 손실을 계산한다 (B 참). 갱신 규칙을 적용한다 (C 참). 계산 효율을 위해 미니배치를 쓴다 (D 참). 정해진 반복 횟수나 조기 종료로 멈추며, J = 0 이 될 때까지 반복하는 것은 현실적이지 않다 (E 거짓).",
    "topic_en": "Steps of the backpropagation algorithm",
-   "prompt_en": "The backpropagation algorithm.",
+   "prompt_en": "Which statements about the procedure of the backpropagation algorithm are true?",
    "options_en": [
     "Initial parameter values can be random.",
     "In the forward step, we substitute data and current parameters.",
@@ -8976,7 +8979,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "nn.Linear(in, out) 의 weight 는 (out, in) = (100, 784) (A 참). 선형-비선형-선형 구조의 회귀 MLP (B 참). BCELoss 는 이진 교차엔트로피 손실 (C 참). nn.Linear 는 활성함수를 포함하지 않는다 (D 거짓).",
    "topic_en": "Meaning of PyTorch code",
-   "prompt_en": "PyTorch code.",
+   "prompt_en": "Which statements about the following PyTorch code are true?",
    "options_en": [
     "`torch.nn.Linear(784, 100)` has a weight matrix of shape (100, 784).",
     "`nn.Sequential(nn.Linear(d, h), nn.ReLU(), nn.Linear(h, 1))` is a 2-layer MLP for regression.",
@@ -9053,7 +9056,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "숫자는 이동·미세 회전이 자연스럽다 (A 참). 상하 반전하면 7 등이 깨진다 (B 참). 사진은 반전·색 변환이 자연스럽다 (C 참). 오디오는 시간 늘이기·주파수 변화가 자연스럽다 (D 참). 변환은 데이터 종류에 맞아야 한다 (E 거짓).",
    "topic_en": "Choosing appropriate data augmentation",
-   "prompt_en": "Data augmentation.",
+   "prompt_en": "Which statements about data augmentation are true?",
    "options_en": [
     "For MNIST, translation and slight rotation are reasonable.",
     "For MNIST, some flips can create invalid digits (e.g., a \"7\").",
@@ -9093,7 +9096,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "7 − 3 + 1 = 5 이므로 5×5 (A 참, B 거짓). 합성곱은 필터와 패치의 내적이다 (C 참). 4 / 2 = 2 (D 참). 풀링은 학습 파라미터가 없다 (E 거짓). ⚠️ 함정: B — \"7×7\" → \"5×5\"이면 참.",
    "topic_en": "Convolution and pooling output sizes",
-   "prompt_en": "Convolution and pooling sizes.",
+   "prompt_en": "Which statements about the size calculations for convolution and pooling are true?",
    "options_en": [
     "A 7×7 input with a 3×3 filter (no padding) gives a 5×5 output.",
     "The same input gives a 7×7 output.",
@@ -9134,7 +9137,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "가중치 공유로 합성곱 층은 이동 등변성을 갖는다 (A 참). 풀링과 계층 구조로 이동 불변성을 얻는다 (B 참). MLP 는 위치마다 별도 가중치가 필요하다 (C 참). 1D/2D/3D 합성곱으로 오디오·시계열·의료영상에도 적용된다 (D 참, E 거짓).",
    "topic_en": "CNN vs MLP",
-   "prompt_en": "CNN vs MLP.",
+   "prompt_en": "Which statements comparing CNNs and MLPs are true?",
    "options_en": [
     "A conv layer is translation equivariant.",
     "A trained ConvNet is (ideally) translation invariant.",
@@ -9215,7 +9218,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "조건이 참인 위치는 x, 거짓인 위치는 0 (A 참). 양수가 2개 (B 참). 비교 연산 결과는 bool 배열 (C 참). 인자가 하나면 조건을 만족하는 인덱스 튜플을 반환 (D 참). 실행 후 x = [0, -1, 0, -2] 이다 (E 거짓). ⚠️ 함정: E — \"실행 후 [0, -1, 3, -2]\" → \"[0, -1, 0, -2]\"이면 참.",
    "topic_en": "np.where and boolean masking",
-   "prompt_en": "`x = np.array([5, -1, 3, -2])`",
+   "prompt_en": "x = np.array([5, -1, 3, -2]). Which statements are true?",
    "options_en": [
     "`np.where(x > 0, x, 0)` equals `[5, 0, 3, 0]`",
     "`np.sum(x > 0) == 2`",
@@ -9256,7 +9259,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "정수와 실수가 섞이면 실수형으로 승격된다 (A 참). / 는 실수 나눗셈 (B 참). // 는 몫 (C 참). bool 은 True=1 로 합산된다 (D 참). 실수를 더하면 실수형이 된다 (E 거짓).",
    "topic_en": "dtypes and arithmetic results",
-   "prompt_en": "Data types.",
+   "prompt_en": "Which statements about NumPy dtypes and operations are true?",
    "options_en": [
     "`np.array([1, 2.5]).dtype` is a float type.",
     "`np.array([1, 2, 3]) / 2` equals `[0.5, 1., 1.5]`",
@@ -9297,7 +9300,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "0, 3, 6, 9 (A 참). linspace 는 개수를 지정한다 (B 참). (5, -1) 은 (5, 1) (C 참). reshape(-1, 5) 는 (2, 5) 이므로 (5, 2) 가 아니다 (D 거짓). ones(3) 은 1차원 (E 참).",
    "topic_en": "Array creation functions",
-   "prompt_en": "Creating arrays.",
+   "prompt_en": "Which statements about array creation functions are true?",
    "options_en": [
     "`np.arange(0, 10, 3)` equals `[0, 3, 6, 9]`",
     "`np.linspace(0, 1, 5)` has 5 elements.",
@@ -9418,7 +9421,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "3, 4 만 참이므로 [F,F,T,T,F,F] (A 참). 마스크로 뽑으면 [3, 4] (B 참). 파이썬의 and 는 배열에서 ValueError 가 나며 & 를 써야 한다 (C 거짓). ~ 는 논리 부정이라 1, 2 에서 True (D 참). 짝수 2, 4, 6 → 3개 (E 참).",
    "topic_en": "Logical operators and boolean indexing",
-   "prompt_en": "`v = np.arange(1, 7)`",
+   "prompt_en": "v = np.arange(1, 7). Which statements are true?",
    "options_en": [
     "`(v > 2) & (v \u003c 5)` equals `[F, F, T, T, F, F]`",
     "`v[(v > 2) & (v \u003c 5)]` equals `[3, 4]`",
@@ -9541,7 +9544,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "newaxis 로 (3,1) (A 참). (1,3) (B 참). 브로드캐스팅으로 (3,3) (C 참). r[0] = 0 이므로 외적의 첫 행은 0 (D 참). r[:, None] 은 (3,1) 이고 reshape(1, 3) 은 (1,3) 이라 서로 다르다 (E 거짓). ⚠️ 함정: E — r[:, None] 은 (3,1) — \"reshape(1, 3)\"을 \"reshape(3, 1)\"로 바꾸면 참.",
    "topic_en": "newaxis and the outer product",
-   "prompt_en": "`r = np.arange(3)`",
+   "prompt_en": "r = np.arange(3). Which statements are true?",
    "options_en": [
     "`r[:, None].shape == (3, 1)`",
     "`r[None, :].shape == (1, 3)`",
@@ -9600,7 +9603,7 @@ function applyStaticI18n() {
    "part": "A",
    "lecture": "Lecture 1",
    "topic": "지도·비지도·강화학습 과제 분류",
-   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt": "지도·비지도·강화학습의 과제 분류에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options": [
     "회귀와 분류는 지도학습 과제다.",
     "군집화에는 레이블이 있는 데이터가 필요하다.",
@@ -9615,7 +9618,7 @@ function applyStaticI18n() {
    ],
    "explanation": "회귀·분류는 레이블이 필요하므로 지도학습 (A 참). 군집화는 레이블 없이 유사도로 묶는 비지도학습 (B 거짓). 차원축소·노이즈 제거는 레이블 없이 정식화 가능 (C 참). 강화학습의 피드백은 보상이며 희소·지연되고 credit assignment 문제를 만든다 (D 참). 선형 회귀는 레이블을 쓰므로 지도학습 (E 거짓). ⚠️ 함정: B — \"필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"비지도학습\" → \"지도학습\"이면 참.",
    "topic_ko": "지도·비지도·강화학습 과제 분류",
-   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt_ko": "지도·비지도·강화학습의 과제 분류에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
     "회귀와 분류는 지도학습 과제다.",
     "군집화에는 레이블이 있는 데이터가 필요하다.",
@@ -9625,7 +9628,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "회귀·분류는 레이블이 필요하므로 지도학습 (A 참). 군집화는 레이블 없이 유사도로 묶는 비지도학습 (B 거짓). 차원축소·노이즈 제거는 레이블 없이 정식화 가능 (C 참). 강화학습의 피드백은 보상이며 희소·지연되고 credit assignment 문제를 만든다 (D 참). 선형 회귀는 레이블을 쓰므로 지도학습 (E 거짓). ⚠️ 함정: B — \"필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"비지도학습\" → \"지도학습\"이면 참.",
    "topic_en": "Supervised / unsupervised / reinforcement tasks",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about supervised, unsupervised and reinforcement learning tasks are true?",
    "options_en": [
     "Regression and classification are supervised learning tasks.",
     "Clustering needs labeled data.",
@@ -9833,7 +9836,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "스케일링의 목적은 입력들의 크기를 맞추는 것 (A 참). 스케일 차이가 크면 손실 곡면이 길쭉해져 수렴이 느려진다 (B 참). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 **민감**하다 (C 거짓). x′ = (x − μ)/σ 에서 μ 는 평균, σ 는 표준편차 (D 참). 표준화 값은 제한이 없어 음수·1 초과도 가능하다 (E 거짓). ⚠️ 함정: C — \"더 강건\" → \"더 민감\"이면 참. ⚠️ 함정: E — \"항상 [0, 1]\" → \"범위 제한이 없다\"이면 참.",
    "topic_en": "Feature scaling: purpose and properties",
-   "prompt_en": "Feature scaling. Which statements are true?",
+   "prompt_en": "Which statements about feature scaling are true?",
    "options_en": [
     "Its purpose is to bring the input variables to the same order of magnitude.",
     "Without it, gradient descent may converge more slowly.",
@@ -11104,7 +11107,7 @@ function applyStaticI18n() {
    "part": "A",
    "lecture": "Lecture 1",
    "topic": "선형·로지스틱 회귀의 과제와 학습 유형",
-   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt": "선형 회귀와 로지스틱 회귀의 용도와 학습 유형에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options": [
     "선형 회귀는 회귀 과제를 푸는 데 사용한다.",
     "선형 회귀는 지도학습 방법이다.",
@@ -11121,7 +11124,7 @@ function applyStaticI18n() {
    ],
    "explanation": "선형 회귀=회귀용 지도학습 (A·B 참). 로지스틱 회귀=분류용 지도학습 (C·D 참, E 거짓). 선형 회귀는 분류용이 아니다 (F 거짓). ⚠️ 함정: E — \"비지도학습\" → \"지도학습\"이면 참. ⚠️ 함정: F — \"분류 과제\" → \"회귀 과제\"이면 참.",
    "topic_ko": "선형·로지스틱 회귀의 과제와 학습 유형",
-   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt_ko": "선형 회귀와 로지스틱 회귀의 용도와 학습 유형에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
     "선형 회귀는 회귀 과제를 푸는 데 사용한다.",
     "선형 회귀는 지도학습 방법이다.",
@@ -11132,7 +11135,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "선형 회귀=회귀용 지도학습 (A·B 참). 로지스틱 회귀=분류용 지도학습 (C·D 참, E 거짓). 선형 회귀는 분류용이 아니다 (F 거짓). ⚠️ 함정: E — \"비지도학습\" → \"지도학습\"이면 참. ⚠️ 함정: F — \"분류 과제\" → \"회귀 과제\"이면 참.",
    "topic_en": "Task and learning type of linear / logistic regression",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about linear and logistic regression are true?",
    "options_en": [
     "Linear regression is used to solve regression tasks.",
     "Linear regression is a supervised learning method.",
@@ -11233,7 +11236,7 @@ function applyStaticI18n() {
    "part": "A",
    "lecture": "Lecture 3",
    "topic": "학습에서 최소화하는 대상",
-   "prompt": "같은 가설 y = Xθ 로 학습할 때 옳은 것을 모두 고르시오.",
+   "prompt": "가설 y = Xθ (X 는 훈련 예시 행렬, 더미 열 x₀ = 1 포함) 로 학습할 때 옳은 것을 모두 고르시오.",
    "options": [
     "θ 에 대해 손실을 최소화한다.",
     "θ 를 바꾼다.",
@@ -11246,7 +11249,7 @@ function applyStaticI18n() {
    ],
    "explanation": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·B 참). X 와 y 는 주어진 데이터이므로 최소화 대상이 아니다 (C·D 거짓). ⚠️ 함정: C — \"X를 최소화\" → \"손실 J를 최소화\"이면 참. ⚠️ 함정: D — \"y를 최소화\" → \"손실 J를 최소화\"이면 참.",
    "topic_ko": "학습에서 최소화하는 대상",
-   "prompt_ko": "같은 가설 y = Xθ 로 학습할 때 옳은 것을 모두 고르시오.",
+   "prompt_ko": "가설 y = Xθ (X 는 훈련 예시 행렬, 더미 열 x₀ = 1 포함) 로 학습할 때 옳은 것을 모두 고르시오.",
    "options_ko": [
     "θ 에 대해 손실을 최소화한다.",
     "θ 를 바꾼다.",
@@ -11255,7 +11258,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·B 참). X 와 y 는 주어진 데이터이므로 최소화 대상이 아니다 (C·D 거짓). ⚠️ 함정: C — \"X를 최소화\" → \"손실 J를 최소화\"이면 참. ⚠️ 함정: D — \"y를 최소화\" → \"손실 J를 최소화\"이면 참.",
    "topic_en": "What do we minimize during learning?",
-   "prompt_en": "Same hypothesis y = Xθ. During learning:",
+   "prompt_en": "With the hypothesis y = Xθ (X is the matrix of training examples, including the dummy column x₀ = 1), during learning:",
    "options_en": [
     "We want to minimize the loss with respect to θ.",
     "We want to change θ.",
@@ -11394,7 +11397,7 @@ function applyStaticI18n() {
    "part": "A",
    "lecture": "Lecture 4",
    "topic": "정규방정식에서 λ와 I의 역할",
-   "prompt": "θ = (XᵀX + λI)⁻¹Xᵀy 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "prompt": "θ = (XᵀX + λI)⁻¹Xᵀy 를 콜레스테롤 과제(환자 200명, 속성 4개 + 더미 열 → X 는 200×5)에 쓸 때 옳은 것을 모두 고르시오.",
    "options": [
     "MSE(최소제곱) 손실을 사용한다.",
     "λ = 0 이면 정규화가 없는 정규방정식이 된다.",
@@ -11409,7 +11412,7 @@ function applyStaticI18n() {
    ],
    "explanation": "최소제곱 해를 구하는 식이므로 MSE 를 사용한다 (A 참). λ = 0 이면 정규화가 사라진다 (B 참). 반복 없이 한 번에 해를 구한다 (C 참). 학습률은 경사하강법에 필요하며 정규방정식에는 불필요하다 (D 거짓). I 는 (n+1)×(n+1) = 5×5 이다 (E 거짓). ⚠️ 함정: D — \"학습률 α가 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"200×200\" → \"5×5\"이면 참.",
    "topic_ko": "정규방정식에서 λ와 I의 역할",
-   "prompt_ko": "θ = (XᵀX + λI)⁻¹Xᵀy 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "prompt_ko": "θ = (XᵀX + λI)⁻¹Xᵀy 를 콜레스테롤 과제(환자 200명, 속성 4개 + 더미 열 → X 는 200×5)에 쓸 때 옳은 것을 모두 고르시오.",
    "options_ko": [
     "MSE(최소제곱) 손실을 사용한다.",
     "λ = 0 이면 정규화가 없는 정규방정식이 된다.",
@@ -11419,7 +11422,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "최소제곱 해를 구하는 식이므로 MSE 를 사용한다 (A 참). λ = 0 이면 정규화가 사라진다 (B 참). 반복 없이 한 번에 해를 구한다 (C 참). 학습률은 경사하강법에 필요하며 정규방정식에는 불필요하다 (D 거짓). I 는 (n+1)×(n+1) = 5×5 이다 (E 거짓). ⚠️ 함정: D — \"학습률 α가 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"200×200\" → \"5×5\"이면 참.",
    "topic_en": "Role of λ and I in the normal equation",
-   "prompt_en": "Which statements about θ = (XᵀX + λI)⁻¹Xᵀy are true?",
+   "prompt_en": "Using θ = (XᵀX + λI)⁻¹Xᵀy for the cholesterol task (200 patients, 4 attributes plus the dummy column, so X is 200×5), which statements are true?",
    "options_en": [
     "It uses the MSE (least squares) loss.",
     "With λ = 0, it is the non-regularized normal equation.",
@@ -11497,7 +11500,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "스케일링은 입력들의 크기를 맞춘다 (A 참). 스케일 차이가 크면 손실 곡면이 길쭉해져 수렴이 느려진다 (B·C 참). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 민감하고, 표준화가 더 강건하다 (D 참, E 거짓). ⚠️ 함정: E — \"min-max가 더 강건\" → \"표준화가 더 강건\"이면 참.",
    "topic_en": "Purpose and effects of feature scaling",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about feature scaling are true?",
    "options_en": [
     "The purpose is to bring the input variables to the same order of magnitude.",
     "Without it, gradient descent is likely to converge more slowly.",
@@ -11663,7 +11666,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·E 참). X·y 는 데이터이고 g 는 고정된 활성함수이므로 최소화 대상이 아니다 (B·C·D 거짓). ⚠️ 함정: B — \"X를 최소화\" → \"θ에 대해 J를 최소화\"이면 참. ⚠️ 함정: C — \"y를 최소화\" → \"θ에 대해 J를 최소화\"이면 참. ⚠️ 함정: D — \"g를 최소화\" → \"g는 고정\"이면 참.",
    "topic_en": "What do we minimize for y = g(Xθ)?",
-   "prompt_en": "For y = g(Xθ), during learning:",
+   "prompt_en": "With the hypothesis y = g(Xθ) (g = sigmoid), during learning:",
    "options_en": [
     "We want to minimize the loss with respect to θ.",
     "We want to minimize X.",
@@ -11855,7 +11858,7 @@ function applyStaticI18n() {
    "part": "A",
    "lecture": "Lecture 5",
    "topic": "이진 분류 MLP(20→10→1)의 설정",
-   "prompt": "같은 MLP(입력 20개, 첫 층 뉴런 10개, 출력 뉴런 1개)를 이진 분류에 쓸 때 옳은 것을 모두 고르시오.",
+   "prompt": "h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) 형태의 MLP(입력 20개, 첫 층 뉴런 10개, 출력 뉴런 1개)를 이진 분류에 쓸 때 옳은 것을 모두 고르시오.",
    "options": [
     "네트워크의 전체 파라미터는 221개다.",
     "g₂ 는 시그모이드여야 한다.",
@@ -11870,7 +11873,7 @@ function applyStaticI18n() {
    ],
    "explanation": "파라미터 수는 20·10+10 + 10+1 = 221 (A 참). 이진 분류 출력은 시그모이드 (B 참). 손실은 BCE (C 참). g₁ 은 비선형성으로 필요하고 (D 거짓), g₂ 는 확률로 제한해야 하므로 생략하면 안 된다 (E 거짓). ⚠️ 함정: D — \"g₁을 생략\" → \"g₁은 반드시 유지\"이면 참. ⚠️ 함정: E — \"g₂를 생략\" → \"g₂는 시그모이드\"이면 참.",
    "topic_ko": "이진 분류 MLP(20→10→1)의 설정",
-   "prompt_ko": "같은 MLP(입력 20개, 첫 층 뉴런 10개, 출력 뉴런 1개)를 이진 분류에 쓸 때 옳은 것을 모두 고르시오.",
+   "prompt_ko": "h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) 형태의 MLP(입력 20개, 첫 층 뉴런 10개, 출력 뉴런 1개)를 이진 분류에 쓸 때 옳은 것을 모두 고르시오.",
    "options_ko": [
     "네트워크의 전체 파라미터는 221개다.",
     "g₂ 는 시그모이드여야 한다.",
@@ -11880,7 +11883,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "파라미터 수는 20·10+10 + 10+1 = 221 (A 참). 이진 분류 출력은 시그모이드 (B 참). 손실은 BCE (C 참). g₁ 은 비선형성으로 필요하고 (D 거짓), g₂ 는 확률로 제한해야 하므로 생략하면 안 된다 (E 거짓). ⚠️ 함정: D — \"g₁을 생략\" → \"g₁은 반드시 유지\"이면 참. ⚠️ 함정: E — \"g₂를 생략\" → \"g₂는 시그모이드\"이면 참.",
    "topic_en": "Binary classification MLP (20→10→1)",
-   "prompt_en": "The same MLP is used for binary classification with 20 inputs, 10 neurons in the first layer and one output neuron. Which statements are true?",
+   "prompt_en": "The MLP h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) (20 inputs, 10 first-layer neurons, one output neuron) is used for binary classification. Which statements are true?",
    "options_en": [
     "The whole network has 221 parameters.",
     "g₂ should be a sigmoid.",
@@ -11895,7 +11898,7 @@ function applyStaticI18n() {
    "part": "A",
    "lecture": "Lecture 5",
    "topic": "다중 클래스 MLP(20→10→5)의 shape과 파라미터",
-   "prompt": "같은 MLP 를 다중 클래스 분류에 쓴다. 입력 20개, 첫 층 뉴런 10개, 클래스 5개일 때 옳은 것을 모두 고르시오.",
+   "prompt": "h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) 형태의 MLP 를 다중 클래스 분류에 쓴다. 입력 20개, 첫 층 뉴런 10개, 클래스 5개일 때 옳은 것을 모두 고르시오.",
    "options": [
     "W₂ 의 shape 은 5×10 이다.",
     "네트워크의 전체 파라미터는 265개다.",
@@ -11913,7 +11916,7 @@ function applyStaticI18n() {
    ],
    "explanation": "W₂ 는 (출력, 은닉) = 5×10 (A 참). 첫 층 210 + 둘째 층(5·10 + 5 = 55) = 265 (B 참). 다중 클래스 출력은 소프트맥스 + 교차엔트로피 (C·D 참) 이므로 출력의 합이 1 (E 참). 항등함수는 아니다 (F 거짓). ⚠️ 함정: F — \"항등함수\" → \"소프트맥스\"이면 참.",
    "topic_ko": "다중 클래스 MLP(20→10→5)의 shape과 파라미터",
-   "prompt_ko": "같은 MLP 를 다중 클래스 분류에 쓴다. 입력 20개, 첫 층 뉴런 10개, 클래스 5개일 때 옳은 것을 모두 고르시오.",
+   "prompt_ko": "h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) 형태의 MLP 를 다중 클래스 분류에 쓴다. 입력 20개, 첫 층 뉴런 10개, 클래스 5개일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
     "W₂ 의 shape 은 5×10 이다.",
     "네트워크의 전체 파라미터는 265개다.",
@@ -11924,7 +11927,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "W₂ 는 (출력, 은닉) = 5×10 (A 참). 첫 층 210 + 둘째 층(5·10 + 5 = 55) = 265 (B 참). 다중 클래스 출력은 소프트맥스 + 교차엔트로피 (C·D 참) 이므로 출력의 합이 1 (E 참). 항등함수는 아니다 (F 거짓). ⚠️ 함정: F — \"항등함수\" → \"소프트맥스\"이면 참.",
    "topic_en": "Multi-class MLP (20→10→5)",
-   "prompt_en": "The same MLP is used for multi-class classification with 20 inputs, 10 neurons in the first layer and 5 classes. Which statements are true?",
+   "prompt_en": "The MLP h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) is used for multi-class classification with 20 inputs, 10 first-layer neurons and 5 classes. Which statements are true?",
    "options_en": [
     "W₂ has shape 5×10.",
     "The whole network has 265 parameters.",
@@ -11965,7 +11968,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "시그모이드는 S자, (0,1), g(0)=0.5 (A 참). tanh 는 S자, (−1,1), g(0)=0 (B 참). ReLU 는 max(0,z) 로 범위 [0,∞) (C 참). ReLU 는 (−1,1) 이 아니고 (D 거짓) 시그모이드도 (−1,1) 이 아니다 (E 거짓). ⚠️ 함정: D — \"(−1, 1)\" → \"[0, ∞)\"이면 참. ⚠️ 함정: E — \"(−1, 1)\" → \"(0, 1)\"이면 참.",
    "topic_en": "Shapes and ranges of activation functions",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about activation functions are true?",
    "options_en": [
     "Sigmoid: S-shaped, range (0, 1), g(0) = 0.5.",
     "tanh: S-shaped, range (−1, 1), g(0) = 0.",
@@ -12044,7 +12047,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "조기 종료는 과대적합 완화 기법 (A 참). 기준은 검증 손실이며 더 이상 개선되지 않을 때 멈춘다 (B 참). 훈련 손실은 보통 계속 감소하므로 기준이 될 수 없고 (C 거짓), 테스트 손실을 쓰면 데이터 누출이다 (D 거짓). 최적 검증 시점의 파라미터를 유지한다 (E 참). ⚠️ 함정: C — \"훈련 손실\" → \"검증 손실\"이면 참. ⚠️ 함정: D — \"테스트 손실\" → \"검증 손실\"이면 참.",
    "topic_en": "Early stopping: criterion and timing",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about early stopping are true?",
    "options_en": [
     "We use early stopping to reduce overfitting.",
     "We should stop training when the validation loss stops improving (starts to increase).",
@@ -12118,7 +12121,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "파라미터(W, b)는 경사하강법으로 학습한다 (A 참, D 참). 하이퍼파라미터는 미분 대상이 아니며 탐색으로 고른다 (B 거짓). 학습률·층 수는 대표적인 하이퍼파라미터 (C 참). ⚠️ 함정: B — \"하이퍼파라미터도 경사하강법으로\" → \"탐색으로 고른다\"이면 참.",
    "topic_en": "Parameters vs hyperparameters",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about parameters and hyperparameters are true?",
    "options_en": [
     "The parameters of a neural network are usually trained with a gradient-descent-based algorithm (like SGD).",
     "The hyperparameters of a neural network are usually trained with a gradient-descent-based algorithm.",
@@ -12155,7 +12158,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "SGD 는 무작위로 뽑은 미니배치에서 그래디언트를 계산한다 (A 참, B 참). 예시 1개는 미니배치 크기가 1인 극단적 경우일 뿐이다 (C 거짓). 전체 집합을 쓰는 것이 배치 경사하강법 (D 참). ⚠️ 함정: C — \"정확히 1개만\" → \"미니배치 크기는 조절 가능\"이면 참.",
    "topic_en": "SGD and the mini-batch",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about stochastic gradient descent (SGD) are true?",
    "options_en": [
     "SGD computes the gradient on a randomly selected sub-sample of the data, not on the whole training set.",
     "The sub-sample is called a mini-batch.",
@@ -13294,7 +13297,7 @@ function applyStaticI18n() {
    "part": "B",
    "lecture": "NumPy",
    "topic": "강의 코드: 1 / (1 + np.exp(-z) + eps) 시그모이드",
-   "prompt": "위 시그모이드 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "prompt": "시그모이드 구현 1 / (1 + np.exp(-z) + eps) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options": [
     "배열 z 를 넣으면 출력도 z 와 같은 shape 이다.",
     "eps = 0 이면 z = 0 에서 값이 0.5 다.",
@@ -13310,7 +13313,7 @@ function applyStaticI18n() {
    ],
    "explanation": "np.exp 는 원소별이므로 shape 이 유지된다 (A 참). eps = 0 이면 1/(1+1) = 0.5 (B 참). 분모가 항상 1보다 크므로 0 \u003c 출력 \u003c 1 (C 참). 분모에 eps 를 더하면 값이 조금 작아진다 (D 참). 스칼라가 아니라 배열이 나온다 (E 거짓). ⚠️ 함정: E — \"스칼라\" → \"배열\"이면 참.",
    "topic_ko": "강의 코드: 1 / (1 + np.exp(-z) + eps) 시그모이드",
-   "prompt_ko": "위 시그모이드 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "prompt_ko": "시그모이드 구현 1 / (1 + np.exp(-z) + eps) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
     "배열 z 를 넣으면 출력도 z 와 같은 shape 이다.",
     "eps = 0 이면 z = 0 에서 값이 0.5 다.",
@@ -13320,7 +13323,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "np.exp 는 원소별이므로 shape 이 유지된다 (A 참). eps = 0 이면 1/(1+1) = 0.5 (B 참). 분모가 항상 1보다 크므로 0 \u003c 출력 \u003c 1 (C 참). 분모에 eps 를 더하면 값이 조금 작아진다 (D 참). 스칼라가 아니라 배열이 나온다 (E 거짓). ⚠️ 함정: E — \"스칼라\" → \"배열\"이면 참.",
    "topic_en": "Lecture code: the sigmoid 1 / (1 + np.exp(-z) + eps)",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about the sigmoid implementation 1 / (1 + np.exp(-z) + eps) are true?",
    "options_en": [
     "For an array z, the output has the same shape as z.",
     "With eps = 0, the sigmoid of 0 is 0.5.",
@@ -13936,7 +13939,7 @@ function applyStaticI18n() {
    "part": "B",
    "lecture": "NumPy",
    "topic": "dtype 과 나눗셈 (/, //)",
-   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt": "NumPy 의 dtype 과 나눗셈 연산자 (/, //) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options": [
     "np.array([1, 2, 3]) / 2 는 [0.5, 1., 1.5] 다.",
     "np.array([1, 2.5]).dtype 은 실수형(float)이다.",
@@ -13952,7 +13955,7 @@ function applyStaticI18n() {
    ],
    "explanation": "/ 는 실수 나눗셈이라 [0.5,1.,1.5] (A 참). 2.5 가 섞이면 dtype 이 float (B 참). 비교 결과는 bool (C 참). True 는 1, False 는 0 이라 합은 2 (D 참). // 는 정수 나눗셈이라 [0, 1, 1] (E 거짓). ⚠️ 함정: E — \"//\" → \"/\"이면 참.",
    "topic_ko": "dtype 과 나눗셈 (/, //)",
-   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt_ko": "NumPy 의 dtype 과 나눗셈 연산자 (/, //) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
     "np.array([1, 2, 3]) / 2 는 [0.5, 1., 1.5] 다.",
     "np.array([1, 2.5]).dtype 은 실수형(float)이다.",
@@ -13962,7 +13965,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "/ 는 실수 나눗셈이라 [0.5,1.,1.5] (A 참). 2.5 가 섞이면 dtype 이 float (B 참). 비교 결과는 bool (C 참). True 는 1, False 는 0 이라 합은 2 (D 참). // 는 정수 나눗셈이라 [0, 1, 1] (E 거짓). ⚠️ 함정: E — \"//\" → \"/\"이면 참.",
    "topic_en": "dtypes and division (/, //)",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about NumPy dtypes and the division operators (/ and //) are true?",
    "options_en": [
     "np.array([1, 2, 3]) / 2 equals [0.5, 1., 1.5]",
     "np.array([1, 2.5]).dtype is a float type.",
@@ -13977,7 +13980,7 @@ function applyStaticI18n() {
    "part": "B",
    "lecture": "NumPy",
    "topic": "제자리 연산과 별칭 (theta -= lr * gradient)",
-   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt": "NumPy 의 제자리(in-place) 연산과 별칭(alias) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options": [
     "th = np.zeros(2); t2 = th; th -= 1 → t2 는 [-1., -1.] 이 된다.",
     "th = np.zeros(2); t2 = th; th = th - 1 → t2 는 [0., 0.] 을 유지한다.",
@@ -13993,7 +13996,7 @@ function applyStaticI18n() {
    ],
    "explanation": "-= 는 같은 객체를 고치므로 별칭 t2 도 바뀐다 (A 참). th = th - 1 은 새 배열을 만들어 이름만 바꾼다 (B 참). 그래서 둘은 별칭이 있을 때 다르게 동작한다 (C 거짓). self.theta -= … 는 제자리 갱신 (D 참). copy() 로 만든 배열은 영향을 받지 않는다 (E 참). ⚠️ 함정: C — \"항상 같다\" → \"별칭이 있으면 다르다\"이면 참.",
    "topic_ko": "제자리 연산과 별칭 (theta -= lr * gradient)",
-   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "prompt_ko": "NumPy 의 제자리(in-place) 연산과 별칭(alias) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
     "th = np.zeros(2); t2 = th; th -= 1 → t2 는 [-1., -1.] 이 된다.",
     "th = np.zeros(2); t2 = th; th = th - 1 → t2 는 [0., 0.] 을 유지한다.",
@@ -14003,7 +14006,7 @@ function applyStaticI18n() {
    ],
    "explanation_ko": "-= 는 같은 객체를 고치므로 별칭 t2 도 바뀐다 (A 참). th = th - 1 은 새 배열을 만들어 이름만 바꾼다 (B 참). 그래서 둘은 별칭이 있을 때 다르게 동작한다 (C 거짓). self.theta -= … 는 제자리 갱신 (D 참). copy() 로 만든 배열은 영향을 받지 않는다 (E 참). ⚠️ 함정: C — \"항상 같다\" → \"별칭이 있으면 다르다\"이면 참.",
    "topic_en": "In-place updates and aliases (theta -= lr * gradient)",
-   "prompt_en": "Which statements are true?",
+   "prompt_en": "Which statements about in-place operations and aliases in NumPy are true?",
    "options_en": [
     "th = np.zeros(2); t2 = th; th -= 1 → t2 becomes [-1., -1.].",
     "th = np.zeros(2); t2 = th; th = th - 1 → t2 stays [0., 0.].",
@@ -15741,6 +15744,7 @@ function scoreClass(score) {
       '<span class="tag">' + esc(q.id) + "</span>" +
       '<span class="grow"></span>' +
       '<button class="linkish" id="flagBtn">' + t("quiz.mark") + "</button></div>" +
+      '<div class="qTopic">' + t("quiz.topic") + " " + esc(qf(q, "topic")) + "</div>" +
       '<div class="qText">' + esc(qf(q, "prompt")) + "</div>" +
       '<div class="opts">' + opts + "</div>" +
       (revealed ? '<div class="opts"><div class="expl"><b>' + t("quiz.answer") + q.correct.join(", ") + "</b>\n" + esc(qf(q, "explanation")) +
