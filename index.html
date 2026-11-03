@@ -12781,6 +12781,1265 @@ function applyStaticI18n() {
     "my_array[my_array != 0] equals [1, 2]"
    ],
    "explanation_en": "unique gives the sorted distinct values [1,2,3] (A true). my_array == 0 is all False, so unique is [False] (B true). bincount stores the count of value i at index i: [0,1,1,1] (C true). Descending sort gives [3,2,1] (D true). argsort gives the original indices in sorted order: [1,2,0] (E true). There is no 0, so != 0 is all True and the result is [3,1,2] (F false). ⚠️ Trap: F — \"!= 0\" → \"== 0\" would make it TRUE."
+  },
+  {
+   "id": "NP-01",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "ndarray 속성 (shape·size·ndim·dtype)",
+   "prompt": "my_array 가 numpy.ndarray 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array.shape 가 (5, 6) 일 수 있다.",
+    "my_array.shape 가 (0, 1, 0) 일 수 있다.",
+    "my_array.shape 가 12 일 수 있다.",
+    "my_array.size 가 12 일 수 있다.",
+    "my_array.ndim 이 (5, 6) 일 수 있다.",
+    "my_array.dtype 이 (5, 6) 일 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "shape 는 튜플이라 (5,6), (0,1,0) 모두 가능하다 (A·B 참). shape 가 정수 12 일 수는 없다 (C 거짓). size 는 원소 개수인 정수이므로 12 가능 (D 참). ndim 은 차원 수인 정수 (E 거짓). dtype 은 자료형 객체 (F 거짓). ⚠️ 함정: C — \"정수 12\" → \"튜플\"이면 참. ⚠️ 함정: E — \"ndim이 (5, 6)\" → \"정수\"이면 참. ⚠️ 함정: F — \"dtype이 (5, 6)\" → \"자료형 객체\"이면 참.",
+   "topic_ko": "ndarray 속성 (shape·size·ndim·dtype)",
+   "prompt_ko": "my_array 가 numpy.ndarray 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array.shape 가 (5, 6) 일 수 있다.",
+    "my_array.shape 가 (0, 1, 0) 일 수 있다.",
+    "my_array.shape 가 12 일 수 있다.",
+    "my_array.size 가 12 일 수 있다.",
+    "my_array.ndim 이 (5, 6) 일 수 있다.",
+    "my_array.dtype 이 (5, 6) 일 수 있다."
+   ],
+   "explanation_ko": "shape 는 튜플이라 (5,6), (0,1,0) 모두 가능하다 (A·B 참). shape 가 정수 12 일 수는 없다 (C 거짓). size 는 원소 개수인 정수이므로 12 가능 (D 참). ndim 은 차원 수인 정수 (E 거짓). dtype 은 자료형 객체 (F 거짓). ⚠️ 함정: C — \"정수 12\" → \"튜플\"이면 참. ⚠️ 함정: E — \"ndim이 (5, 6)\" → \"정수\"이면 참. ⚠️ 함정: F — \"dtype이 (5, 6)\" → \"자료형 객체\"이면 참.",
+   "topic_en": "ndarray attributes (shape, size, ndim, dtype)",
+   "prompt_en": "my_array is a numpy.ndarray. Which statements are true?",
+   "options_en": [
+    "my_array.shape can be equal to (5, 6).",
+    "my_array.shape can be equal to (0, 1, 0).",
+    "my_array.shape can be equal to 12.",
+    "my_array.size can be equal to 12.",
+    "my_array.ndim can be equal to (5, 6).",
+    "my_array.dtype can be equal to (5, 6)."
+   ],
+   "explanation_en": "shape is a tuple, so (5,6) and (0,1,0) are both possible (A, B true). shape can never be the integer 12 (C false). size is an integer (the number of elements), so 12 is possible (D true). ndim is an integer (E false). dtype is a data type object (F false). ⚠️ Trap: C — \"the integer 12\" → \"a tuple\" would make it TRUE. ⚠️ Trap: E — \"ndim equal to (5, 6)\" → \"an integer\" would make it TRUE. ⚠️ Trap: F — \"dtype equal to (5, 6)\" → \"a data type object\" would make it TRUE."
+  },
+  {
+   "id": "NP-02",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "(32, 5) 배열의 슬라이싱 shape",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array[:, :].shape == (32, 5)",
+    "my_array[:, 1].shape == (32, 1)",
+    "my_array[1:, :].shape == (31, 5)",
+    "my_array[0, :-1].shape == (4,)",
+    "my_array[[0], :].shape == (1, 5)",
+    "my_array[[-1, -1], -1].shape == (2,)"
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D",
+    "E",
+    "F"
+   ],
+   "explanation": "전체 (A 참). 열을 정수 하나로 인덱싱하면 그 축이 사라지므로 [:, 1] 은 (32,) 이며 (32,1) 이 아니다 (B 거짓). 1행부터 끝까지 (31,5) (C 참). 마지막 열을 뺀 행은 (4,) (D 참). 정수 '배열' [[0]] 로 인덱싱하면 축이 유지되어 (1,5) (E 참). [[-1,-1], -1] 은 (2,) (F 참). ⚠️ 함정: B — \"(32, 1)\" → \"(32,)\"이면 참.",
+   "topic_ko": "(32, 5) 배열의 슬라이싱 shape",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array[:, :].shape == (32, 5)",
+    "my_array[:, 1].shape == (32, 1)",
+    "my_array[1:, :].shape == (31, 5)",
+    "my_array[0, :-1].shape == (4,)",
+    "my_array[[0], :].shape == (1, 5)",
+    "my_array[[-1, -1], -1].shape == (2,)"
+   ],
+   "explanation_ko": "전체 (A 참). 열을 정수 하나로 인덱싱하면 그 축이 사라지므로 [:, 1] 은 (32,) 이며 (32,1) 이 아니다 (B 거짓). 1행부터 끝까지 (31,5) (C 참). 마지막 열을 뺀 행은 (4,) (D 참). 정수 '배열' [[0]] 로 인덱싱하면 축이 유지되어 (1,5) (E 참). [[-1,-1], -1] 은 (2,) (F 참). ⚠️ 함정: B — \"(32, 1)\" → \"(32,)\"이면 참.",
+   "topic_en": "Slicing shapes of a (32, 5) array",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "my_array[:, :].shape == (32, 5)",
+    "my_array[:, 1].shape == (32, 1)",
+    "my_array[1:, :].shape == (31, 5)",
+    "my_array[0, :-1].shape == (4,)",
+    "my_array[[0], :].shape == (1, 5)",
+    "my_array[[-1, -1], -1].shape == (2,)"
+   ],
+   "explanation_en": "The whole array is (32,5) (A true). A single integer index drops that axis, so [:, 1] is (32,), not (32,1) (B false). Rows 1..end give (31,5) (C true). A row without its last column gives (4,) (D true). An integer *array* index [[0]] keeps the axis, giving (1,5) (E true). [[-1,-1], -1] gives (2,) (F true). ⚠️ Trap: B — \"(32, 1)\" → \"(32,)\" would make it TRUE."
+  },
+  {
+   "id": "NP-03",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅 오류 판별",
+   "prompt": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
+   "options": [
+    "my_array1 + my_array2",
+    "my_array1 + my_array2[:, None]",
+    "my_array1 + my_array2[None, :]",
+    "my_array1 + 1"
+   ],
+   "correct": [
+    "A",
+    "C"
+   ],
+   "explanation": "브로드캐스팅은 뒤쪽(마지막) 차원부터 맞춘다. (32,5)+(32,) 는 마지막 차원 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향으로 확장되어 정상 (B 거짓). (1,32) 는 (32,5) 의 마지막 차원과 맞지 않아 오류 (C 참). 스칼라 1 은 항상 브로드캐스팅된다 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
+   "topic_ko": "브로드캐스팅 오류 판별",
+   "prompt_ko": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
+   "options_ko": [
+    "my_array1 + my_array2",
+    "my_array1 + my_array2[:, None]",
+    "my_array1 + my_array2[None, :]",
+    "my_array1 + 1"
+   ],
+   "explanation_ko": "브로드캐스팅은 뒤쪽(마지막) 차원부터 맞춘다. (32,5)+(32,) 는 마지막 차원 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향으로 확장되어 정상 (B 거짓). (1,32) 는 (32,5) 의 마지막 차원과 맞지 않아 오류 (C 참). 스칼라 1 은 항상 브로드캐스팅된다 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
+   "topic_en": "Which expressions raise a broadcasting error?",
+   "prompt_en": "my_array1 has shape (32, 5) and my_array2 has shape (32,), both numeric. Which expressions raise \"ValueError: operands could not be broadcast together …\"?",
+   "options_en": [
+    "my_array1 + my_array2",
+    "my_array1 + my_array2[:, None]",
+    "my_array1 + my_array2[None, :]",
+    "my_array1 + 1"
+   ],
+   "explanation_en": "Broadcasting aligns trailing dimensions. (32,5)+(32,) mismatches 5 vs 32 (A true). Reshaping to (32,1) broadcasts along the columns, so it works (B false). (1,32) does not match the last axis of (32,5) (C true). The scalar 1 always broadcasts (D false). ⚠️ Trap: B — \"(32, 1)\" → \"(1, 32)\" would make it TRUE. ⚠️ Trap: D — \"the scalar 1\" → an array with mismatching shape would make it TRUE."
+  },
+  {
+   "id": "NP-04",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "연산 결과의 shape (전치·집계·브로드캐스팅)",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(my_array \u003c 0).shape == (32, 5)",
+    "my_array.T.shape == (5, 32)",
+    "my_array.T.T.shape == (32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 32, 5)",
+    "np.mean(my_array, axis=0).shape == (5,)",
+    "np.mean(my_array, axis=1).shape == (5,)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "비교는 원소별이라 shape 유지 (A 참). 전치는 (5,32), 두 번 전치하면 원래대로 (B·C 참). (32,1,5) 를 더하면 (32,32,5) (D 참). axis=0 은 행을 합쳐 열마다 하나 → (5,) (E 참). axis=1 은 열을 합쳐 행마다 하나 → (32,) 이며 (5,) 가 아니다 (F 거짓). ⚠️ 함정: F — \"(5,)\" → \"(32,)\"이면 참.",
+   "topic_ko": "연산 결과의 shape (전치·집계·브로드캐스팅)",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(my_array \u003c 0).shape == (32, 5)",
+    "my_array.T.shape == (5, 32)",
+    "my_array.T.T.shape == (32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 32, 5)",
+    "np.mean(my_array, axis=0).shape == (5,)",
+    "np.mean(my_array, axis=1).shape == (5,)"
+   ],
+   "explanation_ko": "비교는 원소별이라 shape 유지 (A 참). 전치는 (5,32), 두 번 전치하면 원래대로 (B·C 참). (32,1,5) 를 더하면 (32,32,5) (D 참). axis=0 은 행을 합쳐 열마다 하나 → (5,) (E 참). axis=1 은 열을 합쳐 행마다 하나 → (32,) 이며 (5,) 가 아니다 (F 거짓). ⚠️ 함정: F — \"(5,)\" → \"(32,)\"이면 참.",
+   "topic_en": "Shapes of expressions (transpose, aggregation, broadcasting)",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "(my_array \u003c 0).shape == (32, 5)",
+    "my_array.T.shape == (5, 32)",
+    "my_array.T.T.shape == (32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 32, 5)",
+    "np.mean(my_array, axis=0).shape == (5,)",
+    "np.mean(my_array, axis=1).shape == (5,)"
+   ],
+   "explanation_en": "A comparison is element-wise, so the shape is unchanged (A true). Transpose is (5,32) and transposing twice restores the original (B, C true). Adding (32,1,5) broadcasts to (32,32,5) (D true). axis=0 collapses the rows into one value per column → (5,) (E true). axis=1 collapses the columns into one value per row → (32,), not (5,) (F false). ⚠️ Trap: F — \"(5,)\" → \"(32,)\" would make it TRUE."
+  },
+  {
+   "id": "NP-05",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "집계의 반환형과 keepdims",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.sum(my_array, axis=0) 의 type 은 numpy.ndarray 다.",
+    "np.sum(my_array) 의 type 은 numpy.ndarray 다.",
+    "np.sum(my_array).shape == ()",
+    "np.sum(my_array, axis=1, keepdims=True).shape == (32, 1)",
+    "np.mean(my_array) 의 type 은 numpy.ndarray 다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "축을 지정한 집계는 ndarray 를 반환한다 (A 참). 축을 지정하지 않으면 전체를 하나의 NumPy 스칼라(numpy.float64)로 줄이므로 ndarray 가 아니다 (B·E 거짓). 스칼라는 shape 이 () 다 (C 참). keepdims=True 는 축을 남겨 (32,1) (D 참). ⚠️ 함정: B — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참. ⚠️ 함정: E — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참.",
+   "topic_ko": "집계의 반환형과 keepdims",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.sum(my_array, axis=0) 의 type 은 numpy.ndarray 다.",
+    "np.sum(my_array) 의 type 은 numpy.ndarray 다.",
+    "np.sum(my_array).shape == ()",
+    "np.sum(my_array, axis=1, keepdims=True).shape == (32, 1)",
+    "np.mean(my_array) 의 type 은 numpy.ndarray 다."
+   ],
+   "explanation_ko": "축을 지정한 집계는 ndarray 를 반환한다 (A 참). 축을 지정하지 않으면 전체를 하나의 NumPy 스칼라(numpy.float64)로 줄이므로 ndarray 가 아니다 (B·E 거짓). 스칼라는 shape 이 () 다 (C 참). keepdims=True 는 축을 남겨 (32,1) (D 참). ⚠️ 함정: B — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참. ⚠️ 함정: E — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참.",
+   "topic_en": "Return types of aggregations and keepdims",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "The type of np.sum(my_array, axis=0) is numpy.ndarray.",
+    "The type of np.sum(my_array) is numpy.ndarray.",
+    "np.sum(my_array).shape == ()",
+    "np.sum(my_array, axis=1, keepdims=True).shape == (32, 1)",
+    "The type of np.mean(my_array) is numpy.ndarray."
+   ],
+   "explanation_en": "Aggregation with an axis returns an ndarray (A true). Without an axis everything is reduced to a single NumPy scalar (numpy.float64), which is not an ndarray (B and E false). A scalar has shape () (C true). keepdims=True keeps the axis, giving (32,1) (D true). ⚠️ Trap: B — \"numpy.ndarray\" → \"a NumPy scalar\" would make it TRUE. ⚠️ Trap: E — \"numpy.ndarray\" → \"a NumPy scalar\" would make it TRUE."
+  },
+  {
+   "id": "NP-06",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "reshape(2,-1) 배열의 마스킹과 shape",
+   "prompt": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array.shape == (2, 2)",
+    "(my_array * 2 + 1).shape == (2, 2)",
+    "my_array[my_array > 0].shape == (3,)",
+    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
+    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
+    "my_array[my_array > 0].shape == (2, 2)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이면서 짝수인 값은 2 하나뿐이라 (1,) (D 참). (2,2)*(2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
+   "topic_ko": "reshape(2,-1) 배열의 마스킹과 shape",
+   "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array.shape == (2, 2)",
+    "(my_array * 2 + 1).shape == (2, 2)",
+    "my_array[my_array > 0].shape == (3,)",
+    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
+    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
+    "my_array[my_array > 0].shape == (2, 2)"
+   ],
+   "explanation_ko": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이면서 짝수인 값은 2 하나뿐이라 (1,) (D 참). (2,2)*(2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
+   "topic_en": "Masking and shapes on a reshape(2,-1) array",
+   "prompt_en": "my_array = np.arange(4).reshape(2, -1). Which statements are true?",
+   "options_en": [
+    "my_array.shape == (2, 2)",
+    "(my_array * 2 + 1).shape == (2, 2)",
+    "my_array[my_array > 0].shape == (3,)",
+    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
+    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
+    "my_array[my_array > 0].shape == (2, 2)"
+   ],
+   "explanation_en": "The array is [[0,1],[2,3]]. Its shape is (2,2) (A true). Arithmetic keeps the shape (B true). The >0 mask selects [1,2,3], a 1-D array of shape (3,) (C true, F false). Only 2 is both >0 and even, giving (1,) (D true). (2,2)*(2,2,1) broadcasts to (2,2,2) (E true). ⚠️ Trap: F — \"(2, 2)\" → \"(3,)\" would make it TRUE."
+  },
+  {
+   "id": "NP-07",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "뷰(view)인 경우: my_array 가 바뀐다",
+   "prompt": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[:] = 99 (reshape 는 my_array2[:, :] = 99) 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
+   "options": [
+    "my_array2 = my_array.reshape(2, 2)",
+    "my_array2 = my_array.T",
+    "my_array2 = np.append(my_array, 42)",
+    "my_array2 = my_array[1:2]"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "reshape 은 뷰를 돌려준다 (A 참). 전치(.T)도 뷰 (B 참). np.append 는 새 배열을 만들어 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이스 [1:2] 는 뷰 (D 참). ⚠️ 함정: C — \"np.append\" → \"기본 슬라이스\"이면 참.",
+   "topic_ko": "뷰(view)인 경우: my_array 가 바뀐다",
+   "prompt_ko": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[:] = 99 (reshape 는 my_array2[:, :] = 99) 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
+   "options_ko": [
+    "my_array2 = my_array.reshape(2, 2)",
+    "my_array2 = my_array.T",
+    "my_array2 = np.append(my_array, 42)",
+    "my_array2 = my_array[1:2]"
+   ],
+   "explanation_ko": "reshape 은 뷰를 돌려준다 (A 참). 전치(.T)도 뷰 (B 참). np.append 는 새 배열을 만들어 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이스 [1:2] 는 뷰 (D 참). ⚠️ 함정: C — \"np.append\" → \"기본 슬라이스\"이면 참.",
+   "topic_en": "Views: which operations modify my_array?",
+   "prompt_en": "my_array = np.arange(4). After each operation below we run my_array2[:] = 99 (for the reshape: my_array2[:, :] = 99). In which cases are the elements of my_array affected?",
+   "options_en": [
+    "my_array2 = my_array.reshape(2, 2)",
+    "my_array2 = my_array.T",
+    "my_array2 = np.append(my_array, 42)",
+    "my_array2 = my_array[1:2]"
+   ],
+   "explanation_en": "reshape returns a view (A true). Transpose returns a view (B true). np.append creates a new array, so the original is untouched (C false). A basic slice is a view (D true). ⚠️ Trap: C — \"np.append\" → \"a basic slice\" would make it TRUE."
+  },
+  {
+   "id": "NP-08",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "복사본(copy)인 경우: my_array 가 안 바뀐다",
+   "prompt": "같은 설정(my_array = np.arange(4))에서 my_array2[:] = 99 를 실행했을 때 my_array 의 원소가 바뀌지 **않는** 경우를 모두 고르시오.",
+   "options": [
+    "my_array2 = my_array[[1, 2]]",
+    "my_array2 = my_array[my_array \u003c 2]",
+    "my_array2 = my_array + my_array",
+    "my_array2 = my_array[1:3]"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "정수 배열(fancy) 인덱싱은 복사본 (A 참). 불리언 마스크로 '읽는' 것도 복사본 (B 참). 산술 연산은 새 배열 (C 참). 기본 슬라이스 [1:3] 은 뷰이므로 원본이 바뀐다 (D 거짓). ⚠️ 함정: D — \"my_array[1:3]\" → \"fancy 인덱싱\"이면 참.",
+   "topic_ko": "복사본(copy)인 경우: my_array 가 안 바뀐다",
+   "prompt_ko": "같은 설정(my_array = np.arange(4))에서 my_array2[:] = 99 를 실행했을 때 my_array 의 원소가 바뀌지 **않는** 경우를 모두 고르시오.",
+   "options_ko": [
+    "my_array2 = my_array[[1, 2]]",
+    "my_array2 = my_array[my_array \u003c 2]",
+    "my_array2 = my_array + my_array",
+    "my_array2 = my_array[1:3]"
+   ],
+   "explanation_ko": "정수 배열(fancy) 인덱싱은 복사본 (A 참). 불리언 마스크로 '읽는' 것도 복사본 (B 참). 산술 연산은 새 배열 (C 참). 기본 슬라이스 [1:3] 은 뷰이므로 원본이 바뀐다 (D 거짓). ⚠️ 함정: D — \"my_array[1:3]\" → \"fancy 인덱싱\"이면 참.",
+   "topic_en": "Copies: which operations leave my_array unchanged?",
+   "prompt_en": "Same setup. In which cases are the elements of my_array NOT affected?",
+   "options_en": [
+    "my_array2 = my_array[[1, 2]]",
+    "my_array2 = my_array[my_array \u003c 2]",
+    "my_array2 = my_array + my_array",
+    "my_array2 = my_array[1:3]"
+   ],
+   "explanation_en": "Integer-array (fancy) indexing returns a copy (A true). Reading with a boolean mask also returns a copy (B true). Arithmetic creates a new array (C true). The basic slice [1:3] is a view, so it does modify the original (D false). ⚠️ Trap: D — \"my_array[1:3]\" → \"fancy indexing\" would make it TRUE."
+  },
+  {
+   "id": "NP-09",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "불리언 집계 (count_nonzero, any, all)",
+   "prompt": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.count_nonzero(my_array == 0) == 1",
+    "np.any(my_array == 0) 는 True 다.",
+    "np.all(my_array == 0, axis=1) 은 [False, False] 다.",
+    "np.all(my_array == 0, axis=1) 은 하나의 불리언 값이다.",
+    "np.count_nonzero(my_array == 0) == 2"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "배열은 [[0,1],[2,3]] 이라 0 은 정확히 1개 (A 참, E 거짓). 0 이 하나라도 있으므로 any 는 True (B 참). 행마다 모두 0 인지 보면 [False, False] 이고 shape 은 (2,) (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
+   "topic_ko": "불리언 집계 (count_nonzero, any, all)",
+   "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.count_nonzero(my_array == 0) == 1",
+    "np.any(my_array == 0) 는 True 다.",
+    "np.all(my_array == 0, axis=1) 은 [False, False] 다.",
+    "np.all(my_array == 0, axis=1) 은 하나의 불리언 값이다.",
+    "np.count_nonzero(my_array == 0) == 2"
+   ],
+   "explanation_ko": "배열은 [[0,1],[2,3]] 이라 0 은 정확히 1개 (A 참, E 거짓). 0 이 하나라도 있으므로 any 는 True (B 참). 행마다 모두 0 인지 보면 [False, False] 이고 shape 은 (2,) (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
+   "topic_en": "Boolean aggregation (count_nonzero, any, all)",
+   "prompt_en": "my_array = np.arange(4).reshape(2, -1). Which statements are true?",
+   "options_en": [
+    "np.count_nonzero(my_array == 0) == 1",
+    "np.any(my_array == 0) is True.",
+    "np.all(my_array == 0, axis=1) equals [False, False].",
+    "np.all(my_array == 0, axis=1) is a single boolean value.",
+    "np.count_nonzero(my_array == 0) == 2"
+   ],
+   "explanation_en": "The array is [[0,1],[2,3]], so exactly one 0 (A true, E false). Since at least one element is 0, any is True (B true). Checking each row for 'all zeros' gives [False, False] with shape (2,) (C true, D false). ⚠️ Trap: D — \"a single boolean\" → \"an array of shape (2,)\" would make it TRUE. ⚠️ Trap: E — \"2\" → \"1\" would make it TRUE."
+  },
+  {
+   "id": "NP-10",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "unique / bincount / 정렬 / argsort / 마스크",
+   "prompt": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.unique(my_array) 는 [1, 2, 3] 이다.",
+    "np.unique(my_array == 0) 는 [False] 다.",
+    "np.bincount(my_array) 는 [0, 1, 1, 1] 이다.",
+    "np.sort(my_array)[::-1] 은 [3, 2, 1] 이다.",
+    "np.argsort(my_array) 는 [1, 2, 0] 이다.",
+    "my_array[my_array != 0] 은 [1, 2] 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 라 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째 칸에 담아 [0,1,1,1] (C 참). 내림차순 정렬 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
+   "topic_ko": "unique / bincount / 정렬 / argsort / 마스크",
+   "prompt_ko": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.unique(my_array) 는 [1, 2, 3] 이다.",
+    "np.unique(my_array == 0) 는 [False] 다.",
+    "np.bincount(my_array) 는 [0, 1, 1, 1] 이다.",
+    "np.sort(my_array)[::-1] 은 [3, 2, 1] 이다.",
+    "np.argsort(my_array) 는 [1, 2, 0] 이다.",
+    "my_array[my_array != 0] 은 [1, 2] 다."
+   ],
+   "explanation_ko": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 라 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째 칸에 담아 [0,1,1,1] (C 참). 내림차순 정렬 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
+   "topic_en": "unique / bincount / sort / argsort / masks",
+   "prompt_en": "my_array = np.array([3, 1, 2]). Which statements are true?",
+   "options_en": [
+    "np.unique(my_array) equals [1, 2, 3]",
+    "np.unique(my_array == 0) equals [False]",
+    "np.bincount(my_array) equals [0, 1, 1, 1]",
+    "np.sort(my_array)[::-1] equals [3, 2, 1]",
+    "np.argsort(my_array) equals [1, 2, 0]",
+    "my_array[my_array != 0] equals [1, 2]"
+   ],
+   "explanation_en": "unique gives the sorted distinct values [1,2,3] (A true). my_array == 0 is all False, so unique is [False] (B true). bincount stores the count of value i at index i: [0,1,1,1] (C true). Descending sort gives [3,2,1] (D true). argsort gives the original indices in sorted order: [1,2,0] (E true). There is no 0, so != 0 is all True and the result is [3,1,2] (F false). ⚠️ Trap: F — \"!= 0\" → \"== 0\" would make it TRUE."
+  },
+  {
+   "id": "NP-11",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "강의 코드: y_pred = np.dot(X, theta)",
+   "prompt": "X 의 shape 은 (200, 5), theta 의 shape 은 (5,) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.dot(X, theta).shape == (200,)",
+    "theta[:, None] (shape (5, 1)) 을 쓰면 np.dot(X, theta[:, None]).shape == (200, 1)",
+    "(X * theta).shape == (200, 5) (원소별 곱이며 내적이 아니다)",
+    "theta @ X 도 동작한다.",
+    "(X.T @ X).shape == (5, 5)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "(200,5)·(5,) 은 (200,) (A 참). (5,1) 을 쓰면 (200,1) (B 참). * 는 원소별 곱이라 (5,) 가 행 방향으로 브로드캐스팅되어 (200,5) (C 참). theta @ X 는 (5,) @ (200,5) 로 안쪽 차원 5 와 200 이 맞지 않아 오류 (D 거짓). X.T @ X 는 (5,200)@(200,5) = (5,5) (E 참). ⚠️ 함정: D — \"theta @ X\" → \"X @ theta\"이면 참.",
+   "topic_ko": "강의 코드: y_pred = np.dot(X, theta)",
+   "prompt_ko": "X 의 shape 은 (200, 5), theta 의 shape 은 (5,) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.dot(X, theta).shape == (200,)",
+    "theta[:, None] (shape (5, 1)) 을 쓰면 np.dot(X, theta[:, None]).shape == (200, 1)",
+    "(X * theta).shape == (200, 5) (원소별 곱이며 내적이 아니다)",
+    "theta @ X 도 동작한다.",
+    "(X.T @ X).shape == (5, 5)"
+   ],
+   "explanation_ko": "(200,5)·(5,) 은 (200,) (A 참). (5,1) 을 쓰면 (200,1) (B 참). * 는 원소별 곱이라 (5,) 가 행 방향으로 브로드캐스팅되어 (200,5) (C 참). theta @ X 는 (5,) @ (200,5) 로 안쪽 차원 5 와 200 이 맞지 않아 오류 (D 거짓). X.T @ X 는 (5,200)@(200,5) = (5,5) (E 참). ⚠️ 함정: D — \"theta @ X\" → \"X @ theta\"이면 참.",
+   "topic_en": "Lecture code: y_pred = np.dot(X, theta)",
+   "prompt_en": "X has shape (200, 5), and theta has shape (5,). Which statements are true?",
+   "options_en": [
+    "np.dot(X, theta).shape == (200,)",
+    "With theta[:, None] (shape (5, 1)), np.dot(X, theta[:, None]).shape == (200, 1)",
+    "(X * theta).shape == (200, 5) (elementwise, not a dot product)",
+    "theta @ X works.",
+    "(X.T @ X).shape == (5, 5)"
+   ],
+   "explanation_en": "(200,5)·(5,) gives (200,) (A true). Using (5,1) gives (200,1) (B true). * is elementwise, broadcasting (5,) across the rows to give (200,5) (C true). theta @ X is (5,) @ (200,5), whose inner dimensions 5 and 200 do not match, so it raises an error (D false). X.T @ X is (5,200)@(200,5) = (5,5) (E true). ⚠️ Trap: D — \"theta @ X\" → \"X @ theta\" would make it TRUE."
+  },
+  {
+   "id": "NP-12",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "강의 코드: theta = np.matmul(np.linalg.pinv(X), y) (정규방정식)",
+   "prompt": "X 의 shape 은 (200, 5), y 의 shape 은 (200,) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.linalg.pinv(X).shape == (5, 200)",
+    "theta.shape == (5,)",
+    "최소제곱 해를 준다 (XᵀX 가 역행렬을 가질 때 λ = 0 인 정규방정식과 같은 해).",
+    "학습률(learning rate)이 필요하다.",
+    "np.linalg.pinv(X).shape == (200, 5)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "pinv(X) 는 의사역행렬로 (5,200) (A 참, E 거짓). (5,200)@(200,) = (5,) (B 참). 한 단계로 최소제곱 해를 준다 (C 참). 정규방정식/의사역행렬에는 학습률이 필요 없다 (D 거짓). ⚠️ 함정: D — \"학습률이 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"(200, 5)\" → \"(5, 200)\"이면 참.",
+   "topic_ko": "강의 코드: theta = np.matmul(np.linalg.pinv(X), y) (정규방정식)",
+   "prompt_ko": "X 의 shape 은 (200, 5), y 의 shape 은 (200,) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.linalg.pinv(X).shape == (5, 200)",
+    "theta.shape == (5,)",
+    "최소제곱 해를 준다 (XᵀX 가 역행렬을 가질 때 λ = 0 인 정규방정식과 같은 해).",
+    "학습률(learning rate)이 필요하다.",
+    "np.linalg.pinv(X).shape == (200, 5)"
+   ],
+   "explanation_ko": "pinv(X) 는 의사역행렬로 (5,200) (A 참, E 거짓). (5,200)@(200,) = (5,) (B 참). 한 단계로 최소제곱 해를 준다 (C 참). 정규방정식/의사역행렬에는 학습률이 필요 없다 (D 거짓). ⚠️ 함정: D — \"학습률이 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"(200, 5)\" → \"(5, 200)\"이면 참.",
+   "topic_en": "Lecture code: theta = np.matmul(np.linalg.pinv(X), y) (normal equation)",
+   "prompt_en": "X has shape (200, 5), and y has shape (200,). Which statements are true?",
+   "options_en": [
+    "np.linalg.pinv(X).shape == (5, 200)",
+    "theta.shape == (5,)",
+    "It gives the least-squares solution (the same as the normal equation with λ = 0 when XᵀX is invertible).",
+    "It needs a learning rate.",
+    "np.linalg.pinv(X).shape == (200, 5)"
+   ],
+   "explanation_en": "pinv(X) is the pseudo-inverse with shape (5,200) (A true, E false). (5,200)@(200,) = (5,) (B true). It gives the least-squares solution in one step (C true). The normal equation / pseudo-inverse needs no learning rate (D false). ⚠️ Trap: D — \"needs a learning rate\" → \"needs none\" would make it TRUE. ⚠️ Trap: E — \"(200, 5)\" → \"(5, 200)\" would make it TRUE."
+  },
+  {
+   "id": "NP-13",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "강의 코드: 1 / (1 + np.exp(-z) + eps) 시그모이드",
+   "prompt": "위 시그모이드 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "배열 z 를 넣으면 출력도 z 와 같은 shape 이다.",
+    "eps = 0 이면 z = 0 에서 값이 0.5 다.",
+    "출력은 0 과 1 사이에 있다.",
+    "작은 양수 eps 를 더하면 출력이 정확한 시그모이드보다 아주 조금 작아진다.",
+    "배열 z 를 넣으면 결과는 하나의 스칼라다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "np.exp 는 원소별이므로 shape 이 유지된다 (A 참). eps = 0 이면 1/(1+1) = 0.5 (B 참). 분모가 항상 1보다 크므로 0 \u003c 출력 \u003c 1 (C 참). 분모에 eps 를 더하면 값이 조금 작아진다 (D 참). 스칼라가 아니라 배열이 나온다 (E 거짓). ⚠️ 함정: E — \"스칼라\" → \"배열\"이면 참.",
+   "topic_ko": "강의 코드: 1 / (1 + np.exp(-z) + eps) 시그모이드",
+   "prompt_ko": "위 시그모이드 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "배열 z 를 넣으면 출력도 z 와 같은 shape 이다.",
+    "eps = 0 이면 z = 0 에서 값이 0.5 다.",
+    "출력은 0 과 1 사이에 있다.",
+    "작은 양수 eps 를 더하면 출력이 정확한 시그모이드보다 아주 조금 작아진다.",
+    "배열 z 를 넣으면 결과는 하나의 스칼라다."
+   ],
+   "explanation_ko": "np.exp 는 원소별이므로 shape 이 유지된다 (A 참). eps = 0 이면 1/(1+1) = 0.5 (B 참). 분모가 항상 1보다 크므로 0 \u003c 출력 \u003c 1 (C 참). 분모에 eps 를 더하면 값이 조금 작아진다 (D 참). 스칼라가 아니라 배열이 나온다 (E 거짓). ⚠️ 함정: E — \"스칼라\" → \"배열\"이면 참.",
+   "topic_en": "Lecture code: the sigmoid 1 / (1 + np.exp(-z) + eps)",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "For an array z, the output has the same shape as z.",
+    "With eps = 0, the sigmoid of 0 is 0.5.",
+    "The outputs are between 0 and 1.",
+    "With a small positive eps, the outputs are slightly smaller than the exact sigmoid.",
+    "For an array z, the function returns a single scalar."
+   ],
+   "explanation_en": "np.exp is element-wise, so the shape is preserved (A true). With eps = 0, 1/(1+1) = 0.5 (B true). The denominator is always greater than 1, so 0 \u003c output \u003c 1 (C true). Adding eps to the denominator makes the values slightly smaller (D true). It returns an array, not a scalar (E false). ⚠️ Trap: E — \"a scalar\" → \"an array\" would make it TRUE."
+  },
+  {
+   "id": "NP-14",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "강의 코드: 이진 교차엔트로피 손실과 브로드캐스팅 함정",
+   "prompt": "h = np.array([0.9, 0.2]), y = np.array([1, 0]) 일 때 손실 np.mean(-y*np.log(h+eps) - (1-y)*np.log(1-h+eps)) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "손실은 약 0.16 이다.",
+    "손실은 스칼라다.",
+    "h 의 shape 이 (2, 1) 이고 y 가 (2,) 이면 -y * np.log(h) 의 shape 은 (2, 2) 이다.",
+    "그 경우(h 가 (2,1), y 가 (2,))에도 평균은 여전히 0.16 이다.",
+    "eps 는 log(0) 을 피하기 위해 넣는다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E"
+   ],
+   "explanation": "−ln0.9 = 0.105, −ln0.8 = 0.223 이므로 평균은 약 0.164 (A 참). np.mean 은 스칼라를 돌려준다 (B 참). (2,) 와 (2,1) 이 브로드캐스팅되어 (2,2) 가 된다 (C 참). 그 경우 평균은 약 1.06 으로 완전히 달라진다 (D 거짓). eps 는 log(0) = −inf 를 막는다 (E 참). ⚠️ 함정: D — \"0.16\" → \"약 1.06\"이면 참.",
+   "topic_ko": "강의 코드: 이진 교차엔트로피 손실과 브로드캐스팅 함정",
+   "prompt_ko": "h = np.array([0.9, 0.2]), y = np.array([1, 0]) 일 때 손실 np.mean(-y*np.log(h+eps) - (1-y)*np.log(1-h+eps)) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "손실은 약 0.16 이다.",
+    "손실은 스칼라다.",
+    "h 의 shape 이 (2, 1) 이고 y 가 (2,) 이면 -y * np.log(h) 의 shape 은 (2, 2) 이다.",
+    "그 경우(h 가 (2,1), y 가 (2,))에도 평균은 여전히 0.16 이다.",
+    "eps 는 log(0) 을 피하기 위해 넣는다."
+   ],
+   "explanation_ko": "−ln0.9 = 0.105, −ln0.8 = 0.223 이므로 평균은 약 0.164 (A 참). np.mean 은 스칼라를 돌려준다 (B 참). (2,) 와 (2,1) 이 브로드캐스팅되어 (2,2) 가 된다 (C 참). 그 경우 평균은 약 1.06 으로 완전히 달라진다 (D 거짓). eps 는 log(0) = −inf 를 막는다 (E 참). ⚠️ 함정: D — \"0.16\" → \"약 1.06\"이면 참.",
+   "topic_en": "Lecture code: binary cross-entropy loss and the broadcasting trap",
+   "prompt_en": "h = np.array([0.9, 0.2]), y = np.array([1, 0]). Which statements are true about the loss np.mean(-y*np.log(h+eps) - (1-y)*np.log(1-h+eps))?",
+   "options_en": [
+    "The loss ≈ 0.16.",
+    "The loss is a scalar.",
+    "If h had shape (2, 1) while y has shape (2,), then -y * np.log(h) would have shape (2, 2).",
+    "In that case (shape (2, 1) vs (2,)), the mean is still 0.16.",
+    "eps avoids log(0)."
+   ],
+   "explanation_en": "−ln0.9 = 0.105 and −ln0.8 = 0.223, so the mean is about 0.164 (A true). np.mean returns a scalar (B true). (2,) and (2,1) broadcast to (2,2) (C true). In that case the mean becomes about 1.06 — a completely different value (D false). eps prevents log(0) = −inf (E true). ⚠️ Trap: D — \"0.16\" → \"about 1.06\" would make it TRUE."
+  },
+  {
+   "id": "NP-15",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "강의 코드: gradient = np.dot(X.T, (h - y)) / y.size; theta -= lr * gradient",
+   "prompt": "X 의 shape 은 (6, 3), theta 의 shape 은 (3,) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "h 와 y 가 모두 (6,) 이면 gradient.shape == (3,)",
+    "theta -= lr * gradient 는 theta 를 제자리에서(in place) 바꾼다.",
+    "h 와 y 가 모두 (6, 1) 이면 gradient.shape == (3, 1) 이고 theta -= lr * gradient 는 ValueError 를 낸다.",
+    "h 가 (6, 1) 이고 y 가 (6,) 이면 h - y 의 shape 은 (6, 6) 이다 (조용한 버그).",
+    "y.size 는 특징(feature)의 개수다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "X.T @ (h−y) 는 (3,6)@(6,) = (3,) (A 참). -= 는 제자리 연산 (B 참). (6,1) 이면 gradient 가 (3,1) 이고, (3,) 에 (3,1) 을 제자리로 넣으려 하면 모양이 맞지 않아 ValueError (C 참). (6,1) 과 (6,) 은 브로드캐스팅되어 (6,6) 이 되는 조용한 버그 (D 참). y.size 는 예제 수 m 이다 (E 거짓). ⚠️ 함정: E — \"특징의 개수\" → \"예제 수 m\"이면 참.",
+   "topic_ko": "강의 코드: gradient = np.dot(X.T, (h - y)) / y.size; theta -= lr * gradient",
+   "prompt_ko": "X 의 shape 은 (6, 3), theta 의 shape 은 (3,) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "h 와 y 가 모두 (6,) 이면 gradient.shape == (3,)",
+    "theta -= lr * gradient 는 theta 를 제자리에서(in place) 바꾼다.",
+    "h 와 y 가 모두 (6, 1) 이면 gradient.shape == (3, 1) 이고 theta -= lr * gradient 는 ValueError 를 낸다.",
+    "h 가 (6, 1) 이고 y 가 (6,) 이면 h - y 의 shape 은 (6, 6) 이다 (조용한 버그).",
+    "y.size 는 특징(feature)의 개수다."
+   ],
+   "explanation_ko": "X.T @ (h−y) 는 (3,6)@(6,) = (3,) (A 참). -= 는 제자리 연산 (B 참). (6,1) 이면 gradient 가 (3,1) 이고, (3,) 에 (3,1) 을 제자리로 넣으려 하면 모양이 맞지 않아 ValueError (C 참). (6,1) 과 (6,) 은 브로드캐스팅되어 (6,6) 이 되는 조용한 버그 (D 참). y.size 는 예제 수 m 이다 (E 거짓). ⚠️ 함정: E — \"특징의 개수\" → \"예제 수 m\"이면 참.",
+   "topic_en": "Lecture code: gradient = np.dot(X.T, (h - y)) / y.size; theta -= lr * gradient",
+   "prompt_en": "X has shape (6, 3), theta has shape (3,). Which statements are true?",
+   "options_en": [
+    "If h and y both have shape (6,), gradient.shape == (3,).",
+    "theta -= lr * gradient changes theta in place.",
+    "If h and y both have shape (6, 1), then gradient.shape == (3, 1), and theta -= lr * gradient raises a ValueError.",
+    "If h has shape (6, 1) and y has shape (6,), then h - y has shape (6, 6) (a silent bug).",
+    "y.size is the number of features."
+   ],
+   "explanation_en": "X.T @ (h−y) is (3,6)@(6,) = (3,) (A true). -= is an in-place operation (B true). With (6,1) the gradient is (3,1), and assigning that into a (3,) array in place raises a ValueError (C true). (6,1) with (6,) broadcasts to (6,6) — a silent bug (D true). y.size is the number of examples m, not the number of features (E false). ⚠️ Trap: E — \"the number of features\" → \"the number of examples m\" would make it TRUE."
+  },
+  {
+   "id": "NP-16",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "로지스틱 회귀 한 스텝 계산",
+   "prompt": "X = np.array([[1, 2], [1, 0]]), y = np.array([1, 0]), theta = np.zeros(2), lr = 0.1, h = 1 / (1 + np.exp(-X @ theta)) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "h 는 [0.5, 0.5] 다.",
+    "손실은 약 0.69 다.",
+    "X.T @ (h - y) / y.size 는 [0, -0.5] 다.",
+    "theta -= lr * gradient 후 theta 는 [0, 0.05] 다.",
+    "gradient 는 [0, 0.5] 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "theta 가 0 이므로 X@theta = [0,0], 시그모이드(0) = 0.5 → [0.5, 0.5] (A 참). 손실 = −(ln0.5 + ln0.5)/2 = ln2 ≈ 0.693 (B 참). h−y = [−0.5, 0.5], Xᵀ(h−y) = [0, −1], ÷2 = [0, −0.5] (C 참). theta = 0 − 0.1·[0,−0.5] = [0, 0.05] (D 참). gradient 는 [0, −0.5] 이며 [0, 0.5] 가 아니다 (E 거짓). ⚠️ 함정: E — \"[0, 0.5]\" → \"[0, -0.5]\"이면 참.",
+   "topic_ko": "로지스틱 회귀 한 스텝 계산",
+   "prompt_ko": "X = np.array([[1, 2], [1, 0]]), y = np.array([1, 0]), theta = np.zeros(2), lr = 0.1, h = 1 / (1 + np.exp(-X @ theta)) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "h 는 [0.5, 0.5] 다.",
+    "손실은 약 0.69 다.",
+    "X.T @ (h - y) / y.size 는 [0, -0.5] 다.",
+    "theta -= lr * gradient 후 theta 는 [0, 0.05] 다.",
+    "gradient 는 [0, 0.5] 다."
+   ],
+   "explanation_ko": "theta 가 0 이므로 X@theta = [0,0], 시그모이드(0) = 0.5 → [0.5, 0.5] (A 참). 손실 = −(ln0.5 + ln0.5)/2 = ln2 ≈ 0.693 (B 참). h−y = [−0.5, 0.5], Xᵀ(h−y) = [0, −1], ÷2 = [0, −0.5] (C 참). theta = 0 − 0.1·[0,−0.5] = [0, 0.05] (D 참). gradient 는 [0, −0.5] 이며 [0, 0.5] 가 아니다 (E 거짓). ⚠️ 함정: E — \"[0, 0.5]\" → \"[0, -0.5]\"이면 참.",
+   "topic_en": "One gradient step of logistic regression",
+   "prompt_en": "X = np.array([[1, 2], [1, 0]]), y = np.array([1, 0]), theta = np.zeros(2), lr = 0.1, h = 1 / (1 + np.exp(-X @ theta)). Which statements are true?",
+   "options_en": [
+    "h equals [0.5, 0.5].",
+    "The loss ≈ 0.69.",
+    "X.T @ (h - y) / y.size equals [0, -0.5].",
+    "After theta -= lr * gradient, theta equals [0, 0.05].",
+    "The gradient equals [0, 0.5]."
+   ],
+   "explanation_en": "With theta = 0, X@theta = [0,0] and sigmoid(0) = 0.5 → [0.5, 0.5] (A true). Loss = −(ln0.5 + ln0.5)/2 = ln2 ≈ 0.693 (B true). h−y = [−0.5, 0.5], Xᵀ(h−y) = [0, −1], divided by 2 = [0, −0.5] (C true). theta = 0 − 0.1·[0,−0.5] = [0, 0.05] (D true). The gradient is [0, −0.5], not [0, 0.5] (E false). ⚠️ Trap: E — \"[0, 0.5]\" → \"[0, -0.5]\" would make it TRUE."
+  },
+  {
+   "id": "NP-17",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "텐서/배열 속성 (dtype·itemsize·nbytes)",
+   "prompt": "a = np.zeros((2, 12), dtype=np.float32) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "a.size == 24",
+    "a.ndim == 2",
+    "a.shape == (2, 12)",
+    "a.itemsize == 4",
+    "a.nbytes == 96",
+    "a.dtype 은 float64 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "원소 24개 (A 참). 차원 2 (B 참). shape (2,12) (C 참). float32 는 원소당 4바이트 (D 참). 24 × 4 = 96 바이트 (E 참). dtype 은 float32 이며 float64 가 아니다 (F 거짓). ⚠️ 함정: F — \"float64\" → \"float32\"이면 참.",
+   "topic_ko": "텐서/배열 속성 (dtype·itemsize·nbytes)",
+   "prompt_ko": "a = np.zeros((2, 12), dtype=np.float32) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "a.size == 24",
+    "a.ndim == 2",
+    "a.shape == (2, 12)",
+    "a.itemsize == 4",
+    "a.nbytes == 96",
+    "a.dtype 은 float64 다."
+   ],
+   "explanation_ko": "원소 24개 (A 참). 차원 2 (B 참). shape (2,12) (C 참). float32 는 원소당 4바이트 (D 참). 24 × 4 = 96 바이트 (E 참). dtype 은 float32 이며 float64 가 아니다 (F 거짓). ⚠️ 함정: F — \"float64\" → \"float32\"이면 참.",
+   "topic_en": "Tensor/array attributes (dtype, itemsize, nbytes)",
+   "prompt_en": "a = np.zeros((2, 12), dtype=np.float32). Which statements are true?",
+   "options_en": [
+    "a.size == 24",
+    "a.ndim == 2",
+    "a.shape == (2, 12)",
+    "a.itemsize == 4",
+    "a.nbytes == 96",
+    "a.dtype is float64."
+   ],
+   "explanation_en": "24 elements (A true). 2 dimensions (B true). shape is (2,12) (C true). float32 uses 4 bytes per element (D true). 24 × 4 = 96 bytes (E true). The dtype is float32, not float64 (F false). ⚠️ Trap: F — \"float64\" → \"float32\" would make it TRUE."
+  },
+  {
+   "id": "NP-18",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "NumPy 로 표준화 (특징 스케일링)",
+   "prompt": "X = np.array([[1., 200.], [2., 400.], [3., 600.]]) 이고 Xs = (X - X.mean(axis=0)) / X.std(axis=0) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "X.mean(axis=0) 는 [2., 400.] 이다.",
+    "Xs 의 각 열은 평균 0, 표준편차 1 이다.",
+    "Xs 의 두 열은 서로 완전히 같다.",
+    "axis=0 대신 axis=1 을 쓰면 특징(열)이 아니라 각 예제(행)를 표준화한다.",
+    "X.std(axis=0) 는 [1., 200.] 이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "열별 평균은 [2, 400] (A 참). (x−평균)/표준편차(numpy 는 모표준편차) 이므로 각 열은 평균 0, 표준편차 1 (B 참). 두 번째 열이 첫 열의 200배라 표준화 후에는 두 열이 완전히 같아진다 (C 참). axis=1 은 행(예제) 방향으로 계산한다 (D 참). 실제 표준편차는 [0.816, 163.3] 이며 [1, 200] 이 아니다 (E 거짓). ⚠️ 함정: E — \"[1., 200.]\" → \"[0.816, 163.3]\"이면 참.",
+   "topic_ko": "NumPy 로 표준화 (특징 스케일링)",
+   "prompt_ko": "X = np.array([[1., 200.], [2., 400.], [3., 600.]]) 이고 Xs = (X - X.mean(axis=0)) / X.std(axis=0) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "X.mean(axis=0) 는 [2., 400.] 이다.",
+    "Xs 의 각 열은 평균 0, 표준편차 1 이다.",
+    "Xs 의 두 열은 서로 완전히 같다.",
+    "axis=0 대신 axis=1 을 쓰면 특징(열)이 아니라 각 예제(행)를 표준화한다.",
+    "X.std(axis=0) 는 [1., 200.] 이다."
+   ],
+   "explanation_ko": "열별 평균은 [2, 400] (A 참). (x−평균)/표준편차(numpy 는 모표준편차) 이므로 각 열은 평균 0, 표준편차 1 (B 참). 두 번째 열이 첫 열의 200배라 표준화 후에는 두 열이 완전히 같아진다 (C 참). axis=1 은 행(예제) 방향으로 계산한다 (D 참). 실제 표준편차는 [0.816, 163.3] 이며 [1, 200] 이 아니다 (E 거짓). ⚠️ 함정: E — \"[1., 200.]\" → \"[0.816, 163.3]\"이면 참.",
+   "topic_en": "Standardization in NumPy (feature scaling)",
+   "prompt_en": "X = np.array([[1., 200.], [2., 400.], [3., 600.]]) and Xs = (X - X.mean(axis=0)) / X.std(axis=0). Which statements are true?",
+   "options_en": [
+    "X.mean(axis=0) equals [2., 400.]",
+    "Each column of Xs has mean 0 and standard deviation 1.",
+    "Both columns of Xs are identical.",
+    "Using axis=1 instead of axis=0 would standardize each example (row), not each feature.",
+    "X.std(axis=0) equals [1., 200.]"
+   ],
+   "explanation_en": "The per-column mean is [2, 400] (A true). Since we divide by the std (NumPy uses the population std), each column has mean 0 and std 1 (B true). The second column is 200× the first, so after standardization both columns are identical (C true). axis=1 works along the rows (examples) (D true). The actual std is [0.816, 163.3], not [1, 200] (E false). ⚠️ Trap: E — \"[1., 200.]\" → \"[0.816, 163.3]\" would make it TRUE."
+  },
+  {
+   "id": "NP-19",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "이상치와 스케일링 수치",
+   "prompt": "x = np.array([1., 2., 3., 100.]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "min-max 스케일링 (x - x.min()) / (x.max() - x.min()) 에서 값 3 은 약 0.02 다.",
+    "min-max 후 처음 세 값은 모두 0.03 미만이다.",
+    "값 100 의 표준화 값은 약 1.73 이다.",
+    "x.std() 는 약 42.4 다.",
+    "표준화 값은 항상 [0, 1] 범위에 있다.",
+    "min-max 스케일링이 표준화보다 이상치에 더 강건하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "(3−1)/99 = 0.0202 (A 참). 처음 세 값은 0, 0.0101, 0.0202 로 모두 0.03 미만 (B 참). (100−26.5)/42.44 = 1.73 (C 참). 모표준편차는 42.44 (D 참). 표준화 값은 범위 제한이 없다 (E 거짓). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 민감하다 (F 거짓). ⚠️ 함정: E — \"[0, 1] 범위\" → \"범위 제한 없음\"이면 참. ⚠️ 함정: F — \"min-max가 더 강건\" → \"표준화가 더 강건\"이면 참.",
+   "topic_ko": "이상치와 스케일링 수치",
+   "prompt_ko": "x = np.array([1., 2., 3., 100.]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "min-max 스케일링 (x - x.min()) / (x.max() - x.min()) 에서 값 3 은 약 0.02 다.",
+    "min-max 후 처음 세 값은 모두 0.03 미만이다.",
+    "값 100 의 표준화 값은 약 1.73 이다.",
+    "x.std() 는 약 42.4 다.",
+    "표준화 값은 항상 [0, 1] 범위에 있다.",
+    "min-max 스케일링이 표준화보다 이상치에 더 강건하다."
+   ],
+   "explanation_ko": "(3−1)/99 = 0.0202 (A 참). 처음 세 값은 0, 0.0101, 0.0202 로 모두 0.03 미만 (B 참). (100−26.5)/42.44 = 1.73 (C 참). 모표준편차는 42.44 (D 참). 표준화 값은 범위 제한이 없다 (E 거짓). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 민감하다 (F 거짓). ⚠️ 함정: E — \"[0, 1] 범위\" → \"범위 제한 없음\"이면 참. ⚠️ 함정: F — \"min-max가 더 강건\" → \"표준화가 더 강건\"이면 참.",
+   "topic_en": "Outliers and scaling (numbers)",
+   "prompt_en": "x = np.array([1., 2., 3., 100.]). Which statements are true?",
+   "options_en": [
+    "Min-max scaling (x - x.min()) / (x.max() - x.min()) gives about 0.02 for the value 3.",
+    "After min-max scaling, the first three values are all below 0.03.",
+    "The standardized value of 100 is about 1.73.",
+    "x.std() is about 42.4.",
+    "Standardized values are always in [0, 1].",
+    "Min-max scaling is more robust to outliers than standardization."
+   ],
+   "explanation_en": "(3−1)/99 = 0.0202 (A true). The first three values become 0, 0.0101, 0.0202, all below 0.03 (B true). (100−26.5)/42.44 = 1.73 (C true). The population std is 42.44 (D true). Standardized values are unbounded (E false). Min-max depends on the min/max, so it is more sensitive to outliers (F false). ⚠️ Trap: E — \"always in [0, 1]\" → \"unbounded\" would make it TRUE. ⚠️ Trap: F — \"min-max is more robust\" → \"standardization is more robust\" would make it TRUE."
+  },
+  {
+   "id": "NP-20",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "불리언 마스크 연산자 (& · | · ~)",
+   "prompt": "m = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(m > 0) & (m % 2 == 0) 는 [[False, False], [True, False]] 다.",
+    "m > 0 & m % 2 == 0 는 ValueError 를 낸다.",
+    "(m > 0) and (m % 2 == 0) 는 원소별로 잘 동작한다.",
+    "(m > 0) | (m == 0) 는 모두 True 다.",
+    "~(m > 0) 는 m == 0 과 같다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "배열은 [[0,1],[2,3]] 이다. (m>0)&(m%2==0) → [[F,F],[T,F]] (A 참). 괄호 없이 쓰면 연산자 우선순위 때문에 비교가 연결되어 배열의 진리값을 묻게 되고 ValueError 가 난다 (B 참). and/or 는 배열에서도 ValueError 를 낸다 (C 거짓). (m>0)|(m==0) 은 모든 원소가 True (D 참). ~(m>0) 은 m==0 과 정확히 같다 (E 참). ⚠️ 함정: C — \"and가 원소별로 동작\" → \"ValueError\"이면 참.",
+   "topic_ko": "불리언 마스크 연산자 (& · | · ~)",
+   "prompt_ko": "m = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(m > 0) & (m % 2 == 0) 는 [[False, False], [True, False]] 다.",
+    "m > 0 & m % 2 == 0 는 ValueError 를 낸다.",
+    "(m > 0) and (m % 2 == 0) 는 원소별로 잘 동작한다.",
+    "(m > 0) | (m == 0) 는 모두 True 다.",
+    "~(m > 0) 는 m == 0 과 같다."
+   ],
+   "explanation_ko": "배열은 [[0,1],[2,3]] 이다. (m>0)&(m%2==0) → [[F,F],[T,F]] (A 참). 괄호 없이 쓰면 연산자 우선순위 때문에 비교가 연결되어 배열의 진리값을 묻게 되고 ValueError 가 난다 (B 참). and/or 는 배열에서도 ValueError 를 낸다 (C 거짓). (m>0)|(m==0) 은 모든 원소가 True (D 참). ~(m>0) 은 m==0 과 정확히 같다 (E 참). ⚠️ 함정: C — \"and가 원소별로 동작\" → \"ValueError\"이면 참.",
+   "topic_en": "Boolean mask operators (& · | · ~)",
+   "prompt_en": "m = np.arange(4).reshape(2, -1). Which statements are true?",
+   "options_en": [
+    "(m > 0) & (m % 2 == 0) equals [[False, False], [True, False]]",
+    "m > 0 & m % 2 == 0 raises a ValueError.",
+    "(m > 0) and (m % 2 == 0) works elementwise.",
+    "(m > 0) | (m == 0) is all True.",
+    "~(m > 0) equals m == 0."
+   ],
+   "explanation_en": "The array is [[0,1],[2,3]]. (m>0)&(m%2==0) gives [[F,F],[T,F]] (A true). Without parentheses the operator precedence chains the comparisons, which asks for the truth value of an array and raises a ValueError (B true). and/or also raise a ValueError on arrays (C false). (m>0)|(m==0) is True everywhere (D true). ~(m>0) is exactly m==0 (E true). ⚠️ Trap: C — \"and works elementwise\" → \"raises a ValueError\" would make it TRUE."
+  },
+  {
+   "id": "NP-21",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "NumPy 로 정확도와 예측 계산",
+   "prompt": "yp = np.array([1, 0, 2, 2]), yt = np.array([1, 1, 2, 0]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(yp == yt).mean() == 0.5",
+    "(yp == yt).sum() == 2",
+    "np.count_nonzero(yp != yt) == 2",
+    "np.argmax(np.array([[.1, .7, .2], [.5, .3, .2]]), axis=1) 는 [1, 0] 이다.",
+    "(np.array([.7, .2, .5]) >= .5).astype(int) 는 [1, 0, 1] 이다.",
+    "정확도는 0.25 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "맞은 개수는 2개라 비율 0.5 (A 참), 합 2 (B 참), 틀린 개수 2 (C 참). argmax(axis=1) 은 행마다 최댓값 위치라 [1, 0] (D 참). 임계값 비교 후 astype(int) 는 [1, 0, 1] (E 참). 정확도는 0.5 이며 0.25 가 아니다 (F 거짓). ⚠️ 함정: F — \"0.25\" → \"0.5\"이면 참.",
+   "topic_ko": "NumPy 로 정확도와 예측 계산",
+   "prompt_ko": "yp = np.array([1, 0, 2, 2]), yt = np.array([1, 1, 2, 0]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(yp == yt).mean() == 0.5",
+    "(yp == yt).sum() == 2",
+    "np.count_nonzero(yp != yt) == 2",
+    "np.argmax(np.array([[.1, .7, .2], [.5, .3, .2]]), axis=1) 는 [1, 0] 이다.",
+    "(np.array([.7, .2, .5]) >= .5).astype(int) 는 [1, 0, 1] 이다.",
+    "정확도는 0.25 다."
+   ],
+   "explanation_ko": "맞은 개수는 2개라 비율 0.5 (A 참), 합 2 (B 참), 틀린 개수 2 (C 참). argmax(axis=1) 은 행마다 최댓값 위치라 [1, 0] (D 참). 임계값 비교 후 astype(int) 는 [1, 0, 1] (E 참). 정확도는 0.5 이며 0.25 가 아니다 (F 거짓). ⚠️ 함정: F — \"0.25\" → \"0.5\"이면 참.",
+   "topic_en": "Accuracy and predictions with NumPy",
+   "prompt_en": "yp = np.array([1, 0, 2, 2]) and yt = np.array([1, 1, 2, 0]). Which statements are true?",
+   "options_en": [
+    "(yp == yt).mean() == 0.5",
+    "(yp == yt).sum() == 2",
+    "np.count_nonzero(yp != yt) == 2",
+    "np.argmax(np.array([[.1, .7, .2], [.5, .3, .2]]), axis=1) equals [1, 0]",
+    "(np.array([.7, .2, .5]) >= .5).astype(int) equals [1, 0, 1]",
+    "The accuracy is 0.25."
+   ],
+   "explanation_en": "Two of the four match, so the ratio is 0.5 (A true), the sum is 2 (B true) and the number of mistakes is 2 (C true). argmax(axis=1) gives the position of the maximum in each row: [1, 0] (D true). A threshold comparison followed by astype(int) gives [1, 0, 1] (E true). The accuracy is 0.5, not 0.25 (F false). ⚠️ Trap: F — \"0.25\" → \"0.5\" would make it TRUE."
+  },
+  {
+   "id": "NP-22",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "원-핫 레이블 만들기 (np.eye + fancy 인덱싱)",
+   "prompt": "np.eye(3)[np.array([0, 2, 1])] 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "결과의 shape 은 (3, 3) 이다.",
+    "두 번째 행은 [0, 0, 1] 이다.",
+    ".argmax(axis=1) 은 다시 [0, 2, 1] 을 준다.",
+    ".sum(axis=0) 은 [1, 1, 1] 이다.",
+    "결과는 np.eye(3) 의 뷰(view)다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "3개 인덱스로 3×3 단위행렬의 행을 뽑으므로 (3,3) (A 참). 두 번째 행은 인덱스 2 의 행 [0,0,1] (B 참). argmax 로 되돌리면 [0,2,1] (C 참). 열별 합은 [1,1,1] (D 참). fancy 인덱싱은 복사본을 만든다 (E 거짓). ⚠️ 함정: E — \"뷰\" → \"복사본\"이면 참.",
+   "topic_ko": "원-핫 레이블 만들기 (np.eye + fancy 인덱싱)",
+   "prompt_ko": "np.eye(3)[np.array([0, 2, 1])] 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "결과의 shape 은 (3, 3) 이다.",
+    "두 번째 행은 [0, 0, 1] 이다.",
+    ".argmax(axis=1) 은 다시 [0, 2, 1] 을 준다.",
+    ".sum(axis=0) 은 [1, 1, 1] 이다.",
+    "결과는 np.eye(3) 의 뷰(view)다."
+   ],
+   "explanation_ko": "3개 인덱스로 3×3 단위행렬의 행을 뽑으므로 (3,3) (A 참). 두 번째 행은 인덱스 2 의 행 [0,0,1] (B 참). argmax 로 되돌리면 [0,2,1] (C 참). 열별 합은 [1,1,1] (D 참). fancy 인덱싱은 복사본을 만든다 (E 거짓). ⚠️ 함정: E — \"뷰\" → \"복사본\"이면 참.",
+   "topic_en": "One-hot labels (np.eye + fancy indexing)",
+   "prompt_en": "Which statements are true about np.eye(3)[np.array([0, 2, 1])]?",
+   "options_en": [
+    "The result has shape (3, 3).",
+    "The second row is [0, 0, 1].",
+    ".argmax(axis=1) gives back [0, 2, 1].",
+    ".sum(axis=0) equals [1, 1, 1].",
+    "The result is a view of np.eye(3)."
+   ],
+   "explanation_en": "Picking 3 rows of the 3×3 identity gives (3,3) (A true). The second row is the row with index 2: [0,0,1] (B true). argmax recovers [0,2,1] (C true). The column sums are [1,1,1] (D true). Fancy indexing returns a copy (E false). ⚠️ Trap: E — \"a view\" → \"a copy\" would make it TRUE."
+  },
+  {
+   "id": "NP-23",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "NumPy 로 교차엔트로피 계산",
+   "prompt": "Y = np.array([[0, 1], [1, 0]]) (원-핫), P = np.array([[.2, .8], [.5, .5]]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "-np.sum(Y * np.log(P)) / 2 는 약 0.46 이다.",
+    "(Y * np.log(P)).shape == (2, 2) 다.",
+    "Y @ np.log(P) 는 Y * np.log(P) 와 같은 값을 준다.",
+    "np.sum(Y * np.log(P), axis=1).shape == (2,) 다.",
+    "손실에는 정답 클래스의 로그확률만 기여한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "−(ln0.8 + ln0.5)/2 = (0.223 + 0.693)/2 = 0.458 (A 참). 원소별 곱이므로 (2,2) (B 참). @ 는 행렬곱이라 완전히 다른 값이 나온다 (C 거짓). 행별로 합치면 (2,) (D 참). 원-핫이므로 1인 위치(=정답 클래스)의 로그확률만 더해진다 (E 참). ⚠️ 함정: C — \"Y @ log(P)\" → \"Y * log(P)\"이면 참.",
+   "topic_ko": "NumPy 로 교차엔트로피 계산",
+   "prompt_ko": "Y = np.array([[0, 1], [1, 0]]) (원-핫), P = np.array([[.2, .8], [.5, .5]]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "-np.sum(Y * np.log(P)) / 2 는 약 0.46 이다.",
+    "(Y * np.log(P)).shape == (2, 2) 다.",
+    "Y @ np.log(P) 는 Y * np.log(P) 와 같은 값을 준다.",
+    "np.sum(Y * np.log(P), axis=1).shape == (2,) 다.",
+    "손실에는 정답 클래스의 로그확률만 기여한다."
+   ],
+   "explanation_ko": "−(ln0.8 + ln0.5)/2 = (0.223 + 0.693)/2 = 0.458 (A 참). 원소별 곱이므로 (2,2) (B 참). @ 는 행렬곱이라 완전히 다른 값이 나온다 (C 거짓). 행별로 합치면 (2,) (D 참). 원-핫이므로 1인 위치(=정답 클래스)의 로그확률만 더해진다 (E 참). ⚠️ 함정: C — \"Y @ log(P)\" → \"Y * log(P)\"이면 참.",
+   "topic_en": "Cross-entropy in NumPy",
+   "prompt_en": "Y = np.array([[0, 1], [1, 0]]) (one-hot), P = np.array([[.2, .8], [.5, .5]]). Which statements are true?",
+   "options_en": [
+    "-np.sum(Y * np.log(P)) / 2 ≈ 0.46",
+    "(Y * np.log(P)).shape == (2, 2)",
+    "Y @ np.log(P) gives the same as Y * np.log(P).",
+    "np.sum(Y * np.log(P), axis=1).shape == (2,)",
+    "Only the log-probabilities of the true classes contribute to the loss."
+   ],
+   "explanation_en": "−(ln0.8 + ln0.5)/2 = (0.223 + 0.693)/2 = 0.458 (A true). The product is element-wise, so the shape is (2,2) (B true). @ is a matrix product and gives completely different values (C false). Summing per row gives (2,) (D true). Because of the one-hot encoding, only the log-probability at the true class (where Y = 1) is added (E true). ⚠️ Trap: C — \"Y @ log(P)\" → \"Y * log(P)\" would make it TRUE."
+  },
+  {
+   "id": "NP-24",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "NumPy 로 소프트맥스 계산",
+   "prompt": "Z = np.array([[1., 1., 1.], [0., 0., np.log(2)]]), e = np.exp(Z), P = e / e.sum(axis=1, keepdims=True) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "P[0] 은 [1/3, 1/3, 1/3] 이다.",
+    "P[1] 은 [0.25, 0.25, 0.5] 다.",
+    "e / e.sum(axis=1) 는 ValueError 를 낸다.",
+    "np.exp 전에 행의 최댓값을 빼도 P 는 변하지 않는다.",
+    "e.sum(axis=1, keepdims=True).shape == (2, 1) 이다.",
+    "P.sum(axis=0) 은 [1, 1, 1] 이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "첫 행은 exp(1) 이 모두 같아 [1/3,1/3,1/3] (A 참). 둘째 행은 [1,1,2]/4 = [0.25,0.25,0.5] (B 참). (2,3) 을 (2,) 로 나누려 하면 브로드캐스팅이 안 되어 ValueError (C 참). 소프트맥스는 상수 이동에 불변이라 최댓값을 빼도 같다 (D 참). keepdims=True 로 (2,1) (E 참). 행의 합이 1 이며 열의 합은 1 이 아니다 (F 거짓). ⚠️ 함정: F — \"열의 합\" → \"행의 합\"이면 참.",
+   "topic_ko": "NumPy 로 소프트맥스 계산",
+   "prompt_ko": "Z = np.array([[1., 1., 1.], [0., 0., np.log(2)]]), e = np.exp(Z), P = e / e.sum(axis=1, keepdims=True) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "P[0] 은 [1/3, 1/3, 1/3] 이다.",
+    "P[1] 은 [0.25, 0.25, 0.5] 다.",
+    "e / e.sum(axis=1) 는 ValueError 를 낸다.",
+    "np.exp 전에 행의 최댓값을 빼도 P 는 변하지 않는다.",
+    "e.sum(axis=1, keepdims=True).shape == (2, 1) 이다.",
+    "P.sum(axis=0) 은 [1, 1, 1] 이다."
+   ],
+   "explanation_ko": "첫 행은 exp(1) 이 모두 같아 [1/3,1/3,1/3] (A 참). 둘째 행은 [1,1,2]/4 = [0.25,0.25,0.5] (B 참). (2,3) 을 (2,) 로 나누려 하면 브로드캐스팅이 안 되어 ValueError (C 참). 소프트맥스는 상수 이동에 불변이라 최댓값을 빼도 같다 (D 참). keepdims=True 로 (2,1) (E 참). 행의 합이 1 이며 열의 합은 1 이 아니다 (F 거짓). ⚠️ 함정: F — \"열의 합\" → \"행의 합\"이면 참.",
+   "topic_en": "Softmax in NumPy",
+   "prompt_en": "Z = np.array([[1., 1., 1.], [0., 0., np.log(2)]]), e = np.exp(Z), P = e / e.sum(axis=1, keepdims=True). Which statements are true?",
+   "options_en": [
+    "P[0] equals [1/3, 1/3, 1/3].",
+    "P[1] equals [0.25, 0.25, 0.5].",
+    "e / e.sum(axis=1) raises a ValueError.",
+    "Subtracting the row maximum before np.exp does not change P.",
+    "e.sum(axis=1, keepdims=True).shape == (2, 1)",
+    "P.sum(axis=0) equals [1, 1, 1]."
+   ],
+   "explanation_en": "In the first row exp(1) is the same everywhere, so [1/3,1/3,1/3] (A true). The second row is [1,1,2]/4 = [0.25,0.25,0.5] (B true). Dividing a (2,3) by a (2,) does not broadcast and raises a ValueError (C true). Softmax is invariant to a constant shift, so subtracting the row max changes nothing (D true). keepdims=True gives (2,1) (E true). The rows sum to 1, not the columns (F false). ⚠️ Trap: F — \"the columns\" → \"the rows\" would make it TRUE."
+  },
+  {
+   "id": "NP-25",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "NumPy 로 MLP 한 층 계산",
+   "prompt": "X 의 shape 은 (4, 3), W 의 shape 은 (3, 2), b 의 shape 은 (2,) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(X @ W + b).shape == (4, 2)",
+    "X @ W.T 는 ValueError 를 낸다.",
+    "np.maximum(0, X @ W + b) 는 ReLU 를 원소별로 적용하며 shape 은 (4, 2) 다.",
+    "X @ W + b[:, None] 도 동작하고 shape 은 (4, 2) 다.",
+    "np.dot(W.T, X.T).shape == (2, 4) 다.",
+    "이 층의 파라미터는 8개다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "E",
+    "F"
+   ],
+   "explanation": "(4,3)@(3,2) = (4,2) 이고 b (2,) 가 브로드캐스팅된다 (A 참). W.T 는 (2,3) 이라 (4,3)@(2,3) 은 안쪽 차원이 맞지 않아 오류 (B 참). np.maximum 은 원소별 ReLU 로 shape 유지 (C 참). b[:, None] 은 (2,1) 이고 (4,2)+(2,1) 은 마지막에서 두 번째 차원 4 대 2 가 맞지 않아 오류 (D 거짓). (2,3)@(3,4) = (2,4) (E 참). 파라미터는 3·2 + 2 = 8 (F 참). ⚠️ 함정: D — \"b[:, None]\" → \"b\"이면 참.",
+   "topic_ko": "NumPy 로 MLP 한 층 계산",
+   "prompt_ko": "X 의 shape 은 (4, 3), W 의 shape 은 (3, 2), b 의 shape 은 (2,) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(X @ W + b).shape == (4, 2)",
+    "X @ W.T 는 ValueError 를 낸다.",
+    "np.maximum(0, X @ W + b) 는 ReLU 를 원소별로 적용하며 shape 은 (4, 2) 다.",
+    "X @ W + b[:, None] 도 동작하고 shape 은 (4, 2) 다.",
+    "np.dot(W.T, X.T).shape == (2, 4) 다.",
+    "이 층의 파라미터는 8개다."
+   ],
+   "explanation_ko": "(4,3)@(3,2) = (4,2) 이고 b (2,) 가 브로드캐스팅된다 (A 참). W.T 는 (2,3) 이라 (4,3)@(2,3) 은 안쪽 차원이 맞지 않아 오류 (B 참). np.maximum 은 원소별 ReLU 로 shape 유지 (C 참). b[:, None] 은 (2,1) 이고 (4,2)+(2,1) 은 마지막에서 두 번째 차원 4 대 2 가 맞지 않아 오류 (D 거짓). (2,3)@(3,4) = (2,4) (E 참). 파라미터는 3·2 + 2 = 8 (F 참). ⚠️ 함정: D — \"b[:, None]\" → \"b\"이면 참.",
+   "topic_en": "An MLP layer in NumPy",
+   "prompt_en": "X has shape (4, 3), W has shape (3, 2), b has shape (2,). Which statements are true?",
+   "options_en": [
+    "(X @ W + b).shape == (4, 2)",
+    "X @ W.T raises a ValueError.",
+    "np.maximum(0, X @ W + b) applies a ReLU elementwise and has shape (4, 2).",
+    "X @ W + b[:, None] works and has shape (4, 2).",
+    "np.dot(W.T, X.T).shape == (2, 4)",
+    "This layer has 8 parameters."
+   ],
+   "explanation_en": "(4,3)@(3,2) = (4,2) and b (2,) broadcasts (A true). W.T is (2,3), so (4,3)@(2,3) has mismatching inner dimensions (B true). np.maximum is an elementwise ReLU and keeps the shape (C true). b[:, None] is (2,1), and (4,2)+(2,1) mismatches the second-to-last axis 4 vs 2 (D false). (2,3)@(3,4) = (2,4) (E true). The parameters are 3·2 + 2 = 8 (F true). ⚠️ Trap: D — \"b[:, None]\" → \"b\" would make it TRUE."
+  },
+  {
+   "id": "NP-26",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "reshape 의 -1 사용",
+   "prompt": "r = np.arange(12) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "r.reshape(3, -1).shape == (3, 4)",
+    "r.reshape(-1, 6).shape == (2, 6)",
+    "r.reshape(5, -1) 는 ValueError 를 낸다.",
+    "r.reshape(-1).shape == (12,)",
+    "r.reshape(2, 2, -1).shape == (2, 2, 3)",
+    "r.reshape(-1, -1) 도 동작한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "12/3 = 4 (A 참). 12/6 = 2 (B 참). 12 는 5 로 나누어떨어지지 않아 오류 (C 참). -1 만 쓰면 1차원 (12,) (D 참). 12/(2·2) = 3 (E 참). -1 은 한 번만 쓸 수 있다 (F 거짓). ⚠️ 함정: F — \"-1을 두 번\" → \"한 번만\"이면 참.",
+   "topic_ko": "reshape 의 -1 사용",
+   "prompt_ko": "r = np.arange(12) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "r.reshape(3, -1).shape == (3, 4)",
+    "r.reshape(-1, 6).shape == (2, 6)",
+    "r.reshape(5, -1) 는 ValueError 를 낸다.",
+    "r.reshape(-1).shape == (12,)",
+    "r.reshape(2, 2, -1).shape == (2, 2, 3)",
+    "r.reshape(-1, -1) 도 동작한다."
+   ],
+   "explanation_ko": "12/3 = 4 (A 참). 12/6 = 2 (B 참). 12 는 5 로 나누어떨어지지 않아 오류 (C 참). -1 만 쓰면 1차원 (12,) (D 참). 12/(2·2) = 3 (E 참). -1 은 한 번만 쓸 수 있다 (F 거짓). ⚠️ 함정: F — \"-1을 두 번\" → \"한 번만\"이면 참.",
+   "topic_en": "Using -1 with reshape",
+   "prompt_en": "r = np.arange(12). Which statements are true?",
+   "options_en": [
+    "r.reshape(3, -1).shape == (3, 4)",
+    "r.reshape(-1, 6).shape == (2, 6)",
+    "r.reshape(5, -1) raises a ValueError.",
+    "r.reshape(-1).shape == (12,)",
+    "r.reshape(2, 2, -1).shape == (2, 2, 3)",
+    "r.reshape(-1, -1) works."
+   ],
+   "explanation_en": "12/3 = 4 (A true). 12/6 = 2 (B true). 12 is not divisible by 5 (C true). With only -1 you get the 1-D shape (12,) (D true). 12/(2·2) = 3 (E true). -1 may be used only once (F false). ⚠️ Trap: F — \"-1 twice\" → \"-1 once\" would make it TRUE."
+  },
+  {
+   "id": "NP-27",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "더미 열 x₀ = 1 붙이기 (concatenate / hstack)",
+   "prompt": "Xd 의 shape 이 (7, 3) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.concatenate([np.ones((7, 1)), Xd], axis=1).shape == (7, 4)",
+    "np.hstack([np.ones((7, 1)), Xd]).shape == (7, 4)",
+    "np.concatenate([np.ones(7), Xd], axis=1) 는 ValueError(또는 AxisError) 를 낸다 (1차원 vs 2차원).",
+    "np.ones((7, 1)) + Xd 는 모든 원소에 1을 더하고 shape (7, 3) 을 유지한다.",
+    "1로 채운 열은 편향 θ₀ 에 대응한다.",
+    "np.concatenate([np.ones((7, 1)), Xd], axis=0) 도 동작한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "열 방향으로 붙이면 (7,4) (A 참). hstack 도 같은 결과 (B 참). 1차원 np.ones(7) 과 2차원 Xd 를 axis=1 로 붙이려 하면 오류 (C 참). (7,1)+(7,3) 은 브로드캐스팅되어 (7,3) (D 참). 1 열은 x₀ = 1 이며 θ₀ 와 곱해진다 (E 참). axis=0 은 행 방향인데 나머지 차원 1 과 3 이 맞지 않아 오류 (F 거짓). ⚠️ 함정: F — \"axis=0\" → \"axis=1\"이면 참.",
+   "topic_ko": "더미 열 x₀ = 1 붙이기 (concatenate / hstack)",
+   "prompt_ko": "Xd 의 shape 이 (7, 3) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.concatenate([np.ones((7, 1)), Xd], axis=1).shape == (7, 4)",
+    "np.hstack([np.ones((7, 1)), Xd]).shape == (7, 4)",
+    "np.concatenate([np.ones(7), Xd], axis=1) 는 ValueError(또는 AxisError) 를 낸다 (1차원 vs 2차원).",
+    "np.ones((7, 1)) + Xd 는 모든 원소에 1을 더하고 shape (7, 3) 을 유지한다.",
+    "1로 채운 열은 편향 θ₀ 에 대응한다.",
+    "np.concatenate([np.ones((7, 1)), Xd], axis=0) 도 동작한다."
+   ],
+   "explanation_ko": "열 방향으로 붙이면 (7,4) (A 참). hstack 도 같은 결과 (B 참). 1차원 np.ones(7) 과 2차원 Xd 를 axis=1 로 붙이려 하면 오류 (C 참). (7,1)+(7,3) 은 브로드캐스팅되어 (7,3) (D 참). 1 열은 x₀ = 1 이며 θ₀ 와 곱해진다 (E 참). axis=0 은 행 방향인데 나머지 차원 1 과 3 이 맞지 않아 오류 (F 거짓). ⚠️ 함정: F — \"axis=0\" → \"axis=1\"이면 참.",
+   "topic_en": "Adding the dummy column x₀ = 1 (concatenate / hstack)",
+   "prompt_en": "Xd has shape (7, 3). Which statements are true?",
+   "options_en": [
+    "np.concatenate([np.ones((7, 1)), Xd], axis=1).shape == (7, 4)",
+    "np.hstack([np.ones((7, 1)), Xd]).shape == (7, 4)",
+    "np.concatenate([np.ones(7), Xd], axis=1) raises a ValueError (1D vs 2D).",
+    "np.ones((7, 1)) + Xd adds 1 to every element and keeps shape (7, 3).",
+    "The column of ones corresponds to the bias θ₀.",
+    "np.concatenate([np.ones((7, 1)), Xd], axis=0) works."
+   ],
+   "explanation_en": "Concatenating along the columns gives (7,4) (A true). hstack does the same (B true). Joining a 1-D np.ones(7) with a 2-D Xd along axis=1 raises an error (C true). (7,1)+(7,3) broadcasts to (7,3) (D true). The column of ones is x₀ = 1 and multiplies θ₀ (E true). axis=0 is the row direction, where the remaining dimensions 1 and 3 do not match (F false). ⚠️ Trap: F — \"axis=0\" → \"axis=1\" would make it TRUE."
+  },
+  {
+   "id": "NP-28",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "dtype 과 나눗셈 (/, //)",
+   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.array([1, 2, 3]) / 2 는 [0.5, 1., 1.5] 다.",
+    "np.array([1, 2.5]).dtype 은 실수형(float)이다.",
+    "(np.array([.7, .2]) >= .5).dtype 은 bool 이다.",
+    "np.array([True, False, True]).sum() == 2",
+    "np.array([1, 2, 3]) // 2 는 [0.5, 1., 1.5] 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "/ 는 실수 나눗셈이라 [0.5,1.,1.5] (A 참). 2.5 가 섞이면 dtype 이 float (B 참). 비교 결과는 bool (C 참). True 는 1, False 는 0 이라 합은 2 (D 참). // 는 정수 나눗셈이라 [0, 1, 1] (E 거짓). ⚠️ 함정: E — \"//\" → \"/\"이면 참.",
+   "topic_ko": "dtype 과 나눗셈 (/, //)",
+   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.array([1, 2, 3]) / 2 는 [0.5, 1., 1.5] 다.",
+    "np.array([1, 2.5]).dtype 은 실수형(float)이다.",
+    "(np.array([.7, .2]) >= .5).dtype 은 bool 이다.",
+    "np.array([True, False, True]).sum() == 2",
+    "np.array([1, 2, 3]) // 2 는 [0.5, 1., 1.5] 다."
+   ],
+   "explanation_ko": "/ 는 실수 나눗셈이라 [0.5,1.,1.5] (A 참). 2.5 가 섞이면 dtype 이 float (B 참). 비교 결과는 bool (C 참). True 는 1, False 는 0 이라 합은 2 (D 참). // 는 정수 나눗셈이라 [0, 1, 1] (E 거짓). ⚠️ 함정: E — \"//\" → \"/\"이면 참.",
+   "topic_en": "dtypes and division (/, //)",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "np.array([1, 2, 3]) / 2 equals [0.5, 1., 1.5]",
+    "np.array([1, 2.5]).dtype is a float type.",
+    "(np.array([.7, .2]) >= .5).dtype is bool.",
+    "np.array([True, False, True]).sum() == 2",
+    "np.array([1, 2, 3]) // 2 equals [0.5, 1., 1.5]"
+   ],
+   "explanation_en": "/ is true division, so [0.5, 1., 1.5] (A true). A mixed literal makes the dtype float (B true). A comparison yields bool (C true). True counts as 1 and False as 0, so the sum is 2 (D true). // is floor division and gives [0, 1, 1] (E false). ⚠️ Trap: E — \"//\" → \"/\" would make it TRUE."
+  },
+  {
+   "id": "NP-29",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "제자리 연산과 별칭 (theta -= lr * gradient)",
+   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "th = np.zeros(2); t2 = th; th -= 1 → t2 는 [-1., -1.] 이 된다.",
+    "th = np.zeros(2); t2 = th; th = th - 1 → t2 는 [0., 0.] 을 유지한다.",
+    "th -= 1 과 th = th - 1 은 항상 완전히 같게 동작한다.",
+    "self.theta -= self.lr * gradient 는 배열을 제자리에서 갱신한다.",
+    "t2 = th.copy(); th -= 1 → t2 는 바뀌지 않는다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "E"
+   ],
+   "explanation": "-= 는 같은 객체를 고치므로 별칭 t2 도 바뀐다 (A 참). th = th - 1 은 새 배열을 만들어 이름만 바꾼다 (B 참). 그래서 둘은 별칭이 있을 때 다르게 동작한다 (C 거짓). self.theta -= … 는 제자리 갱신 (D 참). copy() 로 만든 배열은 영향을 받지 않는다 (E 참). ⚠️ 함정: C — \"항상 같다\" → \"별칭이 있으면 다르다\"이면 참.",
+   "topic_ko": "제자리 연산과 별칭 (theta -= lr * gradient)",
+   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "th = np.zeros(2); t2 = th; th -= 1 → t2 는 [-1., -1.] 이 된다.",
+    "th = np.zeros(2); t2 = th; th = th - 1 → t2 는 [0., 0.] 을 유지한다.",
+    "th -= 1 과 th = th - 1 은 항상 완전히 같게 동작한다.",
+    "self.theta -= self.lr * gradient 는 배열을 제자리에서 갱신한다.",
+    "t2 = th.copy(); th -= 1 → t2 는 바뀌지 않는다."
+   ],
+   "explanation_ko": "-= 는 같은 객체를 고치므로 별칭 t2 도 바뀐다 (A 참). th = th - 1 은 새 배열을 만들어 이름만 바꾼다 (B 참). 그래서 둘은 별칭이 있을 때 다르게 동작한다 (C 거짓). self.theta -= … 는 제자리 갱신 (D 참). copy() 로 만든 배열은 영향을 받지 않는다 (E 참). ⚠️ 함정: C — \"항상 같다\" → \"별칭이 있으면 다르다\"이면 참.",
+   "topic_en": "In-place updates and aliases (theta -= lr * gradient)",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "th = np.zeros(2); t2 = th; th -= 1 → t2 becomes [-1., -1.].",
+    "th = np.zeros(2); t2 = th; th = th - 1 → t2 stays [0., 0.].",
+    "th -= 1 and th = th - 1 always behave the same.",
+    "self.theta -= self.lr * gradient updates the array in place.",
+    "t2 = th.copy(); th -= 1 does not change t2."
+   ],
+   "explanation_en": "-= modifies the same object, so the alias t2 changes too (A true). th = th - 1 creates a new array and only rebinds the name (B true). That is why the two differ when aliases exist (C false). self.theta -= … is an in-place update (D true). A copy() is unaffected (E true). ⚠️ Trap: C — \"always the same\" → \"differ when aliases exist\" would make it TRUE."
+  },
+  {
+   "id": "NP-30",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "뷰와 복사본 (마스크 대입·슬라이스·fancy)",
+   "prompt": "q = np.arange(6) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "q[q > 2] = 0 처럼 마스크로 '대입'하면 q 가 실제로 바뀐다.",
+    "f = q[q > 2]; f[:] = 0 처럼 마스크로 '읽은' 배열을 고치면 q 는 바뀌지 않는다.",
+    "s = q[::2]; s[0] = 9 로 q 가 바뀐다.",
+    "c = q.copy(); c[0] = 9 로 q 는 바뀌지 않는다.",
+    "q[[0, 1]] 은 뷰를 돌려준다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "마스크를 인덱스로 쓰는 대입(q[mask] = 값)은 원본을 바꾼다 (A 참). 마스크로 읽으면 복사본이라 그것을 고쳐도 원본은 그대로 (B 참). 기본 슬라이스 q[::2] 는 뷰라 원본이 바뀐다 (C 참). copy() 는 독립적 (D 참). fancy 인덱싱 q[[0,1]] 은 복사본이다 (E 거짓). ⚠️ 함정: E — \"뷰\" → \"복사본\"이면 참.",
+   "topic_ko": "뷰와 복사본 (마스크 대입·슬라이스·fancy)",
+   "prompt_ko": "q = np.arange(6) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "q[q > 2] = 0 처럼 마스크로 '대입'하면 q 가 실제로 바뀐다.",
+    "f = q[q > 2]; f[:] = 0 처럼 마스크로 '읽은' 배열을 고치면 q 는 바뀌지 않는다.",
+    "s = q[::2]; s[0] = 9 로 q 가 바뀐다.",
+    "c = q.copy(); c[0] = 9 로 q 는 바뀌지 않는다.",
+    "q[[0, 1]] 은 뷰를 돌려준다."
+   ],
+   "explanation_ko": "마스크를 인덱스로 쓰는 대입(q[mask] = 값)은 원본을 바꾼다 (A 참). 마스크로 읽으면 복사본이라 그것을 고쳐도 원본은 그대로 (B 참). 기본 슬라이스 q[::2] 는 뷰라 원본이 바뀐다 (C 참). copy() 는 독립적 (D 참). fancy 인덱싱 q[[0,1]] 은 복사본이다 (E 거짓). ⚠️ 함정: E — \"뷰\" → \"복사본\"이면 참.",
+   "topic_en": "Views and copies (masked assignment, slices, fancy indexing)",
+   "prompt_en": "q = np.arange(6). Which statements are true?",
+   "options_en": [
+    "After q[q > 2] = 0, q is modified.",
+    "After f = q[q > 2]; f[:] = 0, q is NOT modified.",
+    "After s = q[::2]; s[0] = 9, q is modified.",
+    "After c = q.copy(); c[0] = 9, q is NOT modified.",
+    "q[[0, 1]] returns a view."
+   ],
+   "explanation_en": "Assigning through a mask (q[mask] = value) modifies the original (A true). Reading with a mask returns a copy, so editing it leaves the original untouched (B true). The basic slice q[::2] is a view, so the original changes (C true). copy() is independent (D true). Fancy indexing q[[0,1]] returns a copy (E false). ⚠️ Trap: E — \"a view\" → \"a copy\" would make it TRUE."
   }
  ]
 };</script>
@@ -12790,7 +14049,7 @@ function applyStaticI18n() {
   "exam_minutes": 45,
   "exam_pass": 7.0,
   "numpy_per_mock": 6,
-  "count": 23,
+  "count": 24,
   "primary": 10
  },
  "mocks": [
@@ -13385,6 +14644,47 @@ function applyStaticI18n() {
    ],
    "minutes": 147,
    "pass": 23
+  },
+  {
+   "id": "mock24",
+   "label": "🧮 NumPy 집중 (30문항)",
+   "label_en": "NumPy focus — 30 questions",
+   "final": true,
+   "full": true,
+   "questions": [
+    "NP-01",
+    "NP-02",
+    "NP-03",
+    "NP-04",
+    "NP-05",
+    "NP-06",
+    "NP-07",
+    "NP-08",
+    "NP-09",
+    "NP-10",
+    "NP-11",
+    "NP-12",
+    "NP-13",
+    "NP-14",
+    "NP-15",
+    "NP-16",
+    "NP-17",
+    "NP-18",
+    "NP-19",
+    "NP-20",
+    "NP-21",
+    "NP-22",
+    "NP-23",
+    "NP-24",
+    "NP-25",
+    "NP-26",
+    "NP-27",
+    "NP-28",
+    "NP-29",
+    "NP-30"
+   ],
+   "minutes": 60,
+   "pass": 14
   }
  ]
 };</script>
@@ -13409,8 +14709,8 @@ var CURRICULUM = [
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
           { id: "random", label: { ko: "🎲 랜덤 문항 (1~100)", en: "🎲 Random draw (1-100)" } },
-          { id: "mocks", label: { ko: "모의고사 23세트", en: "Mock exams (23 sets)" } },
-          { id: "bank", label: { ko: "문제은행 291문항", en: "Question bank (291)" } },
+          { id: "mocks", label: { ko: "모의고사 24세트", en: "Mock exams (24 sets)" } },
+          { id: "bank", label: { ko: "문제은행 321문항", en: "Question bank (321)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
           { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
