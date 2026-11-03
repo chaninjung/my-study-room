@@ -645,6 +645,7 @@ var I18N = {
   "home.selNone":        { ko: "전체 해제", en: "Clear all" },
   "home.shufQ":          { ko: "문제 순서 섞기", en: "Shuffle question order" },
   "home.shufO":          { ko: "보기 순서 섞기", en: "Shuffle option order" },
+  "home.fixedOrder":     { ko: "보기 순서는 고정입니다 (해설의 A/B/C 표시와 일치)", en: "Option order is fixed (so the A/B/C labels in the explanations match)" },
   "home.records":        { ko: "기록", en: "Records" },
   "home.best":           { ko: "최고 점수", en: "Best score" },
   "home.savedWrong":     { ko: "저장된 오답", en: "Saved wrong" },
@@ -681,13 +682,15 @@ var I18N2 = {
         "3. <b>저장 후 다음</b> 또는 <b>Enter</b> 로 다음 문항, <b>&larr;/&rarr;</b> 로 이동합니다.<br>" +
         "4. <b>검토 표시</b> / <b>북마크</b> 로 나중에 볼 문항을 표시합니다.<br>" +
         "5. 오른쪽 <b>제출 및 검토</b> 를 누르면 채점되고 문항별 해설이 표시됩니다.<br>" +
-        "6. 확실히 참인 보기만 골라도 실수 1개 = 0.5점이 보장됩니다.",
+        "6. 확실히 참인 보기만 골라도 실수 1개 = 0.5점이 보장됩니다.<br>" +
+        "7. <b>보기 순서는 고정</b>입니다 — 해설의 <b>(A 참)</b> 같은 표시가 실제 보기 문자와 항상 일치합니다.",
     en: "1. Press <b>Start</b> on a mock set and the 45-minute timer begins.<br>" +
         "2. Click an option or press <b>1-5</b> to select it. (multiple choices allowed)<br>" +
         "3. <b>Save &amp; Next</b> or <b>Enter</b> moves forward, <b>&larr;/&rarr;</b> moves around.<br>" +
         "4. Use <b>Mark for review</b> / <b>Bookmark</b> to flag questions to revisit.<br>" +
         "5. Press <b>Submit &amp; Review</b> in the right panel to score and see the explanations.<br>" +
-        "6. Selecting only the options you are sure about still earns 0.5 for one mistake."
+        "6. Selecting only the options you are sure about still earns 0.5 for one mistake.<br>" +
+        "7. <b>Option order is fixed</b> — labels such as <b>(A true)</b> in the explanation always match the options you see."
   },
 
   /* ---------- 새 뷰: 개요 / 모의고사 / 문제은행 / 오답 / 기록 ---------- */
@@ -6091,8 +6094,7 @@ function applyStaticI18n() {
     "A",
     "B",
     "C",
-    "D",
-    "E"
+    "D"
    ],
    "explanation": "0은 원소 하나뿐 → 1 (A 참). any → True (B 참). 각 행에 0이 아닌 값이 있으므로 행 단위 all은 False, False (C 참). 모든 원소가 0 이상 → all True (D 참). 0이 아닌 원소는 1,2,3 세 개이므로 count_nonzero(my_array)는 3이다. 따라서 E는 거짓.",
    "topic_ko": "불리언 집계 (count_nonzero, any, all)",
@@ -15333,7 +15335,7 @@ function scoreClass(score) {
              " · " + tf("rand.nLabel", p.n),
       minutes: timed ? randMinutes(p.n) : 0, timed: timed,
       shuffleQuestions: true,
-      shuffleOptions: el("optShufO") ? el("optShufO").checked : true
+      shuffleOptions: false
     });
     renderQuiz();
   }
@@ -15366,7 +15368,6 @@ function scoreClass(score) {
         '<button class="btn primary" id="randStart">' + t("rand.start") + "</button>" +
         '<span class="grow"></span>' +
         '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
-        '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
         "</div>" +
         '<div class="row" style="margin-top:10px">' +
         '<span class="muted">' + t("rand.preset") + "</span>" + presets +
@@ -15379,7 +15380,7 @@ function scoreClass(score) {
         "</select>" +
         "</div>" +
         '<div class="muted" id="randMeta" style="margin-top:8px"></div>' +
-        '<div class="muted" style="margin-top:4px">' + t("rand.hint") + "</div></div>",
+        '<div class="muted" style="margin-top:4px">' + t("rand.hint") + " " + t("home.fixedOrder") + "</div></div>",
         ' style="margin-bottom:16px"') +
       panel(t("rand.recent") + '<span class="grow"></span><span class="muted">' +
         t("rand.bestLabel") + " " + (best ? best + t("rand.pts") : t("home.mock.none")) + "</span>",
@@ -15465,9 +15466,9 @@ function scoreClass(score) {
         '<span class="grow"></span>' +
         '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
         '<label class="chk"><input type="checkbox" id="optShufQ"> ' + t("home.shufQ") + "</label>" +
-        '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
         "</div>" +
-        '<div class="muted" style="margin-top:8px">' + t("bank.rangeHint") + " " + t("opt.timedHint") + "</div></div>",
+        '<div class="muted" style="margin-top:8px">' + t("bank.rangeHint") + " " + t("opt.timedHint") + "<br>" +
+        t("home.fixedOrder") + "</div></div>",
         ' style="margin-bottom:16px"') +
       panel(t("bank.perLecture"),
         '<table class="grid"><tr><th>' + t("th.lecture") + "</th><th>" + t("th.count") + "</th><th></th></tr>" +
@@ -15526,7 +15527,7 @@ function scoreClass(score) {
       minutes: timed ? Math.max(10, Math.round(pool.length * 1.2)) : 0,
       timed: timed,
       shuffleQuestions: el("optShufQ") ? el("optShufQ").checked : false,
-      shuffleOptions: el("optShufO") ? el("optShufO").checked : true
+      shuffleOptions: false
     });
     renderQuiz();
   }
@@ -15560,7 +15561,7 @@ function scoreClass(score) {
       /* 오답 복습은 연습이므로 시간 제한 없음 */
       newSession(list, {
         mode: "wrong", label: modeLabel("mode.wrong", false), minutes: 0, timed: false,
-        shuffleQuestions: false, shuffleOptions: true
+        shuffleQuestions: false, shuffleOptions: false
       });
       renderQuiz();
     };
@@ -15619,7 +15620,7 @@ function scoreClass(score) {
     newSession(pool, {
       mode: "mock", mockId: m.id, label: mockLabel(m),
       minutes: m.minutes || META.exam_minutes,
-      shuffleQuestions: false, shuffleOptions: true
+      shuffleQuestions: false, shuffleOptions: false
     });
     renderQuiz();
   }
@@ -15635,7 +15636,8 @@ function scoreClass(score) {
 
   function startMode(mode) {
     const shufQ = el("optShufQ") ? el("optShufQ").checked : false;
-    const shufO = el("optShufO") ? el("optShufO").checked : true;
+    /* 보기 순서는 섞지 않는다 — 해설이 보기 문자(A/B/C…)를 참조하므로 순서를 바꾸면 해설과 어긋난다 */
+    const shufO = false;
     const timed = timedChoice();
     let pool, cfg;
     if (mode === "exam") {
