@@ -86,13 +86,20 @@ a:hover{text-decoration:underline;text-underline-offset:2px}
 .btn.wide{width:100%}
 .btn.sm{height:32px;padding:0 12px;font-size:13px}
 
-/* ===================== 상단 바 / 언어 토글 ===================== */
+/* ===================== 상단 바 / 언어 토글 =====================
+   상단 바는 '화면이 바뀌어도 위치가 변하지 않도록' 고정한다:
+   - flex-wrap:nowrap  → 줄바꿈으로 내비게이션이 밀리지 않음
+   - 오른쪽 항목(langBox/linkish)은 flex:0 0 auto 로 절대 줄어들지 않음
+   - breadcrumb 만 줄어들고 말줄임(…) 처리됨                                   */
 .topbar{background:#fff;border-bottom:1px solid var(--border);min-height:60px;display:flex;align-items:center;
-  padding:10px 20px;gap:16px;position:sticky;top:0;z-index:20;flex-wrap:wrap;box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.crumbs{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text);min-width:0}
+  padding:10px 20px;gap:16px;position:sticky;top:0;z-index:20;flex-wrap:nowrap;
+  box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.crumbs{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text);
+  min-width:0;flex:0 1 auto;overflow:hidden}
 .crumbs .sep{color:var(--text-4);font-weight:400}
-.crumbs .cur{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.topbar .grow{flex:1}
+.crumbs .cur{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.topbar .grow{flex:1 1 auto}
+.topbar .langBox,.topbar .linkish{flex:0 0 auto;white-space:nowrap}
 .linkish{color:var(--text-2);font-size:13.5px;font-weight:600;cursor:pointer;background:none;border:0;
   padding:6px 2px;font-family:inherit;transition:color .15s}
 .linkish:hover{color:var(--primary);text-decoration:none}
@@ -479,9 +486,11 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
   .wrap{padding:12px 10px 36px}
   body.view-quiz .wrap{padding:64px 10px 80px}
   .appName,.crumbs .sep{display:none}
-  .topbar{padding:8px 12px;gap:10px;min-height:0}
+  /* 상단 바는 어떤 화면에서도 같은 항목·같은 위치를 유지한다 (폰에서는 용어집/인쇄는 ☰ 메뉴에서) */
+  .topbar{padding:8px 12px;gap:8px;min-height:0;flex-wrap:nowrap;overflow:hidden}
+  .topbar .navGloss,.topbar .navPaper{display:none}
   .crumbs{font-size:13.5px}
-  .crumbs .cur{max-width:40vw}
+  .crumbs .cur{max-width:38vw}
   .linkish{font-size:12.5px}
   .langBtn{padding:5px 9px;font-size:12px}
   .panelHead{padding:10px 12px;font-size:13px}
@@ -552,8 +561,8 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
         <button class="langBtn" data-lang="ko" type="button">한국어</button>
         <button class="langBtn" data-lang="en" type="button">English</button>
       </span>
-      <a class="linkish" href="glossary.html" data-i18n="nav.glossary">용어집</a>
-      <a class="linkish" href="print.html" data-i18n="nav.print">인쇄용 문제지</a>
+      <a class="linkish navGloss" href="glossary.html" data-i18n="nav.glossary">용어집</a>
+      <a class="linkish navPaper" href="print.html" data-i18n="nav.print">인쇄용 문제지</a>
       <button class="linkish" id="homeLink" data-i18n="nav.home">홈</button>
     </div>
     <div class="wrap">
@@ -764,6 +773,8 @@ var I18N2 = {
   "quiz.mine":              { ko: "내 선택", en: "My pick" },
   "quiz.revealHint":        { ko: "해설을 보는 동안에도 보기를 눌러 답을 바꿀 수 있습니다.", en: "You can still change your selection while the explanation is shown." },
   "quiz.submit":            { ko: "제출 및 검토", en: "Submit &amp; Review" },
+  "quiz.exitConfirm":       { ko: "시험을 나가시겠습니까? 지금까지의 응답은 저장되지 않습니다.",
+                              en: "Leave the test? Your answers so far will not be saved." },
   "quiz.next":              { ko: "저장 후 다음 &rarr;", en: "Save &amp; Next &rarr;" },
   "quiz.overview":          { ko: "개요", en: "Overview" },
   "quiz.elapsed":           { ko: "경과 시간", en: "Elapsed" },
@@ -14914,6 +14925,19 @@ function scoreClass(score) {
   let S = null;          // 현재 세션
   let timerId = null;
 
+  /* 진행 중 세션의 짧은 breadcrumb — 상단 바가 길어져 내비게이션이 밀리지 않도록 */
+  function crumbFor(cfg) {
+    if (cfg.mode === "mock" && cfg.mockId && MOCKS) {
+      const m = MOCKS.mocks.filter(function (x) { return x.id === cfg.mockId; })[0];
+      if (m) return mockLabel(m);
+    }
+    const e = I18N["mode." + cfg.mode];
+    const base = e ? (e[LANG] || e.ko) : cfg.label;
+    if (cfg.detailKey) return base + " · " + tf(cfg.detailKey, cfg.detailArg);
+    if (cfg.detail) return base + " · " + cfg.detail;
+    return base;
+  }
+
   function newSession(questions, cfg) {
     const qs = buildSession(questions, cfg);
     const timed = cfg.timed !== false;          /* 기본값: 시간 제한 있음 (모의고사) */
@@ -14936,7 +14960,7 @@ function scoreClass(score) {
       pass: passLine(qs.length, META, cfg.mode === "exam" || cfg.mode === "mock")
     };
     qs.forEach(function (q) { S.answers[q.sid] = []; });
-    setCrumb(cfg.label);
+    setCrumb(crumbFor(cfg));
     startTimer();
   }
 
@@ -15164,7 +15188,7 @@ function scoreClass(score) {
     if (!q) return;
     /* 문항 1개 연습은 항상 시간 제한 없음 */
     newSession([q], {
-      mode: "one", label: t("mode.one") + " · " + qid, minutes: 0, timed: false,
+      mode: "one", detail: qid, label: t("mode.one") + " · " + qid, minutes: 0, timed: false,
       shuffleQuestions: false, shuffleOptions: false
     });
     renderQuiz();
@@ -15304,6 +15328,7 @@ function scoreClass(score) {
     const timed = el("optTimed") ? timedChoice() : !!(S && S.cfg && S.cfg.timed);
     newSession(picked, {
       mode: "random", scope: p.scope, want: p.want,
+      detailKey: "rand.nLabel", detailArg: p.n,
       label: modeLabel("mode.random", timed) + " · " + tf("rand.scope." + p.scope, p.pool.length) +
              " · " + tf("rand.nLabel", p.n),
       minutes: timed ? randMinutes(p.n) : 0, timed: timed,
@@ -15496,7 +15521,8 @@ function scoreClass(score) {
     if (pool.length < 3) { alert(t("alert.minLecture")); return; }
     const timed = timedChoice();
     newSession(pool, {
-      mode: "range", label: modeLabel("mode.range", timed) + " · " + lectures.join(", "),
+      mode: "range", detail: lectures.join(", "),
+      label: modeLabel("mode.range", timed) + " · " + lectures.join(", "),
       minutes: timed ? Math.max(10, Math.round(pool.length * 1.2)) : 0,
       timed: timed,
       shuffleQuestions: el("optShufQ") ? el("optShufQ").checked : false,
@@ -15634,6 +15660,16 @@ function scoreClass(score) {
   /* 연습 모드에서만 '해설 보기/숨기기' 토글을 제공한다 (모의고사·실전은 시험처럼 숨김) */
   function canReveal() { return !!(S && S.cfg) && S.cfg.mode !== "exam" && S.cfg.mode !== "mock"; }
 
+  /* 시험 중 나가기 — 응답이 있으면 확인 후, 시작했던 목록 화면으로 돌아간다 */
+  function exitQuiz() {
+    if (!S) { go("overview"); return; }
+    const answered = Object.keys(S.answers).filter(function (k) {
+      return (S.answers[k] || []).length > 0;
+    }).length;
+    if (answered > 0 && !confirm(t("quiz.exitConfirm"))) return;
+    go(VIEW || "overview");
+  }
+
   /* ---------- 문항 화면 (시험 포털 레이아웃) ---------- */
   function renderQuiz() {
     const n = S.questions.length;
@@ -15728,6 +15764,7 @@ function scoreClass(score) {
       '<div class="sideBtns">' +
       '<button class="btn sm wide" id="aboutBtn">' + t("quiz.about") + "</button>" +
       '<button class="btn sm wide" id="instrBtn">' + t("quiz.instr") + "</button>" +
+      '<button class="btn sm wide" id="exitBtn">' + t("nav.exit") + "</button>" +
       "</div>" +
       '<div class="ov"><div class="ovTitle">' + t("quiz.overview") + "</div>" +
       ovRow(t("quiz.ov.total"), st.total) +
@@ -15744,6 +15781,7 @@ function scoreClass(score) {
       /* ---- 모바일 전용: 하단 고정 바 (이전 / 다음·제출) ---- */
       '<div class="mfoot">' +
       '<button class="btn sm" id="mPrevBtn"' + (S.cur === 0 ? " disabled" : "") + ">" + t("quiz.prev") + "</button>" +
+      '<button class="btn sm" id="mExitBtn">' + t("nav.exit") + "</button>" +
       '<span class="grow"></span>' +
       '<button class="btn sm primary" id="mNextBtn">' + (S.cur === n - 1 ? t("quiz.submit") : t("quiz.next")) + "</button>" +
       "</div>" +
@@ -15808,6 +15846,8 @@ function scoreClass(score) {
     el("instrBtn").onclick = function () {
       alert(t("quiz.instr.body"));
     };
+    el("exitBtn").onclick = exitQuiz;
+    if (el("mExitBtn")) el("mExitBtn").onclick = exitQuiz;
   }
 
   function toggleOption(q, k) {
@@ -15975,7 +16015,7 @@ function scoreClass(score) {
   function rerender() {
     if (S) {
       S.cfg.label = labelFor(S.cfg);
-      setCrumb(S.cfg.label);
+      setCrumb(crumbFor(S.cfg));
       if (S.submitted) renderResult(S.auto); else renderQuiz();
     } else {
       renderSidebar();
@@ -16029,7 +16069,7 @@ function scoreClass(score) {
     renderHome: renderHome, renderQuiz: renderQuiz, renderResult: renderResult,
     startMode: startMode, startMock: startMock, startOne: startOne, startRange: startRange,
     startRandom: startRandom,
-    submit: submit, askSubmit: askSubmit, toggleOption: toggleOption
+    submit: submit, askSubmit: askSubmit, toggleOption: toggleOption, exitQuiz: exitQuiz
   };
 })();
 
