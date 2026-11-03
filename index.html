@@ -293,6 +293,12 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
 .qHead .grow{flex:1}
 /* 문제 주제 — 보기만 보고 문맥을 알 수 없는 문항을 위해 지문 위에 주제를 항상 표시 */
 .qTopic{padding:10px 20px 0;font-size:13px;font-weight:600;color:var(--text-3)}
+/* 시험 중요도 배지 (NumPy 문항): ⭐ 핵심 / 📘 강의 슬라이드 / ➕ 참고 */
+.prio{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;font-size:11.5px;
+  font-weight:700;border:1px solid var(--border-2);background:var(--surface-2);color:var(--text-2);
+  vertical-align:middle}
+.prio1{border-color:#b7d7b0;background:#eef7ec;color:#2f6b2a}
+.prio3{border-style:dashed;color:var(--text-4)}
 .qText{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);
   padding:18px 20px;margin:14px 20px 20px;white-space:pre-wrap;font-size:15px;line-height:1.7}
 .opts{padding:0 20px}
@@ -775,6 +781,12 @@ var I18N2 = {
   "quiz.mark":              { ko: "검토 표시", en: "Mark for review" },
   "quiz.answer":            { ko: "정답: ", en: "Answer: " },
   "quiz.topic":             { ko: "주제:", en: "Topic:" },
+  "prio.1":                 { ko: "⭐ 핵심 (DOCX)", en: "⭐ Core (DOCX)" },
+  "prio.2":                 { ko: "📘 강의 슬라이드", en: "📘 Lecture slide" },
+  "prio.3":                 { ko: "➕ 참고", en: "➕ Extra" },
+  "prio.tip":               { ko: "시험 중요도", en: "Exam priority" },
+  "prio.note":              { ko: "⭐ 핵심 = 교수님 DOCX NumPy 목록 · 📘 강의 슬라이드(✗ 표시 없음) · ➕ 참고 = 출처 없음 또는 ✗ 시험 제외 슬라이드(L4 s29)",
+                             en: "⭐ Core = the professor's DOCX NumPy list · 📘 lecture slides without the ✗ mark · ➕ Extra = not in any source, or only on the ✗ slide (L4 s29)" },
   "quiz.prev":              { ko: "&larr; 이전", en: "&larr; Previous" },
   "quiz.clear":             { ko: "응답 지우기", en: "Clear response" },
   "quiz.reveal":            { ko: "해설 보기", en: "Show explanation" },
@@ -5408,6 +5420,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "shape은 항상 튜플이므로 (5,6)은 가능하지만 정수 12는 불가 (A 참, B 거짓). dtype은 자료형(int64, float32 등)이라 튜플이 될 수 없다 (C 거짓). size는 전체 원소 개수인 정수 (D 참). ndim은 차원 개수인 정수이며 튜플이 될 수 없다 (E 거짓). shape이 (1,)이나 (0, 1, 0)인 배열도 가능하다. ⚠️ 함정: B — \"shape가 정수 12가 될 수 있다\" → \"shape는 튜플이다\"이면 참. ⚠️ 함정: C — \"dtype이 (5, 6)이 될 수 있다\" → \"dtype은 자료형이다\"이면 참. ⚠️ 함정: E — \"ndim이 (5, 6)이 될 수 있다\" → \"ndim은 정수다\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — shape/dtype/size/ndim",
+   "prio_note_en": "DOCX list — shape/dtype/size/ndim",
    "topic_ko": "shape / dtype / size / ndim 의 자료형",
    "prompt_ko": "numpy.ndarray 인스턴스 my_array 의 속성에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5449,6 +5464,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "2차원이므로 ndim=2 (A 참), size=32×5=160 (B 참). 정수 인덱스는 해당 축을 제거하므로 arr[:, 1] → (32,) (C 참). 리스트(팬시) 인덱싱은 축을 유지하므로 arr[:, [1]] → (32, 1) (D 참). arr[1, :] 은 축0이 정수 인덱스라 제거되어 (5,) 이다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 속성과 슬라이싱 shape",
+   "prio_note_en": "DOCX list — attributes and slicing shapes",
    "topic_ko": "배열 속성과 슬라이싱 shape",
    "prompt_ko": "다음과 같이 정의된 배열에 대한 설명 중 옳은 것을 모두 고르시오.\n\nmy_array = np.zeros((32, 5))",
    "options_ko": [
@@ -5490,6 +5508,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "정수 인덱스 = 축 제거, 슬라이스 = 축 유지, 팬시/불리언 = 축 유지 (A, B, C 참). arr[[-1,-1], -1]: 축0은 리스트(2개)라 크기 2 유지, 축1은 정수라 제거 → (2,) (D 참). arr[0, :-1]: 축0 정수 → 제거, 축1은 5-1=4 → (4,) 이다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 정수/슬라이스/팬시 인덱싱",
+   "prio_note_en": "DOCX list — integer/slice/fancy indexing",
    "topic_ko": "인덱싱 방식에 따른 차원 유지/제거",
    "prompt_ko": "my_array.shape == (32, 5) 인 배열의 인덱싱 결과에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5531,6 +5552,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "전체 슬라이싱은 차원 유지 (A 참). [1:, :]은 32−1=31행 (B 참). [1, :]은 축0 제거 → (5,) (C 참). [:, 1]은 축1 제거 → (32,) (D 참). [[0], :]은 팬시 인덱싱이라 축을 유지해 (1, 5)가 된다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — (32,5) 슬라이싱 7가지",
+   "prio_note_en": "DOCX list — the seven (32,5) slices",
    "topic_ko": "슬라이싱 결과 shape 계산",
    "prompt_ko": "my_array.shape == (32, 5) 일 때 각 슬라이싱 결과의 shape에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5572,6 +5596,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "(32,5)와 (32,)는 마지막 축 5와 32가 충돌하여 ValueError (A 거짓, B 참). B[:, None]은 (32,1)이 되어 열 방향으로 확장 → (32,5) (C 참). 스칼라는 모든 원소에 적용 (D 참). 브로드캐스팅은 뒤쪽 차원부터 비교 (E 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — (32,5)+(32,), b[:, None], +1",
+   "prio_note_en": "DOCX list — (32,5)+(32,), b[:, None], +1",
    "topic_ko": "브로드캐스팅 규칙",
    "prompt_ko": "A = np.ones((32, 5)) 이고 B = np.ones((32,)) 일 때, 브로드캐스팅(broadcasting)에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5613,6 +5640,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "(3,4)*(4,) → (3,4) (A 참). (3,4)*(3,1) → (3,4) (B 참). (3,4)*(3,)는 마지막 축 4와 3이 충돌 → ValueError (C 참). (2,2)*(2,2,1) → (2,2,2) (D 참). (32,5)+(32,1,5): (32,5)가 (1,32,5)로 확장되어 (32,1,5)와 결합 → (32,32,5) 이다 (E 거짓). ⚠️ 함정: E — \"결과 shape은 (32, 5)\" → \"(32, 32, 5)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅 결과 shape",
+   "prio_note_en": "DOCX list — broadcast result shapes",
    "topic_ko": "브로드캐스팅 결과 shape 계산",
    "prompt_ko": "NumPy 브로드캐스팅 연산 결과의 shape에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5654,6 +5684,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "차원 수가 다르면 앞에 1축을 추가해 정렬 (A 참). 각 축에서 같거나 1이면 가능 (B 참). 1인 축은 확장 (C 참). 스칼라는 전체 적용 (D 참). 브로드캐스팅은 논리적 확장이며 실제로 데이터를 복사하지 않는 경우가 많다 (E 거짓). ⚠️ 함정: E — \"항상 원본을 복사해 메모리를 추가로 사용\" → \"복사하지 않는다\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅 규칙",
+   "prio_note_en": "DOCX list — broadcasting rules",
    "topic_ko": "브로드캐스팅 규칙의 세부사항",
    "prompt_ko": "NumPy 브로드캐스팅 규칙에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5695,6 +5728,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "비교 연산은 같은 shape의 불리언 배열 (A 참). 전치는 축 순서를 뒤집음 (B 참). 두 번 전치하면 원래 shape (C 참). 같은 shape끼리의 덧셈 (D 참). (32,5)는 (1,32,5)로 확장되고 (32,1,5)와 결합해 (32,32,5)가 된다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — \u003c0, .T, .T.T, +, [:, None, :]",
+   "prio_note_en": "DOCX list — \u003c0, .T, .T.T, +, [:, None, :]",
    "topic_ko": "연산 결과의 shape",
    "prompt_ko": "my_array 는 shape이 (32, 5) 인 numpy.ndarray 다. 다음 연산 결과의 shape에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5736,6 +5772,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "axis=0은 행 방향으로 축약 → (5,) (A 참). axis=1 → (32,) (B 참). axis를 지정한 집계는 ndarray를 반환 (C 참). axis 없이 전체를 집계하면 스칼라(numpy.int64 등)를 반환하며 ndarray가 아니다 (D 거짓). (2,2)에서 axis=1 집계 → (2,) (E 참). ⚠️ 함정: D — \"type(np.sum(arr))은 ndarray\" → \"스칼라다\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — np.mean(axis), np.sum 의 type",
+   "prio_note_en": "DOCX list — np.mean(axis), type of np.sum",
    "topic_ko": "집계 함수의 axis와 반환형",
    "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 이고 arr 은 shape이 (32, 5) 인 배열일 때, 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5777,6 +5816,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "keepdims는 축약 축을 크기 1로 유지 (A 참). (2,2)에서 axis=1 → (2,1) (B 참). 열별 스케일링 등 브로드캐스팅에 유용 (C 참). keepdims 여부에 따라 shape이 달라진다 (D 거짓). (32,5)에서 axis=0 → (1,5) (E 참). ⚠️ 함정: D — \"keepdims True/False는 항상 같은 shape\" → \"다른 shape\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — keepdims",
+   "prio_note_en": "Not in the sources — keepdims",
    "topic_ko": "keepdims 파라미터",
    "prompt_ko": "집계 함수의 keepdims 파라미터에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5816,6 +5858,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "기본 슬라이싱(arr[1:4])과 reshape는 메모리를 공유하는 뷰를 만들므로 원본이 바뀐다 (A, D 참). 팬시 인덱싱(arr[[1,2]]), 불리언 마스크(arr[arr>25]), copy()는 복사본을 만들므로 원본이 바뀌지 않는다 (B, C, E 거짓). ⚠️ 함정: E — copy() 는 복사본 — \"arr[0]\" 같은 뷰였다면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰/복사 7가지",
+   "prio_note_en": "DOCX list — the seven view/copy cases",
    "topic_ko": "뷰(View)와 복사본(Copy)",
    "prompt_ko": "다음 코드에서 sub 을 수정했을 때 원본 배열 arr 의 값이 실제로 바뀌는 경우를 모두 고르시오.\n\narr = np.array([10, 20, 30, 40, 50])",
    "options_ko": [
@@ -5857,6 +5902,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "역순 슬라이싱은 뷰 (A 참). np.append는 새 배열 (B 참). 산술 연산은 새 배열 (C 참). 1차원 배열의 전치는 데이터를 공유하는 뷰이므로 수정하면 원본이 바뀐다 (D 참). reshape(-1)은 (가능한 경우) 뷰를 반환한다 (E 거짓). ⚠️ 함정: E — \"reshape(-1)은 복사본을 반환\" → \"뷰를 반환\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰/복사 (역순·append·+, .T, reshape)",
+   "prio_note_en": "DOCX list — view/copy (reverse, append, +, .T, reshape)",
    "topic_ko": "뷰/복사 심화 (역순, 전치, append)",
    "prompt_ko": "1차원 배열 arr = np.array([10, 20, 30, 40, 50]) 에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5898,6 +5946,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "비교 연산은 같은 shape의 불리언 배열을 만든다 (A 참). 불리언 인덱싱 결과는 항상 1차원으로 평탄화된다 (B 거짓, C 참). np.where는 원래 shape을 유지하며 값을 대체한다 (D 참). 마스크를 이용한 할당은 원본을 실제로 수정한다 (E 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 불리언 마스크 (np.where 는 출처 없음)",
+   "prio_note_en": "DOCX list — boolean masks (np.where is not in the sources)",
    "topic_ko": "불리언 마스킹과 평탄화",
    "prompt_ko": "data = np.array([[1, -2, 3], [-4, 5, -6]]) 에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5939,6 +5990,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "axis=k 는 k번째 축을 축약(제거)한다. axis=0 → (3,4) (A 참), axis=1 → (2,4) (B 참), axis=2 → (2,3) (C 참). 음수 축 -1은 마지막 축(2)과 같다 (D 참). 축약된 축은 결과에서 사라진다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — axis 집계 (3차원은 확장 예시)",
+   "prio_note_en": "DOCX list — axis reductions (3-D is an extension)",
    "topic_ko": "3차원 배열의 axis 집계",
    "prompt_ko": "shape이 (2, 3, 4) 인 3차원 배열 arr3d 에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -5980,6 +6034,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "reshape에서 -1은 한 번만 지정할 수 있다 → ValueError (A 참). [:, None]은 (4,1), [None, :]은 (1,4) (B, C 참). np.dot도 행렬곱 규칙을 따르므로 (32,5)·(5,1) → (32,1) (D 참). (32,5)와 (32,)는 5와 32가 정렬되지 않아 ValueError다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — reshape(-1)/newaxis + np.dot",
+   "prio_note_en": "DOCX list — reshape(-1)/newaxis + np.dot",
    "topic_ko": "reshape(-1,-1), newaxis, np.dot",
    "prompt_ko": "NumPy의 차원 추가/추론과 np.dot 사용에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6021,6 +6078,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "reshape(3, -1)에서 -1은 12÷3=4로 자동 계산 (A 참). 전치는 축 순서를 뒤집음 (B 참). (32,5)@(5,1) → 바깥 차원 (32,1) (C 참). (3,4)@(3,1)은 안쪽 차원 4≠3 → ValueError (D 참). * 는 요소별 곱, @ 는 행렬곱으로 서로 다르다 (E 거짓). ⚠️ 함정: E — \"*와 @는 동일한 연산\" → \"다른 연산(요소별 vs 행렬곱)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — reshape/전치/행렬곱",
+   "prio_note_en": "DOCX list — reshape/transpose/matrix product",
    "topic_ko": "reshape / transpose / 행렬곱",
    "prompt_ko": "NumPy의 차원 변경과 행렬 연산에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6062,6 +6122,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "np.arange(4).reshape(2,-1) = [[0,1],[2,3]] → (2,2) (A 참). 요소별 연산은 shape 유지 (B 참). 불리언 마스크는 1차원으로 평탄화 → (3,) (C 참). 두 조건을 & 로 결합 → 값 2만 남아 (1,) (D 참). (2,2)와 (2,2,1)의 연산은 (2,2,2)가 된다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — reshape(2,-1) 연산·마스킹",
+   "prio_note_en": "DOCX list — reshape(2,-1) ops and masks",
    "topic_ko": "reshape(2, -1) 배열의 연산",
    "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6103,6 +6166,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "0은 원소 하나뿐 → 1 (A 참). any → True (B 참). 각 행에 0이 아닌 값이 있으므로 행 단위 all은 False, False (C 참). 모든 원소가 0 이상 → all True (D 참). 0이 아닌 원소는 1,2,3 세 개이므로 count_nonzero(my_array)는 3이다. 따라서 E는 거짓.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — count_nonzero/any/all",
+   "prio_note_en": "DOCX list — count_nonzero/any/all",
    "topic_ko": "불리언 집계 (count_nonzero, any, all)",
    "prompt_ko": "my_array = np.arange(4).reshape(2, -1) (즉 [[0, 1], [2, 3]]) 에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6144,6 +6210,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "빈 배열도 shape은 튜플로 표현된다 (A 참). size = 0 (B 참). ndim = 3 (C 참). 원소가 없으므로 '모두 참'은 공허하게 참 → np.all은 True (D 참). np.any는 거짓을 반환한다 (E 거짓). ⚠️ 함정: E — \"np.any(np.array([]))는 True\" → \"False\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — shape (0,1,0) 와 all/any",
+   "prio_note_en": "DOCX list — shape (0,1,0) and all/any",
    "topic_ko": "빈 배열에서의 any / all",
    "prompt_ko": "빈 배열(원소 수가 0인 배열)에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6185,6 +6254,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "unique는 중복 제거 + 오름차순 (A 참). bincount는 0부터 최댓값(3)까지의 빈도 → [0,1,1,1] (B 참). 내림차순 (C 참). argsort = 정렬했을 때의 원래 인덱스 [1,2,0] (D 참). my_array == 0 은 전부 False이므로 unique 결과는 array([False]) 하나뿐이다 (E 거짓). ⚠️ 함정: E — my_array == 0 은 모두 False 이므로 unique 는 [False] 다.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — unique/bincount/sort/argsort",
+   "prio_note_en": "DOCX list — unique/bincount/sort/argsort",
    "topic_ko": "고유값/빈도/정렬 (unique, bincount, sort, argsort)",
    "prompt_ko": "my_array = np.array([3, 1, 2]) 에 대한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6226,6 +6298,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "np.bincount는 음수에서 ValueError (A 참). float 배열은 정수로 캐스팅할 수 없어 TypeError가 발생한다 (B 거짓). np.sort는 복사본을 반환 (C 참). ndarray.sort()는 in-place (D 참). return_counts=True로 빈도까지 얻는다 (E 참). ⚠️ 함정: B — \"실수 배열에도 그대로 사용할 수 있으며\" → \"정수 배열에만 쓸 수 있다\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — bincount 제약·정렬 (in-place 는 확장)",
+   "prio_note_en": "DOCX list — bincount limits and sorting (in-place is an extension)",
    "topic_ko": "bincount 제약과 정렬 함수의 동작",
    "prompt_ko": "NumPy 함수들의 동작에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6267,6 +6342,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "NaN은 전파되므로 np.mean은 NaN (A 참). np.nanmean은 NaN 무시 (B 참). np.isnan은 불리언 마스크 (C 참). 결측 처리가 필요 (D 참). np.isnan은 수치형(NaN을 가질 수 있는) 배열에 사용한다 (E 거짓). ⚠️ 함정: E — \"문자열 배열에도 사용할 수 있다\" → \"숫자형에만 쓸 수 있다\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — np.nanmean/np.isnan",
+   "prio_note_en": "Not in the sources — np.nanmean/np.isnan",
    "topic_ko": "NaN 처리",
    "prompt_ko": "결측값(NaN)이 포함된 배열을 다루는 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6308,6 +6386,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "axis=0 집계로 각 열의 최솟값/최댓값을 구한다 (A, B 참). keepdims=True로 (1, n) 형태를 만들면 브로드캐스팅이 자연스럽다 (C 참). min-max는 각 열을 [0,1]로 변환 (D 참). 열 단위 집계는 axis=0이며, axis=1은 행 단위다 (E 거짓). ⚠️ 함정: E — \"열 단위 스케일링은 axis=1\" → \"axis=0\"이면 참.",
+   "prio": 2,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅 (keepdims·열 단위 스케일링은 출처 없음)",
+   "prio_note_en": "DOCX broadcasting (keepdims / column-wise scaling are not in the sources)",
    "topic_ko": "브로드캐스팅을 이용한 스케일링",
    "prompt_ko": "2차원 배열 col 에 대해 열 단위 min-max 스케일링을 구현하는 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6349,6 +6430,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "삽입 위치를 반환 (A 참). 4는 3과 5 사이이므로 인덱스 2 (B 참, E 거짓). 여러 값도 배열로 전달 가능 (C 참). 전제가 정렬된 배열이므로 정렬되지 않으면 신뢰할 수 없다 (D 참).",
+   "prio": 3,
+   "prio_note": "출처 없음 — np.searchsorted",
+   "prio_note_en": "Not in the sources — np.searchsorted",
    "topic_ko": "searchsorted",
    "prompt_ko": "np.searchsorted 함수에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6390,6 +6474,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "슬라이싱 = 뷰 (A 참). 팬시 인덱싱 = 복사 (B 참). 불리언 마스크 = 복사 (C 참). 뷰 수정은 원본에 영향 (D 참). 팬시 인덱싱은 복사본이므로 원본이 바뀌지 않는다 (E 거짓). ⚠️ 함정: E — \"팬시 인덱싱 결과를 수정하면 항상 원본도 바뀐다\" → \"복사본이라 바뀌지 않는다\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 인덱싱별 뷰/복사",
+   "prio_note_en": "DOCX list — view/copy per indexing style",
    "topic_ko": "인덱싱 방식별 복사/뷰 특성",
    "prompt_ko": "NumPy 인덱싱 방식과 메모리 특성에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6431,6 +6518,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "np.arange(5) = [0,1,2,3,4] (A 참). step 2 (B 참). np.zeros (C 참). np.ones (D 참). 정수 인자를 준 np.arange의 dtype은 정수(int64 등)다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — np.arange 생성/reshape (zeros·ones 는 출처 없음)",
+   "prio_note_en": "DOCX list — np.arange/reshape (zeros and ones are not in the sources)",
    "topic_ko": "배열 생성 함수",
    "prompt_ko": "NumPy 배열 생성 함수에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6472,6 +6562,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "비교 연산 결과는 bool 배열 (A 참). 원소별 논리 연산에는 &, |, ~ 사용 (B 참). 괄호로 우선순위를 명확히 (C 참). 파이썬 and/or는 배열 전체에 대한 단일 진리값을 요구해 원소별 연산에 부적합 (D 참). 결과는 배열이며 스칼라가 아니다 (E 거짓). ⚠️ 함정: E — \"비교 결과는 항상 스칼라 bool\" → \"원소별 bool 배열\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 불리언 마스크 연산자 & | ~",
+   "prio_note_en": "DOCX list — boolean mask operators & | ~",
    "topic_ko": "비교 연산과 논리 연산자",
    "prompt_ko": "배열의 비교/논리 연산에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6513,6 +6606,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "argmax = 최댓값의 인덱스 (A 참). axis=0 → 열별 (B 참). axis=1 → 행별 (C 참). axis 생략 시 평탄화 기준 인덱스 (D 참). 최댓값 자체는 np.max가 반환한다 (E 거짓). ⚠️ 함정: E — \"최댓값 자체\" → \"최댓값의 인덱스\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — np.argmax/argmin",
+   "prio_note_en": "Not in the sources — np.argmax/argmin",
    "topic_ko": "argmax / argmin",
    "prompt_ko": "np.argmax / np.argmin 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6554,6 +6650,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "정수 인덱스 할당 (A 참). 마스크 할당은 원본을 수정 (B 참). 슬라이스 할당 (C 참). 슬라이스 할당 (D 참). 마스크를 이용한 할당은 원본 배열을 실제로 수정한다 (E 거짓). ⚠️ 함정: E — \"복사본이 수정되어\" → \"원본이 수정되어\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 인덱싱으로 값 수정",
+   "prio_note_en": "DOCX list — assigning through indices",
    "topic_ko": "인덱싱을 이용한 값 수정",
    "prompt_ko": "배열의 값을 수정하는 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6595,6 +6694,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "단위행렬을 정수 배열로 인덱싱하면 one-hot (A 참). labels 길이 3, 클래스 3 → (3,3) (B 참). 정수 배열 인덱싱은 행 선택 (C 참). one-hot의 정의 (D 참). np.eye는 float64를 반환하므로 bool이 아니다 (E 거짓).",
+   "prio": 2,
+   "prio_note": "팬시 인덱싱은 DOCX 목록, np.eye 는 출처 없음",
+   "prio_note_en": "Fancy indexing is in the DOCX list, np.eye is not in the sources",
    "topic_ko": "one-hot 인코딩 구현",
    "prompt_ko": "정수 범주 레이블 배열 labels (예: array([2, 0, 1])) 을 one-hot 행렬로 바꾸는 NumPy 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6636,6 +6738,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "axis=1 argmax로 예측 클래스 (A 참). 불리언 배열 평균 = 정확도 (B, C 참). count_nonzero/len도 동일 (D 참). NumPy는 벡터화 연산으로 반복문 없이 계산할 수 있다 (E 거짓). ⚠️ 함정: E — \"반드시 for 반복문\" → \"벡터 연산으로도 가능\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — argmax/astype 로 정확도",
+   "prio_note_en": "Not in the sources — accuracy via argmax/astype",
    "topic_ko": "다중 클래스 정확도 계산",
    "prompt_ko": "예측 확률 행렬 probs (shape (N, K)) 와 정답 레이블 배열 y (shape (N,)) 가 있을 때 다중 클래스 정확도를 계산하는 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6677,6 +6782,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "bincount로 빈도 계산 (A 참). searchsorted로 구간 인덱스 (B 참). 구간 인덱스 + bincount (C 참). 조건 마스크로 구간별 개수 (D 참). np.histogram 없이도 NumPy로 충분히 구현할 수 있다 (E 거짓). ⚠️ 함정: E — np.histogram 없이도 직접 구현할 수 있다.",
+   "prio": 2,
+   "prio_note": "bincount 는 DOCX 목록, np.searchsorted 는 출처 없음",
+   "prio_note_en": "bincount is in the DOCX list, np.searchsorted is not in the sources",
    "topic_ko": "히스토그램 직접 구현",
    "prompt_ko": "np.histogram 을 쓰지 않고 정수 배열의 히스토그램을 직접 구현하는 방법에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6718,6 +6826,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "mean/std로 통계량 계산 (A 참). 절댓값 + 임계값으로 마스크 생성 (B 참). count_nonzero로 개수 (C 참). 마스크로 값 추출 (D 참). 비교 연산 결과는 원소별 bool 배열이며 스칼라가 아니다 (E 거짓).",
+   "prio": 3,
+   "prio_note": "출처 없음 — .std/.abs 이상치 탐지",
+   "prio_note_en": "Not in the sources — outliers via .std/.abs",
    "topic_ko": "이상치 탐지와 조건부 통계",
    "prompt_ko": "1차원 수치 배열 data 에서 이상치(outlier)를 찾는 NumPy 코드에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -6759,6 +6870,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "정수 배열 인덱싱으로 팔레트 조회 (A 참). (H,W) 인덱스 + 마지막 축 3 → (H,W,3) (B 참). 인덱스 배열 shape + 남은 축이 결과 shape이 된다 (C 참). 결과는 새 배열 (D 참). (K,H,W)가 아니다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 팬시 인덱싱",
+   "prio_note_en": "DOCX list — fancy indexing",
    "topic_ko": "정수 배열 인덱싱으로 이미지 복원",
    "prompt_ko": "팔레트(palette) 배열 colors (shape (K, 3)) 와 각 픽셀의 색 인덱스를 담은 2차원 배열 idx (shape (H, W)) 가 있을 때, 정수 배열 인덱싱에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -7799,6 +7913,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "브로드캐스팅은 마지막 축부터 크기를 비교한다. (32,) 은 (5,) 와 맞지 않으므로 a + b 는 오류 (A 참). b[:, None] 은 (32, 1) 이 되어 열 방향으로 확장 가능 (B 거짓). b[None, :] 은 (1, 32) 이므로 (32, 5) 와 맞지 않는다 (C 참). 스칼라는 항상 브로드캐스팅된다 (D 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — (32,5)+(32,), b[:, None], +1",
+   "prio_note_en": "DOCX list — (32,5)+(32,), b[:, None], +1",
    "topic_ko": "브로드캐스팅 오류 판별 (a + b)",
    "prompt_ko": "a 의 shape 이 (32, 5) 이고 b 의 shape 이 (32,) 일 때 \"operands could not be broadcast together\" 오류가 발생하는 것을 모두 고르시오.",
    "options_ko": [
@@ -7836,6 +7953,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "reshape 은 뷰를 돌려준다 (A 참). 전치(.T)도 뷰다 (B 참). np.append 는 새 배열을 만들어 복사하므로 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이싱은 뷰다 (D 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰 판별 (reshape/.T/append/슬라이스)",
+   "prio_note_en": "DOCX list — which are views",
    "topic_ko": "뷰(view) 인 경우: x 가 수정됨",
    "prompt_ko": "x = np.arange(4) 이고 x 로부터 y 를 만든 뒤 y[:] = 99 를 실행할 때, x 가 수정되는 경우를 모두 고르시오.",
    "options_ko": [
@@ -7873,6 +7993,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "정수 배열(fancy) 인덱싱은 복사본을 만든다 (A 참). 불리언 마스크도 복사본이다 (B 참). 산술 연산은 새 배열을 만든다 (C 참). 기본 슬라이스는 뷰이므로 원본이 수정된다 (D 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 복사 판별 (팬시/마스크/산술/슬라이스)",
+   "prio_note_en": "DOCX list — which are copies",
    "topic_ko": "복사본(copy) 인 경우: x 가 수정되지 않음",
    "prompt_ko": "같은 상황(x = np.arange(4), y[:] = 99)에서 x 가 수정되지 않는 경우를 모두 고르시오.",
    "options_ko": [
@@ -7910,6 +8033,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "(3,4)+(4,) 는 열 방향 확장으로 (3,4) (A 거짓). (3,4)+(3,) 는 마지막 축 4 대 3 이 맞지 않아 오류 (B 참). (3,1)+(1,4) 는 (3,4) (C 거짓). (3,)+(3,1) 은 (3,3) (D 거짓). (2,3)+(3,2) 는 3 대 2 가 맞지 않아 오류 (E 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅 오류 shape 조합",
+   "prio_note_en": "DOCX list — broadcast-error shape pairs",
    "topic_ko": "브로드캐스팅 오류 판별 (shape 조합)",
    "prompt_ko": "다음 shape 조합 중 브로드캐스팅 오류가 발생하는 것을 모두 고르시오.",
    "options_ko": [
@@ -9169,6 +9295,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "마지막 축부터 비교한다. (4,3)+(3,4) 는 3 대 4 가 맞지 않아 오류 (A 참). (3,4)+(3,) 도 4 대 3 불일치 (B 참). (3,4)+(4,) 는 열 방향 확장으로 가능 (C 거짓). (2,3)+(2,1) 은 1 이 확장되어 가능 (D 거짓). (2,3)+(3,2) 는 3 대 2 불일치 (E 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅 오류 (np.zeros 는 출처 없음)",
+   "prio_note_en": "DOCX list — broadcast errors (np.zeros is not in the sources)",
    "topic_ko": "브로드캐스팅 ValueError 판별",
    "prompt_ko": "다음 중 ValueError(\"operands could not be broadcast together\") 가 발생하는 것을 모두 고르시오.",
    "options_ko": [
@@ -9210,6 +9339,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "조건이 참인 위치는 x, 거짓인 위치는 0 (A 참). 양수가 2개 (B 참). 비교 연산 결과는 bool 배열 (C 참). 인자가 하나면 조건을 만족하는 인덱스 튜플을 반환 (D 참). 실행 후 x = [0, -1, 0, -2] 이다 (E 거짓). ⚠️ 함정: E — \"실행 후 [0, -1, 3, -2]\" → \"[0, -1, 0, -2]\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 불리언 마스킹 (np.where 는 출처 없음)",
+   "prio_note_en": "DOCX list — boolean masking (np.where is not in the sources)",
    "topic_ko": "np.where와 불리언 마스킹",
    "prompt_ko": "x = np.array([5, -1, 3, -2]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9251,6 +9383,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "정수와 실수가 섞이면 실수형으로 승격된다 (A 참). / 는 실수 나눗셈 (B 참). // 는 몫 (C 참). bool 은 True=1 로 합산된다 (D 참). 실수를 더하면 실수형이 된다 (E 거짓).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — .dtype (나눗셈 /, // 는 출처 없음)",
+   "prio_note_en": "DOCX list — .dtype (the / and // operators are not in the sources)",
    "topic_ko": "dtype과 연산 결과",
    "prompt_ko": "NumPy 자료형(dtype)과 연산에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9292,6 +9427,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "0, 3, 6, 9 (A 참). linspace 는 개수를 지정한다 (B 참). (5, -1) 은 (5, 1) (C 참). reshape(-1, 5) 는 (2, 5) 이므로 (5, 2) 가 아니다 (D 거짓). ones(3) 은 1차원 (E 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — np.arange 생성/reshape (linspace·ones 는 출처 없음)",
+   "prio_note_en": "DOCX list — np.arange/reshape (linspace and ones are not in the sources)",
    "topic_ko": "배열 생성 함수(arange/linspace/reshape)",
    "prompt_ko": "배열 생성 함수에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9333,6 +9471,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "axis=0 은 행 방향 결합으로 (4, 3) (A 참). axis=1 은 열 방향으로 (2, 6) (B 참). stack 은 새 축을 만들어 (2, 2, 3) (C 참). axis=0 결합은 열 수가 같아야 하므로 (2, 4) 와는 오류가 난다 (D 거짓). append 는 이어 붙여 (5,) (E 참). ⚠️ 함정: D — \"동작하며 (2, 7)\" → \"ValueError 가 난다\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — np.concatenate/stack (np.append 만 DOCX)",
+   "prio_note_en": "Not in the sources — np.concatenate/stack (only np.append is in the DOCX list)",
    "topic_ko": "concatenate / stack / append",
    "prompt_ko": "p = np.zeros((2, 3)), q = np.ones((2, 3)) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9372,6 +9513,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "기본 인덱스 X[0] 은 뷰다 (A 참). fancy 인덱싱은 복사본 (B 거짓). flatten() 은 복사본 (C 거짓). reshape 은 뷰 (D 참). 불리언 마스크는 복사본 (E 거짓). ⚠️ 함정: C — flatten() 은 복사본 — \"X[0]\" 같은 뷰였다면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰/복사 판별 (flatten 은 출처 없음)",
+   "prio_note_en": "DOCX list — view/copy (flatten is not in the sources)",
    "topic_ko": "뷰와 복사본 판별(X 수정 여부)",
    "prompt_ko": "X = np.arange(6).reshape(2, 3) 일 때, 다음 중 X 를 변경하는 것을 모두 고르시오.",
    "options_ko": [
@@ -9413,6 +9557,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "3, 4 만 참이므로 [F,F,T,T,F,F] (A 참). 마스크로 뽑으면 [3, 4] (B 참). 파이썬의 and 는 배열에서 ValueError 가 나며 & 를 써야 한다 (C 거짓). ~ 는 논리 부정이라 1, 2 에서 True (D 참). 짝수 2, 4, 6 → 3개 (E 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 마스크 & 와 count_nonzero",
+   "prio_note_en": "DOCX list — mask & and count_nonzero",
    "topic_ko": "논리 연산과 불리언 인덱싱",
    "prompt_ko": "v = np.arange(1, 7) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9454,6 +9601,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "(6,) − (6,1) 은 브로드캐스팅되어 (6,6) 이 된다 (A 참). 예외 없이 조용히 계산된다 (B 참). 결과는 스칼라이지만 값이 잘못된다 (C 참). yy[:, 0] 로 (6,) 으로 맞추면 의도한 계산이 된다 (D 참). 오류가 나지 않으므로 E 거짓.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 조용한 브로드캐스팅 버그 (6,) vs (6,1)",
+   "prio_note_en": "DOCX list — silent broadcasting bug (6,) vs (6,1)",
    "topic_ko": "손실 계산의 조용한 브로드캐스팅 버그",
    "prompt_ko": "yp 의 shape 이 (6,) 이고 yy 의 shape 이 (6, 1) 일 때 손실 계산의 함정에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9495,6 +9645,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "keepdims 로 (6,1) 을 만들어 행 단위로 나누면 각 행의 합이 1 (A 참). shape 은 (6,1) (B 참). (6,4) / (6,) 는 마지막 축 4 대 6 이 맞지 않아 오류 (C 거짓). axis=0 은 열 합이므로 열 정규화가 된다 (D 참). 출력 shape 은 입력과 같다 (E 참). ⚠️ 함정: C — (6,4)/(6,) 는 오류 — 동작하려면 keepdims=True 가 필요하다.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L5 s17-20 np.exp/소프트맥스 (keepdims 는 출처 없음)",
+   "prio_note_en": "Slide (no ✗) — L5 s17-20 np.exp/softmax (keepdims is not in the sources)",
    "topic_ko": "NumPy로 소프트맥스 구현(axis/keepdims)",
    "prompt_ko": "Z 의 shape 이 (6, 4) 이고 e = np.exp(Z) 일 때 소프트맥스 구현에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9536,6 +9689,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "newaxis 로 (3,1) (A 참). (1,3) (B 참). 브로드캐스팅으로 (3,3) (C 참). r[0] = 0 이므로 외적의 첫 행은 0 (D 참). r[:, None] 은 (3,1) 이고 reshape(1, 3) 은 (1,3) 이라 서로 다르다 (E 거짓). ⚠️ 함정: E — r[:, None] 은 (3,1) — \"reshape(1, 3)\"을 \"reshape(3, 1)\"로 바꾸면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — newaxis (b[:, None] / b[None, :])",
+   "prio_note_en": "DOCX list — newaxis (b[:, None] / b[None, :])",
    "topic_ko": "newaxis와 외적(outer product)",
    "prompt_ko": "r = np.arange(3) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9953,6 +10109,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "기본 슬라이스는 축을 유지하므로 (32,2) (A 참). my_array[-1] 은 마지막 행만 뽑아 (5,) 이며 (1,5) 가 아니다 (B 거짓). ::2 는 행 16개를 고른다 (C 참). [[3],[1]] 은 두 축을 동시에 정수 배열로 인덱싱해 (1,) (D 참). 열 인덱스 3개 → (32,3) (E 참). None 은 새 축을 추가해 (1,32,5) (F 참).",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 슬라이싱/정수배열/newaxis shape",
+   "prio_note_en": "DOCX list — slicing / integer-array / newaxis shapes",
    "topic_ko": "슬라이싱·정수배열·newaxis 의 shape",
    "prompt_ko": "my_array 는 shape (32, 5) 인 numpy.ndarray 다. 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -9994,6 +10153,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "(32,5)+(5,) 는 열 방향으로 확장되어 가능 (A 거짓). (32,5)*(32,1) 도 가능 (B 거짓). (32,5)+(1,32) 는 마지막 축 5 대 32 가 맞지 않아 오류 (C 참). mean(axis=0) 은 (5,) 이므로 가능 (D 거짓). mean(axis=1) 은 (32,) 이므로 마지막 축 5 와 맞지 않아 오류 (E 참). ⚠️ 함정: D — mean(axis=0) 은 (5,) 라서 가능 — axis=1 이었다면 오류.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅과 mean(axis)",
+   "prio_note_en": "DOCX list — broadcasting and mean(axis)",
    "topic_ko": "브로드캐스팅 오류 판별(여러 shape)",
    "prompt_ko": "a 는 (32, 5), b5 는 (5,), c 는 (32, 1), d 는 (1, 32) 이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
    "options_ko": [
@@ -10037,6 +10199,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "6개를 (3, -1) 로 바꾸면 (3,2) (A 참). 행렬은 [[0,1],[2,3],[4,5]] 이고 axis=0 합은 [0+2+4, 1+3+5] = [6,9] (B 참). 홀수만 뽑으면 [1,3,5] (C 참). 행별로 2 초과 개수는 0, 1, 2 (D 참). 모든 원소가 0 이상이므로 [True,True] (E 참). 5 > 4 이므로 np.any(my_array > 4) 는 True 이며 False 가 아니다 (F 거짓). ⚠️ 함정: F — \"False\" → \"True\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — reshape(3,-1) 집계·마스킹",
+   "prio_note_en": "DOCX list — reshape(3,-1) reductions and masks",
    "topic_ko": "reshape(3,-1) 배열의 집계와 마스킹",
    "prompt_ko": "my_array = np.arange(6).reshape(3, -1) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10080,6 +10245,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "전치(.T)는 뷰 (A 참). 정수 하나로 인덱싱(my_array[0])도 뷰 (B 참). 기본 슬라이스 [:, 1:] 도 뷰 (C 참). 정수 배열 인덱싱 [:, [0, 2]] 은 복사본 (D 거짓). flatten() 은 복사본 (E 거짓). 산술 연산(+ 0)은 새 배열 (F 거짓). ⚠️ 함정: E — flatten() 은 복사본 — \"my_array.T\" 같은 뷰였다면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰/복사 판별 (flatten 은 출처 없음)",
+   "prio_note_en": "DOCX list — view/copy (flatten is not in the sources)",
    "topic_ko": "뷰와 복사본 판별(my_array 수정 여부)",
    "prompt_ko": "my_array = np.arange(6).reshape(2, 3) 이고, 아래 방법으로 my_array2 를 만든 뒤 my_array2[:] = 99 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
    "options_ko": [
@@ -10124,6 +10292,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "unique 는 정렬된 고유값 [0,1,2] (A 참). bincount 는 값 i 의 개수를 i번째 원소에 담아 [2,1,3] (B 참). 2가 3개 (C 참). v[v != 0] 은 0을 제외한 [2,2,1,2] 이며 [2,1,2] 가 아니다 (D 거짓). v != 0 은 불리언 배열이고 unique 는 [False,True] (E 참). bincount 길이는 최댓값+1 = 3 (F 거짓). ⚠️ 함정: D — v[v != 0] 은 [2, 2, 1, 2] 다.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — unique/bincount/count_nonzero/마스크",
+   "prio_note_en": "DOCX list — unique/bincount/count_nonzero/masks",
    "topic_ko": "unique / bincount / 불리언 집계",
    "prompt_ko": "v = np.array([2, 0, 2, 1, 0, 2]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10169,6 +10340,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "(4,3)+(3,) 는 열 방향 확장으로 (4,3) (A 참). (4,1,3)+(3,) → (4,1,3) (B 참). (4,1,3)+(1,4,3) → (4,4,3) (C 참). sum(axis=1) 은 행을 합치므로 (4,) 이며 (3,) 이 아니다 (D 거짓). mean(axis=0, keepdims=True) 은 (1,3) (E 참). (4,3) @ (3,) → (4,) (F 참). ⚠️ 함정: D — sum(axis=1) 은 (4,) — \"(3,)\"을 \"(4,)\"로 바꾸면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅/axis/행렬곱 (keepdims 는 출처 없음)",
+   "prio_note_en": "DOCX list — broadcasting/axis/matrix product (keepdims is not in the sources)",
    "topic_ko": "브로드캐스팅·집계·행렬곱의 shape",
    "prompt_ko": "my_array = np.ones((4, 3)) 이고 my_array2 = np.ones(3) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10603,6 +10777,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "오차는 [1, −1, −3] 이고 제곱합은 11 (A 참). 제곱의 평균/2 = (11/3)/2 ≈ 1.83 (B 참). np.mean(yp−y) = −1 이므로 제곱은 1 이며 11/3 이 아니다(고전적 함정) (C 거짓). (3,) − (3,1) 은 브로드캐스팅되어 (3,3) (D 참). yp > y 는 [T, F, F] 이므로 합은 1 (E 참). |오차| = [1,1,3] 의 argmax 는 2 (F 참). ⚠️ 함정: C — np.mean(d)**2 는 1 — \"np.mean(d**2)\"이면 참.",
+   "prio": 2,
+   "prio_note": "MSE 손실 수치 계산 (np.argmax 는 출처 없음)",
+   "prio_note_en": "MSE loss numbers (np.argmax is not in the sources)",
    "topic_ko": "MSE와 np.mean(d)**2 함정",
    "prompt_ko": "yp = np.array([2, 4, 6]) 이고 y = np.array([1, 5, 9]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10646,6 +10823,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "(4,100)@(100,4) → (4,4) (A 참). (4,100)@(100,) → (4,) (B 참). (4,4)+(4,4) 의 역행렬 → (4,4) (C 참). (4,4) + (100,100) 은 브로드캐스팅되지 않아 ValueError (D 거짓). (4,4)@(4,) → (4,) (E 참).",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L4 s21 정규방정식 (np.linalg.inv/np.eye 는 출처 없음)",
+   "prio_note_en": "Slide (no ✗) — L4 s21 normal equation (np.linalg.inv/np.eye are not in the sources)",
    "topic_ko": "정규방정식의 NumPy 구현",
    "prompt_ko": "정규방정식을 NumPy로 구현한다. X 의 shape 은 (100, 4), y 의 shape 은 (100,), lam = 0.1 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10687,6 +10867,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "z = [0, ln 3] 이므로 h = [0.5, 0.75] (A 참). BCE 평균 = (0.693 + 1.386)/2 ≈ 1.04 (B 참). (2,2)@(2,)/2 → (2,) (C 참). h − y = [−0.5, 0.75] 이므로 Xᵀ(h−y) = [0.25, 0.75], /2 = [0.125, 0.375] (D 참). h − y 는 [−0.5, 0.75] 이며 [0.5, 0.75] 가 아니다 (E 거짓). ⚠️ 함정: E — \"h - y 는 [0.5, 0.75]\" → \"[-0.5, 0.75]\"이면 참.",
+   "prio": 3,
+   "prio_note": "✗ 시험 제외 슬라이드(L4 s29)에만 있음 — 로지스틱 그래디언트 X.T @ (h - y) / y.size",
+   "prio_note_en": "Only on the ✗ slide (L4 s29) — logistic gradient X.T @ (h - y) / y.size",
    "topic_ko": "로지스틱 회귀의 그래디언트 계산",
    "prompt_ko": "z = np.array([0., np.log(3)]), h = 1 / (1 + np.exp(-z)), y = np.array([1, 0]), X = np.array([[1, 0], [1, 1]]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10730,6 +10913,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "열 평균은 [2.5, 25] (A 참). 모표준편차: 첫 열 √1.25 ≈ 1.118, 둘째 열 √125 ≈ 11.18 (B 참). (1−2.5)/1.118 ≈ −1.34 (C 참). min-max 스케일링의 두 번째 값 = (2−1)/3 = 1/3 (D 참). mean(axis=1) 은 각 행의 평균이므로 shape 은 (4,) (E 거짓). max−min = [3, 30] (F 참). ⚠️ 함정: E — mean(axis=1) 은 (4,) — \"(2,)\"를 \"(4,)\"로 바꾸면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — .std/.min/.max 스케일링 수치",
+   "prio_note_en": "Not in the sources — .std/.min/.max scaling numbers",
    "topic_ko": "특징 스케일링 수치 계산(std/axis)",
    "prompt_ko": "X = np.array([[1., 10.], [2., 20.], [3., 30.], [4., 40.]]) 일 때 (np.std 는 기본적으로 모표준편차를 쓴다) 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10773,6 +10959,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "e = [[1,1],[2,1]] 이고 행 합은 [2,3] 이므로 P[1] = [2/3, 1/3] ≈ [0.667, 0.333] (A 참). 소프트맥스 출력은 행마다 합이 1 (B 참). e / e.sum(axis=1) 은 (2,2)/(2,) 인데 여기서는 마지막 축 크기가 2로 같아 **오류가 나지 않고** 각 열을 잘못 나눈다 (C 거짓). keepdims 로 (2,1) (D 참). 두 행 모두 첫 원소가 크므로 argmax 는 [0, 0] (E 참). ⚠️ 함정: C — 마지막 축이 2로 같아 오류가 나지 않는다 — keepdims=True 를 써야 한다.",
+   "prio": 3,
+   "prio_note": "출처 없음 — 소프트맥스 keepdims/argmax",
+   "prio_note_en": "Not in the sources — softmax keepdims/argmax",
    "topic_ko": "소프트맥스 keepdims 함정",
    "prompt_ko": "Z = np.array([[0, 0], [np.log(2), 0]]), e = np.exp(Z), P = e / e.sum(axis=1, keepdims=True) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -10816,6 +11005,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "X@θ−y = [−1,−3,−5], Xᵀ(…) = [−9,−13], /3 = [−3, −4.33] (A 참). θ_new = [0,0] − 0.1·[−3,−4.33] = [0.3, 0.433] (B 참). 초기 손실 = (1+9+25)/(2·3) = 35/6 ≈ 5.83 (C 참). grad 의 shape 은 (2,) (D 참). 그래디언트를 더하면 손실이 증가한다 (E 거짓). (3,2)@(2,) → (3,) (F 참). ⚠️ 함정: E — \"더하면 감소\" → \"빼면 감소\"이면 참.",
+   "prio": 3,
+   "prio_note": "✗ 시험 제외 슬라이드(L4 s29)에만 있음 — theta - lr * grad 한 스텝",
+   "prio_note_en": "Only on the ✗ slide (L4 s29) — one step of theta - lr * grad",
    "topic_ko": "선형 회귀의 한 스텝(그래디언트·손실)",
    "prompt_ko": "X = np.array([[1, 0], [1, 1], [1, 2]]), y = np.array([1, 3, 5]), theta = np.zeros(2), lr = 0.1, grad = X.T @ (X @ theta - y) / y.size 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12335,6 +12527,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "shape 는 튜플이며 (5,6), (1,), (0,1,0) 모두 가능하다 (A·B·C 참). shape 는 정수일 수 없다 (D 거짓). dtype 은 자료형 객체이지 튜플이 아니다 (E 거짓). size 는 전체 원소 개수인 정수다 (F 거짓). ⚠️ 함정: D — \"정수 12\" → \"튜플\"이면 참. ⚠️ 함정: E — \"dtype이 (5, 6)\" → \"자료형 객체\"이면 참. ⚠️ 함정: F — \"size가 (5, 6)\" → \"정수\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — ndarray 속성",
+   "prio_note_en": "DOCX list — ndarray attributes",
    "topic_ko": "ndarray 의 shape / dtype / size",
    "prompt_ko": "my_array 가 numpy.ndarray 인스턴스일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12376,6 +12571,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "size 는 정수이며 전체 원소 개수다 (A·D 참). ndim 은 차원의 개수인 정수이므로 2 는 가능하지만 (C 참) 튜플 (5,6) 은 될 수 없다 (B 거짓). ⚠️ 함정: B — \"ndim이 (5, 6)\" → \"정수 2\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — size/ndim",
+   "prio_note_en": "DOCX list — size/ndim",
    "topic_ko": "ndarray 의 size 와 ndim",
    "prompt_ko": "my_array 가 numpy.ndarray 인스턴스일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12418,6 +12616,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "전체 슬라이싱은 (32, 5) (A 참). 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B 참). 행 하나는 (5,) (C 참). 1행부터 끝까지는 (31, 5) (D 참). 마지막 열을 뺀 행은 (4,) (E 참). 정수 배열 [[0]] 로 인덱싱하면 축이 유지되어 (1, 5) (F 참). 여섯 개 모두 맞다.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — (32,5) 슬라이싱",
+   "prio_note_en": "DOCX list — (32,5) slicing",
    "topic_ko": "(32, 5) 배열의 슬라이싱 shape",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12457,6 +12658,9 @@ function applyStaticI18n() {
     "A"
    ],
    "explanation": "정수 배열 인덱싱 [[-1,-1], -1] 은 (2,) (A 참). 정수 하나로 인덱싱하면 그 축이 제거되므로 [1, :] 은 (5,) 이고 (1,5) 가 아니다 (B 거짓). [:, 1] 은 (32,) 이고 (32,1) 이 아니다 (C 거짓). [0, :-1] 은 (4,) 이고 (5,) 가 아니다 (D 거짓). ⚠️ 함정: B — \"(1, 5)\" → \"(5,)\"이면 참. ⚠️ 함정: C — \"(32, 1)\" → \"(32,)\"이면 참. ⚠️ 함정: D — \"(5,)\" → \"(4,)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 정수 인덱싱",
+   "prio_note_en": "DOCX list — integer indexing",
    "topic_ko": "정수 인덱싱이 차원을 제거하는지",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12493,6 +12697,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "(32,5)+(32,) 는 마지막 축 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향 확장으로 가능 (B 거짓). (1,32) 는 (32,5) 와 맞지 않아 오류 (C 참). 스칼라 1은 항상 가능 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 브로드캐스팅 오류",
+   "prio_note_en": "DOCX list — broadcast errors",
    "topic_ko": "브로드캐스팅 오류 판별",
    "prompt_ko": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
    "options_ko": [
@@ -12534,6 +12741,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "비교 연산은 원소별이므로 shape 유지 (A 참). 전치는 (5,32), 두 번 전치하면 원래대로 (B·C 참). 같은 shape 끼리의 덧셈은 (32,5) (D 참). (32,1,5) 를 더하면 브로드캐스팅되어 (32,32,5) (E 참, F 거짓). ⚠️ 함정: F — \"(32, 5)\" → \"(32, 32, 5)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 연산 shape",
+   "prio_note_en": "DOCX list — shapes of expressions",
    "topic_ko": "연산 결과의 shape (전치·브로드캐스팅)",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12576,6 +12786,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "axis=0 은 행을 합쳐 (5,) (A 참). axis=1 은 열을 합쳐 (32,) (B 참, E 거짓). 축을 지정한 집계는 ndarray 를 반환한다 (C 참). 축을 지정하지 않으면 전체를 합쳐 NumPy 스칼라(numpy.float64 등)를 반환하며 ndarray 가 아니다 (D 거짓). ⚠️ 함정: D — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참. ⚠️ 함정: E — \"(5,)\" → \"(32,)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — axis/반환형",
+   "prio_note_en": "DOCX list — axis and return type",
    "topic_ko": "axis 방향과 반환형",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12619,6 +12832,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이고 짝수인 원소는 2 하나뿐이라 (1,) (D 참). (2,2) * (2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — reshape(2,-1) 마스킹",
+   "prio_note_en": "DOCX list — reshape(2,-1) masking",
    "topic_ko": "reshape(2,-1) 배열의 마스킹과 shape",
    "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12660,6 +12876,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "reshape 은 뷰 (A 참). 전치도 뷰 (B 참). np.append 는 새 배열을 만들어 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이스는 뷰 (D 참). ⚠️ 함정: C — \"np.append\" → \"기본 슬라이스\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰 판별",
+   "prio_note_en": "DOCX list — which are views",
    "topic_ko": "뷰(view)인 경우: my_array 가 바뀐다",
    "prompt_ko": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[...] = 99 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
    "options_ko": [
@@ -12697,6 +12916,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "정수 배열(fancy) 인덱싱은 복사본 (A 참). 불리언 마스크도 복사본 (B 참). 산술 연산은 새 배열 (C 참). 기본 슬라이스 [1:3] 은 뷰이므로 원본이 바뀐다 (D 거짓). ⚠️ 함정: D — \"my_array[1:3]\" → \"fancy 인덱싱\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 복사 판별",
+   "prio_note_en": "DOCX list — which are copies",
    "topic_ko": "복사본(copy)인 경우: my_array 가 안 바뀐다",
    "prompt_ko": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[:] = 99 를 실행한다. my_array 의 원소가 바뀌지 **않는** 경우를 모두 고르시오.",
    "options_ko": [
@@ -12735,6 +12957,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "배열은 [[0,1],[2,3]] 이므로 0 은 정확히 1개 (A 참, E 거짓). 하나라도 0 이 있으므로 any 는 True (B 참). 행별로 모두 0 인지 보면 두 행 모두 False 이고 결과는 shape (2,) 의 배열이다 (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — count_nonzero/any/all",
+   "prio_note_en": "DOCX list — count_nonzero/any/all",
    "topic_ko": "불리언 집계 (count_nonzero, any, all)",
    "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12778,6 +13003,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 이므로 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째에 담아 [0,1,1,1] (C 참). 내림차순 정렬은 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] 다 (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — unique/bincount/sort/argsort",
+   "prio_note_en": "DOCX list — unique/bincount/sort/argsort",
    "topic_ko": "unique / bincount / 정렬 / argsort",
    "prompt_ko": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12821,6 +13049,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "shape 는 튜플이라 (5,6), (0,1,0) 모두 가능하다 (A·B 참). shape 가 정수 12 일 수는 없다 (C 거짓). size 는 원소 개수인 정수이므로 12 가능 (D 참). ndim 은 차원 수인 정수 (E 거짓). dtype 은 자료형 객체 (F 거짓). ⚠️ 함정: C — \"정수 12\" → \"튜플\"이면 참. ⚠️ 함정: E — \"ndim이 (5, 6)\" → \"정수\"이면 참. ⚠️ 함정: F — \"dtype이 (5, 6)\" → \"자료형 객체\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — ndarray 속성",
+   "prio_note_en": "DOCX list — ndarray attributes",
    "topic_ko": "ndarray 속성 (shape·size·ndim·dtype)",
    "prompt_ko": "my_array 가 numpy.ndarray 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12866,6 +13097,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "전체 (A 참). 열을 정수 하나로 인덱싱하면 그 축이 사라지므로 [:, 1] 은 (32,) 이며 (32,1) 이 아니다 (B 거짓). 1행부터 끝까지 (31,5) (C 참). 마지막 열을 뺀 행은 (4,) (D 참). 정수 '배열' [[0]] 로 인덱싱하면 축이 유지되어 (1,5) (E 참). [[-1,-1], -1] 은 (2,) (F 참). ⚠️ 함정: B — \"(32, 1)\" → \"(32,)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — (32,5) 슬라이싱",
+   "prio_note_en": "DOCX list — (32,5) slicing",
    "topic_ko": "(32, 5) 배열의 슬라이싱 shape",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12911,6 +13145,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "비교는 원소별이라 shape 유지 (A 참). 전치는 (5,32), 두 번 전치하면 원래대로 (B·C 참). (32,1,5) 를 더하면 (32,32,5) (D 참). axis=0 은 행을 합쳐 열마다 하나 → (5,) (E 참). axis=1 은 열을 합쳐 행마다 하나 → (32,) 이며 (5,) 가 아니다 (F 거짓). ⚠️ 함정: F — \"(5,)\" → \"(32,)\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 연산 결과 shape",
+   "prio_note_en": "DOCX list — shapes of expressions",
    "topic_ko": "연산 결과의 shape (전치·집계·브로드캐스팅)",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12953,6 +13190,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "축을 지정한 집계는 ndarray 를 반환한다 (A 참). 축을 지정하지 않으면 전체를 하나의 NumPy 스칼라(numpy.float64)로 줄이므로 ndarray 가 아니다 (B·E 거짓). 스칼라는 shape 이 () 다 (C 참). keepdims=True 는 축을 남겨 (32,1) (D 참). ⚠️ 함정: B — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참. ⚠️ 함정: E — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 집계 반환형 (keepdims 는 출처 없음)",
+   "prio_note_en": "DOCX list — aggregation return type (keepdims is not in the sources)",
    "topic_ko": "집계의 반환형과 keepdims",
    "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -12992,6 +13232,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "reshape 은 뷰를 돌려준다 (A 참). 전치(.T)도 뷰 (B 참). np.append 는 새 배열을 만들어 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이스 [1:2] 는 뷰 (D 참). ⚠️ 함정: C — \"np.append\" → \"기본 슬라이스\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰 (reshape/.T/슬라이스)",
+   "prio_note_en": "DOCX list — views (reshape/.T/slice)",
    "topic_ko": "뷰(view)인 경우: my_array 가 바뀐다",
    "prompt_ko": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[:] = 99 (reshape 는 my_array2[:, :] = 99) 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
    "options_ko": [
@@ -13029,6 +13272,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "정수 배열(fancy) 인덱싱은 복사본 (A 참). 불리언 마스크로 '읽는' 것도 복사본 (B 참). 산술 연산은 새 배열 (C 참). 기본 슬라이스 [1:3] 은 뷰이므로 원본이 바뀐다 (D 거짓). ⚠️ 함정: D — \"my_array[1:3]\" → \"fancy 인덱싱\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 복사 (팬시/마스크/산술)",
+   "prio_note_en": "DOCX list — copies (fancy/mask/arithmetic)",
    "topic_ko": "복사본(copy)인 경우: my_array 가 안 바뀐다",
    "prompt_ko": "같은 설정(my_array = np.arange(4))에서 my_array2[:] = 99 를 실행했을 때 my_array 의 원소가 바뀌지 **않는** 경우를 모두 고르시오.",
    "options_ko": [
@@ -13068,6 +13314,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "(200,5)·(5,) 은 (200,) (A 참). (5,1) 을 쓰면 (200,1) (B 참). * 는 원소별 곱이라 (5,) 가 행 방향으로 브로드캐스팅되어 (200,5) (C 참). theta @ X 는 (5,) @ (200,5) 로 안쪽 차원 5 와 200 이 맞지 않아 오류 (D 거짓). X.T @ X 는 (5,200)@(200,5) = (5,5) (E 참). ⚠️ 함정: D — \"theta @ X\" → \"X @ theta\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L3 s27-31 / L4 s7: y_pred = np.dot(X, theta)",
+   "prio_note_en": "Slide (no ✗) — L3 s27-31 / L4 s7: y_pred = np.dot(X, theta)",
    "topic_ko": "강의 코드: y_pred = np.dot(X, theta)",
    "prompt_ko": "X 의 shape 은 (200, 5), theta 의 shape 은 (5,) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13108,6 +13357,9 @@ function applyStaticI18n() {
     "C"
    ],
    "explanation": "pinv(X) 는 의사역행렬로 (5,200) (A 참, E 거짓). (5,200)@(200,) = (5,) (B 참). 한 단계로 최소제곱 해를 준다 (C 참). 정규방정식/의사역행렬에는 학습률이 필요 없다 (D 거짓). ⚠️ 함정: D — \"학습률이 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"(200, 5)\" → \"(5, 200)\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L4 s21: theta = np.matmul(np.linalg.pinv(X), y)",
+   "prio_note_en": "Slide (no ✗) — L4 s21: theta = np.matmul(np.linalg.pinv(X), y)",
    "topic_ko": "강의 코드: theta = np.matmul(np.linalg.pinv(X), y) (정규방정식)",
    "prompt_ko": "X 의 shape 은 (200, 5), y 의 shape 은 (200,) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13149,6 +13401,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "np.exp 는 원소별이므로 shape 이 유지된다 (A 참). eps = 0 이면 1/(1+1) = 0.5 (B 참). 분모가 항상 1보다 크므로 0 \u003c 출력 \u003c 1 (C 참). 분모에 eps 를 더하면 값이 조금 작아진다 (D 참). 스칼라가 아니라 배열이 나온다 (E 거짓). ⚠️ 함정: E — \"스칼라\" → \"배열\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L5 s17-20 NumPy vs PyTorch (np.exp). L4 s29 는 ✗ 이지만 L5 에도 있음",
+   "prio_note_en": "Slide (no ✗) — L5 s17-20 NumPy vs PyTorch (np.exp); the L4 s29 version is ✗ but it also appears in L5",
    "topic_ko": "강의 코드: 1 / (1 + np.exp(-z) + eps) 시그모이드",
    "prompt_ko": "시그모이드 구현 1 / (1 + np.exp(-z) + eps) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13190,6 +13445,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "−ln0.9 = 0.105, −ln0.8 = 0.223 이므로 평균은 약 0.164 (A 참). np.mean 은 스칼라를 돌려준다 (B 참). (2,) 와 (2,1) 이 브로드캐스팅되어 (2,2) 가 된다 (C 참). 그 경우 평균은 약 1.06 으로 완전히 달라진다 (D 거짓). eps 는 log(0) = −inf 를 막는다 (E 참). ⚠️ 함정: D — \"0.16\" → \"약 1.06\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L5 s17-20 (np.mean/np.log). L4 s29 는 ✗ 이지만 L5 에도 있음",
+   "prio_note_en": "Slide (no ✗) — L5 s17-20 (np.mean/np.log); the L4 s29 version is ✗ but it also appears in L5",
    "topic_ko": "강의 코드: 이진 교차엔트로피 손실과 브로드캐스팅 함정",
    "prompt_ko": "h = np.array([0.9, 0.2]), y = np.array([1, 0]) 일 때 손실 np.mean(-y*np.log(h+eps) - (1-y)*np.log(1-h+eps)) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13231,6 +13489,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "X.T @ (h−y) 는 (3,6)@(6,) = (3,) (A 참). -= 는 제자리 연산 (B 참). (6,1) 이면 gradient 가 (3,1) 이고, (3,) 에 (3,1) 을 제자리로 넣으려 하면 모양이 맞지 않아 ValueError (C 참). (6,1) 과 (6,) 은 브로드캐스팅되어 (6,6) 이 되는 조용한 버그 (D 참). y.size 는 예제 수 m 이다 (E 거짓). ⚠️ 함정: E — \"특징의 개수\" → \"예제 수 m\"이면 참.",
+   "prio": 3,
+   "prio_note": "✗ 시험 제외 슬라이드(L4 s29)에만 있음 — gradient = np.dot(X.T, (h-y))/y.size, theta -= lr*gradient",
+   "prio_note_en": "Only on the ✗ slide (L4 s29) — gradient and theta -= lr * gradient",
    "topic_ko": "강의 코드: gradient = np.dot(X.T, (h - y)) / y.size; theta -= lr * gradient",
    "prompt_ko": "X 의 shape 은 (6, 3), theta 의 shape 은 (3,) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13272,6 +13533,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "theta 가 0 이므로 X@theta = [0,0], 시그모이드(0) = 0.5 → [0.5, 0.5] (A 참). 손실 = −(ln0.5 + ln0.5)/2 = ln2 ≈ 0.693 (B 참). h−y = [−0.5, 0.5], Xᵀ(h−y) = [0, −1], ÷2 = [0, −0.5] (C 참). theta = 0 − 0.1·[0,−0.5] = [0, 0.05] (D 참). gradient 는 [0, −0.5] 이며 [0, 0.5] 가 아니다 (E 거짓). ⚠️ 함정: E — \"[0, 0.5]\" → \"[0, -0.5]\"이면 참.",
+   "prio": 3,
+   "prio_note": "✗ 시험 제외 슬라이드(L4 s29)에만 있음 — 로지스틱 한 스텝 (gradient 갱신)",
+   "prio_note_en": "Only on the ✗ slide (L4 s29) — one logistic step (gradient update)",
    "topic_ko": "로지스틱 회귀 한 스텝 계산",
    "prompt_ko": "X = np.array([[1, 2], [1, 0]]), y = np.array([1, 0]), theta = np.zeros(2), lr = 0.1, h = 1 / (1 + np.exp(-X @ theta)) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13315,6 +13579,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "원소 24개 (A 참). 차원 2 (B 참). shape (2,12) (C 참). float32 는 원소당 4바이트 (D 참). 24 × 4 = 96 바이트 (E 참). dtype 은 float32 이며 float64 가 아니다 (F 거짓). ⚠️ 함정: F — \"float64\" → \"float32\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L6 s77-83 텐서 속성 (dtype/itemsize 등)",
+   "prio_note_en": "Slide (no ✗) — L6 s77-83 tensor attributes (dtype/itemsize …)",
    "topic_ko": "텐서/배열 속성 (dtype·itemsize·nbytes)",
    "prompt_ko": "a = np.zeros((2, 12), dtype=np.float32) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13358,6 +13625,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "열별 평균은 [2, 400] (A 참). (x−평균)/표준편차(numpy 는 모표준편차) 이므로 각 열은 평균 0, 표준편차 1 (B 참). 두 번째 열이 첫 열의 200배라 표준화 후에는 두 열이 완전히 같아진다 (C 참). axis=1 은 행(예제) 방향으로 계산한다 (D 참). 실제 표준편차는 [0.816, 163.3] 이며 [1, 200] 이 아니다 (E 거짓). ⚠️ 함정: E — \"[1., 200.]\" → \"[0.816, 163.3]\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — .std 표준화",
+   "prio_note_en": "Not in the sources — standardization with .std",
    "topic_ko": "NumPy 로 표준화 (특징 스케일링)",
    "prompt_ko": "X = np.array([[1., 200.], [2., 400.], [3., 600.]]) 이고 Xs = (X - X.mean(axis=0)) / X.std(axis=0) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13400,6 +13670,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "(3−1)/99 = 0.0202 (A 참). 처음 세 값은 0, 0.0101, 0.0202 로 모두 0.03 미만 (B 참). (100−26.5)/42.44 = 1.73 (C 참). 모표준편차는 42.44 (D 참). 표준화 값은 범위 제한이 없다 (E 거짓). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 민감하다 (F 거짓). ⚠️ 함정: E — \"[0, 1] 범위\" → \"범위 제한 없음\"이면 참. ⚠️ 함정: F — \"min-max가 더 강건\" → \"표준화가 더 강건\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — .std/.min/.max 수치",
+   "prio_note_en": "Not in the sources — .std/.min/.max numbers",
    "topic_ko": "이상치와 스케일링 수치",
    "prompt_ko": "x = np.array([1., 2., 3., 100.]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13443,6 +13716,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "배열은 [[0,1],[2,3]] 이다. (m>0)&(m%2==0) → [[F,F],[T,F]] (A 참). 괄호 없이 쓰면 연산자 우선순위 때문에 비교가 연결되어 배열의 진리값을 묻게 되고 ValueError 가 난다 (B 참). and/or 는 배열에서도 ValueError 를 낸다 (C 거짓). (m>0)|(m==0) 은 모든 원소가 True (D 참). ~(m>0) 은 m==0 과 정확히 같다 (E 참). ⚠️ 함정: C — \"and가 원소별로 동작\" → \"ValueError\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 마스크 연산자 & | ~",
+   "prio_note_en": "DOCX list — mask operators & | ~",
    "topic_ko": "불리언 마스크 연산자 (& · | · ~)",
    "prompt_ko": "m = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13486,6 +13762,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "맞은 개수는 2개라 비율 0.5 (A 참), 합 2 (B 참), 틀린 개수 2 (C 참). argmax(axis=1) 은 행마다 최댓값 위치라 [1, 0] (D 참). 임계값 비교 후 astype(int) 는 [1, 0, 1] (E 참). 정확도는 0.5 이며 0.25 가 아니다 (F 거짓). ⚠️ 함정: F — \"0.25\" → \"0.5\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — argmax/astype 정확도",
+   "prio_note_en": "Not in the sources — accuracy via argmax/astype",
    "topic_ko": "NumPy 로 정확도와 예측 계산",
    "prompt_ko": "yp = np.array([1, 0, 2, 2]), yt = np.array([1, 1, 2, 0]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13529,6 +13808,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "3개 인덱스로 3×3 단위행렬의 행을 뽑으므로 (3,3) (A 참). 두 번째 행은 인덱스 2 의 행 [0,0,1] (B 참). argmax 로 되돌리면 [0,2,1] (C 참). 열별 합은 [1,1,1] (D 참). fancy 인덱싱은 복사본을 만든다 (E 거짓). ⚠️ 함정: E — \"뷰\" → \"복사본\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — np.eye 원-핫",
+   "prio_note_en": "Not in the sources — one-hot with np.eye",
    "topic_ko": "원-핫 레이블 만들기 (np.eye + fancy 인덱싱)",
    "prompt_ko": "np.eye(3)[np.array([0, 2, 1])] 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13570,6 +13852,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "−(ln0.8 + ln0.5)/2 = (0.223 + 0.693)/2 = 0.458 (A 참). 원소별 곱이므로 (2,2) (B 참). @ 는 행렬곱이라 완전히 다른 값이 나온다 (C 거짓). 행별로 합치면 (2,) (D 참). 원-핫이므로 1인 위치(=정답 클래스)의 로그확률만 더해진다 (E 참). ⚠️ 함정: C — \"Y @ log(P)\" → \"Y * log(P)\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L5 s17-20 (np.log/np.mean)",
+   "prio_note_en": "Slide (no ✗) — L5 s17-20 (np.log/np.mean)",
    "topic_ko": "NumPy 로 교차엔트로피 계산",
    "prompt_ko": "Y = np.array([[0, 1], [1, 0]]) (원-핫), P = np.array([[.2, .8], [.5, .5]]) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13613,6 +13898,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "첫 행은 exp(1) 이 모두 같아 [1/3,1/3,1/3] (A 참). 둘째 행은 [1,1,2]/4 = [0.25,0.25,0.5] (B 참). (2,3) 을 (2,) 로 나누려 하면 브로드캐스팅이 안 되어 ValueError (C 참). 소프트맥스는 상수 이동에 불변이라 최댓값을 빼도 같다 (D 참). keepdims=True 로 (2,1) (E 참). 행의 합이 1 이며 열의 합은 1 이 아니다 (F 거짓). ⚠️ 함정: F — \"열의 합\" → \"행의 합\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L5 s17-20 (np.exp). keepdims 는 출처 없음",
+   "prio_note_en": "Slide (no ✗) — L5 s17-20 (np.exp); keepdims is not in the sources",
    "topic_ko": "NumPy 로 소프트맥스 계산",
    "prompt_ko": "Z = np.array([[1., 1., 1.], [0., 0., np.log(2)]]), e = np.exp(Z), P = e / e.sum(axis=1, keepdims=True) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13658,6 +13946,9 @@ function applyStaticI18n() {
     "F"
    ],
    "explanation": "(4,3)@(3,2) = (4,2) 이고 b (2,) 가 브로드캐스팅된다 (A 참). W.T 는 (2,3) 이라 (4,3)@(2,3) 은 안쪽 차원이 맞지 않아 오류 (B 참). np.maximum 은 원소별 ReLU 로 shape 유지 (C 참). b[:, None] 은 (2,1) 이고 (4,2)+(2,1) 은 마지막에서 두 번째 차원 4 대 2 가 맞지 않아 오류 (D 거짓). (2,3)@(3,4) = (2,4) (E 참). 파라미터는 3·2 + 2 = 8 (F 참). ⚠️ 함정: D — \"b[:, None]\" → \"b\"이면 참.",
+   "prio": 2,
+   "prio_note": "강의 슬라이드 (✗ 표시 없음) — L5 s16-20 행렬곱/완전연결층 (np.maximum 는 출처 없음)",
+   "prio_note_en": "Slide (no ✗) — L5 s16-20 matrix product / fully connected layer (np.maximum is not in the sources)",
    "topic_ko": "NumPy 로 MLP 한 층 계산",
    "prompt_ko": "X 의 shape 은 (4, 3), W 의 shape 은 (3, 2), b 의 shape 은 (2,) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13703,6 +13994,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "12/3 = 4 (A 참). 12/6 = 2 (B 참). 12 는 5 로 나누어떨어지지 않아 오류 (C 참). -1 만 쓰면 1차원 (12,) (D 참). 12/(2·2) = 3 (E 참). -1 은 한 번만 쓸 수 있다 (F 거짓). ⚠️ 함정: F — \"-1을 두 번\" → \"한 번만\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — reshape(-1)",
+   "prio_note_en": "DOCX list — reshape(-1)",
    "topic_ko": "reshape 의 -1 사용",
    "prompt_ko": "r = np.arange(12) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13748,6 +14042,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "열 방향으로 붙이면 (7,4) (A 참). hstack 도 같은 결과 (B 참). 1차원 np.ones(7) 과 2차원 Xd 를 axis=1 로 붙이려 하면 오류 (C 참). (7,1)+(7,3) 은 브로드캐스팅되어 (7,3) (D 참). 1 열은 x₀ = 1 이며 θ₀ 와 곱해진다 (E 참). axis=0 은 행 방향인데 나머지 차원 1 과 3 이 맞지 않아 오류 (F 거짓). ⚠️ 함정: F — \"axis=0\" → \"axis=1\"이면 참.",
+   "prio": 3,
+   "prio_note": "출처 없음 — np.ones/concatenate/hstack 더미 열",
+   "prio_note_en": "Not in the sources — dummy column with np.ones/concatenate/hstack",
    "topic_ko": "더미 열 x₀ = 1 붙이기 (concatenate / hstack)",
    "prompt_ko": "Xd 의 shape 이 (7, 3) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13791,6 +14088,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "/ 는 실수 나눗셈이라 [0.5,1.,1.5] (A 참). 2.5 가 섞이면 dtype 이 float (B 참). 비교 결과는 bool (C 참). True 는 1, False 는 0 이라 합은 2 (D 참). // 는 정수 나눗셈이라 [0, 1, 1] (E 거짓). ⚠️ 함정: E — \"//\" → \"/\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — .dtype (나눗셈 /, // 는 출처 없음)",
+   "prio_note_en": "DOCX list — .dtype (the / and // operators are not in the sources)",
    "topic_ko": "dtype 과 나눗셈 (/, //)",
    "prompt_ko": "NumPy 의 dtype 과 나눗셈 연산자 (/, //) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13832,6 +14132,9 @@ function applyStaticI18n() {
     "E"
    ],
    "explanation": "-= 는 같은 객체를 고치므로 별칭 t2 도 바뀐다 (A 참). th = th - 1 은 새 배열을 만들어 이름만 바꾼다 (B 참). 그래서 둘은 별칭이 있을 때 다르게 동작한다 (C 거짓). self.theta -= … 는 제자리 갱신 (D 참). copy() 로 만든 배열은 영향을 받지 않는다 (E 참). ⚠️ 함정: C — \"항상 같다\" → \"별칭이 있으면 다르다\"이면 참.",
+   "prio": 3,
+   "prio_note": "✗ 시험 제외 슬라이드(L4 s29)에만 있음 — theta -= lr * gradient 제자리 갱신",
+   "prio_note_en": "Only on the ✗ slide (L4 s29) — in-place theta -= lr * gradient",
    "topic_ko": "제자리 연산과 별칭 (theta -= lr * gradient)",
    "prompt_ko": "NumPy 의 제자리(in-place) 연산과 별칭(alias) 에 관한 설명 중 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13873,6 +14176,9 @@ function applyStaticI18n() {
     "D"
    ],
    "explanation": "마스크를 인덱스로 쓰는 대입(q[mask] = 값)은 원본을 바꾼다 (A 참). 마스크로 읽으면 복사본이라 그것을 고쳐도 원본은 그대로 (B 참). 기본 슬라이스 q[::2] 는 뷰라 원본이 바뀐다 (C 참). copy() 는 독립적 (D 참). fancy 인덱싱 q[[0,1]] 은 복사본이다 (E 거짓). ⚠️ 함정: E — \"뷰\" → \"복사본\"이면 참.",
+   "prio": 1,
+   "prio_note": "교수님 DOCX NumPy 목록 — 뷰/복사 (마스크 대입·슬라이스·copy)",
+   "prio_note_en": "DOCX list — view/copy (masked assignment, slice, copy)",
    "topic_ko": "뷰와 복사본 (마스크 대입·슬라이스·fancy)",
    "prompt_ko": "q = np.arange(6) 일 때 옳은 것을 모두 고르시오.",
    "options_ko": [
@@ -13902,7 +14208,7 @@ function applyStaticI18n() {
   "exam_minutes": 45,
   "exam_pass": 7.0,
   "numpy_per_mock": 6,
-  "count": 24,
+  "count": 26,
   "primary": 10
  },
  "mocks": [
@@ -14534,6 +14840,109 @@ function applyStaticI18n() {
    ],
    "minutes": 52,
    "pass": 12
+  },
+  {
+   "id": "mock25",
+   "label": "⭐ NumPy 핵심 (DOCX 목록) (65문항)",
+   "label_en": "⭐ NumPy essentials (DOCX list) — 65 questions",
+   "final": true,
+   "full": true,
+   "prio": 1,
+   "questions": [
+    "D-38",
+    "D-39",
+    "D-40",
+    "D-41",
+    "D-42",
+    "D-43",
+    "D-44",
+    "D-45",
+    "D-46",
+    "D-47",
+    "D-48",
+    "D-49",
+    "M-10",
+    "M-11",
+    "M-12",
+    "M-13",
+    "M-14",
+    "M-15",
+    "N-01",
+    "N-02",
+    "N-03",
+    "N-04",
+    "N-05",
+    "N-06",
+    "N-07",
+    "N-08",
+    "N-09",
+    "N-11",
+    "N-12",
+    "N-13",
+    "N-14",
+    "N-15",
+    "N-16",
+    "N-17",
+    "N-18",
+    "N-19",
+    "N-20",
+    "N-21",
+    "N-25",
+    "N-26",
+    "N-27",
+    "N-29",
+    "N-34",
+    "NP-01",
+    "NP-02",
+    "NP-04",
+    "NP-05",
+    "NP-07",
+    "NP-08",
+    "NP-20",
+    "NP-26",
+    "NP-28",
+    "NP-30",
+    "S1-26",
+    "S1-27",
+    "S1-28",
+    "S1-29",
+    "S2-31",
+    "S2-32",
+    "S2-33",
+    "S2-34",
+    "S2-36",
+    "S2-37",
+    "S2-38",
+    "S2-40"
+   ],
+   "minutes": 130,
+   "pass": 30
+  },
+  {
+   "id": "mock26",
+   "label": "📘 NumPy 강의 슬라이드 (14문항)",
+   "label_en": "📘 NumPy from the lecture slides — 14 questions",
+   "final": true,
+   "full": true,
+   "prio": 2,
+   "questions": [
+    "M2-10",
+    "M2-11",
+    "N-23",
+    "N-30",
+    "N-32",
+    "NP-11",
+    "NP-12",
+    "NP-13",
+    "NP-14",
+    "NP-17",
+    "NP-23",
+    "NP-24",
+    "NP-25",
+    "S2-39"
+   ],
+   "minutes": 28,
+   "pass": 7
   }
  ]
 };</script>
@@ -14558,7 +14967,7 @@ var CURRICULUM = [
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
           { id: "random", label: { ko: "🎲 랜덤 문항 (1~100)", en: "🎲 Random draw (1-100)" } },
-          { id: "mocks", label: { ko: "모의고사 24세트", en: "Mock exams (24 sets)" } },
+          { id: "mocks", label: { ko: "모의고사 26세트", en: "Mock exams (26 sets)" } },
           { id: "bank", label: { ko: "문제은행 317문항", en: "Question bank (317)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
@@ -15043,6 +15452,13 @@ function scoreClass(score) {
   function statCard(key, value) {
     return "<div>" + t(key) + "<b>" + value + "</b></div>";
   }
+  /* 시험 중요도 배지 (NumPy 문항 전용) — 마우스를 올리면 근거가 보인다 */
+  function prioBadge(q) {
+    if (!q || !q.prio) return "";
+    const note = qf(q, "prio_note") || "";
+    return '<span class="prio' + q.prio + '" title="' + esc(t("prio.tip") + ": " + note) + '">' +
+      t("prio." + q.prio) + "</span>";
+  }
   function panel(titleHtml, bodyHtml, extra) {
     return '<div class="panel"' + (extra || "") + "><div class=\"panelHead\">" + titleHtml + "</div>" + bodyHtml + "</div>";
   }
@@ -15288,7 +15704,7 @@ function scoreClass(score) {
         esc((q.id + " " + qf(q, "topic") + " " + qf(q, "prompt")).toLowerCase()) + '">' +
         "<td>" + (i + 1) + "</td><td class='mono'>" + esc(q.id) + "</td>" +
         "<td><span class='tag " + (q.part === "B" ? "num" : "lec") + "'>" + esc(q.lecture) + "</span></td>" +
-        "<td>" + esc(qf(q, "topic")) + "</td>" +
+        "<td>" + esc(qf(q, "topic")) + prioBadge(q) + "</td>" +
         "<td class='mono'>" + q.correct.join(", ") + "</td>" +
         '<td><button class="btn sm" data-one="' + q.id + '">' + t("bank.practice") + "</button></td></tr>";
     }).join("");
@@ -15593,7 +16009,7 @@ function scoreClass(score) {
       '<span class="tag">' + esc(q.id) + "</span>" +
       '<span class="grow"></span>' +
       '<button class="linkish" id="flagBtn">' + t("quiz.mark") + "</button></div>" +
-      '<div class="qTopic">' + t("quiz.topic") + " " + esc(qf(q, "topic")) + "</div>" +
+      '<div class="qTopic">' + t("quiz.topic") + " " + esc(qf(q, "topic")) + prioBadge(q) + "</div>" +
       '<div class="qText">' + esc(qf(q, "prompt")) + "</div>" +
       '<div class="opts">' + opts + "</div>" +
       (revealed ? '<div class="opts"><div class="expl"><b>' + t("quiz.answer") + q.correct.join(", ") + "</b>\n" + esc(qf(q, "explanation")) +
