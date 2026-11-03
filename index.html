@@ -659,6 +659,7 @@ var I18N = {
   "mode.wrong": { ko: "오답 복습", en: "Wrong-answer review" },
   "mode.range": { ko: "범위 연습", en: "Range practice" },
   "mode.one":   { ko: "문항 연습", en: "Single question" },
+  "mode.random10": { ko: "랜덤 10문항", en: "Random 10" },
   "mode.untimed": { ko: "무제한", en: "no time limit" },
   "mode.free":    { ko: "무제한", en: "untimed" }
 };
@@ -719,6 +720,23 @@ var I18N2 = {
   "rec.average":   { ko: "평균 점수", en: "Average score" },
   "rec.mockCount": { ko: "응시한 세트", en: "Sets taken" },
   "rec.summary":   { ko: "세트별 최고 점수", en: "Best score per set" },
+
+  /* ---------- 랜덤 10문항 (사이드바 섹션) ---------- */
+  "home.mode.rand":     { ko: "🎲 랜덤 10문항", en: "🎲 Random 10" },
+  "home.mode.rand.sub": { ko: "매번 새로 뽑는 %s문항", en: "%s fresh random questions" },
+  "rand.title":         { ko: "🎲 랜덤 10문항 — 매번 새로 뽑기", en: "🎲 Random 10 — a fresh draw every time" },
+  "rand.sub":           { ko: "문제은행에서 무작위로 10문항을 뽑아 바로 풉니다. 뽑는 순서도 매번 달라서 하루 10문항씩 돌리기 좋습니다.",
+                          en: "Draws 10 questions at random from the bank and starts right away. The draw is different every time, so it works well as a daily 10-question drill." },
+  "rand.scope":         { ko: "출제 범위", en: "Question pool" },
+  "rand.scope.all":     { ko: "전체 (%s문항)", en: "All (%s questions)" },
+  "rand.scope.theory":  { ko: "이론만 (%s문항)", en: "Theory only (%s)" },
+  "rand.scope.numpy":   { ko: "NumPy만 (%s문항)", en: "NumPy only (%s)" },
+  "rand.start":         { ko: "랜덤 10문항 시작", en: "Start random 10" },
+  "rand.again":         { ko: "다시 뽑기", en: "Draw again" },
+  "rand.recent":        { ko: "최근 랜덤 10문항", en: "Recent random-10 attempts" },
+  "rand.none":          { ko: "아직 랜덤 10문항 기록이 없습니다.", en: "No random-10 attempts yet." },
+  "rand.hint":          { ko: "10문항 · 기본은 <b>시간 제한 없음</b>(체크하면 30분) · 보기 순서는 섞입니다. 통과 기준은 연습 모드와 같은 60%(10문항 → 6점)입니다.",
+                          en: "10 questions · <b>untimed</b> by default (check the box for 30 min) · options are shuffled. The pass line is 60%, as in practice mode (6 out of 10)." },
 
   /* ---------- 응시 화면 ---------- */
   "quiz.sections":          { ko: "섹션", en: "Sections" },
@@ -13381,6 +13399,7 @@ var CURRICULUM = [
         open: true,
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
+          { id: "random", label: { ko: "🎲 랜덤 10문항", en: "🎲 Random 10" } },
           { id: "mocks", label: { ko: "모의고사 23세트", en: "Mock exams (23 sets)" } },
           { id: "bank", label: { ko: "문제은행 291문항", en: "Question bank (291)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
@@ -13547,10 +13566,11 @@ function scoreClass(score) {
     try {
       const s = JSON.parse(localStorage.getItem(LS_KEY));
       if (s && typeof s === "object") {
-        return { history: s.history || [], wrong: s.wrong || {}, best: s.best || 0, mockBest: s.mockBest || {} };
+        return { history: s.history || [], wrong: s.wrong || {}, best: s.best || 0,
+                 mockBest: s.mockBest || {}, rand10Best: s.rand10Best || 0 };
       }
     } catch (e) { /* ignore */ }
-    return { history: [], wrong: {}, best: 0, mockBest: {} };
+    return { history: [], wrong: {}, best: 0, mockBest: {}, rand10Best: 0 };
   }
   function saveStore() {
     try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch (e) { /* ignore */ }
@@ -13713,6 +13733,7 @@ function scoreClass(score) {
     try { if (window.scrollTo) window.scrollTo(0, 0); } catch (e) { /* ignore */ }
   }
   function renderView() {
+    if (VIEW === "random") return renderRandom();
     if (VIEW === "mocks") return renderMocks();
     if (VIEW === "bank") return renderBank();
     if (VIEW === "wrong") return renderWrong();
@@ -13859,6 +13880,9 @@ function scoreClass(score) {
       '<div class="rowGrid"><span class="name">' + t("home.mode.exam") + "</span>" +
       '<span class="muted">' + tf("home.mode.exam.sub", META.exam_questions, META.exam_minutes) + "</span>" +
       '<span class="grow"></span><button class="btn sm primary" id="mExam">' + t("home.start") + "</button></div>" +
+      '<div class="rowGrid"><span class="name">' + t("home.mode.rand") + "</span>" +
+      '<span class="muted">' + tf("home.mode.rand.sub", 10) + "</span>" +
+      '<span class="grow"></span><button class="btn sm" id="mRand">' + t("home.start") + "</button></div>" +
       '<div class="rowGrid"><span class="name">' + t("home.mode.all") + "</span>" +
       '<span class="muted">' + tf("home.mode.all.sub", ALL.length) + "</span>" +
       '<span class="grow"></span><button class="btn sm" id="mAll">' + t("home.start") + "</button></div>" +
@@ -13903,11 +13927,90 @@ function scoreClass(score) {
       "</div></div>";
 
     el("mExam").onclick = function () { startMode("exam"); };
+    el("mRand").onclick = function () { startRandom10(); };
     el("mAll").onclick = function () { startMode("all"); };
     if (el("mWrong") && wrongN) el("mWrong").onclick = function () { startMode("wrong"); };
     el("seeAll").onclick = function () { go("records"); };
     el("mocksAll").onclick = function () { go("mocks"); };
     wireMockButtons();
+  }
+
+  /* ---------- 뷰: 🎲 랜덤 10문항 ---------- */
+  const RAND_N = 10;
+  function randPool(scope) {
+    if (scope === "theory") return ALL.filter(function (q) { return q.part !== "B"; });
+    if (scope === "numpy") return ALL.filter(function (q) { return q.part === "B"; });
+    return ALL.slice();
+  }
+  function randScope() {
+    const e = el("randScope");
+    if (e && e.value) return e.value;
+    /* 결과 화면의 '다시 뽑기' 등: 직전 랜덤 세션의 범위를 그대로 쓴다 */
+    if (S && S.cfg && S.cfg.mode === "random10" && S.cfg.scope) return S.cfg.scope;
+    return "all";
+  }
+  function startRandom10() {
+    const scope = randScope();
+    const pool = randPool(scope);
+    const n = Math.min(RAND_N, pool.length);
+    if (n === 0) { alert(t("alert.noMock")); return; }
+    const picked = shuffle(pool).slice(0, n);
+    /* 화면에 시간 제한 체크박스가 없으면(결과 화면의 '다시 뽑기') 직전 설정을 유지 */
+    const timed = el("optTimed") ? timedChoice() : !!(S && S.cfg && S.cfg.timed);
+    newSession(picked, {
+      mode: "random10", scope: scope,
+      label: modeLabel("mode.random10", timed) + " · " + tf("rand.scope." + scope, pool.length),
+      minutes: timed ? 30 : 0, timed: timed,
+      shuffleQuestions: true,
+      shuffleOptions: el("optShufO") ? el("optShufO").checked : true
+    });
+    renderQuiz();
+  }
+  function renderRandom() {
+    const theoryN = ALL.filter(function (q) { return q.part !== "B"; }).length;
+    const numpyN = ALL.filter(function (q) { return q.part === "B"; }).length;
+    const best = store.rand10Best || 0;
+    const hist = store.history.filter(function (h) { return h.mk === "random10"; })
+      .slice(-6).reverse();
+    const rows = hist.length
+      ? hist.map(function (h) {
+          const passed = h.total >= h.pass;
+          return "<tr><td>" + esc(h.date) + "</td><td>" + h.total + " / " + h.max + '</td><td class="' +
+            (passed ? "pass" : "fail") + '">' + (passed ? "PASS" : "FAIL") + "</td></tr>";
+        }).join("")
+      : '<tr><td colspan="3" class="muted">' + t("rand.none") + "</td></tr>";
+
+    app.innerHTML =
+      panel(t("rand.title"),
+        '<div class="panelBody">' +
+        '<div class="muted">' + t("rand.sub") + "</div>" +
+        '<div class="row" style="margin-top:14px">' +
+        '<span class="name">' + t("rand.scope") + "</span>" +
+        '<select id="randScope" class="search">' +
+        '<option value="all">' + tf("rand.scope.all", ALL.length) + "</option>" +
+        '<option value="theory">' + tf("rand.scope.theory", theoryN) + "</option>" +
+        '<option value="numpy">' + tf("rand.scope.numpy", numpyN) + "</option>" +
+        "</select>" +
+        '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
+        '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
+        '<span class="grow"></span>' +
+        '<button class="btn primary" id="randStart">' + t("rand.start") + "</button>" +
+        "</div>" +
+        '<div class="muted" style="margin-top:8px">' + t("rand.hint") + "</div></div>",
+        ' style="margin-bottom:16px"') +
+      panel(t("rand.recent") + '<span class="grow"></span><span class="muted">' +
+        t("home.best") + " " + (best ? best + " / " + RAND_N : t("home.mock.none")) + "</span>",
+        '<table class="grid"><tr><th>' + t("home.th.date") + "</th><th>" + t("home.th.score") +
+        "</th><th>" + t("home.th.result") + "</th></tr>" + rows + "</table>",
+        ' style="margin-bottom:16px"') +
+      '<div class="note"><button class="linkish" id="goMocks">' + t("mocks.titleShort") + " →</button> " +
+      '<button class="linkish" id="goBank">' + t("bank.title") + " →</button> " +
+      '<button class="linkish" id="goWrong">' + t("wrong.title") + " →</button></div>";
+
+    el("randStart").onclick = function () { startRandom10(); };
+    el("goMocks").onclick = function () { go("mocks"); };
+    el("goBank").onclick = function () { go("bank"); };
+    el("goWrong").onclick = function () { go("wrong"); };
   }
 
   /* ---------- 뷰 2: 모의고사 ---------- */
@@ -14375,11 +14478,14 @@ function scoreClass(score) {
     });
     const rec = {
       date: new Date().toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }),
-      mode: S.cfg.label, total: g.total, max: g.max, pass: S.pass
+      mode: S.cfg.label, mk: S.cfg.mode, total: g.total, max: g.max, pass: S.pass
     };
     store.history.push(rec);
     if (store.history.length > 50) store.history = store.history.slice(-50);
     if (g.total > store.best) store.best = g.total;
+    if (S.cfg.mode === "random10") {
+      if (g.total > (store.rand10Best || 0)) store.rand10Best = g.total;
+    }
     if (S.cfg.mode === "mock" && S.cfg.mockId) {
       const prev = store.mockBest[S.cfg.mockId];
       if (prev === undefined || g.total > prev) store.mockBest[S.cfg.mockId] = g.total;
@@ -14432,6 +14538,7 @@ function scoreClass(score) {
       '<div class="panelBody" style="border-top:1px solid #eceef1"><div class="row">' +
       '<button class="btn primary" id="again">' + t("res.again") + "</button>" +
       '<button class="btn" id="retryWrong"' + (wrongN ? "" : " disabled") + ">" + tf("res.retryWrong", wrongN) + "</button>" +
+      (S.cfg.mode === "random10" ? '<button class="btn" id="randAgain">' + t("rand.again") + "</button>" : "") +
       '<button class="btn" id="newExam">' + t("res.newExam") + "</button>" +
       '<button class="btn" id="homeBtn">' + t("res.home") + "</button>" +
       '<button class="btn" id="copyBtn">' + t("res.copy") + "</button>" +
@@ -14452,6 +14559,7 @@ function scoreClass(score) {
       renderQuiz();
     };
     el("newExam").onclick = function () { startMode("exam"); };
+    if (el("randAgain")) el("randAgain").onclick = function () { startRandom10(); };
     el("homeBtn").onclick = function () { renderHome(); };
     el("printBtn").onclick = function () { window.print(); };
     el("copyBtn").onclick = function () {
@@ -14555,6 +14663,7 @@ function scoreClass(score) {
     renderSidebar: renderSidebar,
     renderHome: renderHome, renderQuiz: renderQuiz, renderResult: renderResult,
     startMode: startMode, startMock: startMock, startOne: startOne, startRange: startRange,
+    startRandom10: startRandom10,
     submit: submit, askSubmit: askSubmit, toggleOption: toggleOption
   };
 })();
