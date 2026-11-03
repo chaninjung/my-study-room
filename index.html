@@ -692,8 +692,8 @@ var I18N2 = {
                      en: "Sets 1-%s follow the real exam format (15 questions, 45 min, pass 7); later extra/practice sets cover the whole bank." },
   "mocks.title":   { ko: "모의고사 — 실제 시험 형식", en: "Mock exams — real exam format" },
   "mocks.final":   { ko: "🎯 최종 모의고사 (시험 전 마지막 점검)", en: "🎯 Final mock exam (last check before the test)" },
-  "mocks.finalNote": { ko: "실제 시험과 같은 구성입니다 — 이론 9문항 + NumPy 6문항, 45분, 통과 7점. 노트·코드·계산기 없이 풀고, 끝나기 전에는 해설을 보지 마세요.",
-                       en: "Same layout as the real test — 9 theory + 6 NumPy questions, 45 min, pass 7. No notes, no code, no calculator; do not peek at the explanations before you finish." },
+  "mocks.finalNote": { ko: "실제 시험과 같은 구성(이론 9문항 + NumPy 6문항, 45분, 통과 7점)의 최종 세트와, 교수님 DOCX 예시 49문항을 순서대로 담은 전체 세트입니다. 노트·코드·계산기 없이 풀고, 끝나기 전에는 해설을 보지 마세요.",
+                       en: "Final sets in the real exam layout (9 theory + 6 NumPy questions, 45 min, pass 7) plus one full set holding all 49 professor's DOCX examples in their original order. No notes, no code, no calculator; do not peek at the explanations before you finish." },
   "mocks.titleShort": { ko: "실제 시험 형식", en: "Exam format" },
   "mocks.real":    { ko: "실전 세트 (1~%s)", en: "Exam-format sets (1-%s)" },
   "mocks.extra":   { ko: "추가 · 연습 세트 (%s~%s)", en: "Extra & practice sets (%s-%s)" },
@@ -10792,6 +10792,1968 @@ function applyStaticI18n() {
     "`(X @ theta).shape == (3,)`"
    ],
    "explanation_en": "X@θ−y = [−1,−3,−5], so Xᵀ(…) = [−9,−13] and /3 = [−3, −4.33] (A true). θ_new = [0,0] − 0.1·[−3,−4.33] = [0.3, 0.433] (B true). The initial loss is (1+9+25)/(2·3) = 35/6 ≈ 5.83 (C true). grad has shape (2,) (D true). Adding the gradient increases the loss (E false). (3,2)@(2,) gives (3,) (F true). ⚠️ Trap: E — \"adding decreases the loss\" → \"subtracting decreases the loss\" would make it TRUE."
+  },
+  {
+   "id": "D-01",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "가설함수의 입력과 출력",
+   "prompt": "가설함수(hypothesis function)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "입력은 예시의 입력 변수 x 이며 파라미터 θ 를 사용한다.",
+    "입력은 참 레이블 y 다.",
+    "출력(값)은 레이블의 추정값 ŷ 다.",
+    "출력은 손실함수의 값이다."
+   ],
+   "correct": [
+    "A",
+    "C"
+   ],
+   "explanation": "가설함수 h 는 입력 x(와 파라미터 θ)를 받아 추정값 ŷ 를 출력한다 (A 참, C 참). 참 레이블 y 는 손실함수가 사용한다 (B 거짓). 손실값은 J 의 출력이지 h 의 출력이 아니다 (D 거짓). ⚠️ 함정: B — \"참 레이블 y\" → \"입력 변수 x\"이면 참. ⚠️ 함정: D — \"손실값\" → \"추정값 ŷ\"이면 참.",
+   "topic_ko": "가설함수의 입력과 출력",
+   "prompt_ko": "가설함수(hypothesis function)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "입력은 예시의 입력 변수 x 이며 파라미터 θ 를 사용한다.",
+    "입력은 참 레이블 y 다.",
+    "출력(값)은 레이블의 추정값 ŷ 다.",
+    "출력은 손실함수의 값이다."
+   ],
+   "explanation_ko": "가설함수 h 는 입력 x(와 파라미터 θ)를 받아 추정값 ŷ 를 출력한다 (A 참, C 참). 참 레이블 y 는 손실함수가 사용한다 (B 거짓). 손실값은 J 의 출력이지 h 의 출력이 아니다 (D 거짓). ⚠️ 함정: B — \"참 레이블 y\" → \"입력 변수 x\"이면 참. ⚠️ 함정: D — \"손실값\" → \"추정값 ŷ\"이면 참.",
+   "topic_en": "Hypothesis function: inputs and outputs",
+   "prompt_en": "Which statements about the hypothesis function are true?",
+   "options_en": [
+    "Its input is the input variables x of an example (it uses the parameters θ).",
+    "Its input is the true label y.",
+    "Its output (value) is the estimate ŷ of the label.",
+    "Its output is the value of the loss."
+   ],
+   "explanation_en": "h takes x (with the parameters θ) and gives the estimate ŷ (A true, C true). The true label y is used by the loss function (B false). The loss value is the output of J, not of h (D false). ⚠️ Trap: B — \"the true label y\" → \"the input variables x\" would make it TRUE. ⚠️ Trap: D — \"the loss value\" → \"the estimate ŷ\" would make it TRUE."
+  },
+  {
+   "id": "D-02",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "레이블의 형태(스칼라·벡터)",
+   "prompt": "레이블(label)의 형태로 가능한 것을 모두 고르시오.",
+   "options": [
+    "스칼라 (예: 콜레스테롤 수치)",
+    "벡터 (예: 콜레스테롤 + 혈당, 또는 10개 클래스 확률)",
+    "레이블은 항상 하나의 숫자다.",
+    "레이블은 항상 그림이다."
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "레이블은 스칼라일 수도, 벡터일 수도 있다 (A·B 참). '항상 하나의 숫자'나 '항상 그림'이라는 제한은 없다 (C·D 거짓). ⚠️ 함정: C — \"항상 하나의 숫자\" → \"벡터도 될 수 있다\"이면 참. ⚠️ 함정: D — \"항상 그림\" → \"스칼라·벡터도 가능\"이면 참.",
+   "topic_ko": "레이블의 형태(스칼라·벡터)",
+   "prompt_ko": "레이블(label)의 형태로 가능한 것을 모두 고르시오.",
+   "options_ko": [
+    "스칼라 (예: 콜레스테롤 수치)",
+    "벡터 (예: 콜레스테롤 + 혈당, 또는 10개 클래스 확률)",
+    "레이블은 항상 하나의 숫자다.",
+    "레이블은 항상 그림이다."
+   ],
+   "explanation_ko": "레이블은 스칼라일 수도, 벡터일 수도 있다 (A·B 참). '항상 하나의 숫자'나 '항상 그림'이라는 제한은 없다 (C·D 거짓). ⚠️ 함정: C — \"항상 하나의 숫자\" → \"벡터도 될 수 있다\"이면 참. ⚠️ 함정: D — \"항상 그림\" → \"스칼라·벡터도 가능\"이면 참.",
+   "topic_en": "Format of a label (scalar or vector)",
+   "prompt_en": "What can be the format of a label?",
+   "options_en": [
+    "A scalar (e.g., the cholesterol level)",
+    "A vector (e.g., cholesterol + blood sugar; or 10 class probabilities)",
+    "A label is always a single number.",
+    "A label is always a picture."
+   ],
+   "explanation_en": "A label can be a scalar or a vector (A and B true). There is no rule that it must always be a single number or always a picture (C and D false). ⚠️ Trap: C — \"always a single number\" → \"can also be a vector\" would make it TRUE. ⚠️ Trap: D — \"always a picture\" → \"a scalar or a vector is also possible\" would make it TRUE."
+  },
+  {
+   "id": "D-03",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "데이터 포인트의 구성요소",
+   "prompt": "지도학습에서 하나의 데이터 포인트(data point)를 구성하는 것을 모두 고르시오.",
+   "options": [
+    "입력 변수 x",
+    "레이블 y",
+    "파라미터 θ",
+    "손실함수 J"
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "데이터 포인트 = (입력, 레이블) 쌍이다 (A·B 참). 파라미터 θ 와 손실함수 J 는 모델의 구성요소이며 데이터가 아니다 (C·D 거짓). ⚠️ 함정: C — \"파라미터 θ\" → \"레이블 y\"이면 참. ⚠️ 함정: D — \"손실함수 J\" → \"레이블 y\"이면 참.",
+   "topic_ko": "데이터 포인트의 구성요소",
+   "prompt_ko": "지도학습에서 하나의 데이터 포인트(data point)를 구성하는 것을 모두 고르시오.",
+   "options_ko": [
+    "입력 변수 x",
+    "레이블 y",
+    "파라미터 θ",
+    "손실함수 J"
+   ],
+   "explanation_ko": "데이터 포인트 = (입력, 레이블) 쌍이다 (A·B 참). 파라미터 θ 와 손실함수 J 는 모델의 구성요소이며 데이터가 아니다 (C·D 거짓). ⚠️ 함정: C — \"파라미터 θ\" → \"레이블 y\"이면 참. ⚠️ 함정: D — \"손실함수 J\" → \"레이블 y\"이면 참.",
+   "topic_en": "Constituents of a data point",
+   "prompt_en": "What are the constituents of a data point in supervised learning?",
+   "options_en": [
+    "The input variables x",
+    "The label y",
+    "The parameters θ",
+    "The loss function J"
+   ],
+   "explanation_en": "A data point is an (input, label) pair (A and B true). The parameters θ and the loss J belong to the model, not to the data (C and D false). ⚠️ Trap: C — \"the parameters θ\" → \"the label y\" would make it TRUE. ⚠️ Trap: D — \"the loss function J\" → \"the label y\" would make it TRUE."
+  },
+  {
+   "id": "D-04",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "손실함수의 역할과 값의 형태",
+   "prompt": "손실함수(loss function)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "추정값 ŷ 가 레이블 y 와 얼마나 다른지 측정하는 역할이다.",
+    "학습 중에 이 값을 최소화한다.",
+    "그 값은 스칼라다.",
+    "그 값은 벡터가 될 수 있다.",
+    "그 값은 행렬이 될 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "손실은 추정과 정답의 차이를 측정한다 (A 참). 학습은 손실을 최소화한다 (B 참). 손실값은 항상 스칼라다 — 레이블이 벡터여도 평균 등으로 하나의 수로 만든다 (C 참, D·E 거짓). ⚠️ 함정: D — \"벡터가 될 수 있다\" → \"항상 스칼라\"이면 참. ⚠️ 함정: E — \"행렬이 될 수 있다\" → \"항상 스칼라\"이면 참.",
+   "topic_ko": "손실함수의 역할과 값의 형태",
+   "prompt_ko": "손실함수(loss function)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "추정값 ŷ 가 레이블 y 와 얼마나 다른지 측정하는 역할이다.",
+    "학습 중에 이 값을 최소화한다.",
+    "그 값은 스칼라다.",
+    "그 값은 벡터가 될 수 있다.",
+    "그 값은 행렬이 될 수 있다."
+   ],
+   "explanation_ko": "손실은 추정과 정답의 차이를 측정한다 (A 참). 학습은 손실을 최소화한다 (B 참). 손실값은 항상 스칼라다 — 레이블이 벡터여도 평균 등으로 하나의 수로 만든다 (C 참, D·E 거짓). ⚠️ 함정: D — \"벡터가 될 수 있다\" → \"항상 스칼라\"이면 참. ⚠️ 함정: E — \"행렬이 될 수 있다\" → \"항상 스칼라\"이면 참.",
+   "topic_en": "Role and value of the loss function",
+   "prompt_en": "Which statements about the loss function are true?",
+   "options_en": [
+    "Its role is to measure how different the estimate ŷ is from the label y.",
+    "We minimize it during training.",
+    "Its value is a scalar.",
+    "Its value can be a vector.",
+    "Its value can be a matrix."
+   ],
+   "explanation_en": "The loss measures the difference between the estimate and the label (A true). Training minimizes it (B true). The loss value is always a scalar — even for vector labels it is reduced to a single number (e.g. by averaging) (C true, D and E false). ⚠️ Trap: D — \"can be a vector\" → \"is always a scalar\" would make it TRUE. ⚠️ Trap: E — \"can be a matrix\" → \"is always a scalar\" would make it TRUE."
+  },
+  {
+   "id": "D-05",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "강화학습의 피드백 특성",
+   "prompt": "강화학습에서 환경이 주는 피드백에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "보상(reward)이며 숫자이고 음수가 될 수도 있다.",
+    "자주 희소하다(매 행동마다 주어지지는 않는다).",
+    "지도학습처럼 모든 입력에 대한 정답 레이블이다.",
+    "목표는 미래 보상의 기대 총합을 최대화하는 것이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "강화학습의 피드백은 (음수도 가능한) 보상이다 (A 참). 보상은 희소한 경우가 많아 credit assignment 문제를 만든다 (B 참). 정답 레이블이 아니므로 C 는 거짓. 목표는 기대 총 보상 최대화 (D 참). ⚠️ 함정: C — \"정답 레이블\" → \"보상(reward)\"이면 참.",
+   "topic_ko": "강화학습의 피드백 특성",
+   "prompt_ko": "강화학습에서 환경이 주는 피드백에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "보상(reward)이며 숫자이고 음수가 될 수도 있다.",
+    "자주 희소하다(매 행동마다 주어지지는 않는다).",
+    "지도학습처럼 모든 입력에 대한 정답 레이블이다.",
+    "목표는 미래 보상의 기대 총합을 최대화하는 것이다."
+   ],
+   "explanation_ko": "강화학습의 피드백은 (음수도 가능한) 보상이다 (A 참). 보상은 희소한 경우가 많아 credit assignment 문제를 만든다 (B 참). 정답 레이블이 아니므로 C 는 거짓. 목표는 기대 총 보상 최대화 (D 참). ⚠️ 함정: C — \"정답 레이블\" → \"보상(reward)\"이면 참.",
+   "topic_en": "Feedback in reinforcement learning",
+   "prompt_en": "In reinforcement learning, which statements are true about the feedback from the environment?",
+   "options_en": [
+    "It is a reward (a number, possibly negative).",
+    "It is often sparse (we do not get it after every action).",
+    "It is the correct label for every input, like in supervised learning.",
+    "The goal is to maximize the total expected future reward."
+   ],
+   "explanation_en": "RL feedback is a reward (a number that may be negative) (A true). It is often sparse, which creates the credit assignment problem (B true). It is not the correct label, so C is false. The goal is to maximize the total expected future reward (D true). ⚠️ Trap: C — \"the correct label\" → \"a reward\" would make it TRUE."
+  },
+  {
+   "id": "D-06",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "지도학습에 속하는 과제",
+   "prompt": "다음 과제 중 지도학습(supervised learning)에 속하는 것을 모두 고르시오.",
+   "options": [
+    "회귀(regression)",
+    "분류(classification)",
+    "군집화(clustering)",
+    "차원 축소(dimensionality reduction)",
+    "노이즈 제거(denoising)"
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "회귀와 분류는 레이블이 필요하므로 지도학습 (A·B 참). 군집화·차원축소·노이즈 제거는 레이블 없이 정식화할 수 있는 비지도학습 (C·D·E 거짓). ⚠️ 함정: C — \"군집화\" → \"회귀\"이면 참. ⚠️ 함정: D — \"차원 축소\" → \"분류\"이면 참. ⚠️ 함정: E — \"노이즈 제거\" → \"분류\"이면 참.",
+   "topic_ko": "지도학습에 속하는 과제",
+   "prompt_ko": "다음 과제 중 지도학습(supervised learning)에 속하는 것을 모두 고르시오.",
+   "options_ko": [
+    "회귀(regression)",
+    "분류(classification)",
+    "군집화(clustering)",
+    "차원 축소(dimensionality reduction)",
+    "노이즈 제거(denoising)"
+   ],
+   "explanation_ko": "회귀와 분류는 레이블이 필요하므로 지도학습 (A·B 참). 군집화·차원축소·노이즈 제거는 레이블 없이 정식화할 수 있는 비지도학습 (C·D·E 거짓). ⚠️ 함정: C — \"군집화\" → \"회귀\"이면 참. ⚠️ 함정: D — \"차원 축소\" → \"분류\"이면 참. ⚠️ 함정: E — \"노이즈 제거\" → \"분류\"이면 참.",
+   "topic_en": "Which tasks are supervised?",
+   "prompt_en": "Which of these tasks belong to supervised learning?",
+   "options_en": [
+    "Regression",
+    "Classification",
+    "Clustering",
+    "Dimensionality reduction",
+    "Denoising"
+   ],
+   "explanation_en": "Regression and classification need labels, so they are supervised (A and B true). Clustering, dimensionality reduction and denoising can be formulated without labels (C, D and E false). ⚠️ Trap: C — \"clustering\" → \"regression\" would make it TRUE. ⚠️ Trap: D — \"dimensionality reduction\" → \"classification\" would make it TRUE. ⚠️ Trap: E — \"denoising\" → \"classification\" would make it TRUE."
+  },
+  {
+   "id": "D-07",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "각 과제의 목표",
+   "prompt": "각 과제의 목표에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "회귀: 연속값을 추정한다.",
+    "분류: 범주(클래스)를 추정한다.",
+    "군집화: 비슷한 예시를 함께 묶는다.",
+    "차원 축소: 입력을 복원할 수 있는 압축 표현을 찾는다.",
+    "노이즈 제거: 노이즈가 있는 입력의 깨끗한 버전을 복원한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "회귀=연속값 추정 (A 참). 분류=범주 추정 (B 참). 군집화=유사 예시 묶기 (C 참). 차원축소=복원 가능한 압축 표현 (D 참). 노이즈 제거=깨끗한 입력 복원 (E 참).",
+   "topic_ko": "각 과제의 목표",
+   "prompt_ko": "각 과제의 목표에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "회귀: 연속값을 추정한다.",
+    "분류: 범주(클래스)를 추정한다.",
+    "군집화: 비슷한 예시를 함께 묶는다.",
+    "차원 축소: 입력을 복원할 수 있는 압축 표현을 찾는다.",
+    "노이즈 제거: 노이즈가 있는 입력의 깨끗한 버전을 복원한다."
+   ],
+   "explanation_ko": "회귀=연속값 추정 (A 참). 분류=범주 추정 (B 참). 군집화=유사 예시 묶기 (C 참). 차원축소=복원 가능한 압축 표현 (D 참). 노이즈 제거=깨끗한 입력 복원 (E 참).",
+   "topic_en": "Goals of the tasks",
+   "prompt_en": "Which statements about the goal of the tasks are true?",
+   "options_en": [
+    "Regression: estimate a continuous value.",
+    "Classification: estimate a category (class).",
+    "Clustering: group similar examples together.",
+    "Dimensionality reduction: find a compact representation from which the input can be reconstructed.",
+    "Denoising: restore the clean version of a noisy input."
+   ],
+   "explanation_en": "Regression estimates a continuous value (A true). Classification estimates a class (B true). Clustering groups similar examples (C true). Dimensionality reduction finds a reconstructable compact representation (D true). Denoising restores the clean input (E true)."
+  },
+  {
+   "id": "D-08",
+   "part": "A",
+   "lecture": "Lecture 1",
+   "topic": "선형·로지스틱 회귀의 과제와 학습 유형",
+   "prompt": "다음 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "선형 회귀는 회귀 과제를 푸는 데 사용한다.",
+    "선형 회귀는 지도학습 방법이다.",
+    "로지스틱 회귀는 분류 과제를 푸는 데 사용한다.",
+    "로지스틱 회귀는 지도학습 방법이다.",
+    "로지스틱 회귀는 비지도학습 방법이다.",
+    "선형 회귀는 분류 과제에 사용한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "선형 회귀=회귀용 지도학습 (A·B 참). 로지스틱 회귀=분류용 지도학습 (C·D 참, E 거짓). 선형 회귀는 분류용이 아니다 (F 거짓). ⚠️ 함정: E — \"비지도학습\" → \"지도학습\"이면 참. ⚠️ 함정: F — \"분류 과제\" → \"회귀 과제\"이면 참.",
+   "topic_ko": "선형·로지스틱 회귀의 과제와 학습 유형",
+   "prompt_ko": "다음 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "선형 회귀는 회귀 과제를 푸는 데 사용한다.",
+    "선형 회귀는 지도학습 방법이다.",
+    "로지스틱 회귀는 분류 과제를 푸는 데 사용한다.",
+    "로지스틱 회귀는 지도학습 방법이다.",
+    "로지스틱 회귀는 비지도학습 방법이다.",
+    "선형 회귀는 분류 과제에 사용한다."
+   ],
+   "explanation_ko": "선형 회귀=회귀용 지도학습 (A·B 참). 로지스틱 회귀=분류용 지도학습 (C·D 참, E 거짓). 선형 회귀는 분류용이 아니다 (F 거짓). ⚠️ 함정: E — \"비지도학습\" → \"지도학습\"이면 참. ⚠️ 함정: F — \"분류 과제\" → \"회귀 과제\"이면 참.",
+   "topic_en": "Task and learning type of linear / logistic regression",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "Linear regression is used to solve regression tasks.",
+    "Linear regression is a supervised learning method.",
+    "Logistic regression is used to solve classification tasks.",
+    "Logistic regression is a supervised learning method.",
+    "Logistic regression is an unsupervised method.",
+    "Linear regression is used for classification tasks."
+   ],
+   "explanation_en": "Linear regression solves regression tasks and is supervised (A, B true). Logistic regression solves classification tasks and is supervised (C, D true, E false). Linear regression is not a classifier (F false). ⚠️ Trap: E — \"unsupervised\" → \"supervised\" would make it TRUE. ⚠️ Trap: F — \"classification tasks\" → \"regression tasks\" would make it TRUE."
+  },
+  {
+   "id": "D-09",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "콜레스테롤 예측 과제: 모델·파라미터·손실 선택",
+   "prompt": "환자의 체중·나이·키·성별로 콜레스테롤 수치를 예측한다. 훈련집합은 200명이고 각자 4개 속성과 콜레스테롤 값이 있다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "선형 회귀가 로지스틱 회귀보다 더 적절하다.",
+    "선형 회귀를 쓰면 파라미터는 5개(가중치 4개 + 편향 1개)다.",
+    "선형 회귀를 쓰면 파라미터는 4개다.",
+    "적절한 손실함수는 MSE(최소제곱)다.",
+    "적절한 손실함수는 이진 교차엔트로피다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "콜레스테롤은 연속값이므로 회귀 → 선형 회귀 (A 참). 4개 속성 + 편향 = 5개 파라미터 (B 참, C 거짓). 연속 레이블에는 MSE (D 참). 이진 교차엔트로피는 분류용 (E 거짓). ⚠️ 함정: C — \"4개\" → \"5개(편향 포함)\"이면 참. ⚠️ 함정: E — \"이진 교차엔트로피\" → \"MSE\"이면 참.",
+   "topic_ko": "콜레스테롤 예측 과제: 모델·파라미터·손실 선택",
+   "prompt_ko": "환자의 체중·나이·키·성별로 콜레스테롤 수치를 예측한다. 훈련집합은 200명이고 각자 4개 속성과 콜레스테롤 값이 있다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "선형 회귀가 로지스틱 회귀보다 더 적절하다.",
+    "선형 회귀를 쓰면 파라미터는 5개(가중치 4개 + 편향 1개)다.",
+    "선형 회귀를 쓰면 파라미터는 4개다.",
+    "적절한 손실함수는 MSE(최소제곱)다.",
+    "적절한 손실함수는 이진 교차엔트로피다."
+   ],
+   "explanation_ko": "콜레스테롤은 연속값이므로 회귀 → 선형 회귀 (A 참). 4개 속성 + 편향 = 5개 파라미터 (B 참, C 거짓). 연속 레이블에는 MSE (D 참). 이진 교차엔트로피는 분류용 (E 거짓). ⚠️ 함정: C — \"4개\" → \"5개(편향 포함)\"이면 참. ⚠️ 함정: E — \"이진 교차엔트로피\" → \"MSE\"이면 참.",
+   "topic_en": "Cholesterol task: model, parameters, loss",
+   "prompt_en": "We predict the cholesterol level of patients from weight, age, height, and sex. The training set has 200 patients, each with the 4 attributes plus the cholesterol value. Which statements are true?",
+   "options_en": [
+    "Linear regression is a more suitable choice than logistic regression.",
+    "With linear regression, we have 5 parameters (4 weights + 1 bias).",
+    "With linear regression, we have 4 parameters.",
+    "A suitable loss function is MSE (least squares).",
+    "A suitable loss function is binary cross-entropy."
+   ],
+   "explanation_en": "Cholesterol is continuous, so this is regression and linear regression fits (A true). 4 attributes + a bias give 5 parameters (B true, C false). A continuous label calls for MSE (D true). Binary cross-entropy is for classification (E false). ⚠️ Trap: C — \"4 parameters\" → \"5 (4 weights + bias)\" would make it TRUE. ⚠️ Trap: E — \"binary cross-entropy\" → \"MSE\" would make it TRUE."
+  },
+  {
+   "id": "D-10",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "y = Xθ 의 각 행렬 shape",
+   "prompt": "가설이 y = Xθ 이고 X 는 모든 훈련 예시의 행렬(더미 열 x₀ = 1 포함)이다. 콜레스테롤 과제(200명, 속성 4개)에서 옳은 것을 모두 고르시오.",
+   "options": [
+    "X 의 shape 은 200×5 다.",
+    "θ 의 shape 은 5×1 이다.",
+    "y 의 shape 은 200×1 이다.",
+    "y 의 값은 임의의 실수가 될 수 있다.",
+    "환자의 나이 값은 X 안에 있다.",
+    "환자의 나이 값은 θ 안에 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "X = m×(n+1) = 200×5 (A 참). θ = (n+1)×1 = 5×1 (B 참). y = m×1 = 200×1 (C 참). 출력에 활성함수가 없으므로 임의의 실수 (D 참). 나이는 입력 데이터이므로 X 에 있다 (E 참, F 거짓). ⚠️ 함정: F — \"θ 안에 있다\" → \"X 안에 있다\"이면 참.",
+   "topic_ko": "y = Xθ 의 각 행렬 shape",
+   "prompt_ko": "가설이 y = Xθ 이고 X 는 모든 훈련 예시의 행렬(더미 열 x₀ = 1 포함)이다. 콜레스테롤 과제(200명, 속성 4개)에서 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "X 의 shape 은 200×5 다.",
+    "θ 의 shape 은 5×1 이다.",
+    "y 의 shape 은 200×1 이다.",
+    "y 의 값은 임의의 실수가 될 수 있다.",
+    "환자의 나이 값은 X 안에 있다.",
+    "환자의 나이 값은 θ 안에 있다."
+   ],
+   "explanation_ko": "X = m×(n+1) = 200×5 (A 참). θ = (n+1)×1 = 5×1 (B 참). y = m×1 = 200×1 (C 참). 출력에 활성함수가 없으므로 임의의 실수 (D 참). 나이는 입력 데이터이므로 X 에 있다 (E 참, F 거짓). ⚠️ 함정: F — \"θ 안에 있다\" → \"X 안에 있다\"이면 참.",
+   "topic_en": "Shapes of y = Xθ",
+   "prompt_en": "The hypothesis is y = Xθ, where X is a matrix of all training examples (with the dummy column x₀ = 1). For the cholesterol task (200 patients, 4 attributes), which statements are true?",
+   "options_en": [
+    "X has shape 200×5.",
+    "θ has shape 5×1.",
+    "y has shape 200×1.",
+    "The values in y can be any real number.",
+    "The age values of the patients are inside X.",
+    "The age values of the patients are inside θ."
+   ],
+   "explanation_en": "X = m×(n+1) = 200×5 (A true). θ = (n+1)×1 = 5×1 (B true). y = m×1 = 200×1 (C true). With no output activation the values can be any real number (D true). Age is input data, so it lives in X (E true, F false). ⚠️ Trap: F — \"inside θ\" → \"inside X\" would make it TRUE."
+  },
+  {
+   "id": "D-11",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "학습에서 최소화하는 대상",
+   "prompt": "같은 가설 y = Xθ 로 학습할 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "θ 에 대해 손실을 최소화한다.",
+    "θ 를 바꾼다.",
+    "X 를 최소화한다.",
+    "y 를 최소화한다."
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·B 참). X 와 y 는 주어진 데이터이므로 최소화 대상이 아니다 (C·D 거짓). ⚠️ 함정: C — \"X를 최소화\" → \"손실 J를 최소화\"이면 참. ⚠️ 함정: D — \"y를 최소화\" → \"손실 J를 최소화\"이면 참.",
+   "topic_ko": "학습에서 최소화하는 대상",
+   "prompt_ko": "같은 가설 y = Xθ 로 학습할 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "θ 에 대해 손실을 최소화한다.",
+    "θ 를 바꾼다.",
+    "X 를 최소화한다.",
+    "y 를 최소화한다."
+   ],
+   "explanation_ko": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·B 참). X 와 y 는 주어진 데이터이므로 최소화 대상이 아니다 (C·D 거짓). ⚠️ 함정: C — \"X를 최소화\" → \"손실 J를 최소화\"이면 참. ⚠️ 함정: D — \"y를 최소화\" → \"손실 J를 최소화\"이면 참.",
+   "topic_en": "What do we minimize during learning?",
+   "prompt_en": "Same hypothesis y = Xθ. During learning:",
+   "options_en": [
+    "We want to minimize the loss with respect to θ.",
+    "We want to change θ.",
+    "We want to minimize X.",
+    "We want to minimize y."
+   ],
+   "explanation_en": "Learning changes θ to minimize the loss J (A and B true). X and y are the given data, not something we minimize (C and D false). ⚠️ Trap: C — \"minimize X\" → \"minimize the loss J\" would make it TRUE. ⚠️ Trap: D — \"minimize y\" → \"minimize the loss J\" would make it TRUE."
+  },
+  {
+   "id": "D-12",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "스칼라 가설 y = θ₄x₄ + … + θ₀",
+   "prompt": "가설이 y = θ₄x₄ + θ₃x₃ + θ₂x₂ + θ₁x₁ + θ₀ 이고 y 가 스칼라일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "θ₀ 는 스칼라다.",
+    "θ₀ 는 벡터다.",
+    "y 의 값은 임의의 실수가 될 수 있다.",
+    "환자의 나이 값은 xᵢ 중 하나에 들어간다.",
+    "환자의 나이 값은 θᵢ 중 하나에 들어간다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "θ₀ 는 편향 파라미터(스칼라) (A 참, B 거짓). 출력에 활성함수가 없으므로 y 는 임의의 실수 (C 참). 나이 같은 입력 특징은 x 에 들어간다 (D 참, E 거짓). ⚠️ 함정: B — \"벡터\" → \"스칼라\"이면 참. ⚠️ 함정: E — \"θᵢ\" → \"xᵢ\"이면 참.",
+   "topic_ko": "스칼라 가설 y = θ₄x₄ + … + θ₀",
+   "prompt_ko": "가설이 y = θ₄x₄ + θ₃x₃ + θ₂x₂ + θ₁x₁ + θ₀ 이고 y 가 스칼라일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "θ₀ 는 스칼라다.",
+    "θ₀ 는 벡터다.",
+    "y 의 값은 임의의 실수가 될 수 있다.",
+    "환자의 나이 값은 xᵢ 중 하나에 들어간다.",
+    "환자의 나이 값은 θᵢ 중 하나에 들어간다."
+   ],
+   "explanation_ko": "θ₀ 는 편향 파라미터(스칼라) (A 참, B 거짓). 출력에 활성함수가 없으므로 y 는 임의의 실수 (C 참). 나이 같은 입력 특징은 x 에 들어간다 (D 참, E 거짓). ⚠️ 함정: B — \"벡터\" → \"스칼라\"이면 참. ⚠️ 함정: E — \"θᵢ\" → \"xᵢ\"이면 참.",
+   "topic_en": "Scalar hypothesis y = θ₄x₄ + … + θ₀",
+   "prompt_en": "Here y is a scalar. Which statements are true?",
+   "options_en": [
+    "θ₀ is a scalar.",
+    "θ₀ is a vector.",
+    "The value of y can be any real number.",
+    "The age value of a patient is assigned to one of the xᵢ values.",
+    "The age value of a patient is assigned to one of the θᵢ values."
+   ],
+   "explanation_en": "θ₀ is the bias parameter, a scalar (A true, B false). With no output activation y can be any real number (C true). Input features such as age live in x (D true, E false). ⚠️ Trap: B — \"a vector\" → \"a scalar\" would make it TRUE. ⚠️ Trap: E — \"the θᵢ values\" → \"the xᵢ values\" would make it TRUE."
+  },
+  {
+   "id": "D-13",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "선형 회귀 가설함수의 기하학적 해석",
+   "prompt": "선형 회귀 가설함수의 기하학적 해석에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "입력 변수가 1개(2D 그래프)이면 직선이다.",
+    "입력 변수가 2개(3D 그래프)이면 평면이다.",
+    "입력 변수가 1개이면 포물선이다.",
+    "입력 변수가 2개이면 구(sphere)다.",
+    "입력 변수가 n개이면 (n+1)차원 공간의 초평면이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "E"
+   ],
+   "explanation": "입력 1개 → 직선 (A 참, C 거짓). 입력 2개 → 평면 (B 참, D 거짓). 입력 n개 → (n+1)차원 초평면 (E 참). ⚠️ 함정: C — \"포물선\" → \"직선\"이면 참. ⚠️ 함정: D — \"구\" → \"평면\"이면 참.",
+   "topic_ko": "선형 회귀 가설함수의 기하학적 해석",
+   "prompt_ko": "선형 회귀 가설함수의 기하학적 해석에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "입력 변수가 1개(2D 그래프)이면 직선이다.",
+    "입력 변수가 2개(3D 그래프)이면 평면이다.",
+    "입력 변수가 1개이면 포물선이다.",
+    "입력 변수가 2개이면 구(sphere)다.",
+    "입력 변수가 n개이면 (n+1)차원 공간의 초평면이다."
+   ],
+   "explanation_ko": "입력 1개 → 직선 (A 참, C 거짓). 입력 2개 → 평면 (B 참, D 거짓). 입력 n개 → (n+1)차원 초평면 (E 참). ⚠️ 함정: C — \"포물선\" → \"직선\"이면 참. ⚠️ 함정: D — \"구\" → \"평면\"이면 참.",
+   "topic_en": "Geometric interpretation of the hypothesis function",
+   "prompt_en": "Which statements are true about the hypothesis function of linear regression?",
+   "options_en": [
+    "With 1 input variable (2D plot with axes x, y), it is a line.",
+    "With 2 input variables (3D plot with axes x₁, x₂, y), it is a plane.",
+    "With 1 input variable, it is a parabola.",
+    "With 2 input variables, it is a sphere.",
+    "With n input variables, it is a hyperplane in (n+1)-dimensional space."
+   ],
+   "explanation_en": "One input gives a line (A true, C false). Two inputs give a plane (B true, D false). n inputs give a hyperplane in (n+1)-dimensional space (E true). ⚠️ Trap: C — \"a parabola\" → \"a line\" would make it TRUE. ⚠️ Trap: D — \"a sphere\" → \"a plane\" would make it TRUE."
+  },
+  {
+   "id": "D-14",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "정규화된 정규방정식의 차원",
+   "prompt": "θ = (XᵀX + λI)⁻¹Xᵀy 를 콜레스테롤 과제(200명, 속성 4개, 더미 열 포함)에 쓸 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "X 의 shape 은 200×5 다.",
+    "y 의 shape 은 200×1 이다.",
+    "θ 의 shape 은 5×1 이다.",
+    "콜레스테롤 수치는 y 에 들어간다.",
+    "콜레스테롤 수치는 X 에 들어간다.",
+    "I 는 단위행렬이며 shape 은 5×5 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "F"
+   ],
+   "explanation": "X = 200×5 (A 참). y = 200×1 (B 참). θ = 5×1 (C 참). 레이블(콜레스테롤)은 y 에 있다 (D 참, E 거짓). XᵀX 가 5×5 이므로 I 도 5×5 (F 참). ⚠️ 함정: E — \"X에 들어간다\" → \"y에 들어간다\"이면 참.",
+   "topic_ko": "정규화된 정규방정식의 차원",
+   "prompt_ko": "θ = (XᵀX + λI)⁻¹Xᵀy 를 콜레스테롤 과제(200명, 속성 4개, 더미 열 포함)에 쓸 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "X 의 shape 은 200×5 다.",
+    "y 의 shape 은 200×1 이다.",
+    "θ 의 shape 은 5×1 이다.",
+    "콜레스테롤 수치는 y 에 들어간다.",
+    "콜레스테롤 수치는 X 에 들어간다.",
+    "I 는 단위행렬이며 shape 은 5×5 다."
+   ],
+   "explanation_ko": "X = 200×5 (A 참). y = 200×1 (B 참). θ = 5×1 (C 참). 레이블(콜레스테롤)은 y 에 있다 (D 참, E 거짓). XᵀX 가 5×5 이므로 I 도 5×5 (F 참). ⚠️ 함정: E — \"X에 들어간다\" → \"y에 들어간다\"이면 참.",
+   "topic_en": "Dimensions in the regularized normal equation",
+   "prompt_en": "Using θ = (XᵀX + λI)⁻¹Xᵀy for the cholesterol task (200 patients, 4 attributes, with the dummy column). Which statements are true?",
+   "options_en": [
+    "X has shape 200×5.",
+    "y has shape 200×1.",
+    "θ has shape 5×1.",
+    "The cholesterol levels are placed in y.",
+    "The cholesterol levels are placed in X.",
+    "I is the identity matrix, with shape 5×5."
+   ],
+   "explanation_en": "X is 200×5 (A true). y is 200×1 (B true). θ is 5×1 (C true). The labels (cholesterol) are in y (D true, E false). Since XᵀX is 5×5, I is 5×5 too (F true). ⚠️ Trap: E — \"placed in X\" → \"placed in y\" would make it TRUE."
+  },
+  {
+   "id": "D-15",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "정규방정식에서 λ와 I의 역할",
+   "prompt": "θ = (XᵀX + λI)⁻¹Xᵀy 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "MSE(최소제곱) 손실을 사용한다.",
+    "λ = 0 이면 정규화가 없는 정규방정식이 된다.",
+    "반복 없이 한 단계로 파라미터를 구한다.",
+    "학습률 α 가 필요하다.",
+    "I 는 200×200 단위행렬이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "최소제곱 해를 구하는 식이므로 MSE 를 사용한다 (A 참). λ = 0 이면 정규화가 사라진다 (B 참). 반복 없이 한 번에 해를 구한다 (C 참). 학습률은 경사하강법에 필요하며 정규방정식에는 불필요하다 (D 거짓). I 는 (n+1)×(n+1) = 5×5 이다 (E 거짓). ⚠️ 함정: D — \"학습률 α가 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"200×200\" → \"5×5\"이면 참.",
+   "topic_ko": "정규방정식에서 λ와 I의 역할",
+   "prompt_ko": "θ = (XᵀX + λI)⁻¹Xᵀy 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "MSE(최소제곱) 손실을 사용한다.",
+    "λ = 0 이면 정규화가 없는 정규방정식이 된다.",
+    "반복 없이 한 단계로 파라미터를 구한다.",
+    "학습률 α 가 필요하다.",
+    "I 는 200×200 단위행렬이다."
+   ],
+   "explanation_ko": "최소제곱 해를 구하는 식이므로 MSE 를 사용한다 (A 참). λ = 0 이면 정규화가 사라진다 (B 참). 반복 없이 한 번에 해를 구한다 (C 참). 학습률은 경사하강법에 필요하며 정규방정식에는 불필요하다 (D 거짓). I 는 (n+1)×(n+1) = 5×5 이다 (E 거짓). ⚠️ 함정: D — \"학습률 α가 필요하다\" → \"필요 없다\"이면 참. ⚠️ 함정: E — \"200×200\" → \"5×5\"이면 참.",
+   "topic_en": "Role of λ and I in the normal equation",
+   "prompt_en": "Which statements about θ = (XᵀX + λI)⁻¹Xᵀy are true?",
+   "options_en": [
+    "It uses the MSE (least squares) loss.",
+    "With λ = 0, it is the non-regularized normal equation.",
+    "It finds the parameters in one step, without iterations.",
+    "It needs a learning rate α.",
+    "I is a 200×200 identity matrix."
+   ],
+   "explanation_en": "It computes the least squares solution, so it uses MSE (A true). With λ = 0 the regularization disappears (B true). It finds the solution in one step without iterations (C true). A learning rate belongs to gradient descent, not to the normal equation (D false). I is (n+1)×(n+1) = 5×5 (E false). ⚠️ Trap: D — \"needs a learning rate α\" → \"needs no learning rate\" would make it TRUE. ⚠️ Trap: E — \"200×200\" → \"5×5\" would make it TRUE."
+  },
+  {
+   "id": "D-16",
+   "part": "A",
+   "lecture": "Lecture 2",
+   "topic": "경사하강법의 전역 최적 보장 여부",
+   "prompt": "충분히 작은 스텝 크기를 쓸 때 경사하강법으로 (근사적으로) 전역 최적 파라미터를 찾는 것이 보장되는 경우를 모두 고르시오.",
+   "options": [
+    "MSE 손실을 쓰는 선형 회귀",
+    "MSE 손실을 쓰는 다층 퍼셉트론(MLP)",
+    "MSE 손실을 쓰는 MLP 는 보장되지 않는다 (손실이 볼록하지 않다).",
+    "이진 교차엔트로피 손실을 쓰는 로지스틱 회귀"
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "선형 회귀 + MSE 는 볼록 → 보장 (A 참). 로지스틱 회귀 + BCE 도 볼록 → 보장 (D 참). MLP + MSE 는 비볼록이라 지역 최솟값이 생길 수 있어 보장되지 않는다 (B 거짓, C 참). ⚠️ 함정: B — \"보장된다\" → \"보장되지 않는다\"이면 참.",
+   "topic_ko": "경사하강법의 전역 최적 보장 여부",
+   "prompt_ko": "충분히 작은 스텝 크기를 쓸 때 경사하강법으로 (근사적으로) 전역 최적 파라미터를 찾는 것이 보장되는 경우를 모두 고르시오.",
+   "options_ko": [
+    "MSE 손실을 쓰는 선형 회귀",
+    "MSE 손실을 쓰는 다층 퍼셉트론(MLP)",
+    "MSE 손실을 쓰는 MLP 는 보장되지 않는다 (손실이 볼록하지 않다).",
+    "이진 교차엔트로피 손실을 쓰는 로지스틱 회귀"
+   ],
+   "explanation_ko": "선형 회귀 + MSE 는 볼록 → 보장 (A 참). 로지스틱 회귀 + BCE 도 볼록 → 보장 (D 참). MLP + MSE 는 비볼록이라 지역 최솟값이 생길 수 있어 보장되지 않는다 (B 거짓, C 참). ⚠️ 함정: B — \"보장된다\" → \"보장되지 않는다\"이면 참.",
+   "topic_en": "Is the global optimum guaranteed?",
+   "prompt_en": "Given a small enough step size, are we guaranteed to (approximately) find the globally optimal parameters by gradient descent?",
+   "options_en": [
+    "Yes, for linear regression with the MSE loss.",
+    "Yes, for a Multi-Layer Perceptron with the MSE loss.",
+    "No, for a Multi-Layer Perceptron with the MSE loss (the loss is not convex).",
+    "Yes, for logistic regression with the binary cross-entropy loss."
+   ],
+   "explanation_en": "Linear regression + MSE is convex, so it is guaranteed (A true). Logistic regression + BCE is convex too (D true). An MLP + MSE is non-convex, so local minima may appear and there is no guarantee (B false, C true). ⚠️ Trap: B — \"Yes, ... guaranteed\" → \"No, not guaranteed\" would make it TRUE."
+  },
+  {
+   "id": "D-17",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "특징 스케일링의 목적과 효과",
+   "prompt": "특징 스케일링(feature scaling)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "목적은 입력 변수들을 같은 크기로 맞추는 것이다.",
+    "하지 않으면 경사하강법의 수렴이 느려지기 쉽다.",
+    "하지 않으면 손실 등고선이 길쭉해질 수 있다.",
+    "표준화(standardization)가 min-max 스케일링보다 이상치에 더 강건하다.",
+    "min-max 스케일링이 표준화보다 이상치에 더 강건하다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "explanation": "스케일링은 입력들의 크기를 맞춘다 (A 참). 스케일 차이가 크면 손실 곡면이 길쭉해져 수렴이 느려진다 (B·C 참). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 민감하고, 표준화가 더 강건하다 (D 참, E 거짓). ⚠️ 함정: E — \"min-max가 더 강건\" → \"표준화가 더 강건\"이면 참.",
+   "topic_ko": "특징 스케일링의 목적과 효과",
+   "prompt_ko": "특징 스케일링(feature scaling)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "목적은 입력 변수들을 같은 크기로 맞추는 것이다.",
+    "하지 않으면 경사하강법의 수렴이 느려지기 쉽다.",
+    "하지 않으면 손실 등고선이 길쭉해질 수 있다.",
+    "표준화(standardization)가 min-max 스케일링보다 이상치에 더 강건하다.",
+    "min-max 스케일링이 표준화보다 이상치에 더 강건하다."
+   ],
+   "explanation_ko": "스케일링은 입력들의 크기를 맞춘다 (A 참). 스케일 차이가 크면 손실 곡면이 길쭉해져 수렴이 느려진다 (B·C 참). min-max 는 최솟값·최댓값에 의존하므로 이상치에 더 민감하고, 표준화가 더 강건하다 (D 참, E 거짓). ⚠️ 함정: E — \"min-max가 더 강건\" → \"표준화가 더 강건\"이면 참.",
+   "topic_en": "Purpose and effects of feature scaling",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "The purpose is to bring the input variables to the same order of magnitude.",
+    "Without it, gradient descent is likely to converge more slowly.",
+    "Without it, the loss contours can be elongated.",
+    "Standardization is more robust to outliers than min-max scaling.",
+    "Min-max scaling is more robust to outliers than standardization."
+   ],
+   "explanation_en": "Scaling aligns the magnitudes of the inputs (A true). Very different scales elongate the loss contours and slow convergence down (B and C true). Min-max depends on the min/max, so it is more sensitive to outliers and standardization is more robust (D true, E false). ⚠️ Trap: E — \"min-max is more robust\" → \"standardization is more robust\" would make it TRUE."
+  },
+  {
+   "id": "D-18",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "특징 스케일링 공식의 기호",
+   "prompt": "표준화 x′ = (x − μ)/σ, min-max 스케일링 x′ = (x − x_min)/(x_max − x_min) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "μ 는 그 변수의 평균이다.",
+    "σ 는 그 변수의 표준편차다.",
+    "x′ 는 스케일링된 값이다.",
+    "x_min 과 x_max 는 그 변수의 최솟값과 최댓값이다.",
+    "스케일링은 입력 변수마다 독립적으로 수행한다.",
+    "min-max 스케일링 후에는 평균이 항상 0이 된다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "μ=평균, σ=표준편차, x′=변환된 값, x_min·x_max=최솟값·최댓값 (A~D 참). 스케일링은 변수별로 따로 한다 (E 참). min-max 후 값은 [0,1] 이지만 평균은 0이 아니다 (F 거짓). ⚠️ 함정: F — \"평균이 0\" → \"평균은 0이 아니다\"이면 참.",
+   "topic_ko": "특징 스케일링 공식의 기호",
+   "prompt_ko": "표준화 x′ = (x − μ)/σ, min-max 스케일링 x′ = (x − x_min)/(x_max − x_min) 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "μ 는 그 변수의 평균이다.",
+    "σ 는 그 변수의 표준편차다.",
+    "x′ 는 스케일링된 값이다.",
+    "x_min 과 x_max 는 그 변수의 최솟값과 최댓값이다.",
+    "스케일링은 입력 변수마다 독립적으로 수행한다.",
+    "min-max 스케일링 후에는 평균이 항상 0이 된다."
+   ],
+   "explanation_ko": "μ=평균, σ=표준편차, x′=변환된 값, x_min·x_max=최솟값·최댓값 (A~D 참). 스케일링은 변수별로 따로 한다 (E 참). min-max 후 값은 [0,1] 이지만 평균은 0이 아니다 (F 거짓). ⚠️ 함정: F — \"평균이 0\" → \"평균은 0이 아니다\"이면 참.",
+   "topic_en": "Symbols in the feature scaling formulas",
+   "prompt_en": "Standardization: x′ = (x − μ)/σ. Min-max scaling: x′ = (x − x_min)/(x_max − x_min). Which statements are true?",
+   "options_en": [
+    "μ is the mean of the variable.",
+    "σ is the standard deviation of the variable.",
+    "x′ is the scaled value.",
+    "x_min and x_max are the smallest and largest values of the variable.",
+    "The scaling is done independently for each input variable.",
+    "After min-max scaling, the mean is always 0."
+   ],
+   "explanation_en": "μ is the mean, σ the standard deviation, x′ the scaled value, and x_min/x_max the smallest and largest values (A–D true). Scaling is done per variable (E true). After min-max scaling the values are in [0,1] but the mean is not 0 (F false). ⚠️ Trap: F — \"the mean is always 0\" → \"the mean is not 0\" would make it TRUE."
+  },
+  {
+   "id": "D-19",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "질병 분류 과제: 모델과 손실 선택",
+   "prompt": "혈액 검사값 2개로 병이 있는 환자와 건강한 사람을 구분한다. 훈련집합은 100명이고 각자 2개 속성과 레이블(ill/healthy)이 있다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "선형 회귀보다 로지스틱 회귀가 더 적절하다.",
+    "로지스틱 회귀를 쓰면 파라미터는 3개(가중치 2개 + 편향 1개)다.",
+    "적절한 손실함수는 이진 교차엔트로피(로지스틱 손실)다.",
+    "적절한 손실함수는 회귀용 MSE 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "이진 분류에는 로지스틱 회귀 (A 참). 2개 속성 + 편향 = 3개 파라미터 (B 참). 이진 분류에는 BCE (C 참). MSE 는 회귀용이며 분류에 쓰면 비볼록이 된다 (D 거짓). ⚠️ 함정: D — \"MSE\" → \"이진 교차엔트로피\"이면 참.",
+   "topic_ko": "질병 분류 과제: 모델과 손실 선택",
+   "prompt_ko": "혈액 검사값 2개로 병이 있는 환자와 건강한 사람을 구분한다. 훈련집합은 100명이고 각자 2개 속성과 레이블(ill/healthy)이 있다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "선형 회귀보다 로지스틱 회귀가 더 적절하다.",
+    "로지스틱 회귀를 쓰면 파라미터는 3개(가중치 2개 + 편향 1개)다.",
+    "적절한 손실함수는 이진 교차엔트로피(로지스틱 손실)다.",
+    "적절한 손실함수는 회귀용 MSE 다."
+   ],
+   "explanation_ko": "이진 분류에는 로지스틱 회귀 (A 참). 2개 속성 + 편향 = 3개 파라미터 (B 참). 이진 분류에는 BCE (C 참). MSE 는 회귀용이며 분류에 쓰면 비볼록이 된다 (D 거짓). ⚠️ 함정: D — \"MSE\" → \"이진 교차엔트로피\"이면 참.",
+   "topic_en": "Ill/healthy task: model and loss",
+   "prompt_en": "We distinguish patients with an illness from healthy persons using two laboratory blood test values. The training set has 100 patients, each with the 2 attributes plus a label (ill / healthy). Which statements are true?",
+   "options_en": [
+    "Logistic regression is a more suitable choice than linear regression.",
+    "With logistic regression we have 3 parameters (2 weights + 1 bias).",
+    "A suitable loss function is binary cross-entropy (logistic loss).",
+    "A suitable loss function is MSE for regression."
+   ],
+   "explanation_en": "Binary classification calls for logistic regression (A true). 2 attributes + a bias give 3 parameters (B true). Binary classification uses BCE (C true). MSE is for regression and becomes non-convex for classification (D false). ⚠️ Trap: D — \"MSE for regression\" → \"binary cross-entropy\" would make it TRUE."
+  },
+  {
+   "id": "D-20",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "y = g(Xθ), g = 시그모이드의 shape과 범위",
+   "prompt": "가설이 y = g(Xθ), g = 시그모이드 이고 질병 분류 과제(100명, 속성 2개, 더미 열 포함)일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "X 의 shape 은 100×3 이다.",
+    "θ 의 shape 은 3×1 이다.",
+    "y 의 shape 은 100×1 이다.",
+    "y 의 값은 (0, 1) 범위에 있다.",
+    "검사값들은 X 안에 있다.",
+    "검사값들은 θ 안에 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "X = m×(n+1) = 100×3 (A 참). θ = 3×1 (B 참). y = 100×1 (C 참). 시그모이드 출력은 (0,1) (D 참). 검사값(입력 데이터)은 X 에 있다 (E 참, F 거짓). ⚠️ 함정: F — \"θ 안에 있다\" → \"X 안에 있다\"이면 참.",
+   "topic_ko": "y = g(Xθ), g = 시그모이드의 shape과 범위",
+   "prompt_ko": "가설이 y = g(Xθ), g = 시그모이드 이고 질병 분류 과제(100명, 속성 2개, 더미 열 포함)일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "X 의 shape 은 100×3 이다.",
+    "θ 의 shape 은 3×1 이다.",
+    "y 의 shape 은 100×1 이다.",
+    "y 의 값은 (0, 1) 범위에 있다.",
+    "검사값들은 X 안에 있다.",
+    "검사값들은 θ 안에 있다."
+   ],
+   "explanation_ko": "X = m×(n+1) = 100×3 (A 참). θ = 3×1 (B 참). y = 100×1 (C 참). 시그모이드 출력은 (0,1) (D 참). 검사값(입력 데이터)은 X 에 있다 (E 참, F 거짓). ⚠️ 함정: F — \"θ 안에 있다\" → \"X 안에 있다\"이면 참.",
+   "topic_en": "Shapes and range of y = g(Xθ) with a sigmoid",
+   "prompt_en": "The hypothesis is y = g(Xθ), g = sigmoid, for the ill/healthy task (100 patients, 2 attributes, with the dummy column). Which statements are true?",
+   "options_en": [
+    "X has shape 100×3.",
+    "θ has shape 3×1.",
+    "y has shape 100×1.",
+    "The values in y are in the range (0, 1).",
+    "The lab values are inside X.",
+    "The lab values are inside θ."
+   ],
+   "explanation_en": "X = m×(n+1) = 100×3 (A true). θ is 3×1 (B true). y is 100×1 (C true). The sigmoid output is in (0,1) (D true). The lab values (input data) are in X (E true, F false). ⚠️ Trap: F — \"inside θ\" → \"inside X\" would make it TRUE."
+  },
+  {
+   "id": "D-21",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "y = g(Xθ) 학습에서 최소화하는 대상",
+   "prompt": "y = g(Xθ) 로 학습할 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "θ 에 대해 손실을 최소화한다.",
+    "X 를 최소화한다.",
+    "y 를 최소화한다.",
+    "g 를 최소화한다.",
+    "최소화하는 대상은 손실함수 J 다."
+   ],
+   "correct": [
+    "A",
+    "E"
+   ],
+   "explanation": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·E 참). X·y 는 데이터이고 g 는 고정된 활성함수이므로 최소화 대상이 아니다 (B·C·D 거짓). ⚠️ 함정: B — \"X를 최소화\" → \"θ에 대해 J를 최소화\"이면 참. ⚠️ 함정: C — \"y를 최소화\" → \"θ에 대해 J를 최소화\"이면 참. ⚠️ 함정: D — \"g를 최소화\" → \"g는 고정\"이면 참.",
+   "topic_ko": "y = g(Xθ) 학습에서 최소화하는 대상",
+   "prompt_ko": "y = g(Xθ) 로 학습할 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "θ 에 대해 손실을 최소화한다.",
+    "X 를 최소화한다.",
+    "y 를 최소화한다.",
+    "g 를 최소화한다.",
+    "최소화하는 대상은 손실함수 J 다."
+   ],
+   "explanation_ko": "학습은 θ 를 바꿔 손실 J 를 최소화한다 (A·E 참). X·y 는 데이터이고 g 는 고정된 활성함수이므로 최소화 대상이 아니다 (B·C·D 거짓). ⚠️ 함정: B — \"X를 최소화\" → \"θ에 대해 J를 최소화\"이면 참. ⚠️ 함정: C — \"y를 최소화\" → \"θ에 대해 J를 최소화\"이면 참. ⚠️ 함정: D — \"g를 최소화\" → \"g는 고정\"이면 참.",
+   "topic_en": "What do we minimize for y = g(Xθ)?",
+   "prompt_en": "For y = g(Xθ), during learning:",
+   "options_en": [
+    "We want to minimize the loss with respect to θ.",
+    "We want to minimize X.",
+    "We want to minimize y.",
+    "We want to minimize g.",
+    "What we minimize is the loss function J."
+   ],
+   "explanation_en": "Learning changes θ to minimize the loss J (A and E true). X and y are data and g is a fixed activation, so they are not minimized (B, C and D false). ⚠️ Trap: B — \"minimize X\" → \"minimize J w.r.t. θ\" would make it TRUE. ⚠️ Trap: C — \"minimize y\" → \"minimize J w.r.t. θ\" would make it TRUE. ⚠️ Trap: D — \"minimize g\" → \"g is fixed\" would make it TRUE."
+  },
+  {
+   "id": "D-22",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "스칼라 시그모이드 가설의 성질",
+   "prompt": "가설이 y = g(θ₂x₂ + θ₁x₁ + θ₀), g = 시그모이드 이고 y 가 스칼라일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "θ₀ 는 스칼라다.",
+    "θ₀ 는 벡터다.",
+    "y 의 범위는 (0, 1)이다.",
+    "g(θ₂x₂ + θ₁x₁ + θ₀) 의 범위는 (0, 1)이다.",
+    "검사값들은 xᵢ 값에 대응된다.",
+    "검사값들은 θᵢ 값에 대응된다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "θ₀ 는 편향(스칼라) (A 참, B 거짓). 시그모이드 출력이므로 y 와 g(…) 의 범위는 (0,1) (C·D 참). 검사값은 입력 특징이므로 x 에 들어간다 (E 참, F 거짓). ⚠️ 함정: B — \"벡터\" → \"스칼라\"이면 참. ⚠️ 함정: F — \"θᵢ\" → \"xᵢ\"이면 참.",
+   "topic_ko": "스칼라 시그모이드 가설의 성질",
+   "prompt_ko": "가설이 y = g(θ₂x₂ + θ₁x₁ + θ₀), g = 시그모이드 이고 y 가 스칼라일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "θ₀ 는 스칼라다.",
+    "θ₀ 는 벡터다.",
+    "y 의 범위는 (0, 1)이다.",
+    "g(θ₂x₂ + θ₁x₁ + θ₀) 의 범위는 (0, 1)이다.",
+    "검사값들은 xᵢ 값에 대응된다.",
+    "검사값들은 θᵢ 값에 대응된다."
+   ],
+   "explanation_ko": "θ₀ 는 편향(스칼라) (A 참, B 거짓). 시그모이드 출력이므로 y 와 g(…) 의 범위는 (0,1) (C·D 참). 검사값은 입력 특징이므로 x 에 들어간다 (E 참, F 거짓). ⚠️ 함정: B — \"벡터\" → \"스칼라\"이면 참. ⚠️ 함정: F — \"θᵢ\" → \"xᵢ\"이면 참.",
+   "topic_en": "Properties of the scalar sigmoid hypothesis",
+   "prompt_en": "The hypothesis is y = g(θ₂x₂ + θ₁x₁ + θ₀), g = sigmoid, and y is a scalar. Which statements are true?",
+   "options_en": [
+    "θ₀ is a scalar.",
+    "θ₀ is a vector.",
+    "The range of y is (0, 1).",
+    "The range of g(θ₂x₂ + θ₁x₁ + θ₀) is (0, 1).",
+    "The lab values are assigned to the xᵢ values.",
+    "The lab values are assigned to the θᵢ values."
+   ],
+   "explanation_en": "θ₀ is the bias, a scalar (A true, B false). As a sigmoid output, both y and g(…) are in (0,1) (C and D true). The lab values are input features, so they go into x (E true, F false). ⚠️ Trap: B — \"a vector\" → \"a scalar\" would make it TRUE. ⚠️ Trap: F — \"the θᵢ values\" → \"the xᵢ values\" would make it TRUE."
+  },
+  {
+   "id": "D-23",
+   "part": "A",
+   "lecture": "Lecture 2",
+   "topic": "MSE 손실 J(Θ) = 1/(2m) Σ (ŷ − y)² 의 구성요소",
+   "prompt": "J(Θ) = 1/(2m) Σⱼ₌₁ᵐ (ŷ⁽ʲ⁾ − y⁽ʲ⁾)² 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "회귀 과제에 더 적합하다.",
+    "분류 과제에 더 적합하다.",
+    "변수 j 는 훈련 예제의 인덱스다.",
+    "m 은 훈련 예제의 개수다.",
+    "J(Θ) 는 스칼라다.",
+    "J(Θ) 는 m개 원소를 갖는 벡터다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "제곱오차 평균이므로 회귀용 (A 참, B 거짓). j 는 예제 인덱스 (C 참), m 은 예제 수 (D 참). 모든 예제를 합쳐 하나의 수로 만들므로 J 는 스칼라 (E 참, F 거짓). ⚠️ 함정: B — \"분류\" → \"회귀\"이면 참. ⚠️ 함정: F — \"벡터\" → \"스칼라\"이면 참.",
+   "topic_ko": "MSE 손실 J(Θ) = 1/(2m) Σ (ŷ − y)² 의 구성요소",
+   "prompt_ko": "J(Θ) = 1/(2m) Σⱼ₌₁ᵐ (ŷ⁽ʲ⁾ − y⁽ʲ⁾)² 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "회귀 과제에 더 적합하다.",
+    "분류 과제에 더 적합하다.",
+    "변수 j 는 훈련 예제의 인덱스다.",
+    "m 은 훈련 예제의 개수다.",
+    "J(Θ) 는 스칼라다.",
+    "J(Θ) 는 m개 원소를 갖는 벡터다."
+   ],
+   "explanation_ko": "제곱오차 평균이므로 회귀용 (A 참, B 거짓). j 는 예제 인덱스 (C 참), m 은 예제 수 (D 참). 모든 예제를 합쳐 하나의 수로 만들므로 J 는 스칼라 (E 참, F 거짓). ⚠️ 함정: B — \"분류\" → \"회귀\"이면 참. ⚠️ 함정: F — \"벡터\" → \"스칼라\"이면 참.",
+   "topic_en": "Components of the MSE loss J(Θ) = 1/(2m) Σ (ŷ − y)²",
+   "prompt_en": "Consider J(Θ) = 1/(2m) Σⱼ₌₁ᵐ (ŷ⁽ʲ⁾ − y⁽ʲ⁾)². Which statements are true?",
+   "options_en": [
+    "It is more suitable for a regression task.",
+    "It is more suitable for a classification task.",
+    "The variable j indexes the training examples.",
+    "m is the number of training examples.",
+    "J(Θ) is a scalar.",
+    "J(Θ) is a vector with m elements."
+   ],
+   "explanation_en": "It is a mean squared error, so it is for regression (A true, B false). j indexes the examples (C true) and m is their number (D true). Everything is reduced to one number, so J is a scalar (E true, F false). ⚠️ Trap: B — \"classification\" → \"regression\" would make it TRUE. ⚠️ Trap: F — \"a vector\" → \"a scalar\" would make it TRUE."
+  },
+  {
+   "id": "D-24",
+   "part": "A",
+   "lecture": "Lecture 3",
+   "topic": "여러 손실함수의 용도",
+   "prompt": "이진 교차엔트로피 J(Θ) = −(1/m) Σⱼ [ y⁽ʲ⁾ ln ŷ⁽ʲ⁾ + (1 − y⁽ʲ⁾) ln(1 − ŷ⁽ʲ⁾) ], 다중 출력 MSE J(Θ) = 1/(2mk) Σⱼ Σᵢ (ŷᵢ⁽ʲ⁾ − yᵢ⁽ʲ⁾)², 다중 클래스 교차엔트로피 J(Θ) = −(1/m) Σⱼ Σᵢ yᵢ⁽ʲ⁾ ln ŷᵢ⁽ʲ⁾ 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "이진 교차엔트로피는 분류용이다.",
+    "다중 출력 MSE 는 회귀용이다.",
+    "다중 클래스 교차엔트로피는 소프트맥스 출력과 one-hot 레이블과 함께 쓴다.",
+    "다중 출력 MSE 에서 k 는 레이블 벡터의 원소 개수다.",
+    "다중 클래스 교차엔트로피에서 i 는 클래스의 인덱스다.",
+    "세 손실 모두 J 의 값으로 벡터를 준다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "BCE 는 분류 (A 참). 다중 출력 MSE 는 회귀 (B 참). 다중 클래스 CE 는 소프트맥스 + one-hot (C 참). k = 레이블 벡터 원소 수 (D 참). i = 클래스 인덱스 (E 참). 세 손실 모두 스칼라를 준다 (F 거짓). ⚠️ 함정: F — \"벡터\" → \"스칼라\"이면 참.",
+   "topic_ko": "여러 손실함수의 용도",
+   "prompt_ko": "이진 교차엔트로피 J(Θ) = −(1/m) Σⱼ [ y⁽ʲ⁾ ln ŷ⁽ʲ⁾ + (1 − y⁽ʲ⁾) ln(1 − ŷ⁽ʲ⁾) ], 다중 출력 MSE J(Θ) = 1/(2mk) Σⱼ Σᵢ (ŷᵢ⁽ʲ⁾ − yᵢ⁽ʲ⁾)², 다중 클래스 교차엔트로피 J(Θ) = −(1/m) Σⱼ Σᵢ yᵢ⁽ʲ⁾ ln ŷᵢ⁽ʲ⁾ 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "이진 교차엔트로피는 분류용이다.",
+    "다중 출력 MSE 는 회귀용이다.",
+    "다중 클래스 교차엔트로피는 소프트맥스 출력과 one-hot 레이블과 함께 쓴다.",
+    "다중 출력 MSE 에서 k 는 레이블 벡터의 원소 개수다.",
+    "다중 클래스 교차엔트로피에서 i 는 클래스의 인덱스다.",
+    "세 손실 모두 J 의 값으로 벡터를 준다."
+   ],
+   "explanation_ko": "BCE 는 분류 (A 참). 다중 출력 MSE 는 회귀 (B 참). 다중 클래스 CE 는 소프트맥스 + one-hot (C 참). k = 레이블 벡터 원소 수 (D 참). i = 클래스 인덱스 (E 참). 세 손실 모두 스칼라를 준다 (F 거짓). ⚠️ 함정: F — \"벡터\" → \"스칼라\"이면 참.",
+   "topic_en": "What each loss function is for",
+   "prompt_en": "Binary cross-entropy J(Θ) = −(1/m) Σⱼ [ y⁽ʲ⁾ ln ŷ⁽ʲ⁾ + (1 − y⁽ʲ⁾) ln(1 − ŷ⁽ʲ⁾) ], multi-output MSE J(Θ) = 1/(2mk) Σⱼ Σᵢ (ŷᵢ⁽ʲ⁾ − yᵢ⁽ʲ⁾)², and multi-class cross-entropy J(Θ) = −(1/m) Σⱼ Σᵢ yᵢ⁽ʲ⁾ ln ŷᵢ⁽ʲ⁾. Which statements are true?",
+   "options_en": [
+    "Binary cross-entropy is for classification.",
+    "Multi-output MSE is for regression.",
+    "Multi-class cross-entropy is used with softmax outputs and one-hot labels.",
+    "In the multi-output MSE, k is the number of elements of the label vector.",
+    "In the multi-class cross-entropy, i indexes the classes.",
+    "All three losses give a vector as the value of J."
+   ],
+   "explanation_en": "BCE is for classification (A true). Multi-output MSE is for regression (B true). Multi-class CE goes with softmax and one-hot labels (C true). k is the number of label elements (D true) and i indexes the classes (E true). All three give a scalar, so F is false. ⚠️ Trap: F — \"a vector\" → \"a scalar\" would make it TRUE."
+  },
+  {
+   "id": "D-25",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "회귀 MLP(20→10→1)의 파라미터와 활성함수",
+   "prompt": "h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) 형태의 MLP 로 20개 입력 변수에서 연속값 하나를 추정하는 회귀 과제를 푼다. 첫 층 뉴런은 10개다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "네트워크의 전체 파라미터는 221개다.",
+    "첫 번째 층의 파라미터는 210개다.",
+    "g₁ 을 생략하는 것이 좋다.",
+    "g₂ 를 생략(항등함수)하는 것이 좋다.",
+    "g₂ 는 시그모이드여야 한다.",
+    "W₁ 의 shape 은 10×20 이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D",
+    "F"
+   ],
+   "explanation": "20·10 + 10 = 210 (B 참), 10 + 1 = 11, 합계 221 (A 참). W₁ 은 (은닉, 입력) = 10×20 (F 참). g₁ 은 비선형성이므로 반드시 필요하다 (C 거짓). 회귀의 출력은 제한이 없어야 하므로 g₂ 는 항등함수 (D 참, E 거짓). ⚠️ 함정: C — \"g₁을 생략\" → \"g₁은 반드시 유지\"이면 참. ⚠️ 함정: E — \"시그모이드\" → \"항등함수\"이면 참.",
+   "topic_ko": "회귀 MLP(20→10→1)의 파라미터와 활성함수",
+   "prompt_ko": "h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂) 형태의 MLP 로 20개 입력 변수에서 연속값 하나를 추정하는 회귀 과제를 푼다. 첫 층 뉴런은 10개다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "네트워크의 전체 파라미터는 221개다.",
+    "첫 번째 층의 파라미터는 210개다.",
+    "g₁ 을 생략하는 것이 좋다.",
+    "g₂ 를 생략(항등함수)하는 것이 좋다.",
+    "g₂ 는 시그모이드여야 한다.",
+    "W₁ 의 shape 은 10×20 이다."
+   ],
+   "explanation_ko": "20·10 + 10 = 210 (B 참), 10 + 1 = 11, 합계 221 (A 참). W₁ 은 (은닉, 입력) = 10×20 (F 참). g₁ 은 비선형성이므로 반드시 필요하다 (C 거짓). 회귀의 출력은 제한이 없어야 하므로 g₂ 는 항등함수 (D 참, E 거짓). ⚠️ 함정: C — \"g₁을 생략\" → \"g₁은 반드시 유지\"이면 참. ⚠️ 함정: E — \"시그모이드\" → \"항등함수\"이면 참.",
+   "topic_en": "Regression MLP (20→10→1): parameters and activations",
+   "prompt_en": "Consider h(x) = g₂(W₂·g₁(W₁x + b₁) + b₂). We use this MLP for a regression task with 20 input variables, estimating a single continuous value, with 10 neurons in the first layer. Which statements are true?",
+   "options_en": [
+    "The whole network has 221 parameters.",
+    "The first layer has 210 parameters.",
+    "We should omit g₁.",
+    "We should omit g₂ (use the identity).",
+    "g₂ should be a sigmoid.",
+    "W₁ has shape 10×20."
+   ],
+   "explanation_en": "20·10 + 10 = 210 (B true) and 10 + 1 = 11, so the total is 221 (A true). W₁ is (hidden, input) = 10×20 (F true). g₁ provides the nonlinearity and must stay (C false). A regression output must be unrestricted, so g₂ is the identity (D true, E false). ⚠️ Trap: C — \"omit g₁\" → \"keep g₁\" would make it TRUE. ⚠️ Trap: E — \"a sigmoid\" → \"the identity\" would make it TRUE."
+  },
+  {
+   "id": "D-26",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "이진 분류 MLP(20→10→1)의 설정",
+   "prompt": "같은 MLP(입력 20개, 첫 층 뉴런 10개, 출력 뉴런 1개)를 이진 분류에 쓸 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "네트워크의 전체 파라미터는 221개다.",
+    "g₂ 는 시그모이드여야 한다.",
+    "손실함수는 이진 교차엔트로피가 적절하다.",
+    "g₁ 을 생략하는 것이 좋다.",
+    "g₂ 를 생략하는 것이 좋다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "파라미터 수는 20·10+10 + 10+1 = 221 (A 참). 이진 분류 출력은 시그모이드 (B 참). 손실은 BCE (C 참). g₁ 은 비선형성으로 필요하고 (D 거짓), g₂ 는 확률로 제한해야 하므로 생략하면 안 된다 (E 거짓). ⚠️ 함정: D — \"g₁을 생략\" → \"g₁은 반드시 유지\"이면 참. ⚠️ 함정: E — \"g₂를 생략\" → \"g₂는 시그모이드\"이면 참.",
+   "topic_ko": "이진 분류 MLP(20→10→1)의 설정",
+   "prompt_ko": "같은 MLP(입력 20개, 첫 층 뉴런 10개, 출력 뉴런 1개)를 이진 분류에 쓸 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "네트워크의 전체 파라미터는 221개다.",
+    "g₂ 는 시그모이드여야 한다.",
+    "손실함수는 이진 교차엔트로피가 적절하다.",
+    "g₁ 을 생략하는 것이 좋다.",
+    "g₂ 를 생략하는 것이 좋다."
+   ],
+   "explanation_ko": "파라미터 수는 20·10+10 + 10+1 = 221 (A 참). 이진 분류 출력은 시그모이드 (B 참). 손실은 BCE (C 참). g₁ 은 비선형성으로 필요하고 (D 거짓), g₂ 는 확률로 제한해야 하므로 생략하면 안 된다 (E 거짓). ⚠️ 함정: D — \"g₁을 생략\" → \"g₁은 반드시 유지\"이면 참. ⚠️ 함정: E — \"g₂를 생략\" → \"g₂는 시그모이드\"이면 참.",
+   "topic_en": "Binary classification MLP (20→10→1)",
+   "prompt_en": "The same MLP is used for binary classification with 20 inputs, 10 neurons in the first layer and one output neuron. Which statements are true?",
+   "options_en": [
+    "The whole network has 221 parameters.",
+    "g₂ should be a sigmoid.",
+    "The loss should be binary cross-entropy.",
+    "We should omit g₁.",
+    "We should omit g₂."
+   ],
+   "explanation_en": "The parameter count is 20·10+10 + 10+1 = 221 (A true). A binary output uses a sigmoid (B true). The loss is BCE (C true). g₁ provides the nonlinearity (D false) and g₂ must limit the output to a probability (E false). ⚠️ Trap: D — \"omit g₁\" → \"keep g₁\" would make it TRUE. ⚠️ Trap: E — \"omit g₂\" → \"g₂ is a sigmoid\" would make it TRUE."
+  },
+  {
+   "id": "D-27",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "다중 클래스 MLP(20→10→5)의 shape과 파라미터",
+   "prompt": "같은 MLP 를 다중 클래스 분류에 쓴다. 입력 20개, 첫 층 뉴런 10개, 클래스 5개일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "W₂ 의 shape 은 5×10 이다.",
+    "네트워크의 전체 파라미터는 265개다.",
+    "g₂ 는 소프트맥스여야 한다.",
+    "손실함수는 (범주형) 교차엔트로피가 적절하다.",
+    "5개 출력의 합은 1이다.",
+    "g₂ 는 항등함수여야 한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "W₂ 는 (출력, 은닉) = 5×10 (A 참). 첫 층 210 + 둘째 층(5·10 + 5 = 55) = 265 (B 참). 다중 클래스 출력은 소프트맥스 + 교차엔트로피 (C·D 참) 이므로 출력의 합이 1 (E 참). 항등함수는 아니다 (F 거짓). ⚠️ 함정: F — \"항등함수\" → \"소프트맥스\"이면 참.",
+   "topic_ko": "다중 클래스 MLP(20→10→5)의 shape과 파라미터",
+   "prompt_ko": "같은 MLP 를 다중 클래스 분류에 쓴다. 입력 20개, 첫 층 뉴런 10개, 클래스 5개일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "W₂ 의 shape 은 5×10 이다.",
+    "네트워크의 전체 파라미터는 265개다.",
+    "g₂ 는 소프트맥스여야 한다.",
+    "손실함수는 (범주형) 교차엔트로피가 적절하다.",
+    "5개 출력의 합은 1이다.",
+    "g₂ 는 항등함수여야 한다."
+   ],
+   "explanation_ko": "W₂ 는 (출력, 은닉) = 5×10 (A 참). 첫 층 210 + 둘째 층(5·10 + 5 = 55) = 265 (B 참). 다중 클래스 출력은 소프트맥스 + 교차엔트로피 (C·D 참) 이므로 출력의 합이 1 (E 참). 항등함수는 아니다 (F 거짓). ⚠️ 함정: F — \"항등함수\" → \"소프트맥스\"이면 참.",
+   "topic_en": "Multi-class MLP (20→10→5)",
+   "prompt_en": "The same MLP is used for multi-class classification with 20 inputs, 10 neurons in the first layer and 5 classes. Which statements are true?",
+   "options_en": [
+    "W₂ has shape 5×10.",
+    "The whole network has 265 parameters.",
+    "g₂ should be softmax.",
+    "The loss should be (categorical) cross-entropy.",
+    "The 5 outputs sum to 1.",
+    "g₂ should be the identity."
+   ],
+   "explanation_en": "W₂ is (output, hidden) = 5×10 (A true). 210 in the first layer + (5·10 + 5 = 55) in the second = 265 (B true). A multi-class output uses softmax + cross-entropy (C and D true), so the outputs sum to 1 (E true). It is not the identity (F false). ⚠️ Trap: F — \"the identity\" → \"softmax\" would make it TRUE."
+  },
+  {
+   "id": "D-28",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "활성함수의 모양과 출력 범위",
+   "prompt": "활성함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "시그모이드: S자 모양, 범위 (0, 1), g(0) = 0.5 다.",
+    "tanh: S자 모양, 범위 (−1, 1), g(0) = 0 이다.",
+    "ReLU: 음수 입력에서는 0, 양수 입력에서는 입력값 그대로이며 범위는 [0, ∞) 다.",
+    "ReLU 의 범위는 (−1, 1)이다.",
+    "시그모이드의 범위는 (−1, 1)이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "시그모이드는 S자, (0,1), g(0)=0.5 (A 참). tanh 는 S자, (−1,1), g(0)=0 (B 참). ReLU 는 max(0,z) 로 범위 [0,∞) (C 참). ReLU 는 (−1,1) 이 아니고 (D 거짓) 시그모이드도 (−1,1) 이 아니다 (E 거짓). ⚠️ 함정: D — \"(−1, 1)\" → \"[0, ∞)\"이면 참. ⚠️ 함정: E — \"(−1, 1)\" → \"(0, 1)\"이면 참.",
+   "topic_ko": "활성함수의 모양과 출력 범위",
+   "prompt_ko": "활성함수에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "시그모이드: S자 모양, 범위 (0, 1), g(0) = 0.5 다.",
+    "tanh: S자 모양, 범위 (−1, 1), g(0) = 0 이다.",
+    "ReLU: 음수 입력에서는 0, 양수 입력에서는 입력값 그대로이며 범위는 [0, ∞) 다.",
+    "ReLU 의 범위는 (−1, 1)이다.",
+    "시그모이드의 범위는 (−1, 1)이다."
+   ],
+   "explanation_ko": "시그모이드는 S자, (0,1), g(0)=0.5 (A 참). tanh 는 S자, (−1,1), g(0)=0 (B 참). ReLU 는 max(0,z) 로 범위 [0,∞) (C 참). ReLU 는 (−1,1) 이 아니고 (D 거짓) 시그모이드도 (−1,1) 이 아니다 (E 거짓). ⚠️ 함정: D — \"(−1, 1)\" → \"[0, ∞)\"이면 참. ⚠️ 함정: E — \"(−1, 1)\" → \"(0, 1)\"이면 참.",
+   "topic_en": "Shapes and ranges of activation functions",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "Sigmoid: S-shaped, range (0, 1), g(0) = 0.5.",
+    "tanh: S-shaped, range (−1, 1), g(0) = 0.",
+    "ReLU: 0 for negative inputs, equal to the input for positive inputs, range [0, ∞).",
+    "ReLU: range (−1, 1).",
+    "Sigmoid: range (−1, 1)."
+   ],
+   "explanation_en": "The sigmoid is S-shaped with range (0,1) and g(0) = 0.5 (A true). tanh is S-shaped with range (−1,1) and g(0) = 0 (B true). ReLU is max(0,z) with range [0,∞) (C true). ReLU is not (−1,1) (D false) and neither is the sigmoid (E false). ⚠️ Trap: D — \"range (−1, 1)\" → \"range [0, ∞)\" would make it TRUE. ⚠️ Trap: E — \"range (−1, 1)\" → \"range (0, 1)\" would make it TRUE."
+  },
+  {
+   "id": "D-29",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "과대적합을 더 심하게 만드는 변화",
+   "prompt": "다음 중 과대적합을 더 심하게 만드는 변화를 모두 고르시오.",
+   "options": [
+    "훈련 예제 수를 줄인다.",
+    "테스트 예제 수를 줄인다.",
+    "훈련 예제 수를 늘린다.",
+    "모델 파라미터 수를 줄인다.",
+    "모델 파라미터 수를 늘린다."
+   ],
+   "correct": [
+    "A",
+    "E"
+   ],
+   "explanation": "훈련 데이터가 적을수록 과대적합이 심해진다 (A 참). 테스트 예제 수는 과대적합 자체를 바꾸지 않는다 (B 거짓). 훈련 데이터를 늘리면 완화된다 (C 거짓). 파라미터를 줄이면 단순해져 완화된다 (D 거짓). 파라미터가 많으면 과대적합이 심해진다 (E 참). ⚠️ 함정: B — \"테스트 예제 수\" → \"훈련 예제 수\"이면 참. ⚠️ 함정: C — \"늘린다\" → \"줄인다\"이면 참. ⚠️ 함정: D — \"파라미터 수를 줄인다\" → \"늘린다\"이면 참.",
+   "topic_ko": "과대적합을 더 심하게 만드는 변화",
+   "prompt_ko": "다음 중 과대적합을 더 심하게 만드는 변화를 모두 고르시오.",
+   "options_ko": [
+    "훈련 예제 수를 줄인다.",
+    "테스트 예제 수를 줄인다.",
+    "훈련 예제 수를 늘린다.",
+    "모델 파라미터 수를 줄인다.",
+    "모델 파라미터 수를 늘린다."
+   ],
+   "explanation_ko": "훈련 데이터가 적을수록 과대적합이 심해진다 (A 참). 테스트 예제 수는 과대적합 자체를 바꾸지 않는다 (B 거짓). 훈련 데이터를 늘리면 완화된다 (C 거짓). 파라미터를 줄이면 단순해져 완화된다 (D 거짓). 파라미터가 많으면 과대적합이 심해진다 (E 참). ⚠️ 함정: B — \"테스트 예제 수\" → \"훈련 예제 수\"이면 참. ⚠️ 함정: C — \"늘린다\" → \"줄인다\"이면 참. ⚠️ 함정: D — \"파라미터 수를 줄인다\" → \"늘린다\"이면 참.",
+   "topic_en": "What makes overfitting more severe?",
+   "prompt_en": "Do we expect overfitting to become more severe if we:",
+   "options_en": [
+    "Decrease the number of training examples?",
+    "Decrease the number of test examples?",
+    "Increase the number of training examples?",
+    "Decrease the number of parameters of the model?",
+    "Increase the number of parameters of the model?"
+   ],
+   "explanation_en": "Less training data makes overfitting worse (A true). The test-set size does not change overfitting itself (B false). More training data mitigates it (C false). Fewer parameters make the model simpler (D false). More parameters increase overfitting (E true). ⚠️ Trap: B — \"test examples\" → \"training examples\" would make it TRUE. ⚠️ Trap: C — \"increase\" → \"decrease\" would make it TRUE. ⚠️ Trap: D — \"decrease the parameters\" → \"increase them\" would make it TRUE."
+  },
+  {
+   "id": "D-30",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "조기 종료의 기준과 시점",
+   "prompt": "조기 종료(early stopping)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "과대적합을 줄이기 위해 사용한다.",
+    "검증 손실이 더 이상 개선되지 않을 때(증가하기 시작할 때) 멈춘다.",
+    "훈련 손실이 증가하기 시작할 때 멈춘다.",
+    "테스트 손실이 증가하기 시작할 때 멈춘다.",
+    "가장 좋았던 검증 손실 시점의 파라미터를 유지한다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "E"
+   ],
+   "explanation": "조기 종료는 과대적합 완화 기법 (A 참). 기준은 검증 손실이며 더 이상 개선되지 않을 때 멈춘다 (B 참). 훈련 손실은 보통 계속 감소하므로 기준이 될 수 없고 (C 거짓), 테스트 손실을 쓰면 데이터 누출이다 (D 거짓). 최적 검증 시점의 파라미터를 유지한다 (E 참). ⚠️ 함정: C — \"훈련 손실\" → \"검증 손실\"이면 참. ⚠️ 함정: D — \"테스트 손실\" → \"검증 손실\"이면 참.",
+   "topic_ko": "조기 종료의 기준과 시점",
+   "prompt_ko": "조기 종료(early stopping)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "과대적합을 줄이기 위해 사용한다.",
+    "검증 손실이 더 이상 개선되지 않을 때(증가하기 시작할 때) 멈춘다.",
+    "훈련 손실이 증가하기 시작할 때 멈춘다.",
+    "테스트 손실이 증가하기 시작할 때 멈춘다.",
+    "가장 좋았던 검증 손실 시점의 파라미터를 유지한다."
+   ],
+   "explanation_ko": "조기 종료는 과대적합 완화 기법 (A 참). 기준은 검증 손실이며 더 이상 개선되지 않을 때 멈춘다 (B 참). 훈련 손실은 보통 계속 감소하므로 기준이 될 수 없고 (C 거짓), 테스트 손실을 쓰면 데이터 누출이다 (D 거짓). 최적 검증 시점의 파라미터를 유지한다 (E 참). ⚠️ 함정: C — \"훈련 손실\" → \"검증 손실\"이면 참. ⚠️ 함정: D — \"테스트 손실\" → \"검증 손실\"이면 참.",
+   "topic_en": "Early stopping: criterion and timing",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "We use early stopping to reduce overfitting.",
+    "We should stop training when the validation loss stops improving (starts to increase).",
+    "We should stop training when the training loss begins to increase.",
+    "We should stop training when the test loss begins to increase.",
+    "We should keep the parameters from the point of the best validation loss."
+   ],
+   "explanation_en": "Early stopping reduces overfitting (A true). The criterion is the validation loss, stopping when it no longer improves (B true). The training loss normally keeps falling (C false) and using the test loss is data leakage (D false). We keep the parameters of the best validation point (E true). ⚠️ Trap: C — \"the training loss\" → \"the validation loss\" would make it TRUE. ⚠️ Trap: D — \"the test loss\" → \"the validation loss\" would make it TRUE."
+  },
+  {
+   "id": "D-31",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "훈련 손실 감소 + 검증 손실 증가의 해석",
+   "prompt": "검증 손실이 계속 증가하는 동안 훈련 손실이 계속 감소한다. 옳은 것을 모두 고르시오.",
+   "options": [
+    "과대적합의 신호로 해석할 수 있다.",
+    "과대적합이 점점 심해지고 있다.",
+    "과소적합의 신호다.",
+    "모델이 점점 더 잘 일반화되고 있다."
+   ],
+   "correct": [
+    "A",
+    "B"
+   ],
+   "explanation": "훈련 손실은 감소하는데 검증 손실이 증가하면 과대적합의 전형적 신호이며 그 정도가 심해지는 것이다 (A·B 참). 과소적합은 둘 다 높은 경우이고 (C 거짓), 일반화가 좋아지고 있다는 해석은 반대다 (D 거짓). ⚠️ 함정: C — \"과소적합\" → \"과대적합\"이면 참. ⚠️ 함정: D — \"일반화가 좋아진다\" → \"나빠진다\"이면 참.",
+   "topic_ko": "훈련 손실 감소 + 검증 손실 증가의 해석",
+   "prompt_ko": "검증 손실이 계속 증가하는 동안 훈련 손실이 계속 감소한다. 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "과대적합의 신호로 해석할 수 있다.",
+    "과대적합이 점점 심해지고 있다.",
+    "과소적합의 신호다.",
+    "모델이 점점 더 잘 일반화되고 있다."
+   ],
+   "explanation_ko": "훈련 손실은 감소하는데 검증 손실이 증가하면 과대적합의 전형적 신호이며 그 정도가 심해지는 것이다 (A·B 참). 과소적합은 둘 다 높은 경우이고 (C 거짓), 일반화가 좋아지고 있다는 해석은 반대다 (D 거짓). ⚠️ 함정: C — \"과소적합\" → \"과대적합\"이면 참. ⚠️ 함정: D — \"일반화가 좋아진다\" → \"나빠진다\"이면 참.",
+   "topic_en": "Training loss down while validation loss up",
+   "prompt_en": "The validation loss keeps increasing while the training loss keeps decreasing. Which statements are true?",
+   "options_en": [
+    "This can be interpreted as a sign of overfitting.",
+    "The overfitting is getting more severe.",
+    "This is a sign of underfitting.",
+    "The model is generalizing better and better."
+   ],
+   "explanation_en": "Falling training loss with rising validation loss is the classic overfitting sign and it is getting worse (A and B true). Underfitting is when both losses are high (C false), and the model is definitely not generalizing better (D false). ⚠️ Trap: C — \"underfitting\" → \"overfitting\" would make it TRUE. ⚠️ Trap: D — \"generalizing better\" → \"generalizing worse\" would make it TRUE."
+  },
+  {
+   "id": "D-32",
+   "part": "A",
+   "lecture": "Lecture 4",
+   "topic": "파라미터와 하이퍼파라미터의 구분",
+   "prompt": "파라미터와 하이퍼파라미터에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "신경망의 파라미터는 보통 경사하강법 계열 알고리즘(SGD 등)으로 학습한다.",
+    "신경망의 하이퍼파라미터도 보통 경사하강법 계열 알고리즘으로 학습한다.",
+    "학습률과 층 수는 하이퍼파라미터다.",
+    "가중치 행렬 W 와 편향 벡터 b 는 파라미터다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "파라미터(W, b)는 경사하강법으로 학습한다 (A 참, D 참). 하이퍼파라미터는 미분 대상이 아니며 탐색으로 고른다 (B 거짓). 학습률·층 수는 대표적인 하이퍼파라미터 (C 참). ⚠️ 함정: B — \"하이퍼파라미터도 경사하강법으로\" → \"탐색으로 고른다\"이면 참.",
+   "topic_ko": "파라미터와 하이퍼파라미터의 구분",
+   "prompt_ko": "파라미터와 하이퍼파라미터에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "신경망의 파라미터는 보통 경사하강법 계열 알고리즘(SGD 등)으로 학습한다.",
+    "신경망의 하이퍼파라미터도 보통 경사하강법 계열 알고리즘으로 학습한다.",
+    "학습률과 층 수는 하이퍼파라미터다.",
+    "가중치 행렬 W 와 편향 벡터 b 는 파라미터다."
+   ],
+   "explanation_ko": "파라미터(W, b)는 경사하강법으로 학습한다 (A 참, D 참). 하이퍼파라미터는 미분 대상이 아니며 탐색으로 고른다 (B 거짓). 학습률·층 수는 대표적인 하이퍼파라미터 (C 참). ⚠️ 함정: B — \"하이퍼파라미터도 경사하강법으로\" → \"탐색으로 고른다\"이면 참.",
+   "topic_en": "Parameters vs hyperparameters",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "The parameters of a neural network are usually trained with a gradient-descent-based algorithm (like SGD).",
+    "The hyperparameters of a neural network are usually trained with a gradient-descent-based algorithm.",
+    "The learning rate and the number of layers are hyperparameters.",
+    "The weight matrices W and bias vectors b are parameters."
+   ],
+   "explanation_en": "The parameters (W, b) are trained by gradient descent (A and D true). Hyperparameters are not differentiable and are chosen by search (B false). The learning rate and the number of layers are typical hyperparameters (C true). ⚠️ Trap: B — \"hyperparameters are trained by gradient descent\" → \"chosen by search\" would make it TRUE."
+  },
+  {
+   "id": "D-33",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "SGD와 미니배치의 정의",
+   "prompt": "확률적 경사하강법(SGD)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "전체 훈련집합이 아니라 무작위로 선택한 부분집합에서 그래디언트를 계산한다.",
+    "그 부분집합을 미니배치(mini-batch)라고 부른다.",
+    "SGD 는 항상 정확히 훈련 예시 1개만 사용하며 그보다 많을 수 없다.",
+    "매 스텝마다 전체 훈련집합에서 그래디언트를 계산하는 것이 '배치' 경사하강법이다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "SGD 는 무작위로 뽑은 미니배치에서 그래디언트를 계산한다 (A 참, B 참). 예시 1개는 미니배치 크기가 1인 극단적 경우일 뿐이다 (C 거짓). 전체 집합을 쓰는 것이 배치 경사하강법 (D 참). ⚠️ 함정: C — \"정확히 1개만\" → \"미니배치 크기는 조절 가능\"이면 참.",
+   "topic_ko": "SGD와 미니배치의 정의",
+   "prompt_ko": "확률적 경사하강법(SGD)에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "전체 훈련집합이 아니라 무작위로 선택한 부분집합에서 그래디언트를 계산한다.",
+    "그 부분집합을 미니배치(mini-batch)라고 부른다.",
+    "SGD 는 항상 정확히 훈련 예시 1개만 사용하며 그보다 많을 수 없다.",
+    "매 스텝마다 전체 훈련집합에서 그래디언트를 계산하는 것이 '배치' 경사하강법이다."
+   ],
+   "explanation_ko": "SGD 는 무작위로 뽑은 미니배치에서 그래디언트를 계산한다 (A 참, B 참). 예시 1개는 미니배치 크기가 1인 극단적 경우일 뿐이다 (C 거짓). 전체 집합을 쓰는 것이 배치 경사하강법 (D 참). ⚠️ 함정: C — \"정확히 1개만\" → \"미니배치 크기는 조절 가능\"이면 참.",
+   "topic_en": "SGD and the mini-batch",
+   "prompt_en": "Which statements are true?",
+   "options_en": [
+    "SGD computes the gradient on a randomly selected sub-sample of the data, not on the whole training set.",
+    "The sub-sample is called a mini-batch.",
+    "SGD always uses exactly one training example per step, and never more.",
+    "Computing the gradient on the whole training set at every step is the \"batch\" gradient descent."
+   ],
+   "explanation_en": "SGD computes the gradient on a randomly chosen mini-batch (A and B true). A single example is only the extreme case (C false). Using the whole set is batch gradient descent (D true). ⚠️ Trap: C — \"exactly one example\" → \"the batch size is adjustable\" would make it TRUE."
+  },
+  {
+   "id": "D-34",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "배치 크기를 늘리면 생기는 변화",
+   "prompt": "미니배치 SGD 에서 배치 크기를 늘리면 어떻게 되는지 옳은 것을 모두 고르시오.",
+   "options": [
+    "그래디언트 추정이 덜 잡음적이 된다(분산이 작아진다).",
+    "스텝마다 더 많은 계산과 메모리가 필요하다.",
+    "그래디언트 추정이 더 잡음적이 된다.",
+    "그래디언트 추정이 전체 훈련집합의 그래디언트에 더 가까워진다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "배치가 크면 표본이 많아져 분산이 작아지고 추정이 안정적이다 (A 참). 계산·메모리 비용은 커진다 (B 참). 더 잡음적이 된다는 것은 반대 (C 거짓). 배치가 클수록 전체 집합의 그래디언트에 가까워진다 (D 참). ⚠️ 함정: C — \"더 잡음적\" → \"덜 잡음적\"이면 참.",
+   "topic_ko": "배치 크기를 늘리면 생기는 변화",
+   "prompt_ko": "미니배치 SGD 에서 배치 크기를 늘리면 어떻게 되는지 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "그래디언트 추정이 덜 잡음적이 된다(분산이 작아진다).",
+    "스텝마다 더 많은 계산과 메모리가 필요하다.",
+    "그래디언트 추정이 더 잡음적이 된다.",
+    "그래디언트 추정이 전체 훈련집합의 그래디언트에 더 가까워진다."
+   ],
+   "explanation_ko": "배치가 크면 표본이 많아져 분산이 작아지고 추정이 안정적이다 (A 참). 계산·메모리 비용은 커진다 (B 참). 더 잡음적이 된다는 것은 반대 (C 거짓). 배치가 클수록 전체 집합의 그래디언트에 가까워진다 (D 참). ⚠️ 함정: C — \"더 잡음적\" → \"덜 잡음적\"이면 참.",
+   "topic_en": "Increasing the batch size",
+   "prompt_en": "In mini-batch SGD, if we increase the batch size:",
+   "options_en": [
+    "The gradient estimate becomes less noisy (lower variance).",
+    "Each step needs more computation and memory.",
+    "The gradient estimate becomes noisier.",
+    "The gradient estimate is closer to the gradient of the full training set."
+   ],
+   "explanation_en": "More samples reduce the variance and stabilize the estimate (A true). The cost per step grows (B true). 'Noisier' is the opposite (C false). A larger batch gets closer to the full-set gradient (D true). ⚠️ Trap: C — \"noisier\" → \"less noisy\" would make it TRUE."
+  },
+  {
+   "id": "D-35",
+   "part": "A",
+   "lecture": "Lecture 5",
+   "topic": "배치 크기를 줄이면 생기는 변화",
+   "prompt": "미니배치 SGD 에서 배치 크기를 줄이면 어떻게 되는지 옳은 것을 모두 고르시오.",
+   "options": [
+    "그래디언트 추정이 더 잡음적이 된다(분산이 커진다).",
+    "스텝당 비용이 싸진다(계산·메모리가 적다).",
+    "그래디언트 추정이 더 정확해진다.",
+    "더 작은 학습률이 필요할 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "배치가 작으면 분산이 커져 잡음이 커진다 (A 참). 스텝당 비용은 싸진다 (B 참). 추정이 더 정확해지는 것이 아니라 부정확해진다 (C 거짓). 잡음이 크면 발산을 막기 위해 학습률을 줄이는 경우가 있다 (D 참). ⚠️ 함정: C — \"더 정확해진다\" → \"덜 정확해진다\"이면 참.",
+   "topic_ko": "배치 크기를 줄이면 생기는 변화",
+   "prompt_ko": "미니배치 SGD 에서 배치 크기를 줄이면 어떻게 되는지 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "그래디언트 추정이 더 잡음적이 된다(분산이 커진다).",
+    "스텝당 비용이 싸진다(계산·메모리가 적다).",
+    "그래디언트 추정이 더 정확해진다.",
+    "더 작은 학습률이 필요할 수 있다."
+   ],
+   "explanation_ko": "배치가 작으면 분산이 커져 잡음이 커진다 (A 참). 스텝당 비용은 싸진다 (B 참). 추정이 더 정확해지는 것이 아니라 부정확해진다 (C 거짓). 잡음이 크면 발산을 막기 위해 학습률을 줄이는 경우가 있다 (D 참). ⚠️ 함정: C — \"더 정확해진다\" → \"덜 정확해진다\"이면 참.",
+   "topic_en": "Decreasing the batch size",
+   "prompt_en": "In mini-batch SGD, if we decrease the batch size:",
+   "options_en": [
+    "The gradient estimate becomes noisier (higher variance).",
+    "Each step is cheaper (less computation and memory).",
+    "The gradient estimate becomes more exact.",
+    "A smaller learning rate may be needed."
+   ],
+   "explanation_en": "A smaller batch has higher variance (A true). Each step is cheaper (B true). The estimate becomes less exact, not more (C false). With more noise a smaller learning rate may be needed (D true). ⚠️ Trap: C — \"more exact\" → \"less exact\" would make it TRUE."
+  },
+  {
+   "id": "D-36",
+   "part": "A",
+   "lecture": "Lecture 6",
+   "topic": "제곱 노드의 그래디언트",
+   "prompt": "노드 c = b² 이다. grad_c = ∂J/∂c, grad_b = ∂J/∂b 일 때 grad_b 를 고르시오.",
+   "options": [
+    "grad_b = grad_c · 2 · c",
+    "grad_b = grad_c · 2 · b",
+    "grad_b = grad_c · c²",
+    "grad_b = grad_c"
+   ],
+   "correct": [
+    "B"
+   ],
+   "explanation": "c = b² 의 미분은 dc/db = 2b 이므로 grad_b = grad_c · 2b 다 (B 참). 2c 를 곱하거나 (A), c² 를 곱하거나 (C), 그대로 두는 것 (D)은 모두 틀리다. ⚠️ 함정: A — \"2·c\" → \"2·b\"이면 참. ⚠️ 함정: C — \"c²\" → \"2·b\"이면 참. ⚠️ 함정: D — \"그대로\" → \"2·b를 곱한다\"이면 참.",
+   "topic_ko": "제곱 노드의 그래디언트",
+   "prompt_ko": "노드 c = b² 이다. grad_c = ∂J/∂c, grad_b = ∂J/∂b 일 때 grad_b 를 고르시오.",
+   "options_ko": [
+    "grad_b = grad_c · 2 · c",
+    "grad_b = grad_c · 2 · b",
+    "grad_b = grad_c · c²",
+    "grad_b = grad_c"
+   ],
+   "explanation_ko": "c = b² 의 미분은 dc/db = 2b 이므로 grad_b = grad_c · 2b 다 (B 참). 2c 를 곱하거나 (A), c² 를 곱하거나 (C), 그대로 두는 것 (D)은 모두 틀리다. ⚠️ 함정: A — \"2·c\" → \"2·b\"이면 참. ⚠️ 함정: C — \"c²\" → \"2·b\"이면 참. ⚠️ 함정: D — \"그대로\" → \"2·b를 곱한다\"이면 참.",
+   "topic_en": "Gradient of the square node",
+   "prompt_en": "Node c = b². Let grad_c = ∂J/∂c and grad_b = ∂J/∂b. What is grad_b?",
+   "options_en": [
+    "grad_b = grad_c · 2 · c",
+    "grad_b = grad_c · 2 · b",
+    "grad_b = grad_c · c²",
+    "grad_b = grad_c"
+   ],
+   "explanation_en": "Since dc/db = 2b, we have grad_b = grad_c · 2b (B true). Multiplying by 2c (A), by c² (C) or not multiplying at all (D) are all wrong. ⚠️ Trap: A — \"2 · c\" → \"2 · b\" would make it TRUE. ⚠️ Trap: C — \"c²\" → \"2 · b\" would make it TRUE. ⚠️ Trap: D — \"unchanged\" → \"multiplied by 2b\" would make it TRUE."
+  },
+  {
+   "id": "D-37",
+   "part": "A",
+   "lecture": "Lecture 6",
+   "topic": "덧셈 노드의 그래디언트",
+   "prompt": "노드 c = a + b 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options": [
+    "grad_a = grad_c + b, grad_b = grad_c + a",
+    "grad_a = grad_b = grad_c",
+    "grad_a = grad_c + a, grad_b = grad_c + b",
+    "덧셈 노드는 그래디언트를 두 입력에 그대로 전달한다."
+   ],
+   "correct": [
+    "B",
+    "D"
+   ],
+   "explanation": "덧셈의 편미분은 1 이므로 그래디언트가 두 입력에 그대로 전달된다: grad_a = grad_b = grad_c (B 참, D 참). 그래디언트에 입력값을 더하거나 곱하는 것은 틀리다 (A·C 거짓). ⚠️ 함정: A — \"grad_c + b\" → \"grad_c\"이면 참. ⚠️ 함정: C — \"grad_c + a\" → \"grad_c\"이면 참.",
+   "topic_ko": "덧셈 노드의 그래디언트",
+   "prompt_ko": "노드 c = a + b 에 관한 설명 중 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "grad_a = grad_c + b, grad_b = grad_c + a",
+    "grad_a = grad_b = grad_c",
+    "grad_a = grad_c + a, grad_b = grad_c + b",
+    "덧셈 노드는 그래디언트를 두 입력에 그대로 전달한다."
+   ],
+   "explanation_ko": "덧셈의 편미분은 1 이므로 그래디언트가 두 입력에 그대로 전달된다: grad_a = grad_b = grad_c (B 참, D 참). 그래디언트에 입력값을 더하거나 곱하는 것은 틀리다 (A·C 거짓). ⚠️ 함정: A — \"grad_c + b\" → \"grad_c\"이면 참. ⚠️ 함정: C — \"grad_c + a\" → \"grad_c\"이면 참.",
+   "topic_en": "Gradient of the addition node",
+   "prompt_en": "Node c = a + b. Which statements are true?",
+   "options_en": [
+    "grad_a = grad_c + b, grad_b = grad_c + a",
+    "grad_a = grad_b = grad_c",
+    "grad_a = grad_c + a, grad_b = grad_c + b",
+    "The addition node passes the gradient unchanged to both inputs."
+   ],
+   "explanation_en": "The partial derivatives of a sum are 1, so the gradient is passed through unchanged: grad_a = grad_b = grad_c (B and D true). Adding or multiplying by the input values is wrong (A and C false). ⚠️ Trap: A — \"grad_c + b\" → \"grad_c\" would make it TRUE. ⚠️ Trap: C — \"grad_c + a\" → \"grad_c\" would make it TRUE."
+  },
+  {
+   "id": "D-38",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "ndarray 의 shape / dtype / size",
+   "prompt": "my_array 가 numpy.ndarray 인스턴스일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array.shape 가 (5, 6) 일 수 있다.",
+    "my_array.shape 가 (1,) 일 수 있다.",
+    "my_array.shape 가 (0, 1, 0) 일 수 있다.",
+    "my_array.shape 가 12 일 수 있다.",
+    "my_array.dtype 이 (5, 6) 일 수 있다.",
+    "my_array.size 가 (5, 6) 일 수 있다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "shape 는 튜플이며 (5,6), (1,), (0,1,0) 모두 가능하다 (A·B·C 참). shape 는 정수일 수 없다 (D 거짓). dtype 은 자료형 객체이지 튜플이 아니다 (E 거짓). size 는 전체 원소 개수인 정수다 (F 거짓). ⚠️ 함정: D — \"정수 12\" → \"튜플\"이면 참. ⚠️ 함정: E — \"dtype이 (5, 6)\" → \"자료형 객체\"이면 참. ⚠️ 함정: F — \"size가 (5, 6)\" → \"정수\"이면 참.",
+   "topic_ko": "ndarray 의 shape / dtype / size",
+   "prompt_ko": "my_array 가 numpy.ndarray 인스턴스일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array.shape 가 (5, 6) 일 수 있다.",
+    "my_array.shape 가 (1,) 일 수 있다.",
+    "my_array.shape 가 (0, 1, 0) 일 수 있다.",
+    "my_array.shape 가 12 일 수 있다.",
+    "my_array.dtype 이 (5, 6) 일 수 있다.",
+    "my_array.size 가 (5, 6) 일 수 있다."
+   ],
+   "explanation_ko": "shape 는 튜플이며 (5,6), (1,), (0,1,0) 모두 가능하다 (A·B·C 참). shape 는 정수일 수 없다 (D 거짓). dtype 은 자료형 객체이지 튜플이 아니다 (E 거짓). size 는 전체 원소 개수인 정수다 (F 거짓). ⚠️ 함정: D — \"정수 12\" → \"튜플\"이면 참. ⚠️ 함정: E — \"dtype이 (5, 6)\" → \"자료형 객체\"이면 참. ⚠️ 함정: F — \"size가 (5, 6)\" → \"정수\"이면 참.",
+   "topic_en": "ndarray attributes: shape / dtype / size",
+   "prompt_en": "If my_array is a numpy.ndarray instance, which statements are true?",
+   "options_en": [
+    "my_array.shape can be equal to (5, 6).",
+    "my_array.shape can be equal to (1,).",
+    "my_array.shape can be equal to (0, 1, 0).",
+    "my_array.shape can be equal to 12.",
+    "my_array.dtype can be equal to (5, 6).",
+    "my_array.size can be equal to (5, 6)."
+   ],
+   "explanation_en": "shape is a tuple, so (5,6), (1,) and (0,1,0) are all possible (A, B and C true). shape cannot be an integer (D false). dtype is a data type object, not a tuple (E false). size is an integer, the total number of elements (F false). ⚠️ Trap: D — \"the integer 12\" → \"a tuple\" would make it TRUE. ⚠️ Trap: E — \"dtype equal to (5, 6)\" → \"a data type object\" would make it TRUE. ⚠️ Trap: F — \"size equal to (5, 6)\" → \"an integer\" would make it TRUE."
+  },
+  {
+   "id": "D-39",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "ndarray 의 size 와 ndim",
+   "prompt": "my_array 가 numpy.ndarray 인스턴스일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array.size 가 12 일 수 있다.",
+    "my_array.ndim 이 (5, 6) 일 수 있다.",
+    "my_array.ndim 이 2 일 수 있다.",
+    "my_array.size 는 전체 원소의 개수다."
+   ],
+   "correct": [
+    "A",
+    "C",
+    "D"
+   ],
+   "explanation": "size 는 정수이며 전체 원소 개수다 (A·D 참). ndim 은 차원의 개수인 정수이므로 2 는 가능하지만 (C 참) 튜플 (5,6) 은 될 수 없다 (B 거짓). ⚠️ 함정: B — \"ndim이 (5, 6)\" → \"정수 2\"이면 참.",
+   "topic_ko": "ndarray 의 size 와 ndim",
+   "prompt_ko": "my_array 가 numpy.ndarray 인스턴스일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array.size 가 12 일 수 있다.",
+    "my_array.ndim 이 (5, 6) 일 수 있다.",
+    "my_array.ndim 이 2 일 수 있다.",
+    "my_array.size 는 전체 원소의 개수다."
+   ],
+   "explanation_ko": "size 는 정수이며 전체 원소 개수다 (A·D 참). ndim 은 차원의 개수인 정수이므로 2 는 가능하지만 (C 참) 튜플 (5,6) 은 될 수 없다 (B 거짓). ⚠️ 함정: B — \"ndim이 (5, 6)\" → \"정수 2\"이면 참.",
+   "topic_en": "ndarray: size and ndim",
+   "prompt_en": "If my_array is a numpy.ndarray instance, which statements are true?",
+   "options_en": [
+    "my_array.size can be equal to 12.",
+    "my_array.ndim can be equal to (5, 6).",
+    "my_array.ndim can be equal to 2.",
+    "my_array.size is the total number of elements."
+   ],
+   "explanation_en": "size is an integer and equals the total number of elements (A and D true). ndim is an integer (the number of dimensions), so 2 is possible (C true) but a tuple such as (5,6) is not (B false). ⚠️ Trap: B — \"ndim equal to (5, 6)\" → \"the integer 2\" would make it TRUE."
+  },
+  {
+   "id": "D-40",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "(32, 5) 배열의 슬라이싱 shape",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array[:, :].shape == (32, 5)",
+    "my_array[:, 1].shape == (32,)",
+    "my_array[1, :].shape == (5,)",
+    "my_array[1:, :].shape == (31, 5)",
+    "my_array[0, :-1].shape == (4,)",
+    "my_array[[0], :].shape == (1, 5)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+   ],
+   "explanation": "전체 (A), 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B), 행 하나는 (5,) (C), 1행부터 끝까지는 (31,5) (D), 마지막 열을 뺀 행은 (4,) (E), 정수 배열 [[0]] 로 인덱싱하면 (1,5) (F). 여섯 개 모두 맞다.",
+   "topic_ko": "(32, 5) 배열의 슬라이싱 shape",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array[:, :].shape == (32, 5)",
+    "my_array[:, 1].shape == (32,)",
+    "my_array[1, :].shape == (5,)",
+    "my_array[1:, :].shape == (31, 5)",
+    "my_array[0, :-1].shape == (4,)",
+    "my_array[[0], :].shape == (1, 5)"
+   ],
+   "explanation_ko": "전체 (A), 열 하나를 정수로 인덱싱하면 차원이 제거되어 (32,) (B), 행 하나는 (5,) (C), 1행부터 끝까지는 (31,5) (D), 마지막 열을 뺀 행은 (4,) (E), 정수 배열 [[0]] 로 인덱싱하면 (1,5) (F). 여섯 개 모두 맞다.",
+   "topic_en": "Slicing shapes of a (32, 5) array",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "my_array[:, :].shape == (32, 5)",
+    "my_array[:, 1].shape == (32,)",
+    "my_array[1, :].shape == (5,)",
+    "my_array[1:, :].shape == (31, 5)",
+    "my_array[0, :-1].shape == (4,)",
+    "my_array[[0], :].shape == (1, 5)"
+   ],
+   "explanation_en": "All six are correct: the full array (A), a single column indexed by an integer drops the dimension giving (32,) (B), one row gives (5,) (C), rows 1..end give (31,5) (D), a row without its last column gives (4,) (E), and the integer-array index [[0]] keeps the axis giving (1,5) (F)."
+  },
+  {
+   "id": "D-41",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "정수 인덱싱이 차원을 제거하는지",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array[[-1, -1], -1].shape == (2,)",
+    "my_array[1, :].shape == (1, 5)",
+    "my_array[:, 1].shape == (32, 1)",
+    "my_array[0, :-1].shape == (5,)"
+   ],
+   "correct": [
+    "A"
+   ],
+   "explanation": "정수 배열 인덱싱 [[-1,-1], -1] 은 (2,) (A 참). 정수 하나로 인덱싱하면 그 축이 제거되므로 [1, :] 은 (5,) 이고 (1,5) 가 아니다 (B 거짓). [:, 1] 은 (32,) 이고 (32,1) 이 아니다 (C 거짓). [0, :-1] 은 (4,) 이고 (5,) 가 아니다 (D 거짓). ⚠️ 함정: B — \"(1, 5)\" → \"(5,)\"이면 참. ⚠️ 함정: C — \"(32, 1)\" → \"(32,)\"이면 참. ⚠️ 함정: D — \"(5,)\" → \"(4,)\"이면 참.",
+   "topic_ko": "정수 인덱싱이 차원을 제거하는지",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array[[-1, -1], -1].shape == (2,)",
+    "my_array[1, :].shape == (1, 5)",
+    "my_array[:, 1].shape == (32, 1)",
+    "my_array[0, :-1].shape == (5,)"
+   ],
+   "explanation_ko": "정수 배열 인덱싱 [[-1,-1], -1] 은 (2,) (A 참). 정수 하나로 인덱싱하면 그 축이 제거되므로 [1, :] 은 (5,) 이고 (1,5) 가 아니다 (B 거짓). [:, 1] 은 (32,) 이고 (32,1) 이 아니다 (C 거짓). [0, :-1] 은 (4,) 이고 (5,) 가 아니다 (D 거짓). ⚠️ 함정: B — \"(1, 5)\" → \"(5,)\"이면 참. ⚠️ 함정: C — \"(32, 1)\" → \"(32,)\"이면 참. ⚠️ 함정: D — \"(5,)\" → \"(4,)\"이면 참.",
+   "topic_en": "Integer indexing removes the dimension",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "my_array[[-1, -1], -1].shape == (2,)",
+    "my_array[1, :].shape == (1, 5)",
+    "my_array[:, 1].shape == (32, 1)",
+    "my_array[0, :-1].shape == (5,)"
+   ],
+   "explanation_en": "The integer-array index [[-1,-1], -1] gives (2,) (A true). Indexing with a single integer drops that axis, so [1, :] is (5,), not (1,5) (B false). [:, 1] is (32,), not (32,1) (C false). [0, :-1] is (4,), not (5,) (D false). ⚠️ Trap: B — \"(1, 5)\" → \"(5,)\" would make it TRUE. ⚠️ Trap: C — \"(32, 1)\" → \"(32,)\" would make it TRUE. ⚠️ Trap: D — \"(5,)\" → \"(4,)\" would make it TRUE."
+  },
+  {
+   "id": "D-42",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "브로드캐스팅 오류 판별",
+   "prompt": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
+   "options": [
+    "my_array1 + my_array2",
+    "my_array1 + my_array2[:, None]",
+    "my_array1 + my_array2[None, :]",
+    "my_array1 + 1"
+   ],
+   "correct": [
+    "A",
+    "C"
+   ],
+   "explanation": "(32,5)+(32,) 는 마지막 축 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향 확장으로 가능 (B 거짓). (1,32) 는 (32,5) 와 맞지 않아 오류 (C 참). 스칼라 1은 항상 가능 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
+   "topic_ko": "브로드캐스팅 오류 판별",
+   "prompt_ko": "my_array1 은 shape (32, 5), my_array2 는 shape (32,) 이고 둘 다 수치형이다. \"ValueError: operands could not be broadcast together\" 가 발생하는 식을 모두 고르시오.",
+   "options_ko": [
+    "my_array1 + my_array2",
+    "my_array1 + my_array2[:, None]",
+    "my_array1 + my_array2[None, :]",
+    "my_array1 + 1"
+   ],
+   "explanation_ko": "(32,5)+(32,) 는 마지막 축 5 대 32 가 맞지 않아 오류 (A 참). (32,1) 로 바꾸면 열 방향 확장으로 가능 (B 거짓). (1,32) 는 (32,5) 와 맞지 않아 오류 (C 참). 스칼라 1은 항상 가능 (D 거짓). ⚠️ 함정: B — \"(32, 1)\" → \"(1, 32)\"이면 참. ⚠️ 함정: D — \"스칼라 1\" → shape이 맞지 않는 배열이면 참.",
+   "topic_en": "Which expressions raise a broadcasting error?",
+   "prompt_en": "my_array1 has shape (32, 5) and my_array2 has shape (32,), both numeric. Which expressions raise \"ValueError: operands could not be broadcast together …\"?",
+   "options_en": [
+    "my_array1 + my_array2",
+    "my_array1 + my_array2[:, None]",
+    "my_array1 + my_array2[None, :]",
+    "my_array1 + 1"
+   ],
+   "explanation_en": "(32,5)+(32,) mismatches the trailing axes 5 vs 32 (A true). Reshaping to (32,1) broadcasts along the columns (B false). (1,32) does not match (32,5) (C true). A scalar always broadcasts (D false). ⚠️ Trap: B — \"(32, 1)\" → \"(1, 32)\" would make it TRUE. ⚠️ Trap: D — \"the scalar 1\" → an array with mismatching shape would make it TRUE."
+  },
+  {
+   "id": "D-43",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "연산 결과의 shape (전치·브로드캐스팅)",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "(my_array \u003c 0).shape == (32, 5)",
+    "my_array.T.shape == (5, 32)",
+    "my_array.T.T.shape == (32, 5)",
+    "(my_array + my_array).shape == (32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 5)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "비교 연산은 원소별이므로 shape 유지 (A 참). 전치는 (5,32), 두 번 전치하면 원래대로 (B·C 참). 같은 shape 끼리의 덧셈은 (32,5) (D 참). (32,1,5) 를 더하면 브로드캐스팅되어 (32,32,5) (E 참, F 거짓). ⚠️ 함정: F — \"(32, 5)\" → \"(32, 32, 5)\"이면 참.",
+   "topic_ko": "연산 결과의 shape (전치·브로드캐스팅)",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "(my_array \u003c 0).shape == (32, 5)",
+    "my_array.T.shape == (5, 32)",
+    "my_array.T.T.shape == (32, 5)",
+    "(my_array + my_array).shape == (32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 5)"
+   ],
+   "explanation_ko": "비교 연산은 원소별이므로 shape 유지 (A 참). 전치는 (5,32), 두 번 전치하면 원래대로 (B·C 참). 같은 shape 끼리의 덧셈은 (32,5) (D 참). (32,1,5) 를 더하면 브로드캐스팅되어 (32,32,5) (E 참, F 거짓). ⚠️ 함정: F — \"(32, 5)\" → \"(32, 32, 5)\"이면 참.",
+   "topic_en": "Shapes of expressions (transpose, broadcasting)",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "(my_array \u003c 0).shape == (32, 5)",
+    "my_array.T.shape == (5, 32)",
+    "my_array.T.T.shape == (32, 5)",
+    "(my_array + my_array).shape == (32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 32, 5)",
+    "(my_array + my_array[:, None, :]).shape == (32, 5)"
+   ],
+   "explanation_en": "A comparison is element-wise, so the shape is unchanged (A true). Transpose gives (5,32) and transposing twice restores the original (B and C true). Adding two arrays of the same shape gives (32,5) (D true). Adding (32,1,5) broadcasts to (32,32,5) (E true, F false). ⚠️ Trap: F — \"(32, 5)\" → \"(32, 32, 5)\" would make it TRUE."
+  },
+  {
+   "id": "D-44",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "axis 방향과 반환형",
+   "prompt": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.mean(my_array, axis=0).shape == (5,)",
+    "np.mean(my_array, axis=1).shape == (32,)",
+    "np.sum(my_array, axis=0) 의 type 은 numpy.ndarray 다.",
+    "np.sum(my_array) 의 type 은 numpy.ndarray 다.",
+    "np.mean(my_array, axis=1).shape == (5,)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "axis=0 은 행을 합쳐 (5,) (A 참). axis=1 은 열을 합쳐 (32,) (B 참, E 거짓). 축을 지정한 집계는 ndarray 를 반환한다 (C 참). 축을 지정하지 않으면 전체를 합쳐 NumPy 스칼라(numpy.float64 등)를 반환하며 ndarray 가 아니다 (D 거짓). ⚠️ 함정: D — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참. ⚠️ 함정: E — \"(5,)\" → \"(32,)\"이면 참.",
+   "topic_ko": "axis 방향과 반환형",
+   "prompt_ko": "my_array 의 shape 이 (32, 5) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.mean(my_array, axis=0).shape == (5,)",
+    "np.mean(my_array, axis=1).shape == (32,)",
+    "np.sum(my_array, axis=0) 의 type 은 numpy.ndarray 다.",
+    "np.sum(my_array) 의 type 은 numpy.ndarray 다.",
+    "np.mean(my_array, axis=1).shape == (5,)"
+   ],
+   "explanation_ko": "axis=0 은 행을 합쳐 (5,) (A 참). axis=1 은 열을 합쳐 (32,) (B 참, E 거짓). 축을 지정한 집계는 ndarray 를 반환한다 (C 참). 축을 지정하지 않으면 전체를 합쳐 NumPy 스칼라(numpy.float64 등)를 반환하며 ndarray 가 아니다 (D 거짓). ⚠️ 함정: D — \"numpy.ndarray\" → \"NumPy 스칼라\"이면 참. ⚠️ 함정: E — \"(5,)\" → \"(32,)\"이면 참.",
+   "topic_en": "Aggregation axis and return type",
+   "prompt_en": "my_array has shape (32, 5). Which statements are true?",
+   "options_en": [
+    "np.mean(my_array, axis=0).shape == (5,)",
+    "np.mean(my_array, axis=1).shape == (32,)",
+    "The type of np.sum(my_array, axis=0) is numpy.ndarray.",
+    "The type of np.sum(my_array) is numpy.ndarray.",
+    "np.mean(my_array, axis=1).shape == (5,)"
+   ],
+   "explanation_en": "axis=0 collapses the rows giving (5,) (A true). axis=1 collapses the columns giving (32,) (B true, E false). Aggregation with an axis returns an ndarray (C true). Without an axis everything is collapsed to a NumPy scalar (e.g. numpy.float64), not an ndarray (D false). ⚠️ Trap: D — \"numpy.ndarray\" → \"a NumPy scalar\" would make it TRUE. ⚠️ Trap: E — \"(5,)\" → \"(32,)\" would make it TRUE."
+  },
+  {
+   "id": "D-45",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "reshape(2,-1) 배열의 마스킹과 shape",
+   "prompt": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "my_array.shape == (2, 2)",
+    "(my_array * 2 + 1).shape == (2, 2)",
+    "my_array[my_array > 0].shape == (3,)",
+    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
+    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
+    "my_array[my_array > 0].shape == (2, 2)"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이고 짝수인 원소는 2 하나뿐이라 (1,) (D 참). (2,2) * (2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
+   "topic_ko": "reshape(2,-1) 배열의 마스킹과 shape",
+   "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "my_array.shape == (2, 2)",
+    "(my_array * 2 + 1).shape == (2, 2)",
+    "my_array[my_array > 0].shape == (3,)",
+    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
+    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
+    "my_array[my_array > 0].shape == (2, 2)"
+   ],
+   "explanation_ko": "배열은 [[0,1],[2,3]] 이다. shape (2,2) (A 참). 산술 연산은 shape 유지 (B 참). >0 마스킹은 [1,2,3] 으로 1차원 (3,) (C 참, F 거짓). >0 이고 짝수인 원소는 2 하나뿐이라 (1,) (D 참). (2,2) * (2,2,1) 은 브로드캐스팅되어 (2,2,2) (E 참). ⚠️ 함정: F — \"(2, 2)\" → \"(3,)\"이면 참.",
+   "topic_en": "Masking and shapes on a reshape(2,-1) array",
+   "prompt_en": "my_array = np.arange(4).reshape(2, -1). Which statements are true?",
+   "options_en": [
+    "my_array.shape == (2, 2)",
+    "(my_array * 2 + 1).shape == (2, 2)",
+    "my_array[my_array > 0].shape == (3,)",
+    "my_array[(my_array > 0) & (my_array % 2 == 0)].shape == (1,)",
+    "(my_array * my_array.reshape(2, 2, -1)).shape == (2, 2, 2)",
+    "my_array[my_array > 0].shape == (2, 2)"
+   ],
+   "explanation_en": "The array is [[0,1],[2,3]]. Its shape is (2,2) (A true). Arithmetic keeps the shape (B true). The >0 mask selects [1,2,3], a 1-D array of shape (3,) (C true, F false). Only the value 2 is both >0 and even, giving (1,) (D true). (2,2) * (2,2,1) broadcasts to (2,2,2) (E true). ⚠️ Trap: F — \"(2, 2)\" → \"(3,)\" would make it TRUE."
+  },
+  {
+   "id": "D-46",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "뷰(view)인 경우: my_array 가 바뀐다",
+   "prompt": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[...] = 99 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
+   "options": [
+    "my_array2 = my_array.reshape(2, 2) 후 my_array2[:, :] = 99",
+    "my_array2 = my_array.T 후 my_array2[:] = 99",
+    "my_array2 = np.append(my_array, 42) 후 my_array2[:] = 99",
+    "my_array2 = my_array[1:2] 후 my_array2[:] = 99"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "D"
+   ],
+   "explanation": "reshape 은 뷰 (A 참). 전치도 뷰 (B 참). np.append 는 새 배열을 만들어 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이스는 뷰 (D 참). ⚠️ 함정: C — \"np.append\" → \"기본 슬라이스\"이면 참.",
+   "topic_ko": "뷰(view)인 경우: my_array 가 바뀐다",
+   "prompt_ko": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[...] = 99 를 실행한다. my_array 의 원소가 바뀌는 경우를 모두 고르시오.",
+   "options_ko": [
+    "my_array2 = my_array.reshape(2, 2) 후 my_array2[:, :] = 99",
+    "my_array2 = my_array.T 후 my_array2[:] = 99",
+    "my_array2 = np.append(my_array, 42) 후 my_array2[:] = 99",
+    "my_array2 = my_array[1:2] 후 my_array2[:] = 99"
+   ],
+   "explanation_ko": "reshape 은 뷰 (A 참). 전치도 뷰 (B 참). np.append 는 새 배열을 만들어 원본이 바뀌지 않는다 (C 거짓). 기본 슬라이스는 뷰 (D 참). ⚠️ 함정: C — \"np.append\" → \"기본 슬라이스\"이면 참.",
+   "topic_en": "Views: which operations modify my_array?",
+   "prompt_en": "my_array = np.arange(4), and after each operation we execute my_array2[...] = 99. In which cases will the elements of my_array be affected?",
+   "options_en": [
+    "my_array2 = my_array.reshape(2, 2), then my_array2[:, :] = 99",
+    "my_array2 = my_array.T, then my_array2[:] = 99",
+    "my_array2 = np.append(my_array, 42), then my_array2[:] = 99",
+    "my_array2 = my_array[1:2], then my_array2[:] = 99"
+   ],
+   "explanation_en": "reshape returns a view (A true). Transpose returns a view (B true). np.append creates a new array, so the original is untouched (C false). A basic slice is a view (D true). ⚠️ Trap: C — \"np.append\" → \"a basic slice\" would make it TRUE."
+  },
+  {
+   "id": "D-47",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "복사본(copy)인 경우: my_array 가 안 바뀐다",
+   "prompt": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[:] = 99 를 실행한다. my_array 의 원소가 바뀌지 **않는** 경우를 모두 고르시오.",
+   "options": [
+    "my_array2 = my_array[[1, 2]]",
+    "my_array2 = my_array[my_array \u003c 2]",
+    "my_array2 = my_array + my_array",
+    "my_array2 = my_array[1:3]"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "정수 배열(fancy) 인덱싱은 복사본 (A 참). 불리언 마스크도 복사본 (B 참). 산술 연산은 새 배열 (C 참). 기본 슬라이스 [1:3] 은 뷰이므로 원본이 바뀐다 (D 거짓). ⚠️ 함정: D — \"my_array[1:3]\" → \"fancy 인덱싱\"이면 참.",
+   "topic_ko": "복사본(copy)인 경우: my_array 가 안 바뀐다",
+   "prompt_ko": "my_array = np.arange(4) 이고, 아래 연산 후 my_array2[:] = 99 를 실행한다. my_array 의 원소가 바뀌지 **않는** 경우를 모두 고르시오.",
+   "options_ko": [
+    "my_array2 = my_array[[1, 2]]",
+    "my_array2 = my_array[my_array \u003c 2]",
+    "my_array2 = my_array + my_array",
+    "my_array2 = my_array[1:3]"
+   ],
+   "explanation_ko": "정수 배열(fancy) 인덱싱은 복사본 (A 참). 불리언 마스크도 복사본 (B 참). 산술 연산은 새 배열 (C 참). 기본 슬라이스 [1:3] 은 뷰이므로 원본이 바뀐다 (D 거짓). ⚠️ 함정: D — \"my_array[1:3]\" → \"fancy 인덱싱\"이면 참.",
+   "topic_en": "Copies: which operations leave my_array unchanged?",
+   "prompt_en": "my_array = np.arange(4), and after each operation we execute my_array2[:] = 99. In which cases will the elements of my_array NOT be affected?",
+   "options_en": [
+    "my_array2 = my_array[[1, 2]]",
+    "my_array2 = my_array[my_array \u003c 2]",
+    "my_array2 = my_array + my_array",
+    "my_array2 = my_array[1:3]"
+   ],
+   "explanation_en": "Integer-array (fancy) indexing returns a copy (A true). A boolean mask returns a copy (B true). Arithmetic creates a new array (C true). The basic slice [1:3] is a view, so it does modify the original (D false). ⚠️ Trap: D — \"my_array[1:3]\" → \"fancy indexing\" would make it TRUE."
+  },
+  {
+   "id": "D-48",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "불리언 집계 (count_nonzero, any, all)",
+   "prompt": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.count_nonzero(my_array == 0) == 1",
+    "np.any(my_array == 0) 는 True 다.",
+    "np.all(my_array == 0, axis=1) 은 [False, False] 다.",
+    "np.all(my_array == 0, axis=1) 은 하나의 불리언 값이다.",
+    "np.count_nonzero(my_array == 0) == 2"
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C"
+   ],
+   "explanation": "배열은 [[0,1],[2,3]] 이므로 0 은 정확히 1개 (A 참, E 거짓). 하나라도 0 이 있으므로 any 는 True (B 참). 행별로 모두 0 인지 보면 두 행 모두 False 이고 결과는 shape (2,) 의 배열이다 (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
+   "topic_ko": "불리언 집계 (count_nonzero, any, all)",
+   "prompt_ko": "my_array = np.arange(4).reshape(2, -1) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.count_nonzero(my_array == 0) == 1",
+    "np.any(my_array == 0) 는 True 다.",
+    "np.all(my_array == 0, axis=1) 은 [False, False] 다.",
+    "np.all(my_array == 0, axis=1) 은 하나의 불리언 값이다.",
+    "np.count_nonzero(my_array == 0) == 2"
+   ],
+   "explanation_ko": "배열은 [[0,1],[2,3]] 이므로 0 은 정확히 1개 (A 참, E 거짓). 하나라도 0 이 있으므로 any 는 True (B 참). 행별로 모두 0 인지 보면 두 행 모두 False 이고 결과는 shape (2,) 의 배열이다 (C 참, D 거짓). ⚠️ 함정: D — \"하나의 불리언\" → \"shape (2,) 배열\"이면 참. ⚠️ 함정: E — \"2개\" → \"1개\"이면 참.",
+   "topic_en": "Boolean aggregation (count_nonzero, any, all)",
+   "prompt_en": "my_array = np.arange(4).reshape(2, -1). Which statements are true?",
+   "options_en": [
+    "np.count_nonzero(my_array == 0) == 1",
+    "np.any(my_array == 0) is True.",
+    "np.all(my_array == 0, axis=1) equals [False, False]",
+    "np.all(my_array == 0, axis=1) is a single boolean value.",
+    "np.count_nonzero(my_array == 0) == 2"
+   ],
+   "explanation_en": "The array is [[0,1],[2,3]], so there is exactly one 0 (A true, E false). Since at least one element is 0, any is True (B true). Checking each row for 'all zeros' gives [False, False], an array of shape (2,) (C true, D false). ⚠️ Trap: D — \"a single boolean\" → \"an array of shape (2,)\" would make it TRUE. ⚠️ Trap: E — \"2\" → \"1\" would make it TRUE."
+  },
+  {
+   "id": "D-49",
+   "part": "B",
+   "lecture": "NumPy",
+   "topic": "unique / bincount / 정렬 / argsort",
+   "prompt": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
+   "options": [
+    "np.unique(my_array) 는 [1, 2, 3] 이다.",
+    "np.unique(my_array == 0) 는 [False] 다.",
+    "np.bincount(my_array) 는 [0, 1, 1, 1] 이다.",
+    "np.sort(my_array)[::-1] 은 [3, 2, 1] 이다.",
+    "np.argsort(my_array) 는 [1, 2, 0] 이다.",
+    "my_array[my_array != 0] 은 [1, 2] 다."
+   ],
+   "correct": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E"
+   ],
+   "explanation": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 이므로 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째에 담아 [0,1,1,1] (C 참). 내림차순 정렬은 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] 다 (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
+   "topic_ko": "unique / bincount / 정렬 / argsort",
+   "prompt_ko": "my_array = np.array([3, 1, 2]) 일 때 옳은 것을 모두 고르시오.",
+   "options_ko": [
+    "np.unique(my_array) 는 [1, 2, 3] 이다.",
+    "np.unique(my_array == 0) 는 [False] 다.",
+    "np.bincount(my_array) 는 [0, 1, 1, 1] 이다.",
+    "np.sort(my_array)[::-1] 은 [3, 2, 1] 이다.",
+    "np.argsort(my_array) 는 [1, 2, 0] 이다.",
+    "my_array[my_array != 0] 은 [1, 2] 다."
+   ],
+   "explanation_ko": "unique 는 정렬된 고유값 [1,2,3] (A 참). my_array == 0 은 모두 False 이므로 unique 는 [False] (B 참). bincount 는 값 i 의 개수를 i번째에 담아 [0,1,1,1] (C 참). 내림차순 정렬은 [3,2,1] (D 참). argsort 는 정렬했을 때의 원래 인덱스 [1,2,0] (E 참). 0 이 없으므로 != 0 은 모두 True 이고 결과는 [3,1,2] 다 (F 거짓). ⚠️ 함정: F — \"!= 0\" → \"== 0\"이면 참.",
+   "topic_en": "unique / bincount / sort / argsort",
+   "prompt_en": "my_array = np.array([3, 1, 2]). Which statements are true?",
+   "options_en": [
+    "np.unique(my_array) equals [1, 2, 3]",
+    "np.unique(my_array == 0) equals [False]",
+    "np.bincount(my_array) equals [0, 1, 1, 1]",
+    "np.sort(my_array)[::-1] equals [3, 2, 1]",
+    "np.argsort(my_array) equals [1, 2, 0]",
+    "my_array[my_array != 0] equals [1, 2]"
+   ],
+   "explanation_en": "unique gives the sorted distinct values [1,2,3] (A true). my_array == 0 is all False, so unique is [False] (B true). bincount stores the count of value i at index i: [0,1,1,1] (C true). Descending sort gives [3,2,1] (D true). argsort gives the original indices in sorted order: [1,2,0] (E true). There is no 0, so != 0 is all True and the result is [3,1,2] (F false). ⚠️ Trap: F — \"!= 0\" → \"== 0\" would make it TRUE."
   }
  ]
 };</script>
@@ -10801,7 +12763,7 @@ function applyStaticI18n() {
   "exam_minutes": 45,
   "exam_pass": 7.0,
   "numpy_per_mock": 6,
-  "count": 22,
+  "count": 23,
   "primary": 10
  },
  "mocks": [
@@ -11290,6 +13252,7 @@ function applyStaticI18n() {
    "label": "최종 모의고사",
    "label_en": "Final Mock Exam",
    "final": true,
+   "full": false,
    "questions": [
     "M-01",
     "M-02",
@@ -11315,6 +13278,7 @@ function applyStaticI18n() {
    "label": "최종 모의고사 2 (공식·계산)",
    "label_en": "Final Mock Exam 2 (formulas)",
    "final": true,
+   "full": false,
    "questions": [
     "M2-01",
     "M2-02",
@@ -11334,6 +13298,66 @@ function applyStaticI18n() {
    ],
    "minutes": 45,
    "pass": 7.0
+  },
+  {
+   "id": "mock23",
+   "label": "📄 교수님 DOCX 예시 전체 (49문항)",
+   "label_en": "Professor's DOCX examples (all) — 49 questions",
+   "final": true,
+   "full": true,
+   "questions": [
+    "D-01",
+    "D-02",
+    "D-03",
+    "D-04",
+    "D-05",
+    "D-06",
+    "D-07",
+    "D-08",
+    "D-09",
+    "D-10",
+    "D-11",
+    "D-12",
+    "D-13",
+    "D-14",
+    "D-15",
+    "D-16",
+    "D-17",
+    "D-18",
+    "D-19",
+    "D-20",
+    "D-21",
+    "D-22",
+    "D-23",
+    "D-24",
+    "D-25",
+    "D-26",
+    "D-27",
+    "D-28",
+    "D-29",
+    "D-30",
+    "D-31",
+    "D-32",
+    "D-33",
+    "D-34",
+    "D-35",
+    "D-36",
+    "D-37",
+    "D-38",
+    "D-39",
+    "D-40",
+    "D-41",
+    "D-42",
+    "D-43",
+    "D-44",
+    "D-45",
+    "D-46",
+    "D-47",
+    "D-48",
+    "D-49"
+   ],
+   "minutes": 147,
+   "pass": 23
   }
  ]
 };</script>
@@ -11357,8 +13381,8 @@ var CURRICULUM = [
         open: true,
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
-          { id: "mocks", label: { ko: "모의고사 22세트", en: "Mock exams (22 sets)" } },
-          { id: "bank", label: { ko: "문제은행 242문항", en: "Question bank (242)" } },
+          { id: "mocks", label: { ko: "모의고사 23세트", en: "Mock exams (23 sets)" } },
+          { id: "bank", label: { ko: "문제은행 291문항", en: "Question bank (291)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
           { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
