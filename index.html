@@ -659,7 +659,7 @@ var I18N = {
   "mode.wrong": { ko: "오답 복습", en: "Wrong-answer review" },
   "mode.range": { ko: "범위 연습", en: "Range practice" },
   "mode.one":   { ko: "문항 연습", en: "Single question" },
-  "mode.random10": { ko: "랜덤 10문항", en: "Random 10" },
+  "mode.random": { ko: "랜덤 출제", en: "Random draw" },
   "mode.untimed": { ko: "무제한", en: "no time limit" },
   "mode.free":    { ko: "무제한", en: "untimed" }
 };
@@ -721,22 +721,31 @@ var I18N2 = {
   "rec.mockCount": { ko: "응시한 세트", en: "Sets taken" },
   "rec.summary":   { ko: "세트별 최고 점수", en: "Best score per set" },
 
-  /* ---------- 랜덤 10문항 (사이드바 섹션) ---------- */
-  "home.mode.rand":     { ko: "🎲 랜덤 10문항", en: "🎲 Random 10" },
-  "home.mode.rand.sub": { ko: "매번 새로 뽑는 %s문항", en: "%s fresh random questions" },
-  "rand.title":         { ko: "🎲 랜덤 10문항 — 매번 새로 뽑기", en: "🎲 Random 10 — a fresh draw every time" },
-  "rand.sub":           { ko: "문제은행에서 무작위로 10문항을 뽑아 바로 풉니다. 뽑는 순서도 매번 달라서 하루 10문항씩 돌리기 좋습니다.",
-                          en: "Draws 10 questions at random from the bank and starts right away. The draw is different every time, so it works well as a daily 10-question drill." },
+  /* ---------- 랜덤 문항 (사이드바 섹션 · 1~100 직접 입력) ---------- */
+  "home.mode.rand":     { ko: "🎲 랜덤 문항 (1~100)", en: "🎲 Random draw (1-100)" },
+  "home.mode.rand.sub": { ko: "개수(1~100)·범위 직접 선택", en: "pick the count (1-100) & pool" },
+  "rand.title":         { ko: "🎲 랜덤 문항 — 개수와 범위를 직접 선택", en: "🎲 Random draw — choose the count and the pool" },
+  "rand.sub":           { ko: "문제은행에서 무작위로 뽑아 풉니다. 몇 문항을 풀지 <b>1~100</b> 사이에서 직접 입력하고 <b>확인</b>을 누르세요.",
+                          en: "Draws questions at random from the bank. Type how many you want to solve (<b>1-100</b>) and press <b>Confirm</b>." },
   "rand.scope":         { ko: "출제 범위", en: "Question pool" },
   "rand.scope.all":     { ko: "전체 (%s문항)", en: "All (%s questions)" },
   "rand.scope.theory":  { ko: "이론만 (%s문항)", en: "Theory only (%s)" },
   "rand.scope.numpy":   { ko: "NumPy만 (%s문항)", en: "NumPy only (%s)" },
-  "rand.start":         { ko: "랜덤 10문항 시작", en: "Start random 10" },
+  "rand.count":         { ko: "문항 수 (1~100)", en: "Questions (1-100)" },
+  "rand.preset":        { ko: "빠른 선택", en: "Quick pick" },
+  "rand.start":         { ko: "확인 · 시작", en: "Confirm & start" },
   "rand.again":         { ko: "다시 뽑기", en: "Draw again" },
-  "rand.recent":        { ko: "최근 랜덤 10문항", en: "Recent random-10 attempts" },
-  "rand.none":          { ko: "아직 랜덤 10문항 기록이 없습니다.", en: "No random-10 attempts yet." },
-  "rand.hint":          { ko: "10문항 · 기본은 <b>시간 제한 없음</b>(체크하면 30분) · 보기 순서는 섞입니다. 통과 기준은 연습 모드와 같은 60%(10문항 → 6점)입니다.",
-                          en: "10 questions · <b>untimed</b> by default (check the box for 30 min) · options are shuffled. The pass line is 60%, as in practice mode (6 out of 10)." },
+  "rand.meta":          { ko: "이 범위에서 최대 %s문항 · 지금 설정이면 %s문항 출제 · 시간 제한을 켜면 %s분",
+                          en: "up to %s questions in this pool · %s will be drawn · %s min if timed" },
+  "rand.hint":          { ko: "기본은 <b>시간 제한 없음</b>(체크하면 시험과 같은 문항당 3분) · 보기 순서는 섞입니다 · 통과 기준은 연습 모드와 같은 60%입니다.",
+                          en: "<b>Untimed</b> by default (check the box for exam pace, 3 min per question) · options are shuffled · the pass line is 60%, as in practice mode." },
+  "rand.alertCount":    { ko: "문항 수는 1~100 사이의 정수로 입력하세요.", en: "Enter a whole number between 1 and 100." },
+  "rand.nLabel":        { ko: "%s문항", en: "%s questions" },
+  "rand.nLast":         { ko: "최근 %s문항", en: "last: %s questions" },
+  "rand.recent":        { ko: "최근 랜덤 출제", en: "Recent random draws" },
+  "rand.none":          { ko: "아직 랜덤 출제 기록이 없습니다.", en: "No random draws yet." },
+  "rand.bestLabel":     { ko: "최고 점수", en: "Best score" },
+  "rand.pts":           { ko: "점", en: " pts" },
 
   /* ---------- 응시 화면 ---------- */
   "quiz.sections":          { ko: "섹션", en: "Sections" },
@@ -13399,7 +13408,7 @@ var CURRICULUM = [
         open: true,
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
-          { id: "random", label: { ko: "🎲 랜덤 10문항", en: "🎲 Random 10" } },
+          { id: "random", label: { ko: "🎲 랜덤 문항 (1~100)", en: "🎲 Random draw (1-100)" } },
           { id: "mocks", label: { ko: "모의고사 23세트", en: "Mock exams (23 sets)" } },
           { id: "bank", label: { ko: "문제은행 291문항", en: "Question bank (291)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
@@ -13567,10 +13576,11 @@ function scoreClass(score) {
       const s = JSON.parse(localStorage.getItem(LS_KEY));
       if (s && typeof s === "object") {
         return { history: s.history || [], wrong: s.wrong || {}, best: s.best || 0,
-                 mockBest: s.mockBest || {}, rand10Best: s.rand10Best || 0 };
+                 mockBest: s.mockBest || {}, randBest: s.randBest || s.rand10Best || 0,
+                 randCount: s.randCount || 0 };
       }
     } catch (e) { /* ignore */ }
-    return { history: [], wrong: {}, best: 0, mockBest: {}, rand10Best: 0 };
+    return { history: [], wrong: {}, best: 0, mockBest: {}, randBest: 0, randCount: 0 };
   }
   function saveStore() {
     try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch (e) { /* ignore */ }
@@ -13881,7 +13891,8 @@ function scoreClass(score) {
       '<span class="muted">' + tf("home.mode.exam.sub", META.exam_questions, META.exam_minutes) + "</span>" +
       '<span class="grow"></span><button class="btn sm primary" id="mExam">' + t("home.start") + "</button></div>" +
       '<div class="rowGrid"><span class="name">' + t("home.mode.rand") + "</span>" +
-      '<span class="muted">' + tf("home.mode.rand.sub", 10) + "</span>" +
+      '<span class="muted">' + t("home.mode.rand.sub") +
+        (store.randCount ? " · " + tf("rand.nLast", store.randCount) : "") + "</span>" +
       '<span class="grow"></span><button class="btn sm" id="mRand">' + t("home.start") + "</button></div>" +
       '<div class="rowGrid"><span class="name">' + t("home.mode.all") + "</span>" +
       '<span class="muted">' + tf("home.mode.all.sub", ALL.length) + "</span>" +
@@ -13927,7 +13938,7 @@ function scoreClass(score) {
       "</div></div>";
 
     el("mExam").onclick = function () { startMode("exam"); };
-    el("mRand").onclick = function () { startRandom10(); };
+    el("mRand").onclick = function () { startRandom(); };
     el("mAll").onclick = function () { startMode("all"); };
     if (el("mWrong") && wrongN) el("mWrong").onclick = function () { startMode("wrong"); };
     el("seeAll").onclick = function () { go("records"); };
@@ -13935,8 +13946,9 @@ function scoreClass(score) {
     wireMockButtons();
   }
 
-  /* ---------- 뷰: 🎲 랜덤 10문항 ---------- */
-  const RAND_N = 10;
+  /* ---------- 뷰: 🎲 랜덤 문항 (1~100 직접 입력) ---------- */
+  const RAND_MIN = 1, RAND_MAX = 100, RAND_DEFAULT = 10;
+  const RAND_PRESETS = [1, 5, 10, 20, 50, 100];
   function randPool(scope) {
     if (scope === "theory") return ALL.filter(function (q) { return q.part !== "B"; });
     if (scope === "numpy") return ALL.filter(function (q) { return q.part === "B"; });
@@ -13946,21 +13958,55 @@ function scoreClass(score) {
     const e = el("randScope");
     if (e && e.value) return e.value;
     /* 결과 화면의 '다시 뽑기' 등: 직전 랜덤 세션의 범위를 그대로 쓴다 */
-    if (S && S.cfg && S.cfg.mode === "random10" && S.cfg.scope) return S.cfg.scope;
+    if (S && S.cfg && S.cfg.mode === "random" && S.cfg.scope) return S.cfg.scope;
     return "all";
   }
-  function startRandom10() {
+  /* 사용자가 입력한 문항 수. 랜덤 뷰가 아니거나 입력칸이 없으면(개요/결과 화면)
+     직전 값 → 저장값 → 기본값 순으로 쓴다.
+     { want: 숫자|null, strict: 입력칸이 있었는지 } */
+  function randRequest() {
+    const e = el("randCount");
+    if (VIEW !== "random" || !e) {
+      if (S && S.cfg && S.cfg.mode === "random" && S.cfg.want) return { want: S.cfg.want, strict: false };
+      return { want: store.randCount || RAND_DEFAULT, strict: false };
+    }
+    const raw = String(e.value === undefined || e.value === null ? "" : e.value).trim();
+    if (!/^\d+$/.test(raw)) return { want: null, strict: true };
+    return { want: parseInt(raw, 10), strict: true };
+  }
+  /* 지금 설정으로 실제 출제될 문항 수 (범위 크기로 잘라낸다) */
+  function randPlan() {
+    const req = randRequest();
     const scope = randScope();
     const pool = randPool(scope);
-    const n = Math.min(RAND_N, pool.length);
-    if (n === 0) { alert(t("alert.noMock")); return; }
-    const picked = shuffle(pool).slice(0, n);
+    const want = Math.min(req.want === null ? RAND_DEFAULT : req.want, RAND_MAX);
+    return { scope: scope, pool: pool, want: want, n: Math.min(want, pool.length) };
+  }
+  function randMinutes(n) { return Math.max(5, n * 3); }   /* 시험과 같은 문항당 3분 */
+  function updateRandMeta() {
+    const box = el("randMeta");
+    if (!box) return;
+    const p = randPlan();
+    box.textContent = tf("rand.meta", p.pool.length, p.n, randMinutes(p.n));
+  }
+  function startRandom() {
+    const req = randRequest();
+    if (req.strict && (req.want === null || req.want < RAND_MIN || req.want > RAND_MAX)) {
+      alert(t("rand.alertCount"));
+      return;
+    }
+    const p = randPlan();
+    if (p.n < 1) { alert(t("alert.noMock")); return; }
+    store.randCount = p.want;                     /* 다음에 '바로 시작'할 때 재사용 */
+    saveStore();
+    const picked = shuffle(p.pool).slice(0, p.n);
     /* 화면에 시간 제한 체크박스가 없으면(결과 화면의 '다시 뽑기') 직전 설정을 유지 */
     const timed = el("optTimed") ? timedChoice() : !!(S && S.cfg && S.cfg.timed);
     newSession(picked, {
-      mode: "random10", scope: scope,
-      label: modeLabel("mode.random10", timed) + " · " + tf("rand.scope." + scope, pool.length),
-      minutes: timed ? 30 : 0, timed: timed,
+      mode: "random", scope: p.scope, want: p.want,
+      label: modeLabel("mode.random", timed) + " · " + tf("rand.scope." + p.scope, p.pool.length) +
+             " · " + tf("rand.nLabel", p.n),
+      minutes: timed ? randMinutes(p.n) : 0, timed: timed,
       shuffleQuestions: true,
       shuffleOptions: el("optShufO") ? el("optShufO").checked : true
     });
@@ -13969,9 +14015,10 @@ function scoreClass(score) {
   function renderRandom() {
     const theoryN = ALL.filter(function (q) { return q.part !== "B"; }).length;
     const numpyN = ALL.filter(function (q) { return q.part === "B"; }).length;
-    const best = store.rand10Best || 0;
-    const hist = store.history.filter(function (h) { return h.mk === "random10"; })
-      .slice(-6).reverse();
+    const last = store.randCount || RAND_DEFAULT;
+    const best = store.randBest || 0;
+    const hist = store.history.filter(function (h) { return h.mk === "random" || h.mk === "random10"; })
+      .slice(-8).reverse();
     const rows = hist.length
       ? hist.map(function (h) {
           const passed = h.total >= h.pass;
@@ -13979,27 +14026,38 @@ function scoreClass(score) {
             (passed ? "pass" : "fail") + '">' + (passed ? "PASS" : "FAIL") + "</td></tr>";
         }).join("")
       : '<tr><td colspan="3" class="muted">' + t("rand.none") + "</td></tr>";
+    const presets = RAND_PRESETS.map(function (v) {
+      return '<button class="btn sm" type="button" id="randP' + v + '">' + v + "</button>";
+    }).join("");
 
     app.innerHTML =
       panel(t("rand.title"),
         '<div class="panelBody">' +
         '<div class="muted">' + t("rand.sub") + "</div>" +
         '<div class="row" style="margin-top:14px">' +
+        '<span class="name">' + t("rand.count") + "</span>" +
+        '<input id="randCount" class="search" type="number" min="' + RAND_MIN + '" max="' + RAND_MAX +
+        '" step="1" value="' + last + '" style="max-width:110px">' +
+        '<button class="btn primary" id="randStart">' + t("rand.start") + "</button>" +
+        '<span class="grow"></span>' +
+        '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
+        '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
+        "</div>" +
+        '<div class="row" style="margin-top:10px">' +
+        '<span class="muted">' + t("rand.preset") + "</span>" + presets +
+        '<span class="grow"></span>' +
         '<span class="name">' + t("rand.scope") + "</span>" +
-        '<select id="randScope" class="search">' +
+        '<select id="randScope" class="search" style="max-width:190px">' +
         '<option value="all">' + tf("rand.scope.all", ALL.length) + "</option>" +
         '<option value="theory">' + tf("rand.scope.theory", theoryN) + "</option>" +
         '<option value="numpy">' + tf("rand.scope.numpy", numpyN) + "</option>" +
         "</select>" +
-        '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
-        '<label class="chk"><input type="checkbox" id="optShufO" checked> ' + t("home.shufO") + "</label>" +
-        '<span class="grow"></span>' +
-        '<button class="btn primary" id="randStart">' + t("rand.start") + "</button>" +
         "</div>" +
-        '<div class="muted" style="margin-top:8px">' + t("rand.hint") + "</div></div>",
+        '<div class="muted" id="randMeta" style="margin-top:8px"></div>' +
+        '<div class="muted" style="margin-top:4px">' + t("rand.hint") + "</div></div>",
         ' style="margin-bottom:16px"') +
       panel(t("rand.recent") + '<span class="grow"></span><span class="muted">' +
-        t("home.best") + " " + (best ? best + " / " + RAND_N : t("home.mock.none")) + "</span>",
+        t("rand.bestLabel") + " " + (best ? best + t("rand.pts") : t("home.mock.none")) + "</span>",
         '<table class="grid"><tr><th>' + t("home.th.date") + "</th><th>" + t("home.th.score") +
         "</th><th>" + t("home.th.result") + "</th></tr>" + rows + "</table>",
         ' style="margin-bottom:16px"') +
@@ -14007,10 +14065,17 @@ function scoreClass(score) {
       '<button class="linkish" id="goBank">' + t("bank.title") + " →</button> " +
       '<button class="linkish" id="goWrong">' + t("wrong.title") + " →</button></div>";
 
-    el("randStart").onclick = function () { startRandom10(); };
+    el("randStart").onclick = function () { startRandom(); };
+    el("randCount").oninput = function () { updateRandMeta(); };
+    el("randScope").onchange = function () { updateRandMeta(); };
+    el("optTimed").onchange = function () { updateRandMeta(); };
+    RAND_PRESETS.forEach(function (v) {
+      el("randP" + v).onclick = function () { el("randCount").value = String(v); updateRandMeta(); };
+    });
     el("goMocks").onclick = function () { go("mocks"); };
     el("goBank").onclick = function () { go("bank"); };
     el("goWrong").onclick = function () { go("wrong"); };
+    updateRandMeta();
   }
 
   /* ---------- 뷰 2: 모의고사 ---------- */
@@ -14483,8 +14548,8 @@ function scoreClass(score) {
     store.history.push(rec);
     if (store.history.length > 50) store.history = store.history.slice(-50);
     if (g.total > store.best) store.best = g.total;
-    if (S.cfg.mode === "random10") {
-      if (g.total > (store.rand10Best || 0)) store.rand10Best = g.total;
+    if (S.cfg.mode === "random") {
+      if (g.total > (store.randBest || 0)) store.randBest = g.total;
     }
     if (S.cfg.mode === "mock" && S.cfg.mockId) {
       const prev = store.mockBest[S.cfg.mockId];
@@ -14538,7 +14603,7 @@ function scoreClass(score) {
       '<div class="panelBody" style="border-top:1px solid #eceef1"><div class="row">' +
       '<button class="btn primary" id="again">' + t("res.again") + "</button>" +
       '<button class="btn" id="retryWrong"' + (wrongN ? "" : " disabled") + ">" + tf("res.retryWrong", wrongN) + "</button>" +
-      (S.cfg.mode === "random10" ? '<button class="btn" id="randAgain">' + t("rand.again") + "</button>" : "") +
+      (S.cfg.mode === "random" ? '<button class="btn" id="randAgain">' + t("rand.again") + "</button>" : "") +
       '<button class="btn" id="newExam">' + t("res.newExam") + "</button>" +
       '<button class="btn" id="homeBtn">' + t("res.home") + "</button>" +
       '<button class="btn" id="copyBtn">' + t("res.copy") + "</button>" +
@@ -14559,7 +14624,7 @@ function scoreClass(score) {
       renderQuiz();
     };
     el("newExam").onclick = function () { startMode("exam"); };
-    if (el("randAgain")) el("randAgain").onclick = function () { startRandom10(); };
+    if (el("randAgain")) el("randAgain").onclick = function () { startRandom(); };
     el("homeBtn").onclick = function () { renderHome(); };
     el("printBtn").onclick = function () { window.print(); };
     el("copyBtn").onclick = function () {
@@ -14663,7 +14728,7 @@ function scoreClass(score) {
     renderSidebar: renderSidebar,
     renderHome: renderHome, renderQuiz: renderQuiz, renderResult: renderResult,
     startMode: startMode, startMock: startMock, startOne: startOne, startRange: startRange,
-    startRandom10: startRandom10,
+    startRandom: startRandom,
     submit: submit, askSubmit: askSubmit, toggleOption: toggleOption
   };
 })();
