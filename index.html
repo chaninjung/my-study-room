@@ -639,6 +639,7 @@ var I18N = {
   "home.mock.tagExtra":  { ko: "추가", en: "Extra" },
   "home.mock.tagFinal":  { ko: "최종", en: "FINAL" },
   "home.mock.meta":      { ko: "%s문항 · %s분 · 통과 %s점", en: "%s Q · %s min · pass %s" },
+  "home.mock.metaOff":   { ko: "%s문항 · 타이머 끔 · 통과 %s점", en: "%s Q · timer off · pass %s" },
   "home.mock.best":      { ko: "최고 %s / %s", en: "Best %s / %s" },
   "home.mock.none":      { ko: "미응시", en: "Not taken" },
   "home.start":          { ko: "시작", en: "Start" },
@@ -796,6 +797,11 @@ var I18N2 = {
   "quiz.submit":            { ko: "제출 및 검토", en: "Submit &amp; Review" },
   "quiz.exitConfirm":       { ko: "시험을 나가시겠습니까? 지금까지의 응답은 저장되지 않습니다.",
                               en: "Leave the test? Your answers so far will not be saved." },
+  "quiz.timerOff":          { ko: "⏱ 타이머 끄기", en: "⏱ Turn off the timer" },
+  "quiz.timerOn":           { ko: "⏱ 타이머 켜기", en: "⏱ Turn on the timer" },
+  "opt.timerOff":           { ko: "⏱ 타이머 끄기 (카운트다운 없이)", en: "⏱ Turn off the timer (no countdown)" },
+  "opt.timerOffHint":       { ko: "켜면 모의고사·실전 모드에서도 시간 제한이 사라지고 자동 제출도 없습니다 (경과 시간만 표시). 설정은 이 브라우저에 저장됩니다.",
+                              en: "When on, mock and exam modes also run without a time limit and never auto-submit (only elapsed time is shown). The setting is saved in this browser." },
   "quiz.next":              { ko: "저장 후 다음 &rarr;", en: "Save &amp; Next &rarr;" },
   "quiz.overview":          { ko: "개요", en: "Overview" },
   "quiz.elapsed":           { ko: "경과 시간", en: "Elapsed" },
@@ -15124,8 +15130,17 @@ function scoreClass(score) {
     ALL = (DATA && DATA.questions) || [];
   }
   const LS_KEY = "dnd_tt1_v1";
+  const LS_TIMER = "dnd_tt1_timer";     /* 타이머 끄기 설정 (이 브라우저에 저장) */
   const GLOSSARY_COUNT = 411;   /* glossary.json 의 용어 수 (테스트가 일치 여부를 검사) */
   const app = document.getElementById("app");
+
+  /* ---------- 타이머 켜기/끄기 설정 ---------- */
+  function timerOffPref() {
+    try { return localStorage.getItem(LS_TIMER) === "off"; } catch (e) { return false; }
+  }
+  function setTimerOffPref(v) {
+    try { localStorage.setItem(LS_TIMER, v ? "off" : "on"); } catch (e) { /* ignore */ }
+  }
 
   /* ---------- 저장소 ---------- */
   let store = loadStore();
@@ -15187,7 +15202,8 @@ function scoreClass(score) {
 
   function newSession(questions, cfg) {
     const qs = buildSession(questions, cfg);
-    const timed = cfg.timed !== false;          /* 기본값: 시간 제한 있음 (모의고사) */
+    /* 타이머 끄기 설정이 켜져 있으면 모의고사·실전 모드도 시간 제한 없이 진행한다 */
+    const timed = (cfg.timed !== false) && !timerOffPref();
     S = {
       cfg: cfg,
       questions: qs,
@@ -15239,6 +15255,30 @@ function scoreClass(score) {
       answered: answered, notAnswered: visited - answered,
       marked: marked, book: book
     };
+  }
+
+  /* 시험 중 '타이머 끄기/켜기' — 설정은 브라우저에 저장되어 다음에도 유지된다 */
+  function toggleTimer() {
+    const off = timerOffPref();
+    setTimerOffPref(!off);
+    if (S) {
+      if (!off) {
+        /* 끄기: 남은 시간을 경과 시간으로 환산하고 카운트다운 중단 */
+        const total = (S.cfg.minutes || META.exam_minutes) * 60;
+        S.elapsed = S.timed ? Math.max(0, total - S.remain) : S.elapsed;
+        S.timed = false;
+        S.remain = 0;
+      } else {
+        /* 켜기: 카운트다운 재개 (모의고사는 설정된 시간, 연습은 60분) */
+        S.timed = true;
+        S.remain = (S.cfg.minutes || (S.cfg.mode === "mock" ? META.exam_minutes : 60)) * 60;
+      }
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      startTimer();
+      renderQuiz();
+    } else {
+      renderView();
+    }
   }
 
   function startTimer() {
@@ -15410,7 +15450,9 @@ function scoreClass(score) {
       '<span class="name">' + esc(mockLabel(m)) + "</span>" +
       '<span class="best">' + (best !== undefined ? tf("home.mock.best", best, m.questions.length) : t("home.mock.none")) + "</span>" +
       '<button class="btn sm primary" data-mock="' + m.id + '">' + t("home.start") + "</button>" +
-      '<span class="meta">' + tf("home.mock.meta", m.questions.length, m.minutes, m.pass) + "</span>" +
+      '<span class="meta">' + (timerOffPref()
+        ? tf("home.mock.metaOff", m.questions.length, m.pass)
+        : tf("home.mock.meta", m.questions.length, m.minutes, m.pass)) + "</span>" +
       "</div>";
   }
   /* 최종 모의고사(있으면)와 나머지 세트를 나눈다 */
@@ -15484,7 +15526,10 @@ function scoreClass(score) {
       t("home.start") + "</button></div>" +
       '<div class="panelBody"><div class="row">' +
       '<label class="chk"><input type="checkbox" id="optTimed"> ' + t("opt.timed") + "</label>" +
-      '</div><div class="muted" style="margin-top:6px">' + t("opt.timedHint") + "</div></div>";
+      '<label class="chk"><input type="checkbox" id="optTimerOff"' +
+      (timerOffPref() ? " checked" : "") + "> " + t("opt.timerOff") + "</label>" +
+      '</div><div class="muted" style="margin-top:6px">' + t("opt.timedHint") + " " +
+      t("opt.timerOffHint") + "</div></div>";
     const recent = histTableHtml(4) +
       '<div class="note"><button class="linkish" id="seeAll">' + t("ov.seeAll") + "</button></div>";
     const mockHead = t("ov.mocks") + '<span class="grow"></span><button class="linkish" id="mocksAll">' +
@@ -15522,6 +15567,9 @@ function scoreClass(score) {
     el("mRand").onclick = function () { startRandom(); };
     el("mAll").onclick = function () { startMode("all"); };
     if (el("mWrong") && wrongN) el("mWrong").onclick = function () { startMode("wrong"); };
+    if (el("optTimerOff")) {
+      el("optTimerOff").onchange = function () { setTimerOffPref(!!el("optTimerOff").checked); };
+    }
     el("seeAll").onclick = function () { go("records"); };
     el("mocksAll").onclick = function () { go("mocks"); };
     wireMockButtons();
@@ -15683,11 +15731,17 @@ function scoreClass(score) {
       '<div class="panelBody muted">' + tf("home.mock.meta", META.exam_questions, META.exam_minutes, META.exam_pass) +
       "<br>" + esc(metaNote()) + "</div>" +
       '<div class="panelHead">' + tf("mocks.real", primary) + "</div>" +
+      '<div class="panelBody muted"><label class="chk"><input type="checkbox" id="optTimerOff"' +
+      (timerOffPref() ? " checked" : "") + "> " + t("opt.timerOff") + "</label> " +
+      t("opt.timerOffHint") + "</div>" +
       real.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
       '<div class="panelHead">' + tf("mocks.extra", primary + 1, sm.rest.length) + "</div>" +
       extra.map(function (m, i) { return mockRowHtml(m, primary + i); }).join("") +
       '<div class="note">' + tf("ov.note", primary) + "</div></div>";
     wireMockButtons();
+    if (el("optTimerOff")) {
+      el("optTimerOff").onchange = function () { setTimerOffPref(!!el("optTimerOff").checked); };
+    }
   }
 
   /* ---------- 뷰 3: 문제은행 ---------- */
@@ -16033,6 +16087,8 @@ function scoreClass(score) {
         : '<div class="timerLabels free"><span>' + t("quiz.elapsed") + "</span></div>") +
       "</div>" +
       '<div class="sideBtns">' +
+      '<button class="btn sm wide" id="timerToggle">' +
+      t(timerOffPref() ? "quiz.timerOn" : "quiz.timerOff") + "</button>" +
       '<button class="btn sm wide" id="aboutBtn">' + t("quiz.about") + "</button>" +
       '<button class="btn sm wide" id="instrBtn">' + t("quiz.instr") + "</button>" +
       '<button class="btn sm wide" id="exitBtn">' + t("nav.exit") + "</button>" +
@@ -16118,6 +16174,7 @@ function scoreClass(score) {
       alert(t("quiz.instr.body"));
     };
     el("exitBtn").onclick = exitQuiz;
+    el("timerToggle").onclick = toggleTimer;
     if (el("mExitBtn")) el("mExitBtn").onclick = exitQuiz;
     if (el("mHomeBtn")) el("mHomeBtn").onclick = goHome;
   }
@@ -16341,7 +16398,8 @@ function scoreClass(score) {
     renderHome: renderHome, renderQuiz: renderQuiz, renderResult: renderResult,
     startMode: startMode, startMock: startMock, startOne: startOne, startRange: startRange,
     startRandom: startRandom,
-    submit: submit, askSubmit: askSubmit, toggleOption: toggleOption, exitQuiz: exitQuiz
+    submit: submit, askSubmit: askSubmit, toggleOption: toggleOption, exitQuiz: exitQuiz,
+    toggleTimer: toggleTimer, timerOffPref: timerOffPref
   };
 })();
 
