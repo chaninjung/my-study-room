@@ -507,7 +507,7 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
   .appName,.crumbs .sep{display:none}
   /* 상단 바는 어떤 화면에서도 같은 항목·같은 위치를 유지한다 (폰에서는 용어집/인쇄는 ☰ 메뉴에서) */
   .topbar{padding:8px 12px;gap:8px;min-height:0;flex-wrap:nowrap;overflow:hidden}
-  .topbar .navGloss,.topbar .navPaper{display:none}
+  .topbar .navGloss{display:none}
   .crumbs{font-size:13.5px}
   .crumbs .cur{max-width:38vw}
   .linkish{font-size:12.5px}
@@ -581,7 +581,6 @@ body.view-quiz .sbToggle,body.view-result .sbToggle{display:none!important}
         <button class="langBtn" data-lang="en" type="button">English</button>
       </span>
       <a class="linkish navGloss" href="glossary.html" data-i18n="nav.glossary">용어집</a>
-      <a class="linkish navPaper" href="print.html" data-i18n="nav.print">인쇄용 문제지</a>
       <button class="linkish" id="homeLink" data-i18n="nav.home">홈</button>
     </div>
     <div class="wrap">
@@ -619,7 +618,6 @@ function setLang(v) {
 var I18N = {
   /* ---------- 상단 바 / 공통 ---------- */
   "nav.mock":      { ko: "모의고사", en: "Mock Exams" },
-  "nav.print":     { ko: "인쇄용 문제지", en: "Printable paper" },
   "nav.glossary":  { ko: "용어집", en: "Glossary" },
   "nav.exit":      { ko: "나가기", en: "Exit" },
   "nav.home":      { ko: "홈", en: "Home" },
@@ -903,7 +901,6 @@ var I18N3 = {
   "res.newExam":    { ko: "새 실전 모드", en: "New exam mode" },
   "res.home":       { ko: "홈으로", en: "Home" },
   "res.copy":       { ko: "결과 텍스트 복사", en: "Copy result text" },
-  "res.print":      { ko: "인쇄/PDF", en: "Print / PDF" },
   "res.legend":     { ko: "문항별 채점 결과와 해설입니다. 초록 = 정답, 노랑 = 놓친 정답, 빨강 = 잘못 선택한 보기",
                       en: "Per-question results and explanations. Green = correct, yellow = missed correct, red = wrongly selected" },
   "res.copied":     { ko: "결과를 클립보드에 복사했습니다.", en: "Result copied to the clipboard." },
@@ -15896,16 +15893,16 @@ var CURRICULUM = [
       {
         id: "dnd",
         label: { ko: "Deep Network Development", en: "Deep Network Development" },
+        short: { ko: "DND", en: "DND" },
         sub: { ko: "이론 7강 + NumPy 실습 · 이론 테스트 1", en: "7 theory lectures + NumPy labs · Theory Test 1" },
         open: true,
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
           { id: "random", label: { ko: "🎲 랜덤 문항 (1~100)", en: "🎲 Random draw (1-100)" } },
-          { id: "mocks", label: { ko: "모의고사 26세트", en: "Mock exams (26 sets)" } },
+          { id: "mocks", label: { ko: "모의고사 28세트", en: "Mock exams (28 sets)" } },
           { id: "bank", label: { ko: "문제은행 317문항", en: "Question bank (317)" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
-          { id: "print", label: { ko: "인쇄용 문제지", en: "Printable paper" }, href: "print.html" },
           { id: "records", label: { ko: "학습 기록", en: "Study records" } }
         ]
       }
@@ -16283,6 +16280,7 @@ function scoreClass(score) {
     const c = currentCourse();
     setCrumb(label(c.sem.label) + " › " + label(c.course.label) + " › " + viewTitle());
     try { if (window.scrollTo) window.scrollTo(0, 0); } catch (e) { /* ignore */ }
+    syncHash(view);
   }
   function renderView() {
     if (VIEW === "random") return renderRandom();
@@ -16293,6 +16291,30 @@ function scoreClass(score) {
     return renderOverview();
   }
   function renderHome() { go("overview"); }
+
+  /* ---------- 주소 해시(#bank)로 화면 열기 ----------
+     용어집 페이지의 사이드바에서 index.html#bank 처럼 바로 이동할 수 있게 한다. */
+  function viewIds() {
+    const ids = [];
+    CURRICULUM.forEach(function (sem) {
+      sem.courses.forEach(function (c) {
+        c.items.forEach(function (it) { if (!it.href) ids.push(it.id); });
+      });
+    });
+    return ids;
+  }
+  function viewFromHash() {
+    let h = "";
+    try { h = String((window.location && window.location.hash) || "").replace(/^#/, ""); } catch (e) { h = ""; }
+    return viewIds().indexOf(h) !== -1 ? h : null;
+  }
+  function syncHash(view) {
+    try {
+      if (!window.location || !window.history || !window.history.replaceState) return;
+      if (String(window.location.hash || "").replace(/^#/, "") === view) return;
+      window.history.replaceState(null, "", "#" + view);
+    } catch (e) { /* ignore */ }
+  }
 
   /* ---------- 사이드바 ---------- */
   function closeSidebar() {
@@ -16316,7 +16338,9 @@ function scoreClass(score) {
             html += '<div class="sbItems">';
             c.items.forEach(function (it) {
               if (it.href) {
-                html += '<a class="sbItem" href="' + it.href + '">' + esc(label(it.label)) + "</a>";
+                /* 용어집은 그 과목의 단어만 보이도록 과목을 붙여 이동한다 */
+                const href = it.id === "glossary" ? it.href + "?course=" + c.id : it.href;
+                html += '<a class="sbItem" href="' + href + '">' + esc(label(it.label)) + "</a>";
               } else {
                 html += '<button class="sbItem' + (VIEW === it.id ? " on" : "") + '" data-view="' + it.id +
                   '" type="button">' + esc(label(it.label)) + "</button>";
@@ -17304,7 +17328,6 @@ function scoreClass(score) {
       '<button class="btn" id="newExam">' + t("res.newExam") + "</button>" +
       '<button class="btn" id="homeBtn">' + t("res.home") + "</button>" +
       '<button class="btn" id="copyBtn">' + t("res.copy") + "</button>" +
-      '<button class="btn" id="printBtn">' + t("res.print") + "</button>" +
       "</div></div></div>" +
       '<div class="note" style="margin-bottom:12px">' + t("res.legend") + "</div>" + rows;
 
@@ -17323,7 +17346,6 @@ function scoreClass(score) {
     el("newExam").onclick = function () { startMode("exam"); };
     if (el("randAgain")) el("randAgain").onclick = function () { startRandom(); };
     el("homeBtn").onclick = function () { renderHome(); };
-    el("printBtn").onclick = function () { window.print(); };
     el("copyBtn").onclick = function () {
       const lines = ["[" + S.cfg.label + "] " + S.total.toFixed(1) + " / " + n + " (" + (passed ? "PASS" : "FAIL") + ")"];
       S.results.forEach(function (r, i) {
@@ -17408,7 +17430,14 @@ function scoreClass(score) {
     if (el("homeLink")) el("homeLink").onclick = function () { goHome(); };
 
     applyStaticI18n();
-    go("overview");
+    /* 주소에 #bank 처럼 화면이 적혀 있으면 그 화면으로 바로 들어간다 */
+    go(viewFromHash() || "overview");
+    if (window.addEventListener) {
+      window.addEventListener("hashchange", function () {
+        const v = viewFromHash();
+        if (v && v !== VIEW) go(v);
+      });
+    }
   }
   window.__bootApp = boot;
   if (!window.__GATED__) boot();     /* 비밀번호 게이트가 없으면 바로 시작 */
