@@ -1,0 +1,39 @@
+name: keepalive
+
+# Supabase 무료 플랜은 7일간 요청이 없으면 프로젝트가 일시정지됩니다.
+# 하루 한 번 REST 를 호출해 깨어 있게 유지합니다.
+#
+# 준비 (한 번만):
+#   GitHub 저장소 → Settings → Secrets and variables → Actions → New repository secret
+#     SUPABASE_URL       = https://xxxxxxxx.supabase.co
+#     SUPABASE_ANON_KEY  = 공개 키 (sb_publishable_... 또는 예전 anon public 키)
+# secrets 가 없으면 이 워크플로는 조용히 건너뜁니다(실패 알림 없음).
+
+on:
+  schedule:
+    - cron: "17 3 * * *"      # 매일 03:17 UTC (한국시간 12:17)
+  workflow_dispatch:            # 수동 실행 버튼
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST (user_state, anon key)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "secrets 가 없어 건너뜁니다 (SUPABASE_URL / SUPABASE_ANON_KEY 등록 필요)"
+            exit 0
+          fi
+          # apikey 헤더만 씁니다 (새 publishable 키는 JWT 가 아니라 Authorization:Bearer 로 보내면 안 됩니다)
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/user_state?select=updated_at&limit=1")
+          echo "HTTP $code"
+          # 200(정상) · 401/403(RLS 가 막거나 키가 제한적 = 그래도 요청은 도달 = 프로젝트가 깨어 있음)
+          case "$code" in
+            200|401|403) echo "프로젝트가 깨어 있습니다"; exit 0 ;;
+            *) echo "예상 밖 응답: $code"; exit 1 ;;
+          esac
