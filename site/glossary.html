@@ -2236,9 +2236,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     if (modalMode === "in") {
       inner = '<button class="syncLink" id="syncFindPw" type="button">' + esc(t("sync.findPw")) + "</button>" +
         '<span class="syncDiv">|</span>' +
-        '<button class="syncLink" id="syncTabUp" type="button">' + esc(t("sync.signupTab")) + "</button>" +
-        '<span class="syncDiv">|</span>' +
-        '<button class="syncLink" id="syncFindId" type="button">' + esc(t("sync.findId")) + "</button>";
+        '<button class="syncLink" id="syncTabUp" type="button">' + esc(t("sync.signupTab")) + "</button>";
     } else {
       inner = '<button class="syncLink" id="syncTabIn" type="button">' + esc(t("sync.loginTab")) + "</button>";
     }
@@ -2381,8 +2379,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     function setInfo(msg) { if (info) info.textContent = msg; }
     var fpw = el("syncFindPw");
     if (fpw) fpw.onclick = function () { modalMode = "reset"; renderModal(); };
-    var fid = el("syncFindId");
-    if (fid) fid.onclick = function () { setInfo(t("sync.findIdMsg")); };
+
     /* 입력: 아이디는 탭을 바꿔도 남긴다 · 비밀번호는 눈 아이콘으로 보이기/숨기기 */
     var idIn = el("syncNick");
     if (idIn) idIn.oninput = function () { modalNick = idIn.value || ""; };
@@ -2844,7 +2841,6 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     "sync.elteBox":     { ko: "ELTE 학생 전용 — '@inf.elte.hu' 이메일로 가입/로그인하세요. 메일로 온 6자리 인증번호를 입력하면 끝납니다.", en: "ELTE students only — sign up / sign in with your '@inf.elte.hu' email, then enter the 6-digit code we email you." },
     "sync.domainBad":   { ko: "%s 로 끝나는 이메일만 가입할 수 있어요. (ELTE 전용)", en: "Only email addresses ending in %s can sign up." },
     "sync.findPw":      { ko: "비밀번호 찾기", en: "Find my password" },
-    "sync.findId":      { ko: "아이디(이메일) 찾기", en: "Find my ID (email)" },
     "sync.findPwMsg":   { ko: "비밀번호는 복구할 수 없어요. 새 닉네임으로 다시 가입해 주세요.", en: "Passwords can't be recovered — please sign up again with a new nickname." },
     "sync.findIdMsg":   { ko: "가입할 때 정한 '닉네임'이 곧 아이디예요. 새 닉네임으로 다시 가입할 수 있어요.", en: "Your nickname is your ID — you can sign up again with a new nickname." },
     "sync.role":        { ko: "학생", en: "Student" },
