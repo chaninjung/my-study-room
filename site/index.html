@@ -1882,6 +1882,40 @@ var CURRICULUM = [
           { id: "glossary", label: { ko: "용어집 411단어", en: "Glossary (411 words)" }, href: "glossary.html" },
           { id: "records", label: { ko: "학습 기록", en: "Study records" } }
         ]
+      },
+      {
+        id: "ids",
+        label: { ko: "Introduction to Data Science", en: "Introduction to Data Science" },
+        short: { ko: "IDS", en: "IDS" },
+        sub: { ko: "모듈 테스트 1~4 + 기말고사", en: "Modular Tests 1–4 + Final Exam" },
+        tagline: { ko: "데이터 마이닝 · 통계 · 지도/비지도 학습 · 회귀 분석", en: "Data mining · statistics · supervised/unsupervised learning · regression" },
+        image: "assets/courses/ids.jpg",
+        tags: ["data-science", "data-mining", "statistics", "machine-learning", "regression"],
+        level: { ko: "초급", en: "Beginner" },
+        open: true,
+        sections: [
+          { id: "modular1", label: { ko: "모듈 테스트 1", en: "Modular Test 1" }, scope: "m1", ready: false },
+          { id: "modular2", label: { ko: "모듈 테스트 2", en: "Modular Test 2" }, scope: "m2", ready: false },
+          { id: "modular3", label: { ko: "모듈 테스트 3", en: "Modular Test 3" }, scope: "m3", ready: false },
+          { id: "modular4", label: { ko: "모듈 테스트 4", en: "Modular Test 4" }, scope: "m4", ready: false },
+          { id: "final",   label: { ko: "기말고사", en: "Final Exam" }, ready: false },
+          { id: "bank",    label: { ko: "문제은행", en: "Question Bank" }, ready: false },
+          { id: "glossary", label: { ko: "용어집", en: "Glossary" }, href: "glossary.html" }
+        ],
+        schedule: [
+          { id: "m1", name: { ko: "모듈 테스트 1", en: "Modular Test 1" }, at: "2026-10-06T14:00", points: 5, need: 2 },
+          { id: "m2", name: { ko: "모듈 테스트 2", en: "Modular Test 2" }, at: "2026-10-20T14:00", points: 5, need: 2 },
+          { id: "m3", name: { ko: "모듈 테스트 3", en: "Modular Test 3" }, at: "2026-11-10T14:00", points: 5, need: 2 },
+          { id: "m4", name: { ko: "모듈 테스트 4", en: "Modular Test 4" }, at: "2026-12-01T14:00", points: 5, need: 2 },
+          { id: "final", name: { ko: "기말고사", en: "Final Exam" }, at: "2026-12-17T18:00", points: 100, need: 50 }
+        ],
+        items: [
+          { id: "overview", label: { ko: "개요", en: "Overview" } },
+          { id: "bank", label: { ko: "문제은행", en: "Question Bank" } },
+          { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
+          { id: "glossary", label: { ko: "용어집", en: "Glossary" }, href: "glossary.html" },
+          { id: "records", label: { ko: "학습 기록", en: "Study records" } }
+        ]
       }
     ]
   },

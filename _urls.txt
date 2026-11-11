@@ -1,0 +1,4 @@
+﻿exam_practice/README.md ['https://chaninjung.github.io/dnd-theory1-quiz/            ← 문제 앱 (한국어/English 토글)', 'https://chaninjung.github.io/dnd-theory1-quiz/glossary.html ← 용어집 (단어 411 + 핵심 문장 49)', 'https://chaninjung.github.io/dnd-theory1-quiz/print.html   ← 인쇄/PDF용 (한국어/English)', '| **① 공개 주소 (배포 완료)** | 없음 | **`https://chaninjung.github.io/dnd-theory1-quiz/`** |', '배포 주소: **https://chaninjung.github.io/dnd-theory1-quiz/** (repo: `chaninjung/dnd-theory1-quiz`, branch `main`,', '라이브 확인: https://chaninjung.github.io/dnd-theory1-quiz/ → HTTP 200, Pages build = built']
+exam_practice/deploy.py ['python deploy.py --user chaninjung7 --repo dnd-theory1-quiz', 'ap.add_argument("--repo", default="dnd-theory1-quiz", help="저장소 이름")']
+lecture_pdf/TheoryTest1_StudyGuide_KO.md ['https://chaninjung.github.io/dnd-theory1-quiz/          ← 문제 앱', 'https://chaninjung.github.io/dnd-theory1-quiz/print.html ← 인쇄/PDF용 모의고사 13세트']
+exam_practice/site/README.md 

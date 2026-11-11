@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "Live Preview",
+			"workspacePath": "c:\\Users\\ktrau\\OneDrive\\바탕 화면\\DND_class",
+			"problemMatcher": [],
+			"label": "Live Preview: Run Server"
+		}
+	]
+}

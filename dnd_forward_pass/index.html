@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>순전파 애니메이션 · 입력 6개 → 은닉층 5개 → 출력 1개 (DND Week 6)</title>
+<style>
+  :root {
+    --bg: #0d1017;
+    --panel: #141824;
+    --panel-2: #1a1f2e;
+    --line: #262d40;
+    --text: #e8ecf5;
+    --muted: #8d97ad;
+    --accent: #7c6cf0;
+    --accent-soft: #4b3fa7;
+    --accent-bright: #b9a8ff;
+    --green: #2fbf71;
+    --green-bg: #10331f;
+    --orange: #f0a53f;
+    --orange-bg: #3a2606;
+    --blue: #4f9cf5;
+    --red: #d76a7a;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    font-size: 14px; line-height: 1.5;
+  }
+  header {
+    padding: 14px 20px 10px; border-bottom: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px;
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 700; }
+  header .sub { color: var(--muted); font-size: 12.5px; }
+  header .badge {
+    font-size: 11.5px; color: var(--accent-bright); border: 1px solid var(--accent-soft);
+    border-radius: 999px; padding: 2px 10px;
+  }
+  main {
+    display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 14px;
+    padding: 14px; align-items: start;
+  }
+  @media (max-width: 1180px) { main { grid-template-columns: minmax(0, 1fr); } }
+
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+  .graph-panel { padding: 8px 8px 4px; }
+  #net { width: 100%; height: auto; display: block; }
+
+  /* ---- SVG 스타일 ---- */
+  .band { fill: rgba(255,255,255,0.022); }
+  .band.active { fill: rgba(124,108,240,0.10); }
+  .band-title { fill: var(--muted); font-size: 12px; font-weight: 600; text-anchor: middle; }
+  .band-title.active { fill: var(--accent-bright); }
+  .band-sub { fill: #6b7691; font-size: 10px; text-anchor: middle; }
+
+  .link { stroke: #333c55; stroke-width: 1; opacity: 0.4; }
+  .link.active { stroke: var(--accent-bright); stroke-width: 2.4; opacity: 1; }
+  .link.done { stroke: #4a5480; opacity: 0.55; }
+  .link.bias { stroke-dasharray: 5 4; stroke: var(--blue); stroke-width: 2; opacity: 1; }
+
+  .node circle { fill: #1b2030; stroke: #2f3850; stroke-width: 1.6; }
+  .node text.value { fill: #dbe2f0; font-size: 11px; text-anchor: middle; dominant-baseline: middle; }
+  .node text.name { fill: var(--muted); font-size: 10px; text-anchor: middle; }
+  .node.pending { opacity: 0.4; }
+  .node.done circle { stroke: #5a6491; }
+  .node.current circle { stroke: var(--accent-bright); stroke-width: 2.6; fill: #26224a; }
+  .node.input circle { fill: #16233a; stroke: #2b4a72; }
+  .node.bias-node circle { fill: #16233a; stroke: var(--blue); stroke-width: 1.6; }
+  .node.bias-node text.value { fill: #cfe2ff; }
+  .node.output circle { fill: var(--orange-bg); stroke: var(--orange); stroke-width: 2; }
+  .node.output text.value { fill: var(--orange); font-size: 12px; font-weight: 700; }
+
+  .wbox rect { fill: var(--accent-soft); rx: 4; }
+  .wbox.negative rect { fill: #6d3040; }
+  .wbox text { fill: #ffffff; font-size: 9px; text-anchor: middle; dominant-baseline: middle; }
+
+  /* ---- 컨트롤 ---- */
+  .controls { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 0 8px 6px; }
+  button {
+    background: var(--panel-2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 11px; font-size: 13px; cursor: pointer;
+    font-family: inherit;
+  }
+  button:hover { border-color: var(--accent); color: var(--accent-bright); }
+  button.primary { background: var(--accent-soft); border-color: var(--accent); }
+  button.primary:hover { background: #5b4dc4; color: #fff; }
+  button.on { border-color: var(--accent-bright); color: var(--accent-bright); }
+  label.field { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  input[type="range"] { accent-color: var(--accent); }
+  .progress { height: 6px; background: var(--panel-2); border-radius: 999px; overflow: hidden; flex: 1 1 160px; min-width: 120px; }
+  .progress > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); }
+
+  /* ---- 오른쪽 패널 ---- */
+  .side { display: flex; flex-direction: column; gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .card h2 { font-size: 13.5px; margin: 0 0 8px; font-weight: 700; }
+  .card h2 small { color: var(--muted); font-weight: 500; font-size: 11.5px; margin-left: 6px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .chip {
+    font-size: 11.5px; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 999px; padding: 2px 9px; background: var(--panel-2);
+  }
+  .chip.on { color: #fff; background: var(--accent-soft); border-color: var(--accent-bright); }
+  .chip.done { color: #b9c2d6; border-color: #3b4661; }
+
+  #detail-neuron { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+  .row {
+    display: flex; align-items: center; gap: 6px; padding: 3px 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .row .src { color: var(--muted); font-size: 11px; width: 54px; }
+  .row .aval {
+    min-width: 58px; text-align: center; background: #1b2030; border: 1px solid #2f3850;
+    border-radius: 6px; padding: 1px 6px; font-size: 12px;
+  }
+  .row .wboxx {
+    min-width: 66px; text-align: center; background: var(--accent-soft); border-radius: 6px;
+    padding: 1px 6px; font-size: 12px; color: #fff;
+  }
+  .row .wboxx.negative { background: #6d3040; }
+  .row .prod {
+    min-width: 62px; text-align: center; background: #1b2030; border: 1px solid #2f3850;
+    border-radius: 6px; padding: 1px 6px; font-size: 12px;
+  }
+  .row .op { color: #5c6683; font-size: 12px; }
+  .row.pending { opacity: 0.35; }
+  .row.current .wboxx { box-shadow: 0 0 0 2px var(--accent-bright); }
+  .row.current .prod { border-color: var(--accent-bright); color: #fff; }
+  .row.biasrow .src { width: 54px; }
+
+  .sumline, .actline, .zline {
+    margin-top: 8px; padding: 7px 9px; border-radius: 8px; font-size: 12.5px;
+    font-variant-numeric: tabular-nums; word-break: break-all;
+  }
+  .zline { background: #221d47; border: 1px solid var(--accent-soft); }
+  .zline b { color: var(--accent-bright); }
+  .actline { background: var(--green-bg); border: 1px solid #1d5c37; }
+  .actline b { color: var(--green); }
+  .actline.pending, .zline.pending { opacity: 0.35; }
+  .hint { color: var(--muted); font-size: 11.5px; }
+
+  /* ---- 입력 카드 ---- */
+  .preset-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .rawtable { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 6px; }
+  .rawtable td { padding: 1px 4px; color: #c3cbdd; }
+  .rawtable td.k { color: var(--muted); }
+  .rawtable td.v { text-align: right; font-variant-numeric: tabular-nums; }
+  .slider-row { display: grid; grid-template-columns: 92px 1fr 52px; gap: 6px; align-items: center; margin: 3px 0; }
+  .slider-row span.nm { color: var(--muted); font-size: 11px; }
+  .slider-row span.vv { text-align: right; font-variant-numeric: tabular-nums; font-size: 11.5px; }
+  .slider-row input { width: 100%; }
+
+  /* ---- 출력 카드 ---- */
+  .big {
+    font-size: 34px; font-weight: 700; color: var(--orange); font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .verdict { font-size: 13px; margin-top: 4px; }
+  .gauge { height: 10px; background: var(--panel-2); border-radius: 999px; margin-top: 8px; overflow: hidden; }
+  .gauge > div { height: 100%; width: 0; background: linear-gradient(90deg, #7c6cf0, var(--orange)); }
+  .truth { font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+  kbd {
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px;
+    padding: 0 4px; font-size: 11px; font-family: inherit;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>순전파(forward pass) 애니메이션</h1>
+  <span class="sub">입력 6개 → 은닉층 5개 → 출력 1개</span>
+  <span class="badge">Deep Network Development · Lecture 6 (MLP)</span>
+  <span class="sub">데이터: Palmer Penguins 실제 측정값 · 학습 정확도 <span id="acc">-</span></span>
+</header>
+
+<main>
+  <section class="panel graph-panel">
+    <svg id="net" viewBox="0 0 1140 660" role="img" aria-label="신경망 순전파 그림"></svg>
+    <div class="controls">
+      <button id="btn-play" class="primary">▶ 재생</button>
+      <button id="btn-prev">◀ 이전</button>
+      <button id="btn-next">다음 ▶</button>
+      <button id="btn-reset">⟲ 처음부터</button>
+      <label class="field">속도
+        <input id="speed" type="range" min="0.25" max="4" step="0.25" value="1">
+        <span id="speed-val">1.0x</span>
+      </label>
+      <label class="field">보기
+        <select id="granularity">
+          <option value="weight">가중치 하나씩 (자세히)</option>
+          <option value="neuron" selected>뉴런 하나씩 (기본)</option>
+          <option value="layer">층 하나씩 (빠르게)</option>
+        </select>
+      </label>
+      <div class="progress"><div id="progress-bar"></div></div>
+      <span class="hint" id="step-info">0 / 0</span>
+    </div>
+    <p class="hint" style="padding: 0 8px 8px">
+      화살표 위의 보라색 상자가 그 연결의 <b>가중치 w</b> 입니다. 지금 계산 중인 뉴런으로
+      들어오는 화살표만 밝게 표시됩니다. 뉴런 위에 마우스를 올리면 그 뉴런의 계산을 미리 볼 수 있습니다.
+    </p>
+  </section>
+
+  <aside class="side">
+    <div class="card">
+      <h2>계산 과정 <small id="detail-title">-</small></h2>
+      <div class="chips" id="step-chips">
+        <span class="chip" data-step="1">1단계 입력</span>
+        <span class="chip" data-step="2">2단계 × w</span>
+        <span class="chip" data-step="3">3단계 전부 더하기 (z)</span>
+        <span class="chip" data-step="4">4단계 활성화</span>
+        <span class="chip" data-step="5">5단계 Sigmoid → 최종 답</span>
+      </div>
+      <div id="detail-body"></div>
+    </div>
+
+    <div class="card">
+      <h2>입력 데이터 <small>실제 측정값 → 표준화 → 신경망</small></h2>
+      <div class="preset-row">
+        <button data-sample="0">Gentoo 펭귄</button>
+        <button data-sample="1">Adelie 펭귄</button>
+        <button id="btn-random">🎲 실제 펭귄 12마리 중 랜덤</button>
+      </div>
+      <table class="rawtable" id="raw-table"></table>
+      <div id="sliders"></div>
+      <p class="hint">
+        슬라이더는 표준화된 값 x 입니다. 원래 측정값에서 평균을 빼고 표준편차로 나눈 값이라
+        보통 -2 ~ +2 사이입니다.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>최종 답 (출력층)</h2>
+      <div class="big" id="out-big">-</div>
+      <div class="verdict" id="out-verdict">-</div>
+      <div class="gauge"><div id="out-gauge"></div></div>
+      <div class="truth" id="out-truth"></div>
+      <p class="hint">
+        마지막 활성화 함수가 Sigmoid 라서 결과는 0 과 1 사이의 확률입니다.
+        0.5 이상이면 Gentoo 로 판정합니다.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>조작키</h2>
+      <p class="hint">
+        <kbd>Space</kbd> 재생/정지 · <kbd>←</kbd> <kbd>→</kbd> 한 단계씩 ·
+        <kbd>R</kbd> 처음부터 · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 보기 방식
+      </p>
+    </div>
+  </aside>
+</main>
+
+<!-- 이 블록은 train_network.py 가 학습한 값으로 자동으로 채웁니다.
+     (python train_network.py 를 다시 실행하면 갱신됩니다) -->
+<!-- BEGIN NETWORK_JSON -->
+<script id="net-json" type="application/json">{"arch":[6,8,8,6,5,4,1],"activations":["relu","relu","tanh","tanh","tanh","sigmoid"],"feature_names":["부리 길이 (mm)","부리 깊이 (mm)","날개 길이 (mm)","몸무게 (g)","성별 (수컷=1)","부리 비율 (길이/깊이)"],"feature_keys":["bill_length_mm","bill_depth_mm","flipper_length_mm","body_mass_g","sex_male","bill_ratio"],"target_name":"Gentoo 종일 확률","normalization":{"mean":[43.992793,17.164865,200.966967,4207.057057,0.504505,2.607228],"std":[5.460451,1.966276,13.994705,804.00586,0.49998,0.494692]},"weights":[[[0.256188,-0.668205,-0.956706,-0.372881,0.062017,0.115975,0.109592,0.202738],[0.253095,0.625809,0.279996,1.06658,-0.074217,-0.881775,-1.326123,0.116372],[-0.339931,-0.168607,0.119384,0.052787,-0.879714,0.473766,0.504367,-0.336574],[-0.227546,-0.101994,-0.259925,-0.173145,-0.785469,-0.926283,0.694582,0.267657],[0.182328,0.119561,-0.039778,0.039732,0.332734,0.40283,-0.298357,-0.041264],[1.226267,-0.738437,-0.394863,-0.905039,0.80432,-0.326898,0.497933,0.059702]],[[0.032047,-1.317981,-0.933767,0.120854,0.122865,-0.678476,-0.138462,0.334735],[0.34707,-0.861687,-0.001671,0.357239,0.114425,-0.385198,-0.638252,0.444061],[-0.124368,-0.546657,-0.159056,0.216311,-0.367985,-0.4656,0.345867,-0.358571],[0.704575,-0.085581,0.850521,0.45319,0.049548,-0.051296,-0.271898,-0.412103],[0.756439,-0.130143,-0.195258,-0.228281,0.321876,0.219906,-0.393794,0.002323],[0.189056,-0.081444,0.260266,0.508989,-0.310595,-0.089576,0.43374,0.227136],[-0.134036,0.0334,-0.36778,-0.106806,-0.673002,-0.102301,-0.410162,0.92145],[0.772073,-0.814012,-1.10388,-1.133492,0.597767,-0.822008,0.171769,0.072243]],[[-0.439918,0.35445,-0.927298,0.458489,-0.289377,0.417192],[0.137298,0.01571,-0.569229,0.114562,-0.463075,-0.294167],[-0.036963,-0.127867,-0.425578,0.07986,-0.461161,0.585179],[-0.341867,-0.722216,0.144832,0.41364,0.067155,0.019905],[0.652355,0.185142,-0.251149,-0.234325,-0.420183,0.023862],[0.167479,0.055589,-0.424247,-0.091689,-0.365688,0.110138],[-0.025841,0.151378,0.097994,-0.027854,0.49899,-0.428081],[-0.005228,-0.052258,0.560157,0.245477,0.361599,-0.30779]],[[-0.310437,-0.616974,-0.412786,0.384348,-0.354107],[0.09282,0.167156,0.095827,-0.997613,-0.328768],[0.886662,-0.630685,0.846432,0.554125,0.776608],[0.344615,-0.03139,-0.203474,0.368726,-0.049619],[0.477721,-0.473555,0.509579,0.093168,-0.457917],[-0.413496,0.241499,-0.338822,0.498299,0.051404]],[[-1.556049,0.07059,0.482388,-0.132045],[0.323121,0.886223,-0.876379,0.02741],[0.055699,-1.021891,0.488644,0.115105],[0.003746,0.012715,0.13653,0.097478],[-0.318978,-0.281399,-0.261482,-0.019067]],[[-1.593566],[-1.647736],[1.463949],[-0.048366]]],"biases":[[-0.019479,-0.003064,-0.035993,0.087885,0.159633,-0.00484,0.038905,0.085581],[0.119117,-0.031311,0.075325,-0.05695,0.101714,0.0,-8.6e-05,-0.004485],[0.06575,-0.012192,-0.068813,-0.026371,-0.055378,0.011656],[-0.215424,-0.037016,0.027513,0.011471,-0.011374],[0.108384,0.026377,-0.04784,0.042664],[-0.268093]],"training":{"seed":20261015,"epochs":600,"learning_rate":0.05,"loss":"binary cross-entropy","final_loss":0.012281,"accuracy":1.0,"dataset_rows":333,"history":[{"epoch":1,"loss":0.761519,"accuracy":0.357357},{"epoch":60,"loss":0.427154,"accuracy":0.96997},{"epoch":120,"loss":0.113454,"accuracy":0.993994},{"epoch":180,"loss":0.057939,"accuracy":1.0},{"epoch":240,"loss":0.038126,"accuracy":1.0},{"epoch":300,"loss":0.028208,"accuracy":1.0},{"epoch":360,"loss":0.022389,"accuracy":1.0},{"epoch":420,"loss":0.018573,"accuracy":1.0},{"epoch":480,"loss":0.015873,"accuracy":1.0},{"epoch":540,"loss":0.013861,"accuracy":1.0},{"epoch":600,"loss":0.012304,"accuracy":1.0}]},"samples":[{"label":"Gentoo 펭귄 (실제 데이터)","species":"Gentoo","raw":{"bill_length_mm":46.1,"bill_depth_mm":13.2,"flipper_length_mm":211.0,"body_mass_g":4500.0,"sex_male":0.0,"bill_ratio":3.492424},"raw_text":[["부리 길이 (mm)",46.1],["부리 깊이 (mm)",13.2],["날개 길이 (mm)",211.0],["몸무게 (g)",4500.0],["성별","암컷"],["부리 비율",3.492]],"x":[0.385904,-2.016433,0.716916,0.364354,-1.00905,1.789391],"p_gentoo":0.983822},{"label":"Adelie 펭귄 (실제 데이터)","species":"Adelie","raw":{"bill_length_mm":39.1,"bill_depth_mm":18.7,"flipper_length_mm":181.0,"body_mass_g":3750.0,"sex_male":1.0,"bill_ratio":2.090909},"raw_text":[["부리 길이 (mm)",39.1],["부리 깊이 (mm)",18.7],["날개 길이 (mm)",181.0],["몸무게 (g)",3750.0],["성별","수컷"],["부리 비율",2.091]],"x":[-0.896042,0.780732,-1.426752,-0.568475,0.991031,-1.043718],"p_gentoo":0.009093}],"gallery":[{"label":"Adelie, male","species":"Adelie","raw":{"bill_length_mm":39.1,"bill_depth_mm":18.7,"flipper_length_mm":181.0,"body_mass_g":3750.0,"sex_male":1.0,"bill_ratio":2.090909},"raw_text":[["부리 길이 (mm)",39.1],["부리 깊이 (mm)",18.7],["날개 길이 (mm)",181.0],["몸무게 (g)",3750.0],["성별","수컷"],["부리 비율",2.091]],"x":[-0.896042,0.780732,-1.426752,-0.568475,0.991031,-1.043718],"p_gentoo":0.009093},{"label":"Adelie, female","species":"Adelie","raw":{"bill_length_mm":39.5,"bill_depth_mm":17.8,"flipper_length_mm":188.0,"body_mass_g":3300.0,"sex_male":0.0,"bill_ratio":2.219101},"raw_text":[["부리 길이 (mm)",39.5],["부리 깊이 (mm)",17.8],["날개 길이 (mm)",188.0],["몸무게 (g)",3300.0],["성별","암컷"],["부리 비율",2.219]],"x":[-0.822788,0.323014,-0.926562,-1.128172,-1.00905,-0.784583],"p_gentoo":0.009298},{"label":"Adelie, female","species":"Adelie","raw":{"bill_length_mm":35.7,"bill_depth_mm":16.9,"flipper_length_mm":185.0,"body_mass_g":3150.0,"sex_male":0.0,"bill_ratio":2.112426},"raw_text":[["부리 길이 (mm)",35.7],["부리 깊이 (mm)",16.9],["날개 길이 (mm)",185.0],["몸무게 (g)",3150.0],["성별","암컷"],["부리 비율",2.112]],"x":[-1.518701,-0.134704,-1.140929,-1.314738,-1.00905,-1.000223],"p_gentoo":0.009388},{"label":"Adelie, female","species":"Adelie","raw":{"bill_length_mm":36.9,"bill_depth_mm":18.6,"flipper_length_mm":189.0,"body_mass_g":3500.0,"sex_male":0.0,"bill_ratio":1.983871},"raw_text":[["부리 길이 (mm)",36.9],["부리 깊이 (mm)",18.6],["날개 길이 (mm)",189.0],["몸무게 (g)",3500.0],["성별","암컷"],["부리 비율",1.984]],"x":[-1.298939,0.729875,-0.855107,-0.879418,-1.00905,-1.260092],"p_gentoo":0.009375},{"label":"Adelie, female","species":"Adelie","raw":{"bill_length_mm":39.6,"bill_depth_mm":20.7,"flipper_length_mm":191.0,"body_mass_g":3900.0,"sex_male":0.0,"bill_ratio":1.913043},"raw_text":[["부리 길이 (mm)",39.6],["부리 깊이 (mm)",20.7],["날개 길이 (mm)",191.0],["몸무게 (g)",3900.0],["성별","암컷"],["부리 비율",1.913]],"x":[-0.804474,1.797883,-0.712196,-0.381909,-1.00905,-1.403267],"p_gentoo":0.009329},{"label":"Adelie, male","species":"Adelie","raw":{"bill_length_mm":40.6,"bill_depth_mm":17.2,"flipper_length_mm":187.0,"body_mass_g":3475.0,"sex_male":1.0,"bill_ratio":2.360465},"raw_text":[["부리 길이 (mm)",40.6],["부리 깊이 (mm)",17.2],["날개 길이 (mm)",187.0],["몸무게 (g)",3475.0],["성별","수컷"],["부리 비율",2.36]],"x":[-0.621339,0.017869,-0.998018,-0.910512,0.991031,-0.498821],"p_gentoo":0.009174},{"label":"Gentoo, female","species":"Gentoo","raw":{"bill_length_mm":42.0,"bill_depth_mm":13.5,"flipper_length_mm":210.0,"body_mass_g":4150.0,"sex_male":0.0,"bill_ratio":3.111111},"raw_text":[["부리 길이 (mm)",42.0],["부리 깊이 (mm)",13.5],["날개 길이 (mm)",210.0],["몸무게 (g)",4150.0],["성별","암컷"],["부리 비율",3.111]],"x":[-0.36495,-1.86386,0.645461,-0.070966,-1.00905,1.018581],"p_gentoo":0.983529},{"label":"Gentoo, male","species":"Gentoo","raw":{"bill_length_mm":50.5,"bill_depth_mm":15.9,"flipper_length_mm":222.0,"body_mass_g":5550.0,"sex_male":1.0,"bill_ratio":3.176101},"raw_text":[["부리 길이 (mm)",50.5],["부리 깊이 (mm)",15.9],["날개 길이 (mm)",222.0],["몸무게 (g)",5550.0],["성별","수컷"],["부리 비율",3.176]],"x":[1.191698,-0.643279,1.502928,1.670315,0.991031,1.149955],"p_gentoo":0.983247},{"label":"Gentoo, male","species":"Gentoo","raw":{"bill_length_mm":48.2,"bill_depth_mm":15.6,"flipper_length_mm":221.0,"body_mass_g":5100.0,"sex_male":1.0,"bill_ratio":3.089744},"raw_text":[["부리 길이 (mm)",48.2],["부리 깊이 (mm)",15.6],["날개 길이 (mm)",221.0],["몸무게 (g)",5100.0],["성별","수컷"],["부리 비율",3.09]],"x":[0.770487,-0.795852,1.431472,1.110617,0.991031,0.975387],"p_gentoo":0.982966},{"label":"Gentoo, male","species":"Gentoo","raw":{"bill_length_mm":51.1,"bill_depth_mm":16.5,"flipper_length_mm":225.0,"body_mass_g":5250.0,"sex_male":1.0,"bill_ratio":3.09697},"raw_text":[["부리 길이 (mm)",51.1],["부리 깊이 (mm)",16.5],["날개 길이 (mm)",225.0],["몸무게 (g)",5250.0],["성별","수컷"],["부리 비율",3.097]],"x":[1.301579,-0.338134,1.717295,1.297183,0.991031,0.989995],"p_gentoo":0.982576},{"label":"Chinstrap, female","species":"Chinstrap","raw":{"bill_length_mm":45.2,"bill_depth_mm":17.8,"flipper_length_mm":198.0,"body_mass_g":3950.0,"sex_male":0.0,"bill_ratio":2.539326},"raw_text":[["부리 길이 (mm)",45.2],["부리 깊이 (mm)",17.8],["날개 길이 (mm)",198.0],["몸무게 (g)",3950.0],["성별","암컷"],["부리 비율",2.539]],"x":[0.221082,0.323014,-0.212006,-0.31972,-1.00905,-0.137261],"p_gentoo":0.01083},{"label":"Chinstrap, female","species":"Chinstrap","raw":{"bill_length_mm":42.5,"bill_depth_mm":16.7,"flipper_length_mm":187.0,"body_mass_g":3350.0,"sex_male":0.0,"bill_ratio":2.54491},"raw_text":[["부리 길이 (mm)",42.5],["부리 깊이 (mm)",16.7],["날개 길이 (mm)",187.0],["몸무게 (g)",3350.0],["성별","암컷"],["부리 비율",2.545]],"x":[-0.273383,-0.236419,-0.998018,-1.065984,-1.00905,-0.125972],"p_gentoo":0.009502}]}</script>
+<!-- END NETWORK_JSON -->
+
+<script id="forward-pass-core">
+/* ------------------------------------------------------------------
+   순전파 수학. train_network.py / forward_pass.py 와 완전히 같은 식입니다.
+   (verify_forward_pass.mjs 가 이 블록을 그대로 떼어내서 검사합니다.)
+   ------------------------------------------------------------------ */
+function activate(name, z) {
+  if (name === 'relu') return z > 0 ? z : 0;
+  if (name === 'tanh') return Math.tanh(z);
+  if (name === 'sigmoid') return 1 / (1 + Math.exp(-z));
+  throw new Error('unknown activation: ' + name);
+}
+
+/* net: network.json 내용, x: 입력 6개
+   돌려주는 값
+     z[L][j] : L번째 층 j번째 뉴런의 '활성화 전' 값 (전부 더한 값 z)
+     a[L][j] : L번째 층 j번째 뉴런의 '활성화 후' 값 (a)
+   a[0] 는 입력 x 그 자체입니다. */
+function forwardPass(net, x) {
+  const zs = [];
+  const as = [x.slice()];
+  let a = x.slice();
+  for (let L = 0; L < net.weights.length; L++) {
+    const W = net.weights[L];
+    const b = net.biases[L];
+    const actName = net.activations[L];
+    const nOut = W[0].length;
+    const z = [];
+    const out = [];
+    for (let j = 0; j < nOut; j++) {
+      let sum = b[j];
+      for (let i = 0; i < W.length; i++) sum += a[i] * W[i][j];
+      z.push(sum);
+      out.push(activate(actName, sum));
+    }
+    zs.push(z);
+    as.push(out);
+    a = out;
+  }
+  return { z: zs, a: as };
+}
+
+/* j번째 뉴런(L번째 층)의 계산 한 줄 한 줄을 만들어 줍니다. */
+function neuronTerms(net, x, layer, j) {
+  const fwd = forwardPass(net, x);
+  const prev = fwd.a[layer];
+  const W = net.weights[layer];
+  const terms = [];
+  for (let i = 0; i < prev.length; i++) {
+    terms.push({ i: i, aIn: prev[i], w: W[i][j], product: prev[i] * W[i][j] });
+  }
+  return {
+    layer: layer,
+    index: j,
+    terms: terms,
+    bias: net.biases[layer][j],
+    z: fwd.z[layer][j],
+    activation: net.activations[layer],
+    a: fwd.a[layer + 1][j],
+  };
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  const NET = JSON.parse(document.getElementById('net-json').textContent);
+  const NS = 'http://www.w3.org/2000/svg';
+  const ACT_LABEL = { relu: 'ReLU', tanh: 'tanh', sigmoid: 'Sigmoid' };
+  const N_LAYERS = NET.arch.length - 1;                 // 가중치 층의 개수 (6)
+  const fv = (v, d = 3) => (v >= 0 ? '+' : '') + v.toFixed(d);
+
+  /* ---------------- 좌표 ---------------- */
+  const COL_X = (i) => 92 + i * 158;
+  const NODE_R = 18;
+  const ROW_H = 50;
+  const CENTER_Y = 300;
+  const BIAS_Y = 552;
+  const nodeY = (L, j) => CENTER_Y + (j - (NET.arch[L] - 1) / 2) * ROW_H;
+
+  /* ---------------- 상태 ---------------- */
+  let x = NET.samples[0].x.slice();
+  let sourceInfo = { kind: 'sample', index: 0 };        // sample | gallery | manual
+  let fwd = forwardPass(NET, x);
+  let events = [];
+  let stepIndex = 0;
+  let playing = false;
+  let speed = 1;
+  let granularity = 'neuron';
+  let timer = null;
+  let preview = null;                                    // 마우스 올린 뉴런 {layer, index}
+  let shownOutput = null;
+
+  /* ---------------- SVG 뼈대 만들기 ---------------- */
+  const svg = document.getElementById('net');
+  const gBands = el('g');
+  const gLinks = el('g');
+  const gBiasLinks = el('g');
+  const gLabels = el('g');
+  const gNodes = el('g');
+  svg.append(gBands, gLinks, gBiasLinks, gLabels, gNodes);
+
+  const linkEls = [];        // {L, i, j, el}
+  const nodeEls = [];        // {L, j, g, value}
+  const bandEls = [];        // {rect, title, sub}
+
+  function el(tag, attrs, text) {
+    const e = document.createElementNS(NS, tag);
+    if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function layerName(L) {
+    if (L === 0) return '입력층';
+    if (L === N_LAYERS) return '출력층';
+    return '은닉층 ' + L;
+  }
+  function layerSub(L) {
+    if (L === 0) return 'x1 ~ x' + NET.arch[0];
+    return ACT_LABEL[NET.activations[L - 1]];
+  }
+  function nodeTooltip(L, j) {
+    if (L === 0) return NET.feature_names[j] + ' (표준화된 값)';
+    if (L === N_LAYERS) return '출력 뉴런: ' + NET.target_name;
+    return layerName(L) + ' ' + (j + 1) + '번 뉴런 (' + ACT_LABEL[NET.activations[L - 1]] + ')';
+  }
+
+  function buildGraph() {
+    for (let L = 0; L < NET.arch.length; L++) {
+      const rect = el('rect', {
+        x: COL_X(L) - 72, y: 92, width: 144, height: 428, rx: 14, class: 'band',
+      });
+      const title = el('text', { x: COL_X(L), y: 58, class: 'band-title' }, layerName(L));
+      const sub = el('text', { x: COL_X(L), y: 76, class: 'band-sub' }, layerSub(L));
+      gBands.append(rect, title, sub);
+      bandEls.push({ rect: rect, title: title, sub: sub });
+    }
+
+    for (let L = 0; L < N_LAYERS; L++) {
+      for (let i = 0; i < NET.arch[L]; i++) {
+        for (let j = 0; j < NET.arch[L + 1]; j++) {
+          const line = el('line', {
+            x1: COL_X(L) + NODE_R, y1: nodeY(L, i),
+            x2: COL_X(L + 1) - NODE_R, y2: nodeY(L + 1, j),
+            class: 'link',
+          });
+          gLinks.append(line);
+          linkEls.push({ L: L, i: i, j: j, el: line });
+        }
+      }
+    }
+
+    for (let L = 0; L < NET.arch.length; L++) {
+      for (let j = 0; j < NET.arch[L]; j++) {
+        const g = el('g', { class: 'node' });
+        if (L === 0) g.classList.add('input');
+        if (L === N_LAYERS) g.classList.add('output');
+        const circle = el('circle', { cx: COL_X(L), cy: nodeY(L, j), r: NODE_R });
+        const value = el('text', { x: COL_X(L), y: nodeY(L, j), class: 'value' }, '?');
+        const name = L === 0 ? 'x' + (j + 1)
+          : (L === N_LAYERS ? 'ŷ' : 'h' + L + '_' + (j + 1));
+        const nameText = el('text',
+          { x: COL_X(L), y: nodeY(L, j) - NODE_R - 6, class: 'name' }, name);
+        g.append(circle, value, nameText, el('title', null, nodeTooltip(L, j)));
+        if (L > 0) {
+          g.style.cursor = 'pointer';
+          g.addEventListener('mouseenter', () => { preview = { layer: L - 1, index: j }; render(); });
+          g.addEventListener('mouseleave', () => { preview = null; render(); });
+        }
+        gNodes.append(g);
+        nodeEls.push({ L: L, j: j, g: g, value: value });
+      }
+      if (L < N_LAYERS) {
+        const bg = el('g', { class: 'node bias-node' });
+        bg.append(
+          el('circle', { cx: COL_X(L), cy: BIAS_Y, r: 16 }),
+          el('text', { x: COL_X(L), y: BIAS_Y, class: 'value' }, '1'),
+          el('text', { x: COL_X(L), y: BIAS_Y - 24, class: 'name' }, '편향'),
+          el('title', null, layerName(L) + '의 편향: 다음 층 모든 뉴런에 더해지는 값 b'),
+        );
+        gNodes.append(bg);
+      }
+    }
+  }
+
+  buildGraph();
+
+  /* ---------------- 애니메이션 단계 만들기 ---------------- */
+  function buildEvents() {
+    const list = [{ kind: 'input' }];
+    for (let L = 0; L < N_LAYERS; L++) {
+      list.push({ kind: 'layer', layer: L });
+      for (let j = 0; j < NET.arch[L + 1]; j++) {
+        list.push({ kind: 'neuron', layer: L, index: j });
+        for (let i = 0; i < NET.arch[L]; i++) {
+          list.push({ kind: 'term', layer: L, index: j, term: i });
+        }
+        list.push({ kind: 'z', layer: L, index: j });
+        list.push({ kind: 'act', layer: L, index: j });
+      }
+      list.push({ kind: 'layer-end', layer: L });
+    }
+    list.push({ kind: 'output' });
+    if (granularity === 'weight') return list;
+    if (granularity === 'neuron') return list.filter((e) => e.kind !== 'term');
+    return list.filter((e) => e.kind === 'input' || e.kind === 'layer'
+      || e.kind === 'layer-end' || e.kind === 'output');
+  }
+
+  /* 지금 화면에 보여줘야 하는 상태 */
+  function stateOf(ev) {
+    const st = {
+      phase: 0, layer: -1, index: -1, term: -1,
+      showZ: false, showAct: false, preview: false,
+    };
+    if (ev) {
+      switch (ev.kind) {
+        case 'input':
+          st.phase = 1; break;
+        case 'layer':
+          st.phase = 2; st.layer = ev.layer; break;
+        case 'neuron':
+          st.phase = 2; st.layer = ev.layer; st.index = ev.index;
+          st.term = NET.arch[ev.layer] - 1; break;
+        case 'term':
+          st.phase = 2; st.layer = ev.layer; st.index = ev.index; st.term = ev.term; break;
+        case 'z':
+          st.phase = 3; st.layer = ev.layer; st.index = ev.index;
+          st.term = NET.arch[ev.layer] - 1; st.showZ = true; break;
+        case 'act':
+          st.phase = ev.layer === N_LAYERS - 1 ? 5 : 4;
+          st.layer = ev.layer; st.index = ev.index;
+          st.term = NET.arch[ev.layer] - 1; st.showZ = true; st.showAct = true; break;
+        case 'layer-end':
+          st.phase = 4; st.layer = ev.layer; st.index = NET.arch[ev.layer + 1] - 1;
+          st.term = NET.arch[ev.layer] - 1; st.showZ = true; st.showAct = true; break;
+        case 'output':
+          st.phase = 5; st.layer = N_LAYERS - 1; st.index = 0;
+          st.term = NET.arch[N_LAYERS - 1] - 1; st.showZ = true; st.showAct = true; break;
+      }
+    }
+    if (preview) {
+      st.layer = preview.layer;
+      st.index = preview.index;
+      st.term = NET.arch[preview.layer] - 1;
+      st.showZ = true; st.showAct = true; st.preview = true;
+    }
+    return st;
+  }
+
+  function shortNum(v) {
+    const a = Math.abs(v);
+    if (a >= 100) return v.toFixed(0);
+    if (a >= 10) return v.toFixed(1);
+    return v.toFixed(2);
+  }
+
+  /* 뉴런 하나의 현재 상태: pending(아직) / current(계산 중) / done(끝) */
+  function nodeStatus(st, L, j) {
+    if (L === 0) return 'done';
+    const li = L - 1;
+    if (li < st.layer) return 'done';
+    if (li > st.layer) return 'pending';
+    if (j < st.index) return 'done';
+    if (j > st.index) return 'pending';
+    return st.showAct ? 'done' : 'current';
+  }
+
+  /* ---------------- 화면 그리기 ---------------- */
+  function render() {
+    const ev = events[stepIndex] || null;
+    const st = stateOf(ev);
+    renderNodes(st);
+    renderLinks(st);
+    renderBands(st);
+    renderDetail(ev, st);
+    renderOutput();
+    renderChrome(ev, st);
+  }
+
+  function renderNodes(st) {
+    for (const n of nodeEls) {
+      const status = nodeStatus(st, n.L, n.j);
+      n.g.setAttribute('class', 'node'
+        + (n.L === 0 ? ' input' : '') + (n.L === N_LAYERS ? ' output' : '') + ' ' + status);
+      const t = n.value;
+      t.classList.remove('pre');
+      if (n.L === 0) {
+        t.textContent = shortNum(x[n.j]);
+      } else if (status === 'pending') {
+        t.textContent = '';
+      } else if (status === 'done') {
+        t.textContent = shortNum(fwd.a[n.L][n.j]);
+      } else {
+        const info = neuronTerms(NET, x, n.L - 1, n.j);
+        if (st.showZ) {
+          t.textContent = shortNum(info.z);
+        } else {
+          let partial = 0;
+          for (let i = 0; i <= st.term && i < info.terms.length; i++) {
+            partial += info.terms[i].product;
+          }
+          t.textContent = shortNum(partial);
+        }
+        t.classList.add('pre');
+      }
+    }
+  }
+
+  function renderLinks(st) {
+    const layer = st.layer;
+    const index = st.index;
+    for (const l of linkEls) {
+      let cls = 'link';
+      if (layer >= 0 && l.L === layer && l.j === index) {
+        if (st.showAct) cls += ' hot';
+        else if (l.i === st.term && !st.showZ) cls += ' active now';
+        else if (l.i <= st.term) cls += ' hot';
+        else cls += ' queued';
+      }
+      l.el.setAttribute('class', cls);
+    }
+
+    while (gLabels.firstChild) gLabels.removeChild(gLabels.firstChild);
+    while (gBiasLinks.firstChild) gBiasLinks.removeChild(gBiasLinks.firstChild);
+    if (layer < 0 || index < 0) return;
+
+    const dstY = nodeY(layer + 1, index);
+    const midX = (COL_X(layer) + NODE_R + COL_X(layer + 1) - NODE_R) / 2;
+    for (let i = 0; i < NET.arch[layer]; i++) {
+      const w = NET.weights[layer][i][index];
+      const midY = (nodeY(layer, i) + dstY) / 2 - 2;
+      const text = '\u00d7 ' + w.toFixed(2);
+      const wide = 12 + text.length * 5.4;
+      const box = el('g', {
+        class: 'wbox' + (w < 0 ? ' negative' : '')
+          + (!st.showAct && i === st.term ? ' now' : ''),
+      });
+      box.append(
+        el('rect', { x: midX - wide / 2, y: midY - 8, width: wide, height: 16, rx: 4 }),
+        el('text', { x: midX, y: midY }, text),
+      );
+      gLabels.append(box);
+    }
+
+    if (st.showZ || st.preview) {
+      const bias = NET.biases[layer][index];
+      const labelY = (BIAS_Y - 16 + dstY) / 2;
+      const lg = el('g', { class: 'wbox bias-label' });
+      lg.append(
+        el('rect', { x: COL_X(layer) - 26, y: labelY - 8, width: 52, height: 16, rx: 4 }),
+        el('text', { x: COL_X(layer), y: labelY }, 'b ' + fv(bias, 2)),
+      );
+      gBiasLinks.append(
+        el('line', {
+          x1: COL_X(layer), y1: BIAS_Y - 16,
+          x2: COL_X(layer + 1) - NODE_R, y2: dstY,
+          class: 'link bias',
+        }),
+        lg,
+      );
+    }
+  }
+
+  function renderBands(st) {
+    for (let L = 0; L < bandEls.length; L++) {
+      const on = st.layer >= 0 && (L === st.layer + 1 || (L === 0 && st.phase === 1));
+      bandEls[L].rect.setAttribute('class', 'band' + (on ? ' active' : ''));
+      bandEls[L].title.setAttribute('class', 'band-title' + (on ? ' active' : ''));
+    }
+  }
+
+  const STEP_DESC = {
+    1: '1단계: 입력 x 6개가 신경망에 들어갑니다.',
+    2: '2단계: 앞 층에서 온 값에 가중치 w 를 곱합니다. (a \u00d7 w)',
+    3: '3단계: 곱한 값과 편향 b 를 전부 더합니다. 이 값이 z 입니다.',
+    4: '4단계: z 를 활성화 함수에 넣어 다음 층으로 보낼 값을 만듭니다. (a = g(z))',
+    5: '5단계: z 를 Sigmoid 에 넣으면 0 과 1 사이의 숫자가 됩니다. 이게 최종 답이에요.',
+  };
+
+  function srcName(layer, i) {
+    return layer === 0 ? 'x' + (i + 1) : 'h' + layer + '_' + (i + 1);
+  }
+
+  function rowHtml(cls, src, aval, wbox, prod, wclass) {
+    return '<div class="row ' + cls + '">'
+      + '<span class="src">' + src + '</span>'
+      + '<span class="aval">' + aval + '</span>'
+      + '<span class="op">\u00d7</span>'
+      + '<span class="wboxx ' + (wclass || '') + '">' + wbox + '</span>'
+      + '<span class="op">=</span>'
+      + '<span class="prod">' + prod + '</span>'
+      + '</div>';
+  }
+
+  /* 오른쪽 패널: 강의 화면(앞 층에서 온 값 -> x w -> 전부 더한 값 -> 활성화 -> 최종 답) */
+  function renderDetail(ev, st) {
+    const title = document.getElementById('detail-title');
+    const body = document.getElementById('detail-body');
+    const desc = STEP_DESC[st.phase] || '재생을 누르면 계산이 시작됩니다.';
+    let html = '<p class="hint">' + desc + (st.preview ? ' <b>(미리보기)</b>' : '') + '</p>';
+
+    if (st.layer < 0) {
+      title.textContent = '입력층';
+      for (let i = 0; i < NET.arch[0]; i++) {
+        html += '<div class="row done"><span class="src">x' + (i + 1) + '</span>'
+          + '<span class="aval">' + fv(x[i], 3) + '</span>'
+          + '<span class="op">\u2190</span>'
+          + '<span class="hint">' + NET.feature_names[i] + '</span></div>';
+      }
+    } else if (st.index < 0) {
+      title.textContent = layerName(st.layer + 1);
+      html += '<p class="hint">뉴런 ' + NET.arch[st.layer + 1] + '개를 차례로 계산합니다. '
+        + '활성화 함수: <b>' + ACT_LABEL[NET.activations[st.layer]] + '</b></p>';
+    } else if (ev && ev.kind === 'layer-end') {
+      title.textContent = layerName(st.layer + 1) + ' 완료';
+      for (let j = 0; j < NET.arch[st.layer + 1]; j++) {
+        html += rowHtml('done', (j + 1) + '번', 'z ' + fv(fwd.z[st.layer][j], 3),
+          ACT_LABEL[NET.activations[st.layer]], 'a ' + fv(fwd.a[st.layer + 1][j], 3), '');
+      }
+      html += '<div class="actline">이 층의 결과 a = ['
+        + fwd.a[st.layer + 1].map((v) => fv(v, 3)).join(', ') + ']</div>';
+    } else {
+      const info = neuronTerms(NET, x, st.layer, st.index);
+      title.textContent = layerName(st.layer + 1) + ' · ' + (st.index + 1) + '번 뉴런';
+      let sum = 0;
+      info.terms.forEach((t, i) => {
+        const cls = st.showZ ? 'done' : (i < st.term ? 'done' : (i === st.term ? 'current' : 'pending'));
+        html += rowHtml(cls, srcName(st.layer, t.i), fv(t.aIn, 3), fv(t.w, 2),
+          fv(t.product, 3), t.w < 0 ? 'negative' : '');
+        sum += t.product;
+      });
+      html += rowHtml(st.showZ ? 'done' : 'pending', '편향', '1.000',
+        fv(info.bias, 2), fv(info.bias, 3), '');
+      if (st.showZ) {
+        html += '<div class="zline">z = ' + fv(sum, 3) + ' (곱한 값의 합) + '
+          + fv(info.bias, 3) + ' (편향) = <b>' + fv(info.z, 3) + '</b></div>';
+      } else {
+        html += '<div class="zline">지금까지 더한 값(누적) = <b>' + fv(sum, 3) + '</b></div>';
+      }
+      if (st.showAct) {
+        const label = ACT_LABEL[info.activation];
+        html += '<div class="actline">' + label + '(z) = ' + label + '('
+          + fv(info.z, 3) + ') = <b>' + fv(info.a, 3) + '</b>'
+          + (info.activation === 'relu' && info.a === 0
+            ? ' \u2190 ReLU 는 음수를 0 으로 만듭니다' : '')
+          + (info.activation === 'sigmoid'
+            ? ' \u2190 0 과 1 사이의 확률 = 최종 답' : '') + '</div>';
+      } else {
+        html += '<div class="actline pending">' + ACT_LABEL[info.activation]
+          + '(z) = ? (아직 활성화 함수에 넣기 전)</div>';
+      }
+    }
+    body.innerHTML = html;
+  }
+
+  function truthOf() {
+    if (sourceInfo.kind === 'manual') return null;
+    return sourceInfo.kind === 'sample'
+      ? NET.samples[sourceInfo.index] : NET.gallery[sourceInfo.index];
+  }
+
+  /* 최종 답 카드 (슬라이더를 움직이면 바로 갱신됩니다) */
+  function renderOutput() {
+    const p = fwd.a[N_LAYERS][0];
+    document.getElementById('out-big').textContent = (p * 100).toFixed(2) + ' %';
+    document.getElementById('out-gauge').style.width = (p * 100).toFixed(1) + '%';
+    const verdict = document.getElementById('out-verdict');
+    verdict.textContent = p >= 0.5
+      ? '\u2192 Gentoo 종으로 판정 (0.5 이상)'
+      : '\u2192 Gentoo 가 아님으로 판정 (0.5 미만)';
+    verdict.style.color = p >= 0.5 ? 'var(--orange)' : 'var(--muted)';
+
+    const truth = document.getElementById('out-truth');
+    const item = truthOf();
+    if (!item) {
+      truth.textContent = '직접 만든 입력이라 정답이 없습니다. (실제 펭귄 버튼을 눌러 보세요)';
+    } else {
+      const isGentoo = item.species === 'Gentoo';
+      const predicted = p >= 0.5;
+      truth.textContent = '실제 정답: ' + item.species + ' · 모델 판정: '
+        + (predicted ? 'Gentoo' : 'Gentoo 아님') + ' · '
+        + (predicted === isGentoo ? '맞았습니다' : '틀렸습니다');
+    }
+  }
+
+  /* 아래쪽 진행 표시 */
+  function renderChrome(ev, st) {
+    document.querySelectorAll('#step-chips .chip').forEach((c) => {
+      const s = Number(c.dataset.step);
+      let cls = 'chip';
+      if (st.phase > 0 && s === st.phase) cls += ' on';
+      else if (st.phase > 0 && s < st.phase) cls += ' done';
+      c.setAttribute('class', cls);
+    });
+    const bar = document.getElementById('progress-bar');
+    bar.style.width = (events.length > 1 ? (stepIndex / (events.length - 1)) * 100 : 0) + '%';
+    document.getElementById('step-info').textContent = (stepIndex + 1) + ' / ' + events.length;
+    document.getElementById('btn-play').textContent = playing ? '\u23f8 일시정지' : '\u25b6 재생';
+  }
+
+  /* ---------------- 입력 조작 ---------------- */
+  const sliderEls = [];
+
+  function buildSliders() {
+    const box = document.getElementById('sliders');
+    for (let i = 0; i < NET.arch[0]; i++) {
+      const row = document.createElement('div');
+      row.className = 'slider-row';
+      row.innerHTML = '<span class="nm">x' + (i + 1) + '</span>'
+        + '<input type="range" min="-3" max="3" step="0.01" data-i="' + i + '">'
+        + '<span class="vv" data-v="' + i + '">0.000</span>';
+      box.append(row);
+      const input = row.querySelector('input');
+      input.addEventListener('input', () => {
+        const nx = x.slice();
+        nx[i] = Number(input.value);
+        setInput(nx, { kind: 'manual' }, true);   // 애니메이션 위치는 그대로 두고 값만 바꿉니다
+      });
+      sliderEls.push(input);
+    }
+  }
+
+  function syncInputs() {
+    for (let i = 0; i < sliderEls.length; i++) {
+      sliderEls[i].value = x[i];
+      document.querySelector('.vv[data-v="' + i + '"]').textContent = fv(x[i], 3);
+    }
+    renderRawTable();
+  }
+
+  function renderRawTable() {
+    const table = document.getElementById('raw-table');
+    const item = truthOf();
+    if (!item) {
+      table.innerHTML = '<tr><td class="k">입력</td>'
+        + '<td class="v">직접 조작 중 (표준화된 값)</td></tr>';
+      return;
+    }
+    table.innerHTML = item.raw_text
+      .map((pair) => '<tr><td class="k">' + pair[0] + '</td><td class="v">'
+        + pair[1] + '</td></tr>').join('')
+      + '<tr><td class="k">종</td><td class="v">' + item.species + '</td></tr>';
+  }
+
+  function setInput(nx, source, keepStep) {
+    x = nx.slice();
+    sourceInfo = source;
+    fwd = forwardPass(NET, x);
+    if (!keepStep) stepIndex = 0;
+    events = buildEvents();
+    if (stepIndex > events.length - 1) stepIndex = events.length - 1;
+    syncInputs();
+    render();
+  }
+
+  function loadPreset(kind, index) {
+    const item = kind === 'sample' ? NET.samples[index] : NET.gallery[index];
+    setInput(item.x, { kind: kind, index: index });
+    play(true);
+  }
+
+  /* ---------------- 재생 엔진 ---------------- */
+  const DUR = {
+    input: 950, layer: 850, 'layer-end': 1200, neuron: 750,
+    term: 520, z: 800, act: 950, output: 1600,
+  };
+
+  function dur(ev) {
+    return (DUR[ev ? ev.kind : 'input'] || 700) / speed;
+  }
+
+  function stop() {
+    playing = false;
+    if (timer) clearTimeout(timer);
+    timer = null;
+    render();
+  }
+
+  function play(fromStart) {
+    if (timer) clearTimeout(timer);
+    if (fromStart || stepIndex >= events.length - 1) stepIndex = 0;
+    playing = true;
+    render();
+    timer = setTimeout(tick, dur(events[stepIndex]));
+  }
+
+  function tick() {
+    if (!playing) return;
+    if (stepIndex >= events.length - 1) {
+      playing = false;
+      render();
+      return;
+    }
+    stepIndex++;
+    render();
+    timer = setTimeout(tick, dur(events[stepIndex]));
+  }
+
+  function stepBy(delta) {
+    if (timer) { clearTimeout(timer); timer = null; }
+    playing = false;
+    stepIndex = Math.max(0, Math.min(events.length - 1, stepIndex + delta));
+    render();
+  }
+
+  /* ---------------- 버튼 / 키보드 ---------------- */
+  function setGranularity(value) {
+    granularity = value;
+    document.getElementById('granularity').value = value;
+    const wasPlaying = playing;
+    if (timer) { clearTimeout(timer); timer = null; }
+    events = buildEvents();
+    stepIndex = Math.min(stepIndex, events.length - 1);
+    render();
+    if (wasPlaying) play(false);
+  }
+
+  document.getElementById('btn-play').addEventListener('click', () => {
+    if (playing) stop(); else play(false);
+  });
+  document.getElementById('btn-next').addEventListener('click', () => stepBy(1));
+  document.getElementById('btn-prev').addEventListener('click', () => stepBy(-1));
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    if (timer) { clearTimeout(timer); timer = null; }
+    playing = false;
+    stepIndex = 0;
+    render();
+  });
+  document.getElementById('speed').addEventListener('input', (e) => {
+    speed = Number(e.target.value);
+    document.getElementById('speed-val').textContent = speed.toFixed(2) + 'x';
+  });
+  document.getElementById('granularity').addEventListener('change',
+    (e) => setGranularity(e.target.value));
+  document.querySelectorAll('[data-sample]').forEach((btn) => {
+    btn.addEventListener('click', () => loadPreset('sample', Number(btn.dataset.sample)));
+  });
+  document.getElementById('btn-random').addEventListener('click', () => {
+    loadPreset('gallery', Math.floor(Math.random() * NET.gallery.length));
+  });
+  document.addEventListener('keydown', (e) => {
+    const tag = (e.target.tagName || '').toUpperCase();
+    if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+    if (e.code === 'Space') { e.preventDefault(); if (playing) stop(); else play(false); }
+    else if (e.code === 'ArrowRight') { e.preventDefault(); stepBy(1); }
+    else if (e.code === 'ArrowLeft') { e.preventDefault(); stepBy(-1); }
+    else if (e.key === 'r' || e.key === 'R') stepBy(-events.length);
+    else if (e.key === '1') setGranularity('weight');
+    else if (e.key === '2') setGranularity('neuron');
+    else if (e.key === '3') setGranularity('layer');
+  });
+
+  /* ---------------- 시작 ---------------- */
+  document.getElementById('acc').textContent =
+    (NET.training.accuracy * 100).toFixed(1) + '% (학습 데이터 '
+    + NET.training.dataset_rows + '마리)';
+  buildSliders();
+  loadPreset('sample', 0);
+})();
+</script>
+</body>
+</html>
