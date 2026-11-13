@@ -1892,6 +1892,12 @@ var CURRICULUM = [
         image: "assets/courses/ids.jpg",
         tags: ["data-science", "data-mining", "statistics", "machine-learning", "regression"],
         level: { ko: "초급", en: "Beginner" },
+        resources: [
+          {
+            label: { ko: "예상 모듈 테스트 문제지 (Markdown)", en: "Predicted modular tests (Markdown)" },
+            href: "https://github.com/chaninjung/my-study-room/blob/main/introductionTOdatascience/pdf/mock_exams_intro_to_data_science.md"
+          }
+        ],
         open: true,
         sections: [
           { id: "modular1", label: { ko: "모듈 테스트 1", en: "Modular Test 1" }, scope: "m1", ready: false },
@@ -4400,10 +4406,20 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       return '<div class="cdInfoCard"><em>' + esc(row[0]) + "</em><b>" + esc(row[1]) + "</b></div>";
     }).join("");
     const tags = ((c && c.tags) || []).map(function (tg) { return '<span class="cdTagSoft">#' + esc(tg) + "</span>"; }).join("");
+    const resources = ((c && c.resources) || []).map(function (r) {
+      return '<li><a href="' + esc(r.href) + '" target="_blank" rel="noopener noreferrer">' +
+        esc(label(r.label)) + " ↗</a></li>";
+    }).join("");
+    const resourcesBlock = resources
+      ? '<div class="cdSec"><h2 class="cdSecTitle">' +
+        (LANG === "ko" ? "학습 자료" : "Study materials") +
+        '</h2><ul class="cdList">' + resources + "</ul></div>"
+      : "";
     return '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.gain") + '</h2><ul class="cdList">' + gains + "</ul></div>" +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutTitle") + '</h2><p class="cdPara">' + t("cd.aboutBody") + "</p></div>" +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutExams") + '</h2><div class="cdInfoGrid">' + info + "</div>" +
       '<p class="cdPara" style="margin-top:14px">' + t("home.grading") + esc(gradingNote()) + " · " + esc(metaNote()) + "</p></div>" +
+      resourcesBlock +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.tags") + '</h2><div class="cdTagRow">' + tags + "</div></div>";
   }
 
