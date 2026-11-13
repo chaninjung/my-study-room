@@ -3941,6 +3941,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       elapsed: 0,
       submitted: false,
       section: "A",
+      shortCur: 0,
       shortAnswers: cfg.shortAnswers || [],
       shortResponses: {},
       results: null,
@@ -6006,61 +6007,67 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       "T4-SA-04": "Model A has training error 0.1 and validation error 2.5. Model B has training error 3.0 and validation error 3.1."
     };
     setView("quiz");
-    const palette = groups.map(function (x, i) {
-      return '<button class="pbtn' + (i === 0 ? " cur" : "") + '" data-short-jump="' +
-        esc(x.id) + '">' + (i + 1) + "</button>";
+    const i = S.shortCur || 0;
+    const x = groups[i] || groups[0];
+    const parts = x.parts.map(function (p) {
+      const key = p.id;
+      return '<div class="panelBody" style="border-top:1px solid var(--border)">' +
+        '<div><b>' + esc(p.id) + "</b> " + esc(p.prompt) + "</div>" +
+        '<textarea class="search" rows="4" data-short="' + esc(key) +
+        '" placeholder="' + (LANG === "ko" ? "여기에 답을 작성하세요." : "Write your answer here.") +
+        '">' + esc(S.shortResponses[key] || "") + '</textarea>' +
+        (S.submitted ? '<details style="margin-top:8px" open><summary class="linkish">' +
+          (LANG === "ko" ? "정답과 해설" : "Answer and explanation") +
+          '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details>" : "") +
+        "</div>";
     }).join("");
-    const cards = groups.map(function (x, i) {
-      const parts = x.parts.map(function (p) {
-        const key = p.id;
-        return '<div class="panelBody" style="border-top:1px solid var(--border)">' +
-          '<div><b>' + esc(p.id) + "</b> " + esc(p.prompt) + "</div>" +
-          '<textarea class="search" rows="3" data-short="' + esc(key) +
-          '" placeholder="' + (LANG === "ko" ? "여기에 답을 작성하세요." : "Write your answer here.") +
-          '">' + esc(S.shortResponses[key] || "") + '</textarea>' +
-          (S.submitted ? '<details style="margin-top:8px" open><summary class="linkish">' +
-            (LANG === "ko" ? "정답과 해설" : "Answer and explanation") +
-            '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details>" : "") +
-          "</div>";
-      }).join("");
-      const context = contexts[x.id] ? '<div class="panelBody" style="background:var(--soft);white-space:pre-line">' +
-        "<b>" + (LANG === "ko" ? "문제 조건" : "Given") + "</b><br>" + esc(contexts[x.id]) + "</div>" : "";
-      return '<div class="panel" id="short-' + esc(x.id) + '" style="margin-bottom:12px"><div class="panelHead">' +
-        esc(x.id + " · " + x.title) + "</div>" + context + parts + "</div>";
+    const context = contexts[x.id] ? '<div class="panelBody" style="background:var(--soft);white-space:pre-line">' +
+      "<b>" + (LANG === "ko" ? "문제 조건" : "Given") + "</b><br>" + esc(contexts[x.id]) + "</div>" : "";
+    const palette = groups.map(function (g, n) {
+      const answered = g.parts.some(function (p) { return !!S.shortResponses[p.id]; });
+      return '<button class="pbtn' + (n === i ? " cur" : "") + (answered ? " answered" : "") +
+        '" data-short-jump="' + n + '">' + (n + 1) + "</button>";
     }).join("");
+    const st = { answered: groups.filter(function (g) {
+      return g.parts.some(function (p) { return !!S.shortResponses[p.id]; });
+    }).length };
     app.innerHTML =
       '<div class="examWrap">' +
-      '<aside class="side left panel"><div class="panelHead">' +
-      (LANG === "ko" ? "시험 섹션" : "Exam sections") + "</div>" +
+      '<aside class="side left panel"><div class="panelHead">' + t("quiz.sections") + "</div>" +
       '<div class="secTitle">Section A <b>' + S.questions.length + "</b></div>" +
-      '<button class="btn sm wide" id="backToSectionA">' +
-      (LANG === "ko" ? "객관식으로 돌아가기" : "Back to Section A") + "</button>" +
+      '<button class="btn sm wide" id="backToSectionA">Section A</button>' +
       '<div class="secTitle" style="margin-top:12px">Section B <b>' + groups.length + "</b></div>" +
-      '<div class="palette">' + palette + "</div></aside>" +
-      '<main class="panel"><div class="qHead"><span class="qNum">Section B</span><span class="tag num">' +
-      (LANG === "ko" ? "주관식" : "Short answer") + "</span><span class=\"grow\"></span></div>" +
-      '<div class="qText">' + (LANG === "ko" ? "단답형 문제" : "Short-answer questions") + "</div>" +
-      '<div style="padding:16px">' + cards + "</div>" +
-      '<div class="actionBar"><span class="grow"></span><button class="btn primary" id="submitShort">' +
-      t("quiz.submit") + "</button></div></main>" +
+      '<div class="palette">' + palette + "</div>" +
+      '<div class="legend"><div><span class="dot answered"></span>' + t("quiz.legend.answered") +
+      "<b>" + st.answered + "</b></div><div><span class=\"dot notans\"></span>" +
+      t("quiz.legend.notans") + "<b>" + (groups.length - st.answered) + "</b></div></div></aside>" +
+      '<main class="panel"><div class="qHead"><span class="qNum">Q: ' + (i + 1) +
+      "</span><span class=\"tag num\">Section B</span><span class=\"tag\">" + esc(x.id) +
+      '</span><span class="grow"></span></div><div class="qTopic">' +
+      esc(x.title) + "</div>" + context + '<div class="qText">' + parts + "</div>" +
+      '<div class="actionBar"><button class="btn" id="shortPrev"' + (i === 0 ? " disabled" : "") +
+      ">← Previous</button><span class=\"grow\"></span><button class=\"btn\" id=\"shortNext\">" +
+      (i === groups.length - 1 ? t("quiz.submit") : "Save & Next →") + "</button></div></main>" +
       '<aside class="side right panel"><div class="timerBox"><div class="' + timerClass() + '" id="timer">' +
       (S.timed ? formatClock(S.remain) : formatClock(S.elapsed)) + "</div></div>" +
-      '<div class="sideSubmit"><button class="btn primary wide" id="submitShortSide">' + t("quiz.submit") +
-      "</button></div></aside></div>";
+      '<div class="ov"><div class="ovTitle">' + t("quiz.overview") + "</div>" +
+      '<div class="ovRow">Total Questions<span>' + groups.length + "</span></div>" +
+      '<div class="ovRow">Answered<span>' + st.answered + "</span></div>" +
+      '<div class="ovRow">Not Answered<span>' + (groups.length - st.answered) + "</span></div></div>" +
+      '<div class="sideSubmit"><button class="btn primary wide" id="submitShort">' +
+      t("quiz.submit") + "</button></div></aside></div>";
     document.querySelectorAll("[data-short]").forEach(function (input) {
       input.oninput = function () { S.shortResponses[input.getAttribute("data-short")] = input.value; };
     });
     document.querySelectorAll("[data-short-jump]").forEach(function (button) {
-      button.onclick = function () {
-        const target = document.getElementById("short-" + button.getAttribute("data-short-jump"));
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-        document.querySelectorAll("[data-short-jump]").forEach(function (b) { b.classList.remove("cur"); });
-        button.classList.add("cur");
-      };
+      button.onclick = function () { S.shortCur = parseInt(button.getAttribute("data-short-jump"), 10); renderShortAnswers(); };
     });
     el("backToSectionA").onclick = function () { S.section = "A"; renderQuiz(); };
+    el("shortPrev").onclick = function () { if (i > 0) { S.shortCur = i - 1; renderShortAnswers(); } };
+    el("shortNext").onclick = function () {
+      if (i < groups.length - 1) { S.shortCur = i + 1; renderShortAnswers(); } else askSubmit();
+    };
     el("submitShort").onclick = function () { askSubmit(); };
-    el("submitShortSide").onclick = function () { askSubmit(); };
   }
 
   function renderQuiz() {
