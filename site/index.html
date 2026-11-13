@@ -4466,6 +4466,33 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       esc(grade) + "</p></div>";
   }
 
+  function idsShortAnswerHtml(scope) {
+    if (currentCourse().course.id !== "ids" || !window.__IDS_SHORT_ANSWERS__) return "";
+    const list = window.__IDS_SHORT_ANSWERS__.filter(function (x) {
+      return scope === "all" || x.id.indexOf("T" + String(scope).slice(1) + "-") === 0;
+    });
+    if (!list.length) return "";
+    const cards = list.map(function (x) {
+      const parts = x.parts.map(function (p) {
+        return '<div class="panelBody" style="border-top:1px solid var(--border)">' +
+          '<div><b>' + esc(p.id) + "</b> " + esc(p.prompt) + "</div>" +
+          '<textarea class="search" rows="2" placeholder="' +
+          (LANG === "en" ? "Write your answer here before revealing the key." : "정답을 보기 전에 여기에 답을 작성해 보세요.") +
+          '"></textarea><details style="margin-top:8px"><summary class="linkish">' +
+          (LANG === "en" ? "Show answer and explanation" : "정답과 해설 보기") +
+          '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details></div>";
+      }).join("");
+      return '<div class="panel" style="margin-bottom:12px"><div class="panelHead">' +
+        esc(x.id + " · " + x.title) + "</div>" + parts + "</div>";
+    }).join("");
+    return '<div class="cdSec"><h2 class="cdSecTitle">' +
+      (LANG === "en" ? "Short-answer practice" : "단답형 연습") +
+      '</h2><p class="cdPara">' +
+      (LANG === "en" ? "Write your answer first, then expand the answer key. These study cards are based on the Markdown predicted papers." :
+        "먼저 답을 작성한 뒤 정답과 해설을 펼쳐 보세요. 이 카드는 Markdown 예상 문제지를 바탕으로 만들었습니다.") +
+      "</p>" + cards + "</div>";
+  }
+
   function courseAboutHtml(c) {
     const gains = (c.gains ? (c.gains[LANG] || c.gains.en || []) : ["cd.gain1", "cd.gain2", "cd.gain3", "cd.gain4"]).map(function (value) {
       return '<li><span class="cdCheck">' + CD_CHECK + "</span><span>" + esc(c.gains ? value : t(value)) + "</span></li>";
@@ -4496,6 +4523,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutExams") + '</h2><div class="cdInfoGrid">' + info + "</div>" +
       '<p class="cdPara" style="margin-top:14px">' + (c.grading ? esc(label(c.grading)) : t("home.grading") + esc(gradingNote()) + " · " + esc(metaNote())) + "</p></div>" +
       resourcesBlock +
+      idsShortAnswerHtml("all") +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.tags") + '</h2><div class="cdTagRow">' + tags + "</div></div>";
   }
 
@@ -5387,6 +5415,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       (sc === "t1" ? panel(t("tier.quick"), tierRows, ' style="margin-bottom:16px"') : "") +
       panel(t("grp.quick"), grpQuick, ' style="margin-bottom:16px"') +
       panel(t("ov.quick"), quick, ' style="margin-bottom:16px"') +
+      idsShortAnswerHtml(sc) +
       panel(t("home.howto"), '<div class="panelBody muted">' + tf("home.howto.body", ex.minutes) + "</div>") +
       "</div>" +
       "<div>" +
