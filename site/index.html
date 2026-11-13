@@ -6028,6 +6028,13 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       return '<button class="pbtn' + (n === i ? " cur" : "") + (answered ? " answered" : "") +
         '" data-short-jump="' + n + '">' + (n + 1) + "</button>";
     }).join("");
+    const sectionAPalette = S.questions.map(function (q, n) {
+      let cls = "pbtn";
+      if (S.flags[q.sid]) cls += " marked";
+      else if (S.answers[q.sid] && S.answers[q.sid].length) cls += " answered";
+      else if (S.visited[q.sid]) cls += " notans";
+      return '<button class="' + cls + '" data-section-a="' + n + '">' + (n + 1) + "</button>";
+    }).join("");
     const st = { answered: groups.filter(function (g) {
       return g.parts.some(function (p) { return !!S.shortResponses[p.id]; });
     }).length };
@@ -6035,7 +6042,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="examWrap">' +
       '<aside class="side left panel"><div class="panelHead">' + t("quiz.sections") + "</div>" +
       '<div class="secTitle">Section A <b>' + S.questions.length + "</b></div>" +
-      '<button class="btn sm wide" id="backToSectionA">Section A</button>' +
+      '<div class="palette">' + sectionAPalette + "</div>" +
       '<div class="secTitle" style="margin-top:12px">Section B <b>' + groups.length + "</b></div>" +
       '<div class="palette">' + palette + "</div>" +
       '<div class="legend"><div><span class="dot answered"></span>' + t("quiz.legend.answered") +
@@ -6062,7 +6069,13 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     document.querySelectorAll("[data-short-jump]").forEach(function (button) {
       button.onclick = function () { S.shortCur = parseInt(button.getAttribute("data-short-jump"), 10); renderShortAnswers(); };
     });
-    el("backToSectionA").onclick = function () { S.section = "A"; renderQuiz(); };
+    document.querySelectorAll("[data-section-a]").forEach(function (button) {
+      button.onclick = function () {
+        S.cur = parseInt(button.getAttribute("data-section-a"), 10);
+        S.section = "A";
+        renderQuiz();
+      };
+    });
     el("shortPrev").onclick = function () { if (i > 0) { S.shortCur = i - 1; renderShortAnswers(); } };
     el("shortNext").onclick = function () {
       if (i < groups.length - 1) { S.shortCur = i + 1; renderShortAnswers(); } else askSubmit();
@@ -6106,6 +6119,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       if (i === S.cur) cls += " cur";
       return '<button class="' + cls + '" data-jump="' + i + '">' + (i + 1) + "</button>";
     }).join("");
+    const shortPalette = S.shortAnswers.map(function (x, i) {
+      const answered = x.parts.some(function (p) { return !!S.shortResponses[p.id]; });
+      return '<button class="pbtn' + (answered ? " answered" : "") + '" data-short-section="' +
+        i + '">' + (i + 1) + "</button>";
+    }).join("");
 
     const ovRow = function (label, val) {
       return '<div class="ovRow">' + label + "<span>" + val + "</span></div>";
@@ -6128,8 +6146,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="panelHead">' + t("quiz.sections") + "</div>" +
       '<div class="secTitle">' + (S.shortAnswers.length ? "Section A" : t("quiz.section")) + " <b>" + n + "</b></div>" +
       '<div class="palette">' + palette + "</div>" +
-      (S.shortAnswers.length ? '<button class="btn sm wide" id="sectionBBtn" style="margin-top:12px">Section B <b>' +
-        S.shortAnswers.length + "</b></button>" : "") +
+      (S.shortAnswers.length ? '<div class="secTitle" style="margin-top:12px">Section B <b>' +
+        S.shortAnswers.length + "</b></div><div class=\"palette\">" + shortPalette + "</div>" : "") +
       '<div class="legend">' +
       '<div><span class="dot answered"></span>' + t("quiz.legend.answered") + "<b>" + st.answered + "</b></div>" +
       '<div><span class="dot notans"></span>' + t("quiz.legend.notans") + "<b>" + st.notAnswered + "</b></div>" +
@@ -6264,6 +6282,13 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       S.section = "B";
       renderShortAnswers();
     };
+    document.querySelectorAll("[data-short-section]").forEach(function (button) {
+      button.onclick = function () {
+        S.shortCur = parseInt(button.getAttribute("data-short-section"), 10);
+        S.section = "B";
+        renderShortAnswers();
+      };
+    });
     el("aboutBtn").onclick = function () {
       alert(tf("quiz.about.body", n, S.timed ? (S.cfg.minutes + t("unit.min")) : t("quiz.noLimit"), S.pass));
     };
