@@ -4463,7 +4463,65 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
   /* 학습 가이드 탭 — 공부 순서 · 화면별 사용법 · 시험 팁.
      모의고사 '세트 목록'은 앱 안(모의고사 화면)에 있으므로 여기서는 중복 없이 안내만 한다. */
-  function courseGuideHtml() {
+  function courseGuideHtml(c) {
+    if (c && c.id === "ids") {
+      const en = LANG === "en";
+      const steps = en ? [
+        "Start with Modular Test 1: data mining, data analysis, univariate and bivariate statistics, visualization and PCA.",
+        "Continue with Modular Test 2: clustering and internal/external cluster evaluation.",
+        "Study Modular Test 3: classification, classification metrics and introductory regression.",
+        "Finish Modular Test 4: regression metrics and regularization.",
+        "Use the cumulative final-exam view to review all four modules."
+      ] : [
+        "모듈 테스트 1부터 시작합니다: 데이터 마이닝, 데이터 분석, 단변량·이변량 통계, 시각화와 PCA.",
+        "모듈 테스트 2로 이어갑니다: 클러스터링과 내부·외부 클러스터 평가.",
+        "모듈 테스트 3을 공부합니다: 분류, 분류 평가 지표와 회귀 분석 입문.",
+        "모듈 테스트 4를 마무리합니다: 회귀 평가 지표와 정규화.",
+        "기말고사 범위에서 네 모듈 전체를 종합 복습합니다."
+      ];
+      const how = en ? [
+        ["Overview", "Choose a modular-test section and start a timed 30-minute practice session."],
+        ["Question bank", "Review the 13 multiple-choice questions and the short-answer study cards for that module."],
+        ["Mock exams", "The Markdown source is linked under About; the interactive modular questions are available from each section."],
+        ["Wrong-answer review", "Revisit questions you missed after completing a practice session."],
+        ["Study materials", "Open the full Markdown source to read the calculation questions and answer explanations."]
+      ] : [
+        ["개요", "모듈 테스트 섹션을 선택하고 30분 제한 연습을 시작합니다."],
+        ["문제은행", "해당 모듈의 객관식 13문항과 단답형 학습 카드를 확인합니다."],
+        ["모의고사", "About의 링크에서 Markdown 원본을 확인하고, 각 섹션에서 객관식 문제를 풉니다."],
+        ["오답 복습", "연습 후 틀린 문제를 다시 확인합니다."],
+        ["학습 자료", "계산 문제와 답안 해설이 포함된 전체 Markdown 원본을 엽니다."]
+      ];
+      const tips = en ? [
+        "The four modular tests are 30 minutes each and require at least 2/5.",
+        "Short-answer cards show the answer only after you expand them.",
+        "The final exam covers all four modular-test scopes.",
+        "These are predicted questions; use the lecture materials as the final source of truth."
+      ] : [
+        "네 모듈 테스트는 각각 30분이며 최소 2/5가 필요합니다.",
+        "단답형 카드는 펼치기 전까지 정답을 숨깁니다.",
+        "기말고사는 네 모듈 테스트 전체 범위를 다룹니다.",
+        "이 문제들은 예상 문제이므로 최종 기준은 강의 자료로 확인하세요."
+      ];
+      const quick = '<div class="cdSec"><h2 class="cdSecTitle">' + (en ? "Quick links" : "빠른 이동") + '</h2><div class="cdQuickRow">' +
+        '<button class="btn sm cdQuickBtn" id="cdBank" type="button">' + (en ? "Question bank" : "문제은행") + "</button>" +
+        '<button class="btn sm cdQuickBtn" id="cdWrong" type="button">' + (en ? "Wrong-answer review" : "오답 복습") + "</button>" +
+        '<button class="btn sm cdQuickBtn" id="cdOverview" type="button">' + (en ? "Overview" : "개요") + "</button>" +
+        "</div></div>";
+      return '<div class="cdSec"><p class="cdPara">' +
+        (en ? "If you are new, follow the modular-test order below. Everything is available inside the app, while the full Markdown source contains the complete predicted papers and answer explanations." :
+          "처음이라면 아래 모듈 테스트 순서대로 공부하세요. 앱에서 문제를 풀 수 있고, 전체 예상 문제와 해설은 Markdown 원본에서 확인할 수 있습니다.") +
+        "</p></div>" +
+        '<div class="cdSec"><h2 class="cdSecTitle">' + (en ? "Study order" : "학습 순서") + '</h2><ol class="cdList">' +
+        steps.map(function (x, i) { return '<li><span class="cdStepNum">' + (i + 1) + "</span><span>" + esc(x) + "</span></li>"; }).join("") +
+        "</ol></div>" +
+        '<div class="cdSec"><h2 class="cdSecTitle">' + (en ? "What each screen does" : "화면별 기능") + '</h2><div class="cdInfoGrid">' +
+        how.map(function (x) { return '<div class="cdInfoCard"><em>' + esc(x[0]) + "</em><b>" + esc(x[1]) + "</b></div>"; }).join("") +
+        "</div></div>" +
+        '<div class="cdSec"><h2 class="cdSecTitle">' + (en ? "Exam tips" : "시험 팁") + '</h2><ul class="cdList">' +
+        tips.map(function (x) { return '<li><span class="cdCheck">' + CD_CHECK + "</span><span>" + esc(x) + "</span></li>"; }).join("") +
+        "</ul></div>" + quick;
+    }
     const steps = ["cd.guide.s1", "cd.guide.s2", "cd.guide.s3", "cd.guide.s4", "cd.guide.s5"].map(function (k, i) {
       return '<li><span class="cdStepNum">' + (i + 1) + '</span><span>' + t(k) + "</span></li>";
     }).join("");
@@ -4506,7 +4564,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<p class="cdPara" style="margin-bottom:16px">' + t("cd.learnersSub") + "</p>" + body + "</div>";
   }
   function courseTabHtml(c) {
-    if (COURSE_TAB === "guide") return courseGuideHtml();
+    if (COURSE_TAB === "guide") return courseGuideHtml(c);
     if (COURSE_TAB === "calendar") return courseCalendarHtml(c);
     if (COURSE_TAB === "learners") return courseLearnersHtml();
     return courseAboutHtml(c);
