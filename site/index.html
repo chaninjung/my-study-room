@@ -1809,6 +1809,7 @@ function applyStaticI18n() {
 
 
 </script>
+<script src="ids_questions.js"></script>
 <script id="core-data">window.__QUESTION_DATA__ = null;</script>
 <script id="mock-data">window.__MOCK_DATA__ = null;</script>
 <script id="curriculum-data">
@@ -1900,12 +1901,12 @@ var CURRICULUM = [
         ],
         open: true,
         sections: [
-          { id: "modular1", label: { ko: "모듈 테스트 1", en: "Modular Test 1" }, scope: "m1", ready: false },
-          { id: "modular2", label: { ko: "모듈 테스트 2", en: "Modular Test 2" }, scope: "m2", ready: false },
-          { id: "modular3", label: { ko: "모듈 테스트 3", en: "Modular Test 3" }, scope: "m3", ready: false },
-          { id: "modular4", label: { ko: "모듈 테스트 4", en: "Modular Test 4" }, scope: "m4", ready: false },
-          { id: "final",   label: { ko: "기말고사", en: "Final Exam" }, ready: false },
-          { id: "bank",    label: { ko: "문제은행", en: "Question Bank" }, ready: false },
+          { id: "modular1", label: { ko: "모듈 테스트 1", en: "Modular Test 1" }, scope: "m1", ready: true, exam: { questions: 13, minutes: 30, pass: 2 } },
+          { id: "modular2", label: { ko: "모듈 테스트 2", en: "Modular Test 2" }, scope: "m2", ready: true, exam: { questions: 13, minutes: 30, pass: 2 } },
+          { id: "modular3", label: { ko: "모듈 테스트 3", en: "Modular Test 3" }, scope: "m3", ready: true, exam: { questions: 13, minutes: 30, pass: 2 } },
+          { id: "modular4", label: { ko: "모듈 테스트 4", en: "Modular Test 4" }, scope: "m4", ready: true, exam: { questions: 13, minutes: 30, pass: 2 } },
+          { id: "final",   label: { ko: "기말고사", en: "Final Exam" }, scope: "all", ready: true, exam: { questions: 52, minutes: 120, pass: 26 } },
+          { id: "bank",    label: { ko: "문제은행", en: "Question Bank" }, scope: "all", ready: true },
           { id: "glossary", label: { ko: "용어집", en: "Glossary" }, href: "glossary.html" }
         ],
         schedule: [
@@ -3733,7 +3734,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
      게이트가 복호화를 마친 뒤 window.__bootApp() 을 호출한다. */
   let DATA = null, MOCKS = null, META = null, FULL = [], ALL = [];
   function resolveData() {
-    DATA = window.__QUESTION_DATA__ || null;
+    const idsSelected = COURSE_ID === "ids" ||
+      String((window.location && window.location.hash) || "").toLowerCase().indexOf("introductiontodatascience") !== -1;
+    DATA = idsSelected ? (window.__IDS_QUESTION_DATA__ || null) : (window.__QUESTION_DATA__ || null);
     MOCKS = window.__MOCK_DATA__ || null;
     META = (DATA && DATA.meta) || {};
     FULL = (DATA && DATA.questions) || [];     /* 전체 문제은행 (범위 필터 없음) */
@@ -3746,17 +3749,22 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     const m = /^Lecture (\d+)$/.exec(l || "");
     return m ? parseInt(m[1], 10) : 0;
   }
-  function scopeOfQuestion(q) { return lectureNo(q && q.lecture) >= 7 ? "t2" : "t1"; }
+  function scopeOfQuestion(q) {
+    if (q && q.course === "ids") return q.scope || "all";
+    return lectureNo(q && q.lecture) >= 7 ? "t2" : "t1";
+  }
   function sectionScope() {
     const s = sectionById(activeSectionId());
     return (s && s.scope) || "t1";
   }
   function scopedQuestions(scope) {
     const sc = scope || sectionScope();
+    if (sc === "all") return FULL.slice();
     return FULL.filter(function (q) { return scopeOfQuestion(q) === sc; });
   }
   function refreshPool() { ALL = scopedQuestions(); }
   function scopedMocks() {
+    if (currentCourse().course.id === "ids") return [];
     const sc = sectionScope();
     return MOCKS ? MOCKS.mocks.filter(function (m) { return (m.scope || "t1") === sc; }) : [];
   }
@@ -4213,6 +4221,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     }
     COURSE_ID = id;
     COURSE_TAB = "about";
+    resolveData();
     go("course");       /* 과목 상세 페이지(히어로 + ABOUT/MOCK TEST/LEARNERS 탭)로 입장 */
     return true;
   }
@@ -4288,7 +4297,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function courseHeroHtml(cc) {
     const c = cc.course;
     const img = c.image ? '<img class="cdThumbImg" src="' + esc(c.image) + '" alt="" loading="lazy">' : "";
-    const mockN = MOCKS ? MOCKS.mocks.length : 0;
+    const mockN = currentCourse().course.id === "ids" ? 0 : (MOCKS ? MOCKS.mocks.length : 0);
     const tags = ((c && c.tags) || []).map(function (tg) { return '<span class="cdTag">#' + esc(tg) + "</span>"; }).join("");
     const thumbText = esc(String(label(c.short || c.label) || "SR").replace(/\s+/g, "").slice(0, 4).toUpperCase());
     return '<div class="cdHero"><div class="cdHeroIn">' +
@@ -4474,7 +4483,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     return courseAboutHtml(c);
   }
   function courseRailHtml(c) {
-    const mockN = MOCKS ? MOCKS.mocks.length : 0;
+    const mockN = c.id === "ids" ? 0 : (MOCKS ? MOCKS.mocks.length : 0);
     const facts = [
       [t("cd.fact.questions"), String(FULL.length)],
       [t("cd.fact.mocks"), String(mockN)],
@@ -5433,7 +5442,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
   /* ---------- 뷰 2: 모의고사 ---------- */
   function renderMocks() {
-    if (!MOCKS) {
+    if (currentCourse().course.id === "ids" || !MOCKS) {
       app.innerHTML = panel(t("mocks.title"), '<div class="panelBody muted">' + t("home.mock.empty") + "</div>");
       return;
     }
@@ -6211,7 +6220,6 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
   /* ---------- 부팅 (게이트가 있으면 복호화 후 게이트가 호출) ---------- */
   function boot() {
-    resolveData();
     /* 헤더: StudyRoom 로고 = 홈(서재) · 지구본 = 언어 전환 */
     if (el("brandHome")) el("brandHome").onclick = function () { if (confirmIfAnswered()) go(syncOn() ? "library" : "overview"); };
     if (el("libLangBtn")) el("libLangBtn").onclick = function () { window.__setLang(LANG === "ko" ? "en" : "ko"); };
@@ -6234,12 +6242,14 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
        계정 기능이 켜져 있으면 기본은 라이브러리(과목 카탈로그)이고,
        로그인 전에는 과목 화면으로 바로 들어갈 수 없다(게이트). */
     const hv = viewFromHash();
+    resolveData();
     if (syncOn()) go(locked() ? "library" : (hv || "library"));
     else go(hv || "overview");
     APP_READY = true;                 /* 이후 앱 내 이동은 뒤로가기가 되도록 pushState 로 남긴다 */
     if (window.addEventListener) {
       const onHashNav = function () {
         const v = viewFromHash();
+        resolveData();
         if (v && v !== VIEW) go(syncOn() && locked() && v !== "library" ? "library" : v);
       };
       window.addEventListener("hashchange", onHashNav);
