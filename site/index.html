@@ -3990,7 +3990,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     return all[0] || { sem: CURRICULUM[0], course: CURRICULUM[0].courses[0] };
   }
   function currentCourse() {
-    if (VIEW === "course" && COURSE_ID) return courseFor(COURSE_ID);
+    if (COURSE_ID) return courseFor(COURSE_ID);
     for (let i = 0; i < CURRICULUM.length; i++) {
       const sem = CURRICULUM[i];
       for (let j = 0; j < sem.courses.length; j++) {
