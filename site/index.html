@@ -1938,10 +1938,36 @@ var CURRICULUM = [
         schedule: [
           { id: "m1", name: { ko: "모듈 테스트 1", en: "Modular Test 1" }, at: "2026-10-06T14:00", points: 5, need: 2 },
           { id: "m2", name: { ko: "모듈 테스트 2", en: "Modular Test 2" }, at: "2026-10-20T14:00", points: 5, need: 2 },
-          { id: "m3", name: { ko: "모듈 테스트 3", en: "Modular Test 3" }, at: "2026-11-10T14:00", points: 5, need: 2 },
+          { id: "m3", name: { ko: "모듈 테스트 3", en: "Modular Test 3" }, at: "2026-11-17T14:00", points: 5, need: 2,
+            note: { ko: "변경된 일정 · South Building 0-805", en: "Rescheduled · South Building 0-805" } },
           { id: "m4", name: { ko: "모듈 테스트 4", en: "Modular Test 4" }, at: "2026-12-01T14:00", points: 5, need: 2 },
-          { id: "final", name: { ko: "기말고사", en: "Final Exam" }, at: "2026-12-17T18:00", points: 100, need: 50 }
+          { id: "lec1", kind: "lecture", name: { ko: "강의 1 · 과목 소개 / 데이터 마이닝", en: "Lecture 1 · Course introduction / data mining" }, at: "2026-09-08T14:00", points: 0 },
+          { id: "lec2", kind: "lecture", name: { ko: "강의 2 · 데이터 분석 / 단변량 통계", en: "Lecture 2 · Data analysis / univariate statistics" }, at: "2026-09-15T14:00", points: 0 },
+          { id: "lec3", kind: "lecture", name: { ko: "강의 3 · 수치형 이변량 / 다변량 분석", en: "Lecture 3 · Numerical bivariate / multivariate analysis" }, at: "2026-09-22T14:00", points: 0 },
+          { id: "lec4", kind: "lecture", name: { ko: "강의 4 · 시각화 / 특성 선택 / 선형 방법", en: "Lecture 4 · Visualization / feature selection / linear methods" }, at: "2026-09-29T14:00", points: 0 },
+          { id: "lec5", kind: "lecture", name: { ko: "강의 5 · 비지도학습과 클러스터링", en: "Lecture 5 · Unsupervised learning and clustering" }, at: "2026-10-06T14:00", points: 0 },
+          { id: "lec6", kind: "lecture", name: { ko: "강의 6 · 클러스터 내부·외부 평가", en: "Lecture 6 · Internal and external cluster evaluation" }, at: "2026-10-13T14:00", points: 0 },
+          { id: "lec7", kind: "lecture", name: { ko: "강의 7 · 지도학습과 분류", en: "Lecture 7 · Supervised learning and classification" }, at: "2026-10-20T14:00", points: 0 },
+          { id: "break", kind: "break", name: { ko: "Autumn Break · 휴강", en: "Autumn Break · No classes" }, at: "2026-10-27T14:00", points: 0 },
+          { id: "lec9", kind: "lecture", name: { ko: "강의 9 · 분류 2 / 분류 평가 지표", en: "Lecture 9 · Classification part 2 / evaluation metrics" }, at: "2026-11-03T14:00", points: 0 },
+          { id: "lec10", kind: "lecture", name: { ko: "강의 10 · 회귀 분석 입문", en: "Lecture 10 · Introduction to regression analysis" }, at: "2026-11-10T14:00", points: 0 },
+          { id: "lec11", kind: "lecture", name: { ko: "강의 11 · 회귀 평가 지표", en: "Lecture 11 · Regression evaluation metrics" }, at: "2026-11-17T14:00", points: 0 },
+          { id: "lec12", kind: "lecture", name: { ko: "강의 12 · 정규화", en: "Lecture 12 · Regularization" }, at: "2026-11-24T14:00", points: 0 },
+          { id: "lec13", kind: "lecture", name: { ko: "강의 13 · N/A", en: "Lecture 13 · N/A" }, at: "2026-12-01T14:00", points: 0 },
+          { id: "lec14", kind: "lecture", name: { ko: "강의 14 · 상담", en: "Lecture 14 · Consultation" }, at: "2026-12-08T14:00", points: 0 }
         ],
+        calendarIntro: {
+          ko: "강의 계획과 Canvas 공지를 바탕으로 정리한 2026 가을학기 일정입니다. 강의는 매주 화요일 14:00–15:30, South Building 0-805에서 진행됩니다. 실제 변경 사항은 Canvas 공지를 우선합니다.",
+          en: "This is the 2026 Autumn schedule based on the lecture plan and Canvas announcement. Classes meet Tuesdays 14:00–15:30 in South Building 0-805. Canvas announcements take priority if the schedule changes."
+        },
+        calendarFootnote: {
+          ko: "모듈 테스트는 30분이며 14:00에 시작합니다. 각 테스트 최소 2/5가 필요하고, 출석은 필수가 아니지만 권장됩니다.",
+          en: "Modular tests last 30 minutes and start at 14:00. At least 2/5 is required on each test; attendance is recommended but not mandatory."
+        },
+        calendarGrade: {
+          ko: "모든 모듈 테스트와 실습 요건을 충족하면 네 테스트 점수의 평균을 반올림해 최종 성적을 계산합니다. 실습 요건을 충족하지 못하거나 테스트·시험에 불합격하거나 정당한 사유 없이 실습 수업을 세 번 결석하면 전체 과목을 낙제합니다.",
+          en: "If all modular tests and practice requirements are completed, the final grade is the rounded mean of the four modular-test grades. Failing a practice requirement, the tests/exam, or missing three practice classes without justification means failing the course."
+        },
         items: [
           { id: "overview", label: { ko: "개요", en: "Overview" } },
           { id: "bank", label: { ko: "문제은행", en: "Question Bank" } },
@@ -4394,9 +4420,12 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function courseCalendarHtml(c) {
     const items = (c && c.schedule) || [];
     if (!items.length) return '<div class="cdEmpty"><b>' + esc(t("cal.empty")) + "</b></div>";
+    const displayItems = items.slice().sort(function (a, b) {
+      return String(a.at || "").localeCompare(String(b.at || ""));
+    });
     const now = new Date();
     let next = null;
-    items.forEach(function (it) {
+    displayItems.forEach(function (it) {
       if (next) return;
       const st = calStatus(it, now);
       if (st.s !== "done") next = { it: it, st: st };
@@ -4407,9 +4436,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         '<span class="calNextWhen">' + esc(fmtCalWhen(next.it)) + '</span>' +
         '<span class="calNextDay">' + esc(calDayText(next.st)) + "</span></div>"
       : "";
-    const rows = items.map(function (it) {
+    const rows = displayItems.map(function (it) {
       const st = calStatus(it, now);
-      const bits = [it.need ? tf("cal.ptPass", it.points, it.need) : tf("cal.ptNo", it.points)];
+      const bits = it.kind === "lecture" || it.kind === "break"
+        ? [it.kind === "break" ? (LANG === "en" ? "No class" : "휴강") : (LANG === "en" ? "Lecture" : "강의")]
+        : [it.need ? tf("cal.ptPass", it.points, it.need) : tf("cal.ptNo", it.points)];
       if (it.retake) bits.push(tf("cal.retake", label(it.retake)));
       if (it.note) bits.push(label(it.note));
       return '<tr class="calRow ' + st.s + '"><td class="calName">' + esc(label(it.name)) +
@@ -4417,15 +4448,22 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         '<td class="calWhen">' + esc(fmtCalWhen(it)) + "</td>" +
         '<td class="calMeta">' + esc(bits.join(" · ")) + "</td></tr>";
     }).join("");
-    return '<div class="cdSec"><p class="cdPara">' + t("cal.intro") + "</p></div>" + banner +
+    const intro = c.calendarIntro ? label(c.calendarIntro) : t("cal.intro");
+    const footnote = c.calendarFootnote ? label(c.calendarFootnote) : t("cal.footnote");
+    const grade = c.calendarGrade ? label(c.calendarGrade) : t("cal.gradeBody");
+    const chain = c.id === "ids"
+      ? (LANG === "en" ? "Study order follows the lecture plan: data mining and statistics → clustering → classification → regression and regularization." :
+        "강의 순서에 따라 공부하세요: 데이터 마이닝·통계 → 클러스터링 → 분류 → 회귀·정규화.")
+      : t("cal.chainBody");
+    return '<div class="cdSec"><p class="cdPara">' + esc(intro) + "</p></div>" + banner +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cal.title") + '</h2>' +
       '<table class="grid calTable"><tr><th>' + t("cal.th.name") + "</th><th>" + t("cal.th.when") +
       "</th><th>" + t("cal.th.meta") + "</th></tr>" + rows + "</table>" +
-      '<div class="note">' + t("cal.footnote") + "</div></div>" +
+      '<div class="note">' + esc(footnote) + "</div></div>" +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cal.chain") + '</h2><p class="cdPara">' +
-      t("cal.chainBody") + "</p></div>" +
+      esc(chain) + "</p></div>" +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cal.gradeTitle") + '</h2><p class="cdPara">' +
-      t("cal.gradeBody") + "</p></div>";
+      esc(grade) + "</p></div>";
   }
 
   function courseAboutHtml(c) {
