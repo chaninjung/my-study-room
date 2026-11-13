@@ -1894,6 +1894,31 @@ var CURRICULUM = [
         image: "assets/courses/ids.jpg",
         tags: ["data-science", "data-mining", "statistics", "machine-learning", "regression"],
         level: { ko: "초급", en: "Beginner" },
+        heroQuestions: 52,
+        heroMocks: 0,
+        terms: 0,
+        gains: {
+          ko: [
+            "데이터 마이닝과 데이터 분석의 핵심 개념을 정리",
+            "통계, 시각화, PCA와 차원 축소를 연습",
+            "클러스터링과 분류 모델의 원리를 비교",
+            "회귀, 평가 지표와 정규화를 시험 형식으로 점검"
+          ],
+          en: [
+            "Review the core concepts of data mining and data analysis",
+            "Practice statistics, visualization, PCA and dimensionality reduction",
+            "Compare the principles of clustering and classification",
+            "Study regression, evaluation metrics and regularization in exam format"
+          ]
+        },
+        about: {
+          ko: "2026 가을학기 Introduction to Data Science 과목의 예상 문제 학습실입니다. 강의 계획에 맞춰 모듈 테스트 1~4와 전체 기말고사 범위를 데이터 마이닝, 통계, 비지도·지도학습, 회귀 분석으로 나눴습니다. 문제는 예상 문제 Markdown을 바탕으로 정리했습니다.",
+          en: "A study room for the 2026 Autumn Introduction to Data Science course. The material is organised around Modular Tests 1–4 and a cumulative final exam: data mining, statistics, unsupervised and supervised learning, and regression analysis. Questions are based on the predicted-exam Markdown source."
+        },
+        grading: {
+          ko: "모듈 테스트는 각 30분이며 각 테스트에서 최소 2/5가 필요합니다. 네 테스트를 모두 통과하고 실습 요건을 충족하면 네 점수의 평균으로 최종 성적을 계산합니다.",
+          en: "Each modular test lasts 30 minutes and requires at least 2/5. If all four tests and the practice requirements are completed, the final grade is based on the mean of the four test grades."
+        },
         resources: [
           {
             label: { ko: "예상 모듈 테스트 문제지 (Markdown)", en: "Predicted modular tests (Markdown)" },
@@ -4298,7 +4323,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function courseHeroHtml(cc) {
     const c = cc.course;
     const img = c.image ? '<img class="cdThumbImg" src="' + esc(c.image) + '" alt="" loading="lazy">' : "";
-    const mockN = currentCourse().course.id === "ids" ? 0 : (MOCKS ? MOCKS.mocks.length : 0);
+    const mockN = c.heroMocks !== undefined ? c.heroMocks : (MOCKS ? MOCKS.mocks.length : 0);
+    const questionN = c.heroQuestions !== undefined ? c.heroQuestions : ALL.length;
     const tags = ((c && c.tags) || []).map(function (tg) { return '<span class="cdTag">#' + esc(tg) + "</span>"; }).join("");
     const thumbText = esc(String(label(c.short || c.label) || "SR").replace(/\s+/g, "").slice(0, 4).toUpperCase());
     return '<div class="cdHero"><div class="cdHeroIn">' +
@@ -4306,7 +4332,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="cdCat">' + esc(label(cc.sem.label)) + " · " + esc(label(c.short || c.label)) + "</div>" +
       '<h1 class="cdTitle">' + esc(label(c.label)) + "</h1>" +
       '<p class="cdDesc">' + esc(label(c.sub || {})) + "</p>" +
-      '<div class="cdHeroMeta"><span>' + esc(tf("cd.heroMeta", ALL.length, mockN, GLOSSARY_COUNT)) + "</span></div>" +
+      '<div class="cdHeroMeta"><span>' + esc(tf("cd.heroMeta", questionN, mockN, c.terms !== undefined ? c.terms : GLOSSARY_COUNT)) + "</span></div>" +
       '<div class="cdTags">' + tags + "</div>" +
       "</div>" +
       '<div class="cdHeroR"><div class="cdThumb">' + img + thumbText + "</div></div>" +
@@ -4403,14 +4429,16 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   }
 
   function courseAboutHtml(c) {
-    const gains = ["cd.gain1", "cd.gain2", "cd.gain3", "cd.gain4"].map(function (k) {
-      return '<li><span class="cdCheck">' + CD_CHECK + "</span><span>" + esc(t(k)) + "</span></li>";
+    const gains = (c.gains ? (c.gains[LANG] || c.gains.en || []) : ["cd.gain1", "cd.gain2", "cd.gain3", "cd.gain4"]).map(function (value) {
+      return '<li><span class="cdCheck">' + CD_CHECK + "</span><span>" + esc(c.gains ? value : t(value)) + "</span></li>";
     }).join("");
-    const mockN = MOCKS ? MOCKS.mocks.length : 0;
+    const mockN = c.heroMocks !== undefined ? c.heroMocks : (MOCKS ? MOCKS.mocks.length : 0);
+    const questionN = c.heroQuestions !== undefined ? c.heroQuestions : FULL.length;
+    const termsN = c.terms !== undefined ? c.terms : GLOSSARY_COUNT;
     const info = [
-      [t("cd.fact.questions"), String(FULL.length)],
+      [t("cd.fact.questions"), String(questionN)],
       [t("cd.fact.mocks"), String(mockN)],
-      [t("cd.fact.words"), String(GLOSSARY_COUNT)],
+      [t("cd.fact.words"), String(termsN)],
       [t("cd.fact.level"), c.level ? label(c.level) : t("cd.levelDefault")]
     ].map(function (row) {
       return '<div class="cdInfoCard"><em>' + esc(row[0]) + "</em><b>" + esc(row[1]) + "</b></div>";
@@ -4426,9 +4454,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         '</h2><ul class="cdList">' + resources + "</ul></div>"
       : "";
     return '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.gain") + '</h2><ul class="cdList">' + gains + "</ul></div>" +
-      '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutTitle") + '</h2><p class="cdPara">' + t("cd.aboutBody") + "</p></div>" +
+      '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutTitle") + '</h2><p class="cdPara">' + esc(c.about ? label(c.about) : t("cd.aboutBody")) + "</p></div>" +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutExams") + '</h2><div class="cdInfoGrid">' + info + "</div>" +
-      '<p class="cdPara" style="margin-top:14px">' + t("home.grading") + esc(gradingNote()) + " · " + esc(metaNote()) + "</p></div>" +
+      '<p class="cdPara" style="margin-top:14px">' + (c.grading ? esc(label(c.grading)) : t("home.grading") + esc(gradingNote()) + " · " + esc(metaNote())) + "</p></div>" +
       resourcesBlock +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.tags") + '</h2><div class="cdTagRow">' + tags + "</div></div>";
   }
@@ -4485,10 +4513,12 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   }
   function courseRailHtml(c) {
     const mockN = c.id === "ids" ? 0 : (MOCKS ? MOCKS.mocks.length : 0);
+    const questionN = c.heroQuestions !== undefined ? c.heroQuestions : FULL.length;
+    const termsN = c.terms !== undefined ? c.terms : GLOSSARY_COUNT;
     const facts = [
-      [t("cd.fact.questions"), String(FULL.length)],
+      [t("cd.fact.questions"), String(questionN)],
       [t("cd.fact.mocks"), String(mockN)],
-      [t("cd.fact.words"), String(GLOSSARY_COUNT)],
+      [t("cd.fact.words"), String(termsN)],
       [t("cd.fact.level"), c.level ? label(c.level) : t("cd.levelDefault")],
       [t("cd.fact.period"), t("cd.unlimited")],
       [t("cd.fact.cert"), t("cd.notProvided")],
