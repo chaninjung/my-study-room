@@ -6006,7 +6006,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       "T4-SA-04": "Model A has training error 0.1 and validation error 2.5. Model B has training error 3.0 and validation error 3.1."
     };
     setView("quiz");
-    const cards = groups.map(function (x) {
+    const palette = groups.map(function (x, i) {
+      return '<button class="pbtn' + (i === 0 ? " cur" : "") + '" data-short-jump="' +
+        esc(x.id) + '">' + (i + 1) + "</button>";
+    }).join("");
+    const cards = groups.map(function (x, i) {
       const parts = x.parts.map(function (p) {
         const key = p.id;
         return '<div class="panelBody" style="border-top:1px solid var(--border)">' +
@@ -6021,7 +6025,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       }).join("");
       const context = contexts[x.id] ? '<div class="panelBody" style="background:var(--soft);white-space:pre-line">' +
         "<b>" + (LANG === "ko" ? "문제 조건" : "Given") + "</b><br>" + esc(contexts[x.id]) + "</div>" : "";
-      return '<div class="panel" style="margin-bottom:12px"><div class="panelHead">' +
+      return '<div class="panel" id="short-' + esc(x.id) + '" style="margin-bottom:12px"><div class="panelHead">' +
         esc(x.id + " · " + x.title) + "</div>" + context + parts + "</div>";
     }).join("");
     app.innerHTML =
@@ -6031,7 +6035,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="secTitle">Section A <b>' + S.questions.length + "</b></div>" +
       '<button class="btn sm wide" id="backToSectionA">' +
       (LANG === "ko" ? "객관식으로 돌아가기" : "Back to Section A") + "</button>" +
-      '<div class="secTitle" style="margin-top:12px">Section B <b>' + groups.length + "</b></div></aside>" +
+      '<div class="secTitle" style="margin-top:12px">Section B <b>' + groups.length + "</b></div>" +
+      '<div class="palette">' + palette + "</div></aside>" +
       '<main class="panel"><div class="qHead"><span class="qNum">Section B</span><span class="tag num">' +
       (LANG === "ko" ? "주관식" : "Short answer") + "</span><span class=\"grow\"></span></div>" +
       '<div class="qText">' + (LANG === "ko" ? "단답형 문제" : "Short-answer questions") + "</div>" +
@@ -6044,6 +6049,14 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       "</button></div></aside></div>";
     document.querySelectorAll("[data-short]").forEach(function (input) {
       input.oninput = function () { S.shortResponses[input.getAttribute("data-short")] = input.value; };
+    });
+    document.querySelectorAll("[data-short-jump]").forEach(function (button) {
+      button.onclick = function () {
+        const target = document.getElementById("short-" + button.getAttribute("data-short-jump"));
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.querySelectorAll("[data-short-jump]").forEach(function (b) { b.classList.remove("cur"); });
+        button.classList.add("cur");
+      };
     });
     el("backToSectionA").onclick = function () { S.section = "A"; renderQuiz(); };
     el("submitShort").onclick = function () { askSubmit(); };
@@ -6108,8 +6121,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="panelHead">' + t("quiz.sections") + "</div>" +
       '<div class="secTitle">' + (S.shortAnswers.length ? "Section A" : t("quiz.section")) + " <b>" + n + "</b></div>" +
       '<div class="palette">' + palette + "</div>" +
-      (S.shortAnswers.length ? '<div class="secTitle" style="margin-top:12px">Section B <b>' +
-        S.shortAnswers.length + "</b></div>" : "") +
+      (S.shortAnswers.length ? '<button class="btn sm wide" id="sectionBBtn" style="margin-top:12px">Section B <b>' +
+        S.shortAnswers.length + "</b></button>" : "") +
       '<div class="legend">' +
       '<div><span class="dot answered"></span>' + t("quiz.legend.answered") + "<b>" + st.answered + "</b></div>" +
       '<div><span class="dot notans"></span>' + t("quiz.legend.notans") + "<b>" + st.notAnswered + "</b></div>" +
@@ -6239,6 +6252,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     el("submitBtn").onclick = function () {
       if (S.shortAnswers.length) { S.section = "B"; renderShortAnswers(); }
       else askSubmit();
+    };
+    if (el("sectionBBtn")) el("sectionBBtn").onclick = function () {
+      S.section = "B";
+      renderShortAnswers();
     };
     el("aboutBtn").onclick = function () {
       alert(tf("quiz.about.body", n, S.timed ? (S.cfg.minutes + t("unit.min")) : t("quiz.noLimit"), S.pass));
