@@ -3827,6 +3827,12 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     return { questions: META.exam_questions || 15, minutes: META.exam_minutes || 45,
              pass: META.exam_pass || 7, numpy: (MOCKS && MOCKS.meta.numpy_per_mock) || 6 };
   }
+  function idsExamShortAnswers(scope) {
+    if (currentCourse().course.id !== "ids" || !window.__IDS_SHORT_ANSWERS__) return [];
+    return window.__IDS_SHORT_ANSWERS__.filter(function (x) {
+      return scope === "all" || x.id.indexOf("T" + String(scope).slice(1) + "-") === 0;
+    });
+  }
   const LS_KEY = "dnd_tt1_v1";
   const LS_TIMER = "dnd_tt1_timer";     /* 타이머 끄기 설정 (이 브라우저에 저장) */
   const GLOSSARY_COUNT = 411;   /* glossary.json 의 용어 수 (테스트가 일치 여부를 검사) */
@@ -3934,6 +3940,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       remain: timed ? cfg.minutes * 60 : 0,
       elapsed: 0,
       submitted: false,
+      section: "A",
+      shortAnswers: cfg.shortAnswers || [],
+      shortResponses: {},
       results: null,
       total: 0,
       pass: passLine(qs.length, META, cfg.mode === "exam" || cfg.mode === "mock")
@@ -4523,7 +4532,6 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.aboutExams") + '</h2><div class="cdInfoGrid">' + info + "</div>" +
       '<p class="cdPara" style="margin-top:14px">' + (c.grading ? esc(label(c.grading)) : t("home.grading") + esc(gradingNote()) + " · " + esc(metaNote())) + "</p></div>" +
       resourcesBlock +
-      idsShortAnswerHtml("all") +
       '<div class="cdSec"><h2 class="cdSecTitle">' + t("cd.tags") + '</h2><div class="cdTagRow">' + tags + "</div></div>";
   }
 
@@ -5415,7 +5423,6 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       (sc === "t1" ? panel(t("tier.quick"), tierRows, ' style="margin-bottom:16px"') : "") +
       panel(t("grp.quick"), grpQuick, ' style="margin-bottom:16px"') +
       panel(t("ov.quick"), quick, ' style="margin-bottom:16px"') +
-      idsShortAnswerHtml(sc) +
       panel(t("home.howto"), '<div class="panelBody muted">' + tf("home.howto.body", ex.minutes) + "</div>") +
       "</div>" +
       "<div>" +
@@ -5915,7 +5922,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       const ex = sectionExam();
       pool = pickExamSet(ALL, ex.questions, ex.numpy);
       cfg = { mode: "exam", label: t("mode.exam"), minutes: ex.minutes,
-              timed: true, shuffleQuestions: false, shuffleOptions: shufO };
+              timed: true, shuffleQuestions: false, shuffleOptions: shufO,
+              shortAnswers: idsExamShortAnswers(sectionScope()) };
     } else if (mode === "all") {
       pool = ALL.slice();
       cfg = { mode: "all", label: modeLabel("mode.all", timed), minutes: timed ? 60 : 0,
@@ -5956,7 +5964,56 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   }
 
   /* ---------- 문항 화면 (시험 포털 레이아웃) ---------- */
+  function renderShortAnswers() {
+    const groups = S.shortAnswers || [];
+    setView("quiz");
+    const cards = groups.map(function (x) {
+      const parts = x.parts.map(function (p) {
+        const key = p.id;
+        return '<div class="panelBody" style="border-top:1px solid var(--border)">' +
+          '<div><b>' + esc(p.id) + "</b> " + esc(p.prompt) + "</div>" +
+          '<textarea class="search" rows="3" data-short="' + esc(key) +
+          '" placeholder="' + (LANG === "ko" ? "여기에 답을 작성하세요." : "Write your answer here.") +
+          '">' + esc(S.shortResponses[key] || "") + '</textarea>' +
+          (S.submitted ? '<details style="margin-top:8px" open><summary class="linkish">' +
+            (LANG === "ko" ? "정답과 해설" : "Answer and explanation") +
+            '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details>" : "") +
+          "</div>";
+      }).join("");
+      return '<div class="panel" style="margin-bottom:12px"><div class="panelHead">' +
+        esc(x.id + " · " + x.title) + "</div>" + parts + "</div>";
+    }).join("");
+    app.innerHTML =
+      '<div class="examWrap">' +
+      '<aside class="side left panel"><div class="panelHead">' +
+      (LANG === "ko" ? "시험 섹션" : "Exam sections") + "</div>" +
+      '<div class="secTitle">Section A <b>' + S.questions.length + "</b></div>" +
+      '<button class="btn sm wide" id="backToSectionA">' +
+      (LANG === "ko" ? "객관식으로 돌아가기" : "Back to Section A") + "</button>" +
+      '<div class="secTitle" style="margin-top:12px">Section B <b>' + groups.length + "</b></div></aside>" +
+      '<main class="panel"><div class="qHead"><span class="qNum">Section B</span><span class="tag num">' +
+      (LANG === "ko" ? "주관식" : "Short answer") + "</span><span class=\"grow\"></span></div>" +
+      '<div class="qText">' + (LANG === "ko" ? "단답형 문제" : "Short-answer questions") + "</div>" +
+      '<div style="padding:16px">' + cards + "</div>" +
+      '<div class="actionBar"><span class="grow"></span><button class="btn primary" id="submitShort">' +
+      t("quiz.submit") + "</button></div></main>" +
+      '<aside class="side right panel"><div class="timerBox"><div class="' + timerClass() + '" id="timer">' +
+      (S.timed ? formatClock(S.remain) : formatClock(S.elapsed)) + "</div></div>" +
+      '<div class="sideSubmit"><button class="btn primary wide" id="submitShortSide">' + t("quiz.submit") +
+      "</button></div></aside></div>";
+    document.querySelectorAll("[data-short]").forEach(function (input) {
+      input.oninput = function () { S.shortResponses[input.getAttribute("data-short")] = input.value; };
+    });
+    el("backToSectionA").onclick = function () { S.section = "A"; renderQuiz(); };
+    el("submitShort").onclick = function () { askSubmit(); };
+    el("submitShortSide").onclick = function () { askSubmit(); };
+  }
+
   function renderQuiz() {
+    if (S.section === "B") {
+      renderShortAnswers();
+      return;
+    }
     const n = S.questions.length;
     const q = S.questions[S.cur];
     const ans = S.answers[q.sid];
@@ -6008,8 +6065,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       /* ---- 좌측: 섹션 / 팔레트 ---- */
       '<aside class="side left panel">' +
       '<div class="panelHead">' + t("quiz.sections") + "</div>" +
-      '<div class="secTitle">' + t("quiz.section") + " <b>" + n + "</b></div>" +
+      '<div class="secTitle">' + (S.shortAnswers.length ? "Section A" : t("quiz.section")) + " <b>" + n + "</b></div>" +
       '<div class="palette">' + palette + "</div>" +
+      (S.shortAnswers.length ? '<div class="secTitle" style="margin-top:12px">Section B <b>' +
+        S.shortAnswers.length + "</b></div>" : "") +
       '<div class="legend">' +
       '<div><span class="dot answered"></span>' + t("quiz.legend.answered") + "<b>" + st.answered + "</b></div>" +
       '<div><span class="dot notans"></span>' + t("quiz.legend.notans") + "<b>" + st.notAnswered + "</b></div>" +
@@ -6037,7 +6096,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<button class="btn" id="prevBtn"' + (S.cur === 0 ? " disabled" : "") + ">" + t("quiz.prev") + "</button>" +
       '<button class="btn" id="clearBtn">' + t("quiz.clear") + "</button>" +
       (canReveal() ? '<button class="btn" id="revealBtn" aria-pressed="' + (revealed ? "true" : "false") + '">' + t(revealed ? "quiz.revealHide" : "quiz.reveal") + "</button>" : "") +
-      '<button class="btn primary" id="nextBtn">' + (S.cur === n - 1 ? t("quiz.submit") : t("quiz.next")) + "</button>" +
+      '<button class="btn primary" id="nextBtn">' + (S.cur === n - 1
+        ? (S.shortAnswers.length ? (LANG === "ko" ? "Section B로 이동" : "Go to Section B") : t("quiz.submit"))
+        : t("quiz.next")) + "</button>" +
       "</div></main>" +
 
       /* ---- 우측: 타이머 / Overview ---- */
@@ -6072,7 +6133,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<button class="btn sm" id="mPrevBtn"' + (S.cur === 0 ? " disabled" : "") + ">" + t("quiz.prev") + "</button>" +
       '<button class="btn sm" id="mExitBtn">' + t("nav.exit") + "</button>" +
       '<span class="grow"></span>' +
-      '<button class="btn sm primary" id="mNextBtn">' + (S.cur === n - 1 ? t("quiz.submit") : t("quiz.next")) + "</button>" +
+      '<button class="btn sm primary" id="mNextBtn">' + (S.cur === n - 1
+        ? (S.shortAnswers.length ? (LANG === "ko" ? "Section B" : "Section B") : t("quiz.submit"))
+        : t("quiz.next")) + "</button>" +
       "</div>" +
       "</div>" +
 
@@ -6109,7 +6172,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     }
     if (el("mPrevBtn")) el("mPrevBtn").onclick = function () { if (S.cur > 0) { S.cur--; renderQuiz(); } };
     if (el("mNextBtn")) el("mNextBtn").onclick = function () {
-      if (S.cur < n - 1) { S.cur++; renderQuiz(); } else { askSubmit(); }
+      if (S.cur < n - 1) { S.cur++; renderQuiz(); }
+      else if (S.shortAnswers.length) { S.section = "B"; renderShortAnswers(); }
+      else { askSubmit(); }
     };
     /* 언어 전환/재렌더 후에도 목록 버튼 라벨 동기화 */
     if (el("mPaletteBtn") && document.body.className.indexOf("palette-open") !== -1) {
@@ -6118,7 +6183,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     }
     el("prevBtn").onclick = function () { if (S.cur > 0) { S.cur--; renderQuiz(); } };
     el("nextBtn").onclick = function () {
-      if (S.cur < n - 1) { S.cur++; renderQuiz(); } else { askSubmit(); }
+      if (S.cur < n - 1) { S.cur++; renderQuiz(); }
+      else if (S.shortAnswers.length) { S.section = "B"; renderShortAnswers(); }
+      else { askSubmit(); }
     };
     el("flagBtn").onclick = function () { S.flags[q.sid] = !S.flags[q.sid]; renderQuiz(); };
     el("flagChk").onchange = function () { S.flags[q.sid] = el("flagChk").checked; renderQuiz(); };
@@ -6128,7 +6195,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       S.revealed[q.sid] = !S.revealed[q.sid];
       renderQuiz();
     };
-    el("submitBtn").onclick = function () { askSubmit(); };
+    el("submitBtn").onclick = function () {
+      if (S.shortAnswers.length) { S.section = "B"; renderShortAnswers(); }
+      else askSubmit();
+    };
     el("aboutBtn").onclick = function () {
       alert(tf("quiz.about.body", n, S.timed ? (S.cfg.minutes + t("unit.min")) : t("quiz.noLimit"), S.pass));
     };
@@ -6287,6 +6357,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       S.revealed[q.sid] = !S.revealed[q.sid]; renderQuiz(); e.preventDefault();
     } else if (e.key === "ArrowRight" || e.key === "Enter") {
       if (S.cur < S.questions.length - 1) { S.cur++; renderQuiz(); e.preventDefault(); }
+      else if (S.shortAnswers.length) { S.section = "B"; renderShortAnswers(); e.preventDefault(); }
     } else if (e.key === "ArrowLeft") {
       if (S.cur > 0) { S.cur--; renderQuiz(); e.preventDefault(); }
     } else if (e.key === "f" || e.key === "F") {
