@@ -3955,6 +3955,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       shortCur: 0,
       shortAnswers: cfg.shortAnswers || [],
       shortResponses: {},
+      shortScores: {},
       results: null,
       total: 0,
       pass: passLine(qs.length, META, cfg.mode === "exam" || cfg.mode === "mock")
@@ -6333,6 +6334,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     if (timerId) { clearInterval(timerId); timerId = null; }
     S.submitted = true;
     S.auto = !!auto;
+    S.shortAnswers.forEach(function (x) { S.shortScores[x.id] = null; });
     const g = gradeSession(S.questions, S.answers);
     S.results = g.results;
     S.total = g.total;
@@ -6398,6 +6400,39 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         '<div class="expl">' + esc(qf(q, "explanation")) + "</div></div></div>";
     }).join("");
 
+    const shortPoints = function (x) {
+      const m = /^\((\d+)\s+points?\)/i.exec(x.title || "");
+      return m ? parseInt(m[1], 10) : 1;
+    };
+    const shortMax = S.shortAnswers.reduce(function (sum, x) { return sum + shortPoints(x); }, 0);
+    const shortCorrect = S.shortAnswers.reduce(function (sum, x) {
+      return sum + (S.shortScores[x.id] === 1 ? shortPoints(x) : 0);
+    }, 0);
+    const shortTotal = S.shortAnswers.length;
+    const shortReview = shortTotal ? '<div class="panel" style="margin-top:16px"><div class="panelHead">' +
+      (LANG === "ko" ? "Section B · 주관식 자기채점" : "Section B · Short-answer self-check") +
+      '<span class="grow"></span><span id="shortScore">' + shortCorrect + " / " + shortMax + " points" +
+      '</span></div><div class="panelBody muted">' +
+      (LANG === "ko" ? "정답과 해설을 확인한 뒤, 본인 답안이 충분히 맞으면 맞음을 선택하세요." :
+        "Compare your answer with the key and explanation, then mark whether your answer is correct.") +
+      "</div>" + S.shortAnswers.map(function (x) {
+        const score = S.shortScores[x.id];
+        const body = x.parts.map(function (p) {
+          return '<div class="shortPart"><div class="shortPrompt"><b>' + esc(p.id) + "</b> " +
+            esc(p.prompt) + '</div><div class="muted">' + (LANG === "ko" ? "본인 답안" : "Your answer") +
+            '</div><div class="expl" style="white-space:pre-wrap">' + esc(S.shortResponses[p.id] || (LANG === "ko" ? "(미입력)" : "(blank)")) +
+            '</div><details open style="margin-top:10px"><summary class="linkish">' +
+            (LANG === "ko" ? "정답과 해설 보기" : "Show answer and explanation") +
+            '</summary><div class="expl" style="margin-top:8px;white-space:pre-wrap">' + esc(p.answer) +
+            "</div></details></div>";
+        }).join("");
+        return '<div class="panel" style="margin:12px 0"><div class="panelHead">' + esc(x.id + " · " + x.title) +
+          '<span class="grow"></span><button class="btn sm' + (score === 1 ? " primary" : "") +
+          '" data-short-score="' + esc(x.id) + '" data-score="1">' + (LANG === "ko" ? "맞음" : "Correct") +
+          '</button><button class="btn sm' + (score === 0 ? " danger" : "") +
+          '" data-short-score="' + esc(x.id) + '" data-score="0">' + (LANG === "ko" ? "틀림" : "Incorrect") +
+          "</button></div>" + body + "</div>";
+      }).join("") + "</div>" : "";
     app.innerHTML =
       '<div class="panel" style="margin-bottom:16px"><div class="resTop">' +
       '<div><div class="scoreNum ' + (passed ? "pass" : "fail") + '">' + S.total.toFixed(1) + " / " + n + "</div>" +
@@ -6414,7 +6449,20 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<button class="btn" id="homeBtn">' + t("res.home") + "</button>" +
       '<button class="btn" id="copyBtn">' + t("res.copy") + "</button>" +
       "</div></div></div>" +
-      '<div class="note" style="margin-bottom:12px">' + t("res.legend") + "</div>" + rows;
+      '<div class="note" style="margin-bottom:12px">' + t("res.legend") + "</div>" + rows + shortReview;
+    document.querySelectorAll("[data-short-score]").forEach(function (button) {
+      button.onclick = function () {
+        S.shortScores[button.getAttribute("data-short-score")] = parseInt(button.getAttribute("data-score"), 10);
+        const correct = S.shortAnswers.reduce(function (sum, x) {
+          return sum + (S.shortScores[x.id] === 1 ? shortPoints(x) : 0);
+        }, 0);
+        if (el("shortScore")) el("shortScore").textContent = correct + " / " + shortMax + " points";
+        document.querySelectorAll('[data-short-score="' + button.getAttribute("data-short-score") + '"]').forEach(function (b) {
+          b.classList.remove("primary", "danger");
+        });
+        button.classList.add(button.getAttribute("data-score") === "1" ? "primary" : "danger");
+      };
+    });
 
     el("again").onclick = function () {
       const qs = S.questions.map(function (q) { const c = JSON.parse(JSON.stringify(q)); delete c.sid; return c; });
