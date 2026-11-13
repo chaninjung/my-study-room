@@ -5984,6 +5984,27 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   /* ---------- 문항 화면 (시험 포털 레이아웃) ---------- */
   function renderShortAnswers() {
     const groups = S.shortAnswers || [];
+    const contexts = {
+      "T1-SA-01": "Dataset X = {2, 4, 4, 4, 5, 5, 7, 9}.",
+      "T1-SA-02": "x = {1, 2, 3, 4, 5}, y = {2, 4, 5, 4, 5}.",
+      "T1-SA-03": "For part b, a 2D dataset has covariance-matrix eigenvalues 3 and 1.",
+      "T1-SA-04": "Answer using standard data-quality and preprocessing concepts.",
+      "T2-SA-01": "Dataset X = {1, 3, 4, 10, 11, 12, 25}. Use K = 2 with initial centroids m1 = 1 and m2 = 12.",
+      "T2-SA-02": "Points X = {1, 2, 3, 5, 8, 9, 10, 20}. Use DBSCAN with Eps = 1.5 and MinPts = 3; the point itself counts.",
+      "T2-SA-03": "Points X = {1, 2, 6, 11, 13} in 1D with Euclidean distance.",
+      "T2-SA-04": "Cluster C1 = {1, 2, 3}, cluster C2 = {8, 9}. Use absolute difference as the distance.",
+      "T2-SA-05": "Clusters versus real classes:\nC1: A=18, B=2, C=0, size=20\nC2: A=3, B=12, C=5, size=20\nC3: A=0, B=1, C=9, size=10.",
+      "T2-SA-06": "Use the clustering methods and evaluation indexes covered in Lectures 5–6.",
+      "T3-SA-01": "A classifier on 200 examples gives TP = 40, FN = 10, FP = 20, TN = 130.",
+      "T3-SA-02": "A node has 16 examples: 8 positive and 8 negative. A split on attribute A gives child 1 = (6+, 2−) and child 2 = (2+, 6−).",
+      "T3-SA-03": "1D training data: 1 (A), 2 (A), 3 (A), 6 (B), 7 (B), 8 (A). Classify query x = 5.2 using Euclidean distance.",
+      "T3-SA-04": "x = {1, 2, 3, 4}, y = {2, 3, 5, 6}.",
+      "T3-SA-05": "Use the standard roles of training, validation and test sets.",
+      "T4-SA-01": "Actual y = [3, 5, 2, 7], predicted y-hat = [2, 6, 2, 9].",
+      "T4-SA-02": "A model has weights w = [3, -2] (intercept not penalized), training MSE = 1.2 and lambda = 0.5.",
+      "T4-SA-03": "One feature, no intercept: x = [1, 2, 3], y = [2, 4, 6]. Use w = sum(xy) / (sum(x^2) + lambda).",
+      "T4-SA-04": "Model A has training error 0.1 and validation error 2.5. Model B has training error 3.0 and validation error 3.1."
+    };
     setView("quiz");
     const cards = groups.map(function (x) {
       const parts = x.parts.map(function (p) {
@@ -5998,8 +6019,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
             '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details>" : "") +
           "</div>";
       }).join("");
+      const context = contexts[x.id] ? '<div class="panelBody" style="background:var(--soft);white-space:pre-line">' +
+        "<b>" + (LANG === "ko" ? "문제 조건" : "Given") + "</b><br>" + esc(contexts[x.id]) + "</div>" : "";
       return '<div class="panel" style="margin-bottom:12px"><div class="panelHead">' +
-        esc(x.id + " · " + x.title) + "</div>" + parts + "</div>";
+        esc(x.id + " · " + x.title) + "</div>" + context + parts + "</div>";
     }).join("");
     app.innerHTML =
       '<div class="examWrap">' +
