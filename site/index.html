@@ -5389,7 +5389,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     const idsTests = currentCourse().course.id === "ids"
       ? '<div class="panel" style="margin-bottom:16px"><div class="panelHead">' +
         (LANG === "ko" ? "모듈 테스트" : "Modular tests") + '</div><div class="panelBody">' +
-        courseSections().map(function (s) {
+        courseSections().filter(function (s) { return s.exam; }).map(function (s) {
           return '<div class="rowGrid"><span class="name">' + esc(label(s.label)) + '</span>' +
             '<span class="muted">' + (s.exam.questions + " MC + Section B · " + s.exam.minutes + " min") +
             '</span><span class="grow"></span><button class="btn sm primary" data-idsexam="' +
