@@ -1810,6 +1810,7 @@ function applyStaticI18n() {
 
 </script>
 <script src="ids_questions.js"></script>
+<script src="ids_short_answers.js"></script>
 <script id="core-data">window.__QUESTION_DATA__ = null;</script>
 <script id="mock-data">window.__MOCK_DATA__ = null;</script>
 <script id="curriculum-data">
@@ -5518,6 +5519,21 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         '<td><button class="btn sm" data-one="' + q.id + '">' + t("bank.practice") + "</button></td></tr>";
     }).join("");
 
+    const shortAnswers = currentCourse().course.id === "ids" && window.__IDS_SHORT_ANSWERS__
+      ? window.__IDS_SHORT_ANSWERS__.filter(function (x) {
+          return sectionScope() === "all" || x.id.indexOf("T" + sectionScope().slice(1) + "-") === 0;
+        }).map(function (x) {
+          const parts = x.parts.map(function (p) {
+            return '<div class="panelBody" style="border-top:1px solid var(--border)">' +
+              '<div><b>' + esc(p.id) + "</b> " + esc(p.prompt) + "</div>" +
+              '<details style="margin-top:8px"><summary class="linkish">' +
+              (LANG === "ko" ? "정답 보기" : "Show answer") +
+              '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details></div>";
+          }).join("");
+          return '<div class="panel" style="margin-bottom:12px"><div class="panelHead">' +
+            esc(x.id + " · " + x.title) + "</div>" + parts + "</div>";
+        }).join("")
+      : "";
     app.innerHTML =
       panel(t("bank.title") + '<span class="grow"></span><span class="muted" id="bankCount">' +
         tf("foundCount", ALL.length) + "</span>",
@@ -5548,7 +5564,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         '<table class="grid"><tr><th>' + t("tier.title") + "</th><th>" + t("th.topic") + "</th><th>" +
         t("th.count") + "</th><th></th></tr>" + tierRows + "</table>", ' style="margin-bottom:16px"') : "") +
       panel(t("bank.list"), '<table class="grid"><tr><th>#</th><th>ID</th><th>' + t("th.lecture") +
-        "</th><th>" + t("th.topic") + "</th><th>" + t("bank.answer") + "</th><th></th></tr>" + rows + "</table>");
+        "</th><th>" + t("th.topic") + "</th><th>" + t("bank.answer") + "</th><th></th></tr>" + rows + "</table>") +
+      (shortAnswers ? '<div style="margin-top:16px"><h2 class="sectionTitle">' +
+        (LANG === "ko" ? "단답형 예상문제" : "Short-answer predicted questions") +
+        '</h2>' + shortAnswers + "</div>" : "");
 
     el("bankQ").oninput = function () { filterBank(); };
     document.querySelectorAll("#lecChips .lecfilter").forEach(function (c) {
