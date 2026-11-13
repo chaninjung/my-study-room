@@ -5386,6 +5386,16 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       '<div class="note"><button class="linkish" id="seeAll">' + t("ov.seeAll") + "</button></div>";
     const mockHead = t("ov.mocks") + '<span class="grow"></span><button class="linkish" id="mocksAll">' +
       t("mocks.titleShort") + " →</button>";
+    const idsTests = currentCourse().course.id === "ids"
+      ? '<div class="panel" style="margin-bottom:16px"><div class="panelHead">' +
+        (LANG === "ko" ? "모듈 테스트" : "Modular tests") + '</div><div class="panelBody">' +
+        courseSections().map(function (s) {
+          return '<div class="rowGrid"><span class="name">' + esc(label(s.label)) + '</span>' +
+            '<span class="muted">' + (s.exam.questions + " MC + Section B · " + s.exam.minutes + " min") +
+            '</span><span class="grow"></span><button class="btn sm primary" data-idsexam="' +
+            esc(s.id) + '">' + (LANG === "ko" ? "시험 시작" : "Start test") + "</button></div>";
+        }).join("") + "</div></div>"
+      : "";
     const sm = splitMocks();
     const mockBody = MOCKS
       ? sm.finalSet.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
@@ -5420,6 +5430,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     app.innerHTML = headPanel + secBar + secNote + scopeLine +
       '<div class="examWrap homeWrap">' +
       "<div>" +
+      idsTests +
       (sc === "t1" ? panel(t("tier.quick"), tierRows, ' style="margin-bottom:16px"') : "") +
       panel(t("grp.quick"), grpQuick, ' style="margin-bottom:16px"') +
       panel(t("ov.quick"), quick, ' style="margin-bottom:16px"') +
@@ -5431,6 +5442,13 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       "</div></div>";
 
     el("mExam").onclick = function () { startMode("exam"); };
+    document.querySelectorAll("[data-idsexam]").forEach(function (b) {
+      b.onclick = function () {
+        COURSE_SECTION = b.getAttribute("data-idsexam");
+        refreshPool();
+        startMode("exam");
+      };
+    });
     el("mRand").onclick = function () { startRandom(); };
     wireGrpButtons();
     wireTierButtons();
