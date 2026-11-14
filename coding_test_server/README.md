@@ -52,6 +52,27 @@ key used by the site. The backend validates every coding-test request against
 Supabase Auth and does not trust a browser-supplied user id. Requests without
 a valid login token receive `401`.
 
+### Private HW1 assets on Render
+
+Do not commit the professor's notebook, CSV, tester, or final notebook to
+GitHub. Create a zip file locally with this layout:
+
+```text
+dnd_hw1_assets.zip
+├── dndmsc26autumn_hw1/
+│   ├── dndmsc26autumn_hw1.ipynb
+│   ├── dndmsc26autumn_hw1_tester.py
+│   ├── dndmsc26autumn_hw1_final.ipynb
+│   └── student-mat_prep_noisy26au_hw1.csv
+└── requirements.txt
+```
+
+In the Render service, open **Environment → Secret Files**, create
+`dnd_hw1_assets.zip`, and upload that zip. The Blueprint already points
+`DND_ASSET_ARCHIVE` to `/etc/secrets/dnd_hw1_assets.zip`. Save and deploy the
+latest commit. The service extracts the archive into its private runtime
+filesystem; it is never served as a public download.
+
 ## Isolated container runner
 
 Build the image once:

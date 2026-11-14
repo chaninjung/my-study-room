@@ -4,6 +4,7 @@ import secrets
 import subprocess
 import sys
 import tempfile
+import zipfile
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -15,6 +16,33 @@ from pydantic import BaseModel, Field
 
 ROOT = Path(__file__).resolve().parent
 RUNNER = ROOT / "runner.py"
+ASSET_ARCHIVE = Path(
+    os.getenv("DND_ASSET_ARCHIVE", "/etc/secrets/dnd_hw1_assets.zip")
+)
+
+
+def unpack_private_assets() -> None:
+    if not ASSET_ARCHIVE.is_file():
+        return
+    target = Path(tempfile.gettempdir()) / "dnd_hw1_assets"
+    assignment = target / "dndmsc26autumn_hw1"
+    if assignment.is_dir():
+        os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
+        return
+    target.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(ASSET_ARCHIVE) as archive:
+        members = archive.infolist()
+        if any(Path(member.filename).is_absolute() or ".." in Path(member.filename).parts for member in members):
+            raise RuntimeError("The private HW1 asset archive contains an unsafe path.")
+        archive.extractall(target)
+    if not assignment.is_dir():
+        raise RuntimeError(
+            "The private HW1 asset archive must contain dndmsc26autumn_hw1/."
+        )
+    os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
+
+
+unpack_private_assets()
 ASSIGNMENT = Path(
     os.getenv(
         "DND_ASSIGNMENT_DIR",
@@ -281,5 +309,5 @@ def run_code(
         return run_local(request)
     raise HTTPException(
         status_code=503,
-        detail="This runner has no local HW1 assets. Configure DND_ASSIGNMENT_DIR.",
+        detail="This runner has no HW1 assets. Configure the Render private asset archive.",
     )

@@ -16,5 +16,7 @@ services:
         sync: false
       - key: ANSWER_USER_ID
         sync: false
+      - key: DND_ASSET_ARCHIVE
+        value: /etc/secrets/dnd_hw1_assets.zip
       - key: ALLOWED_ORIGINS
         value: https://chaninjung.github.io
