@@ -19,9 +19,11 @@ RUNNER = ROOT / "runner.py"
 ASSET_ARCHIVE = Path(
     os.getenv("DND_ASSET_ARCHIVE", "/etc/secrets/dnd_hw1_assets.zip")
 )
+ASSET_ERROR = ""
 
 
 def unpack_private_assets() -> None:
+    global ASSET_ERROR
     archive_path = ASSET_ARCHIVE
     if SUPABASE_SERVICE_ROLE_KEY:
         archive_path = Path(tempfile.gettempdir()) / "dnd_hw1_assets.zip"
@@ -36,8 +38,10 @@ def unpack_private_assets() -> None:
             with urlopen(request, timeout=30) as response:
                 archive_path.write_bytes(response.read())
         except (HTTPError, URLError, TimeoutError) as error:
-            raise RuntimeError("Unable to download private HW1 assets from Supabase Storage.") from error
+            ASSET_ERROR = f"Unable to download private HW1 assets: {error.reason if isinstance(error, HTTPError) else error}"
+            return
     if not archive_path.is_file():
+        ASSET_ERROR = "No private HW1 asset archive was found."
         return
     target = Path(tempfile.gettempdir()) / "dnd_hw1_assets"
     assignment = target / "dndmsc26autumn_hw1"
@@ -51,11 +55,16 @@ def unpack_private_assets() -> None:
         os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
         return
     target.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(archive_path) as archive:
-        members = archive.infolist()
-        if any(Path(member.filename).is_absolute() or ".." in Path(member.filename).parts for member in members):
-            raise RuntimeError("The private HW1 asset archive contains an unsafe path.")
-        archive.extractall(target)
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            members = archive.infolist()
+            if any(Path(member.filename).is_absolute() or ".." in Path(member.filename).parts for member in members):
+                ASSET_ERROR = "The private HW1 asset archive contains an unsafe path."
+                return
+            archive.extractall(target)
+    except (OSError, zipfile.BadZipFile) as error:
+        ASSET_ERROR = f"The downloaded private HW1 asset is not a valid zip: {error}"
+        return
     if not assignment.is_dir():
         notebook_candidates = list(
             target.rglob("dndmsc26autumn_hw1.ipynb")
@@ -63,15 +72,12 @@ def unpack_private_assets() -> None:
         if len(notebook_candidates) == 1:
             assignment = notebook_candidates[0].parent
     if not assignment.is_dir():
-        raise RuntimeError(
-            "The private HW1 asset archive must contain the HW1 notebook and assets."
-        )
+        ASSET_ERROR = "The private HW1 asset archive has no HW1 notebook directory."
+        return
     missing = [name for name in required_files if not (assignment / name).is_file()]
     if missing:
-        raise RuntimeError(
-            "The private HW1 asset archive is missing required files: "
-            + ", ".join(missing)
-        )
+        ASSET_ERROR = "The private HW1 asset archive is missing: " + ", ".join(missing)
+        return
     os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
 
 
@@ -135,6 +141,7 @@ def health() -> dict[str, str]:
         "runner": os.getenv("RUNNER_MODE", "local"),
         "exam_assets": str(ASSIGNMENT.exists()).lower(),
         "auth_required": str(REQUIRE_AUTH).lower(),
+        "asset_error": ASSET_ERROR,
     }
 
 
