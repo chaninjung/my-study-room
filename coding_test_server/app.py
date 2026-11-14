@@ -160,6 +160,7 @@ def health() -> dict[str, str]:
         "exam_assets": str(ASSIGNMENT.exists()).lower(),
         "auth_required": str(REQUIRE_AUTH).lower(),
         "asset_error": ASSET_ERROR,
+        "answer_asset": str((ASSIGNMENT / "dndmsc26autumn_hw1_final.ipynb").is_file()).lower(),
     }
 
 

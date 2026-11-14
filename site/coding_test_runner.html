@@ -179,7 +179,11 @@
     setInterval(() => { if (seconds > 0) seconds--; localStorage.setItem("dnd-coding-seconds", seconds); updateTimer(); }, 1000);
     const assetContent = document.getElementById("assetContent");
     let examAssets = null;
-    fetch(API_URL + "/api/exam", { headers: authHeaders() }).then((response) => response.json()).then((data) => {
+    fetch(API_URL + "/api/exam?ts=" + Date.now(), { headers: authHeaders() }).then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || "Exam package request failed (" + response.status + ").");
+      return data;
+    }).then((data) => {
       examAssets = data;
       starterCode = data.starter_code || {};
       if (data.available) {
@@ -192,7 +196,10 @@
         window.__examInstructions = byPart;
         selectTask(currentTask);
       }
-    }).catch(() => {});
+    }).catch((error) => {
+      examAssets = { available: false, answer_available: false };
+      document.querySelector(".muted").textContent = error.message;
+    });
     document.getElementById("showData").onclick = () => {
       assetContent.innerHTML = examAssets && examAssets.available
         ? `<h3>student-mat_prep_noisy26au_hw1.csv</h3><pre>${escapeHtml(examAssets.data_preview)}</pre>`
@@ -204,14 +211,10 @@
         : '<p class="muted">Requirements are available in the local exam package.</p>';
     };
     document.getElementById("showAnswer").onclick = async () => {
-      if (!examAssets || !examAssets.answer_available) {
-        assetContent.innerHTML = '<p class="muted">The answer notebook is intentionally available only in the local setup.</p>';
-        return;
-      }
       if (!document.getElementById("answerDetails")) {
         assetContent.innerHTML = '<p class="muted">Loading local answer notebook...</p>';
         try {
-          const response = await fetch(API_URL + "/api/answer", { headers: authHeaders() });
+          const response = await fetch(API_URL + "/api/answer?ts=" + Date.now(), { headers: authHeaders() });
           const data = await response.json();
           if (!response.ok) throw new Error(data.detail || "The answer notebook could not be loaded.");
           assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
