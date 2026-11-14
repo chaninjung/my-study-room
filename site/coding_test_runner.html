@@ -42,14 +42,15 @@
     .check { padding:8px 0; border-bottom:1px solid var(--line); }
     .check:last-child { border-bottom:0; }
     .warning { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; margin-top:12px; }
-    .spec { max-height:430px; overflow:auto; }
+    .spec { overflow:visible; }
     .assetBox { margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
-    .instruction { margin-top:15px; max-height:430px; overflow:auto; border-top:1px solid var(--line); padding-top:15px; }
+    .instruction { margin-top:15px; border-top:1px solid var(--line); padding-top:15px; }
     .instruction h2 { margin-top:0; }
     .instruction h3 { margin-top:18px; }
     .instruction p { margin:8px 0; }
     .instruction code { background:#f0f3f7; border-radius:4px; padding:1px 4px; }
     .instruction pre { white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; overflow:auto; }
+    .setupCode { white-space:pre-wrap; background:#101827; color:#e7edf7; border-radius:7px; padding:12px; overflow:auto; font:12px/1.5 ui-monospace,Consolas,monospace; }
     .assetBox pre { max-height:260px; overflow:auto; white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; font:11px/1.45 ui-monospace,Consolas,monospace; }
     .answerBox { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; }
     .spec ul { padding-left:20px; margin:5px 0; }
@@ -87,6 +88,11 @@
       </div>
     </section>
     <aside class="right">
+      <section class="panel setupPanel">
+        <h2>Setup / Imports</h2>
+        <p class="muted">This setup is provided by the original HW1 notebook and is not part of your solution.</p>
+        <pre id="setupCode" class="setupCode"></pre>
+      </section>
       <section class="panel">
         <h2>Checker result</h2>
         <div id="result" class="result">The backend result will appear here.</div>
@@ -163,6 +169,7 @@
     };
     const initialCode = "# The original HW1 notebook scaffold will load here.\n";
     let starterCode = {};
+    let setupCode = "";
     let currentTask = localStorage.getItem("dnd-coding-task") || "A";
     const editor = document.getElementById("editor");
     const result = document.getElementById("result");
@@ -171,9 +178,10 @@
     const taskList = document.getElementById("taskList");
     const codeKey = (task) => "dnd-coding-code-" + task;
     function submissionCode(task) {
-      return Object.keys(tasks).slice(0, Object.keys(tasks).indexOf(task) + 1)
+      const parts = Object.keys(tasks).slice(0, Object.keys(tasks).indexOf(task) + 1)
         .map((part) => localStorage.getItem(codeKey(part)) || starterCode[part] || "")
         .join("\n\n");
+      return [setupCode, parts].filter(Boolean).join("\n\n");
     }
     function markdownToHtml(markdown) {
       let html = escapeHtml(markdown || "");
@@ -243,6 +251,8 @@
     }).then((data) => {
       examAssets = data;
       starterCode = data.starter_code || {};
+      setupCode = data.setup_code || "";
+      document.getElementById("setupCode").textContent = setupCode;
       if (data.available) {
         document.querySelector(".muted").textContent = "Local HW1 exam package loaded: notebook instructions, CSV and requirements.";
         const byPart = {};
