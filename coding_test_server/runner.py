@@ -216,7 +216,9 @@ def main():
         __import__("sys").path.insert(0, str(assignment))
     namespace = {"__name__": "__main__", "content": make_dataset()}
     output = io.StringIO()
+    previous_cwd = os.getcwd()
     try:
+        os.chdir(assignment)
         with contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
             exec(compile(request["code"], "<submission>", "exec"), namespace)
             official_checks = check_with_official_tester(task, namespace)
@@ -230,6 +232,8 @@ def main():
             "checks": [],
             "error": f"{type(error).__name__}: {error}\n{traceback.format_exc(limit=2)}",
         }
+    finally:
+        os.chdir(previous_cwd)
     print(json.dumps(result, ensure_ascii=False))
 
 
