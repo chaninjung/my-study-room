@@ -51,8 +51,14 @@ def unpack_private_assets() -> None:
             raise RuntimeError("The private HW1 asset archive contains an unsafe path.")
         archive.extractall(target)
     if not assignment.is_dir():
+        notebook_candidates = list(
+            target.rglob("dndmsc26autumn_hw1.ipynb")
+        )
+        if len(notebook_candidates) == 1:
+            assignment = notebook_candidates[0].parent
+    if not assignment.is_dir():
         raise RuntimeError(
-            "The private HW1 asset archive must contain dndmsc26autumn_hw1/."
+            "The private HW1 asset archive must contain the HW1 notebook and assets."
         )
     os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
 
