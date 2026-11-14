@@ -106,7 +106,8 @@ SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 ASSET_BUCKET = os.getenv("DND_ASSET_BUCKET", "dnd-private-assets")
 ASSET_OBJECT = os.getenv("DND_ASSET_OBJECT", "dnd_hw1_assets.zip")
-ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "")
+ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "").strip()
+ANSWER_USER_EMAIL = os.getenv("ANSWER_USER_EMAIL", "").strip().lower()
 
 unpack_private_assets()
 
@@ -189,9 +190,15 @@ def require_answer_access(authorization: str | None) -> None:
     user = require_user(authorization)
     if not REQUIRE_AUTH:
         return
-    if not ANSWER_USER_ID:
+    if not ANSWER_USER_ID and not ANSWER_USER_EMAIL:
         raise HTTPException(status_code=503, detail="Answer access is not configured.")
-    if user is None or user.get("id") != ANSWER_USER_ID:
+    user_id = str(user.get("id", "")) if user else ""
+    user_email = str(user.get("email", "")).lower() if user else ""
+    authorized = (
+        (bool(ANSWER_USER_ID) and user_id == ANSWER_USER_ID)
+        or (bool(ANSWER_USER_EMAIL) and user_email == ANSWER_USER_EMAIL)
+    )
+    if user is None or not authorized:
         raise HTTPException(status_code=403, detail="Answer access is restricted.")
 
 
@@ -222,9 +229,10 @@ def load_notebook_starters() -> dict[str, str]:
     ]
     if len(code_cells) < 11:
         return {}
-    starters = {}
-    for index, task in enumerate("ABCDEFGHI", start=2):
-        starters[task] = "\n\n".join(code_cells[: index + 1])
+    common = "\n\n".join(code_cells[:2])
+    starters = {"A": common + "\n\n" + code_cells[2]}
+    for index, task in enumerate("BCDEFGHI", start=3):
+        starters[task] = code_cells[index]
     return starters
 
 

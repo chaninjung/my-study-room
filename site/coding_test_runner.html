@@ -134,7 +134,12 @@
     const checks = document.getElementById("checks");
     const status = document.getElementById("status");
     const taskList = document.getElementById("taskList");
-    const codeKey = () => "dnd-coding-code";
+    const codeKey = (task) => "dnd-coding-code-" + task;
+    function submissionCode(task) {
+      return Object.keys(tasks).slice(0, Object.keys(tasks).indexOf(task) + 1)
+        .map((part) => localStorage.getItem(codeKey(part)) || starterCode[part] || "")
+        .join("\n\n");
+    }
     function renderTasks() {
       taskList.innerHTML = Object.entries(tasks).map(([id, task]) =>
         `<button class="task ${id === currentTask ? "active" : ""} ${localStorage.getItem("dnd-coding-ok-" + id) === "1" ? "done" : ""}" data-task="${id}">
@@ -146,18 +151,19 @@
       currentTask = task; localStorage.setItem("dnd-coding-task", task);
       document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
       document.getElementById("taskDescription").textContent = tasks[task][1];
-      editor.value = localStorage.getItem(codeKey()) || starterCode[task] || initialCode;
+      editor.value = localStorage.getItem(codeKey(task)) || starterCode[task] || initialCode;
       result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
       renderTasks();
     }
-    editor.addEventListener("input", () => localStorage.setItem(codeKey(), editor.value));
-    document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(), editor.value); status.textContent = "Saved in this browser."; };
-    document.getElementById("resetCode").onclick = () => { if (confirm("Reset the complete submission editor to the HW1 scaffold?")) { editor.value = starterCode[currentTask] || initialCode; localStorage.setItem(codeKey(), editor.value); } };
+    editor.addEventListener("input", () => localStorage.setItem(codeKey(currentTask), editor.value));
+    document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(currentTask), editor.value); status.textContent = "Saved in this browser."; };
+    document.getElementById("resetCode").onclick = () => { if (confirm("Reset this Part to the HW1 scaffold?")) { editor.value = starterCode[currentTask] || initialCode; localStorage.setItem(codeKey(currentTask), editor.value); } };
     document.getElementById("run").onclick = async () => {
       const button = document.getElementById("run"); button.disabled = true; status.textContent = "Running...";
       result.className = "result"; result.textContent = ""; checks.innerHTML = "";
       try {
-        const response = await fetch(API_URL + "/api/run", { method:"POST", headers:Object.assign({"Content-Type":"application/json"}, authHeaders()), body:JSON.stringify({task:currentTask, code:editor.value}) });
+        localStorage.setItem(codeKey(currentTask), editor.value);
+        const response = await fetch(API_URL + "/api/run", { method:"POST", headers:Object.assign({"Content-Type":"application/json"}, authHeaders()), body:JSON.stringify({task:currentTask, code:submissionCode(currentTask)}) });
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || "Backend request failed.");
         result.className = "result " + (data.ok ? "ok" : "fail");

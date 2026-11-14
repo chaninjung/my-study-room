@@ -52,6 +52,10 @@ key used by the site. The backend validates every coding-test request against
 Supabase Auth and does not trust a browser-supplied user id. Requests without
 a valid login token receive `401`.
 
+Answer access can be restricted with either `ANSWER_USER_ID` (the Supabase
+UUID) or `ANSWER_USER_EMAIL` (the authenticated email address). If both are
+configured, either matching identity is accepted.
+
 ### Private HW1 assets on Render
 
 Do not commit the professor's notebook, CSV, tester, or final notebook to
