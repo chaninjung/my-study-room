@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DND HW1 Reconstruction Coding Test</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#60708a; --line:#dce3ed; --brand:#00b878; --bg:#f4f6f9; --card:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--bg); font:15px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:2; }
+    .nav { max-width:1100px; margin:auto; padding:14px 22px; display:flex; align-items:center; gap:18px; }
+    .brand { color:var(--brand); font-weight:800; font-size:19px; text-decoration:none; }
+    .nav a { color:var(--muted); text-decoration:none; }
+    .nav .spacer { flex:1; }
+    .lang button { border:0; background:transparent; color:var(--muted); cursor:pointer; padding:4px 7px; }
+    .lang button.active { color:var(--brand); font-weight:700; }
+    main { max-width:1100px; margin:34px auto 70px; padding:0 22px; }
+    .hero, .card { background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:0 2px 8px #1720330b; }
+    .hero { padding:30px 32px; border-top:4px solid var(--brand); }
+    h1 { margin:0 0 8px; line-height:1.25; font-size:clamp(25px,4vw,36px); }
+    h2 { margin:0; font-size:19px; }
+    h3 { margin:0 0 6px; font-size:17px; }
+    p { margin:8px 0; }
+    .muted { color:var(--muted); }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 8px; }
+    .badge { background:#e9fbf4; color:#087d58; border-radius:999px; padding:4px 11px; font-weight:700; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:20px 0; }
+    .card { padding:22px 24px; }
+    details { border-top:1px solid var(--line); padding:15px 0; }
+    details:first-of-type { border-top:0; }
+    summary { cursor:pointer; font-weight:750; font-size:17px; }
+    ul, ol { margin:8px 0 0; padding-left:23px; }
+    li { margin:3px 0; }
+    code { background:#f0f3f7; border-radius:4px; padding:1px 5px; }
+    .checklist { columns:2 280px; }
+    .checklist li { list-style:"☐  "; break-inside:avoid; }
+    .notice { background:#fff8e6; border:1px solid #f1d88c; border-radius:8px; padding:12px 14px; margin-top:16px; }
+    .en { display:none; }
+    @media (max-width:600px) { .nav { padding:12px 15px; } main { margin-top:20px; padding:0 14px; } .hero { padding:24px 20px; } .card { padding:18px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <a class="brand" href="index.html">My Study Room</a>
+      <a href="index.html#deepnetworkdevelopment/coding" data-ko="DND 코딩 테스트" data-en="DND Coding Test">DND 코딩 테스트</a>
+      <span class="spacer"></span>
+      <span class="lang"><button class="active" data-lang="ko">한국어</button><button data-lang="en">English</button></span>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h1 data-ko="DND HW1 재구성 코딩 테스트" data-en="DND HW1 Reconstruction Coding Test">DND HW1 재구성 코딩 테스트</h1>
+      <p class="muted" data-ko="HW1을 실제로 이해했는지 확인하는 학습용 mock test입니다. 객관식 없이 빈 notebook에서 직접 구현합니다."
+         data-en="A practice mock test to check whether you understand HW1. Implement everything in a blank notebook without multiple-choice questions.">HW1을 실제로 이해했는지 확인하는 학습용 mock test입니다. 객관식 없이 빈 notebook에서 직접 구현합니다.</p>
+      <div class="badges"><span class="badge">180 min</span><span class="badge">No internet</span><span class="badge">HW1 · A–I</span></div>
+      <div class="notice" data-ko="공식 시험 문제가 아닙니다. 실제 시험의 데이터와 세부 조건은 달라질 수 있습니다."
+           data-en="This is not the official exam. The data and detailed requirements may differ in the real test.">공식 시험 문제가 아닙니다. 실제 시험의 데이터와 세부 조건은 달라질 수 있습니다.</div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2 data-ko="시험 조건" data-en="Test conditions">시험 조건</h2>
+        <ul><li data-ko="제한 시간: 180분" data-en="Time limit: 180 minutes">제한 시간: 180분</li>
+          <li data-ko="인터넷 사용 불가" data-en="No internet access">인터넷 사용 불가</li>
+          <li data-ko="본인 HW1 notebook 사용 가능" data-en="Your own HW1 notebook is allowed">본인 HW1 notebook 사용 가능</li>
+          <li data-ko="슬라이드·non-video 자료·라이브러리 문서 사용 가능" data-en="Slides, non-video materials and library documentation are allowed">슬라이드·non-video 자료·라이브러리 문서 사용 가능</li>
+          <li><code>hw1_reconstruction_test.ipynb</code> 제출</li></ul>
+      </section>
+      <section class="card">
+        <h2 data-ko="시작 방법" data-en="How to start">시작 방법</h2>
+        <ol><li data-ko="새 notebook을 만들고 Kernel을 restart합니다." data-en="Create a new notebook and restart the kernel.">새 notebook을 만들고 Kernel을 restart합니다.</li>
+          <li data-ko="필요한 import와 seed를 직접 작성합니다." data-en="Write the imports and seed yourself.">필요한 import와 seed를 직접 작성합니다.</li>
+          <li data-ko="A부터 I까지 처음부터 실행합니다." data-en="Implement and run Parts A through I from the beginning.">A부터 I까지 처음부터 실행합니다.</li>
+          <li data-ko="마지막에 tester와 전체 재실행으로 확인합니다." data-en="Finish by running the tester and the notebook from start to finish.">마지막에 tester와 전체 재실행으로 확인합니다.</li></ol>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2 data-ko="구현 과제" data-en="Implementation tasks">구현 과제</h2>
+      <details open><summary>Part A — Dataset loading</summary><ul>
+        <li>세미콜론 CSV를 읽어 header를 제외한 <code>dataset_noisy</code>를 만듭니다.</li><li><code>np.ndarray</code>, <code>np.float32</code>, sample별 행을 사용합니다.</li><li>빈 필드는 <code>np.nan</code>이어야 하며 shape와 결측 위치를 확인합니다.</li>
+      </ul></details>
+      <details><summary>Part B — Missing values and indicators</summary><ul>
+        <li>결측 가능 열 세 개에 대해 indicator 열을 만듭니다.</li><li>원본 열은 유지하고 indicator 세 개는 배열 마지막에 붙입니다.</li><li>결측값은 0으로 대체하고 최종 배열에는 NaN이 없어야 합니다.</li>
+      </ul></details>
+      <details><summary>Part C — Data split</summary><ul>
+        <li><code>dataset_split_train</code>, <code>dataset_split_val</code>, <code>dataset_split_test</code>를 만듭니다.</li><li>약 50%/25%/25%로 무작위 분할하며 sample 중복이나 누락이 없어야 합니다.</li><li>재현 가능한 결과를 위해 seed를 사용할 수 있습니다.</li>
+      </ul></details>
+      <details><summary>Part D — Regression DataLoader</summary><ul>
+        <li><code>dataloader_reg_train</code>, <code>dataloader_reg_val</code>, <code>dataloader_reg_test</code>를 만듭니다.</li><li>input은 float32 2차원, label은 float32 <code>(batch_size, 1)</code>입니다.</li><li>train/validation은 shuffle, test는 순서를 유지하고 label 열은 input에서 제외합니다.</li>
+      </ul></details>
+      <details><summary>Part E — Regression model</summary><ul>
+        <li><code>torch.nn.Module</code> 기반 <code>reg_model</code>을 만듭니다.</li><li>Linear 3개, hidden size 25·25, output size 1, hidden 뒤 ReLU를 사용합니다.</li><li>output shape은 <code>(batch_size, 1)</code>이어야 합니다.</li>
+      </ul></details>
+      <details><summary>Part F — Regression training and evaluation</summary><ul>
+        <li>MSE와 gradient-based optimizer로 학습하고 epoch별 train/validation loss를 기록합니다.</li><li>두 loss curve를 그리고 <code>test_mse</code>와 sample prediction을 저장합니다.</li><li>validation/test를 optimizer update에 사용하지 않고, test는 최종 평가에만 사용합니다.</li>
+      </ul></details>
+      <details><summary>Part G — Classification labels and DataLoader</summary><ul>
+        <li>세 성적 중 낮은 값이 둘 이상이면 낮은 성취, 아니고 평균이 기준값 미만이면 중간, 나머지는 높은 성취로 분류합니다.</li><li>label을 0·1·2로 만들고 classification DataLoader 세 개를 구성합니다.</li><li>input은 float32 2차원, label은 int64 1차원이며 성적 열은 input에서 제외합니다.</li>
+      </ul></details>
+      <details><summary>Part H — Classification model</summary><ul>
+        <li><code>cl_model</code>은 Linear 3개, hidden size 30·20, output size 3입니다.</li><li>hidden 뒤 ReLU를 사용하며 마지막은 raw logits를 반환합니다.</li><li><code>CrossEntropyLoss</code>를 사용하므로 모델 안에 softmax를 넣지 않습니다.</li>
+      </ul></details>
+      <details><summary>Part I — Classification training and evaluation</summary><ul>
+        <li>cross entropy로 학습하고 train/validation loss를 기록합니다.</li><li>early stopping 후 best validation weight를 복원합니다.</li><li><code>test_ce</code>, <code>test_acc</code>, true 행·predicted 열의 3×3 confusion matrix를 작성하고 plot합니다.</li>
+      </ul></details>
+    </section>
+
+    <section class="card" style="margin-top:20px">
+      <h2 data-ko="종료 전 체크리스트" data-en="Final checklist">종료 전 체크리스트</h2>
+      <ul class="checklist">
+        <li data-ko="Kernel Restart 후 처음부터 오류 없이 실행" data-en="Runs from the beginning after Kernel Restart">Kernel Restart 후 처음부터 오류 없이 실행</li>
+        <li data-ko="필수 변수 이름과 plot 확인" data-en="Required variable names and plots exist">필수 변수 이름과 plot 확인</li>
+        <li data-ko="dataset_noisy는 NaN, dataset은 no NaN" data-en="dataset_noisy has NaN; dataset has no NaN">dataset_noisy는 NaN, dataset은 no NaN</li>
+        <li data-ko="indicator 세 열이 배열 마지막에 있음" data-en="Three indicators are at the end">indicator 세 열이 배열 마지막에 있음</li>
+        <li data-ko="label 열이 input에 포함되지 않음" data-en="Label columns are excluded from inputs">label 열이 input에 포함되지 않음</li>
+        <li data-ko="test는 최종 평가에서만 사용" data-en="Test data is used only for final evaluation">test는 최종 평가에서만 사용</li>
+        <li data-ko="classification output은 raw logits" data-en="Classification output is raw logits">classification output은 raw logits</li>
+        <li data-ko="best validation weight 복원 후 test 평가" data-en="Restore best validation weight before testing">best validation weight 복원 후 test 평가</li>
+      </ul>
+    </section>
+  </main>
+  <script>
+    const buttons = document.querySelectorAll("[data-lang]");
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-lang]").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
+      document.querySelectorAll("[data-ko]").forEach((node) => { node.textContent = node.dataset[lang] || node.dataset.ko; });
+    }
+    buttons.forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.lang)));
+  </script>
+</body>
+</html>
