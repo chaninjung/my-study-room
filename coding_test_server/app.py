@@ -61,10 +61,19 @@ def unpack_private_assets() -> None:
     try:
         with zipfile.ZipFile(archive_path) as archive:
             members = archive.infolist()
-            if any(Path(member.filename).is_absolute() or ".." in Path(member.filename).parts for member in members):
-                ASSET_ERROR = "The private HW1 asset archive contains an unsafe path."
-                return
-            archive.extractall(target)
+            for member in members:
+                normalized_name = member.filename.replace("\\", "/")
+                path = Path(normalized_name)
+                if path.is_absolute() or ".." in path.parts:
+                    ASSET_ERROR = "The private HW1 asset archive contains an unsafe path."
+                    return
+                destination = target / path
+                if member.is_dir():
+                    destination.mkdir(parents=True, exist_ok=True)
+                    continue
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                with archive.open(member) as source, destination.open("wb") as output:
+                    shutil.copyfileobj(source, output)
     except (OSError, zipfile.BadZipFile) as error:
         ASSET_ERROR = f"The downloaded private HW1 asset is not a valid zip: {error}"
         return
