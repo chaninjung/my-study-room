@@ -1,6 +1,7 @@
 import json
 import os
 import secrets
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -44,16 +45,18 @@ def unpack_private_assets() -> None:
         ASSET_ERROR = "No private HW1 asset archive was found."
         return
     target = Path(tempfile.gettempdir()) / "dnd_hw1_assets"
-    assignment = target / "dndmsc26autumn_hw1"
     required_files = (
         "dndmsc26autumn_hw1.ipynb",
         "dndmsc26autumn_hw1_tester.py",
         "dndmsc26autumn_hw1_final.ipynb",
         "student-mat_prep_noisy26au_hw1.csv",
     )
+    assignment = target / "dndmsc26autumn_hw1"
     if assignment.is_dir() and all((assignment / name).is_file() for name in required_files):
         os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
         return
+    if target.exists():
+        shutil.rmtree(target)
     target.mkdir(parents=True, exist_ok=True)
     try:
         with zipfile.ZipFile(archive_path) as archive:
@@ -65,19 +68,23 @@ def unpack_private_assets() -> None:
     except (OSError, zipfile.BadZipFile) as error:
         ASSET_ERROR = f"The downloaded private HW1 asset is not a valid zip: {error}"
         return
-    if not assignment.is_dir():
-        notebook_candidates = list(
-            target.rglob("dndmsc26autumn_hw1.ipynb")
+    candidates = []
+    for notebook in target.rglob("dndmsc26autumn_hw1.ipynb"):
+        parent = notebook.parent
+        if all((parent / name).is_file() for name in required_files):
+            candidates.append(parent)
+    if len(candidates) != 1:
+        names = ", ".join(
+            path.relative_to(target).as_posix()
+            for path in target.rglob("*")
+            if path.is_file()
         )
-        if len(notebook_candidates) == 1:
-            assignment = notebook_candidates[0].parent
-    if not assignment.is_dir():
-        ASSET_ERROR = "The private HW1 asset archive has no HW1 notebook directory."
+        ASSET_ERROR = (
+            "The private HW1 asset archive has no unique complete HW1 directory. "
+            f"Files found: {names[:1000]}"
+        )
         return
-    missing = [name for name in required_files if not (assignment / name).is_file()]
-    if missing:
-        ASSET_ERROR = "The private HW1 asset archive is missing: " + ", ".join(missing)
-        return
+    assignment = candidates[0]
     os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
 
 
