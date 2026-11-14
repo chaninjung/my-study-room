@@ -103,17 +103,45 @@
     const API_URL = window.__CODING_TEST_API__ ||
       ((location.hostname === "localhost" || location.hostname === "127.0.0.1")
         ? "http://localhost:8000" : "https://dnd-coding-test-runner.onrender.com");
-    function accessToken() {
+    const SUPABASE_AUTH_URL = "https://xzbjvamjllfpcsnigqch.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_d32eUhQpQUWEHz4vnNGR1A_60YeqKC8";
+    function authState() {
       try {
         const auth = JSON.parse(localStorage.getItem("dnd_tt1_auth") || "null");
-        return auth && auth.access_token ? auth.access_token : "";
+        return auth && auth.access_token ? auth : null;
       } catch (error) {
-        return "";
+        return null;
       }
     }
-    function authHeaders() {
-      const token = accessToken();
-      return token ? { Authorization: "Bearer " + token } : {};
+    async function accessToken() {
+      let auth = authState();
+      if (!auth) return "";
+      if (auth.expires_at && auth.expires_at > Date.now() + 30000) return auth.access_token;
+      if (!auth.refresh_token) return "";
+      const response = await fetch(SUPABASE_AUTH_URL + "/auth/v1/token?grant_type=refresh_token", {
+        method: "POST",
+        headers: { "apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: auth.refresh_token })
+      });
+      const data = await response.json();
+      if (!response.ok || !data.access_token) return "";
+      auth = Object.assign({}, auth, {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token || auth.refresh_token,
+        expires_at: Date.now() + Number(data.expires_in || 3600) * 1000
+      });
+      localStorage.setItem("dnd_tt1_auth", JSON.stringify(auth));
+      return auth.access_token;
+    }
+    async function apiFetch(path, options) {
+      const token = await accessToken();
+      const request = Object.assign({}, options || {});
+      request.headers = Object.assign({}, request.headers || {}, token ? { Authorization: "Bearer " + token } : {});
+      let response = await fetch(API_URL + path, request);
+      if (response.status === 401 && token) {
+        localStorage.removeItem("dnd_tt1_auth");
+      }
+      return response;
     }
     const tasks = {
       A: ["Dataset loading", "Create dataset_noisy from the semicolon CSV content. Preserve missing fields as NaN and use a float32 NumPy array."],
@@ -163,7 +191,7 @@
       result.className = "result"; result.textContent = ""; checks.innerHTML = "";
       try {
         localStorage.setItem(codeKey(currentTask), editor.value);
-        const response = await fetch(API_URL + "/api/run", { method:"POST", headers:Object.assign({"Content-Type":"application/json"}, authHeaders()), body:JSON.stringify({task:currentTask, code:submissionCode(currentTask)}) });
+        const response = await apiFetch("/api/run", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({task:currentTask, code:submissionCode(currentTask)}) });
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || "Backend request failed.");
         result.className = "result " + (data.ok ? "ok" : "fail");
@@ -179,7 +207,7 @@
     setInterval(() => { if (seconds > 0) seconds--; localStorage.setItem("dnd-coding-seconds", seconds); updateTimer(); }, 1000);
     const assetContent = document.getElementById("assetContent");
     let examAssets = null;
-    fetch(API_URL + "/api/exam?ts=" + Date.now(), { headers: authHeaders() }).then(async (response) => {
+    apiFetch("/api/exam?ts=" + Date.now()).then(async (response) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.detail || "Exam package request failed (" + response.status + ").");
       return data;
@@ -214,7 +242,7 @@
       if (!document.getElementById("answerDetails")) {
         assetContent.innerHTML = '<p class="muted">Loading local answer notebook...</p>';
         try {
-          const response = await fetch(API_URL + "/api/answer?ts=" + Date.now(), { headers: authHeaders() });
+          const response = await apiFetch("/api/answer?ts=" + Date.now());
           const data = await response.json();
           if (!response.ok) throw new Error(data.detail || "The answer notebook could not be loaded.");
           assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
