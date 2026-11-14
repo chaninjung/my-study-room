@@ -257,7 +257,7 @@ def run_local(request: RunRequest) -> RunResponse:
                 text=True,
                 capture_output=True,
                 encoding="utf-8",
-                cwd=workdir,
+                cwd=ASSIGNMENT,
                 env={**os.environ, "PYTHONIOENCODING": "utf-8"},
                 timeout=TIMEOUT_SECONDS,
                 check=False,
