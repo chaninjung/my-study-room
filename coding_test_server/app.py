@@ -124,7 +124,7 @@ app.add_middleware(
     allow_origins=os.getenv("ALLOWED_ORIGINS", "http://localhost:5500").split(","),
     allow_credentials=False,
     allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type", "Authorization"],
+    allow_headers=["*"],
 )
 
 
