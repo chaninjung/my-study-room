@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DND Coding Test Runner</title>
+  <style>
+    :root { color-scheme:light; --ink:#172033; --muted:#60708a; --line:#dce3ed; --brand:#00b878; --bg:#f4f6f9; --card:#fff; --dark:#172033; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--bg); font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:3; }
+    .nav { max-width:1420px; margin:auto; padding:12px 20px; display:flex; align-items:center; gap:18px; }
+    .brand { color:var(--brand); font-size:19px; font-weight:800; text-decoration:none; }
+    .muted { color:var(--muted); }
+    .spacer { flex:1; }
+    .timer { font-variant-numeric:tabular-nums; font-size:18px; font-weight:800; color:#087d58; }
+    .timer.danger { color:#c33838; }
+    .layout { max-width:1420px; margin:18px auto 50px; padding:0 20px; display:grid; grid-template-columns:270px minmax(0,1fr) 330px; gap:16px; }
+    .panel, .card { background:var(--card); border:1px solid var(--line); border-radius:11px; box-shadow:0 2px 8px #1720330a; }
+    .panel { padding:15px; }
+    .side { align-self:start; position:sticky; top:75px; }
+    h1 { font-size:24px; margin:0 0 4px; }
+    h2 { font-size:17px; margin:0 0 8px; }
+    h3 { font-size:15px; margin:15px 0 5px; }
+    .task { display:block; width:100%; text-align:left; border:0; border-radius:7px; background:transparent; color:var(--ink); padding:10px 11px; margin:3px 0; cursor:pointer; }
+    .task:hover, .task.active { background:#e9fbf4; color:#087d58; }
+    .task small { display:block; color:var(--muted); font-size:11px; }
+    .task.done::after { content:"✓"; float:right; color:var(--brand); font-weight:800; }
+    .intro { padding:20px; margin-bottom:16px; }
+    .badges { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+    .badge { background:#e9fbf4; border-radius:999px; padding:4px 10px; color:#087d58; font-weight:700; font-size:12px; }
+    .editorPanel { overflow:hidden; }
+    .editorHead { padding:12px 15px; border-bottom:1px solid var(--line); display:flex; gap:10px; align-items:center; }
+    .editor { width:100%; min-height:560px; resize:vertical; display:block; border:0; outline:0; padding:16px; background:#101827; color:#e7edf7; font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace; tab-size:4; }
+    .actions { display:flex; align-items:center; gap:9px; padding:12px 15px; border-top:1px solid var(--line); }
+    button, .button { border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--ink); padding:8px 13px; cursor:pointer; font:inherit; text-decoration:none; }
+    button.primary, .button.primary { border-color:var(--brand); background:var(--brand); color:#fff; font-weight:700; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .result { min-height:110px; white-space:pre-wrap; overflow:auto; background:#111827; color:#dce7f5; border-radius:7px; padding:12px; font:12px/1.5 ui-monospace,Consolas,monospace; }
+    .result.ok { border:2px solid #36c98d; }
+    .result.fail { border:2px solid #e26b6b; }
+    .check { padding:8px 0; border-bottom:1px solid var(--line); }
+    .check:last-child { border-bottom:0; }
+    .warning { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; margin-top:12px; }
+    .spec { max-height:430px; overflow:auto; }
+    .spec ul { padding-left:20px; margin:5px 0; }
+    .hidden { display:none; }
+    @media (max-width:1050px) { .layout { grid-template-columns:220px minmax(0,1fr); } .right { grid-column:1 / -1; position:static; } }
+    @media (max-width:680px) { .layout { display:block; padding:0 10px; } .side,.right { position:static; margin-bottom:14px; } .editor { min-height:450px; } .nav { padding:10px; } .nav .muted { display:none; } }
+  </style>
+</head>
+<body>
+  <header><nav class="nav">
+    <a class="brand" href="index.html">My Study Room</a>
+    <span class="muted">DND · HW1 reconstruction coding test</span>
+    <span class="spacer"></span><span id="timer" class="timer">180:00</span>
+  </nav></header>
+  <main class="layout">
+    <aside class="side">
+      <section class="panel">
+        <h2>Tasks A–I</h2>
+        <p class="muted">Write one complete notebook script. Run checks as you progress.</p>
+        <div id="taskList"></div>
+        <div class="warning">This runner sends your code to the configured Python backend. Do not use a public unsandboxed runner.</div>
+      </section>
+    </aside>
+    <section>
+      <div class="panel intro">
+        <h1>DND HW1 Coding Test</h1>
+        <div class="muted">Implement the task yourself. This is not a solution notebook.</div>
+        <div class="badges"><span class="badge">180 minutes</span><span class="badge">No internet</span><span class="badge">Python + PyTorch</span></div>
+        <p id="taskDescription" style="margin:15px 0 0"></p>
+      </div>
+      <div class="panel editorPanel">
+        <div class="editorHead"><b id="taskTitle">Part A</b><span class="muted">Your submission</span><span class="spacer"></span><button id="resetCode">Reset editor</button></div>
+        <textarea id="editor" class="editor" spellcheck="false"></textarea>
+        <div class="actions"><button id="run" class="primary">Run hidden checks</button><button id="save">Save locally</button><span id="status" class="muted"></span></div>
+      </div>
+    </section>
+    <aside class="right">
+      <section class="panel">
+        <h2>Checker result</h2>
+        <div id="result" class="result">The backend result will appear here.</div>
+        <div id="checks"></div>
+      </section>
+      <section class="panel spec" style="margin-top:16px">
+        <h2>Rules</h2>
+        <ul><li>Use your own HW1 and non-video course materials only.</li><li>Test and validation data must not be used for optimizer updates.</li><li>Run the full script after a Kernel restart before submitting.</li><li>Performance values can vary; inspect the procedure, not only the score.</li></ul>
+        <p class="warning">The browser page is only the client. Configure <code>API_URL</code> to a server with isolated Python execution before public use.</p>
+      </section>
+    </aside>
+  </main>
+  <script>
+    const API_URL = window.__CODING_TEST_API__ || "http://localhost:8000";
+    const tasks = {
+      A: ["Dataset loading", "Create dataset_noisy from the semicolon CSV content. Preserve missing fields as NaN and use a float32 NumPy array."],
+      B: ["Missing values and indicators", "Create dataset with the original columns, three final binary indicators, zero-filled missing values and no NaN."],
+      C: ["Data split", "Shuffle dataset and create train/validation/test arrays with about 50%/25%/25%, without losing or duplicating samples."],
+      D: ["Regression DataLoader", "Create the three regression DataLoaders with float32 2D inputs and (batch_size, 1) float32 labels."],
+      E: ["Regression model", "Create reg_model with Linear layers 35→25→25→1 and ReLU after the two hidden layers."],
+      F: ["Regression training", "Train only on training data, record train/validation losses, plot them and store final test_mse."],
+      G: ["Classification DataLoader", "Create labels 0/1/2 from the three grades and classification DataLoaders with the required dtypes."],
+      H: ["Classification model", "Create cl_model with Linear layers 33→30→20→3 and raw logits output."],
+      I: ["Classification training", "Train with cross entropy, early stopping and best-weight restore; store test_ce, test_acc and a 3×3 confusion matrix."]
+    };
+    const initialCode = "# Write your complete submission here.\n# The backend provides the CSV text in the variable `content`.\n";
+    let currentTask = localStorage.getItem("dnd-coding-task") || "A";
+    const editor = document.getElementById("editor");
+    const result = document.getElementById("result");
+    const checks = document.getElementById("checks");
+    const status = document.getElementById("status");
+    const taskList = document.getElementById("taskList");
+    const codeKey = (task) => "dnd-coding-code-" + task;
+    function renderTasks() {
+      taskList.innerHTML = Object.entries(tasks).map(([id, task]) =>
+        `<button class="task ${id === currentTask ? "active" : ""} ${localStorage.getItem("dnd-coding-ok-" + id) === "1" ? "done" : ""}" data-task="${id}">
+          <b>Part ${id}</b> · ${task[0]}<small>${task[1]}</small>
+        </button>`).join("");
+      taskList.querySelectorAll("[data-task]").forEach((button) => button.onclick = () => selectTask(button.dataset.task));
+    }
+    function selectTask(task) {
+      currentTask = task; localStorage.setItem("dnd-coding-task", task);
+      document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
+      document.getElementById("taskDescription").textContent = tasks[task][1];
+      editor.value = localStorage.getItem(codeKey(task)) || initialCode;
+      result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
+      renderTasks();
+    }
+    editor.addEventListener("input", () => localStorage.setItem(codeKey(currentTask), editor.value));
+    document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(currentTask), editor.value); status.textContent = "Saved in this browser."; };
+    document.getElementById("resetCode").onclick = () => { if (confirm("Reset this task editor?")) { editor.value = initialCode; localStorage.setItem(codeKey(currentTask), editor.value); } };
+    document.getElementById("run").onclick = async () => {
+      const button = document.getElementById("run"); button.disabled = true; status.textContent = "Running...";
+      result.className = "result"; result.textContent = ""; checks.innerHTML = "";
+      try {
+        const response = await fetch(API_URL + "/api/run", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({task:currentTask, code:editor.value}) });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || "Backend request failed.");
+        result.className = "result " + (data.ok ? "ok" : "fail");
+        result.textContent = data.error || data.output || (data.ok ? "All checks passed." : "Checks failed.");
+        checks.innerHTML = (data.checks || []).map((check) => `<div class="check">✓ ${check}</div>`).join("");
+        if (data.ok) { localStorage.setItem("dnd-coding-ok-" + currentTask, "1"); renderTasks(); }
+        status.textContent = data.ok ? "Passed" : "Needs changes";
+      } catch (error) { result.className = "result fail"; result.textContent = error.message + "\n\nStart the Python runner and check API_URL."; status.textContent = "Connection failed"; }
+      finally { button.disabled = false; }
+    };
+    let seconds = Number(localStorage.getItem("dnd-coding-seconds") || 10800);
+    const updateTimer = () => { const m = Math.floor(seconds / 60), s = seconds % 60; document.getElementById("timer").textContent = `${String(m).padStart(3,"0")}:${String(s).padStart(2,"0")}`; if (seconds <= 300) document.getElementById("timer").classList.add("danger"); };
+    setInterval(() => { if (seconds > 0) seconds--; localStorage.setItem("dnd-coding-seconds", seconds); updateTimer(); }, 1000);
+    updateTimer(); selectTask(currentTask);
+  </script>
+</body>
+</html>

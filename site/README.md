@@ -9,6 +9,7 @@ From **2026 Autumn**, ELTE Computer Science course content is available here so 
 - **Who can join:** Only users with an **`@inf.elte.hu`** email address can sign up. Anyone can find this site through Google (search: **inf.elte.hu**), but only ELTE inf accounts can create an account and log in.
 - **Current courses:** **Deep Network Development (DND)** — one course for now, more will be added.
 - **Purpose:** Practice with exam-style questions and take mock exams to prepare for the real ELTE exam. The DND course also includes a separate Coding Test section linking to the HW1 reconstruction mock, which uses implementation tasks rather than multiple-choice questions.
+- **Coding test runtime:** The Coding Test page is a browser client for the Python/PyTorch runner in `coding_test_server/`. Start that local service for development; a public deployment must use the documented isolated Docker runner.
 
 ## How to use
 
