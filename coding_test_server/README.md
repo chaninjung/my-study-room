@@ -15,11 +15,12 @@ pip install -r requirements.txt
 ```
 
 Open `http://localhost:5500/coding_test_runner.html`. The local page loads the real HW1 notebook instructions, CSV data,
-`requirements.txt`, official tester, and final notebook from the paths in the
+`requirements.txt`, and official tester from the paths in the
 workspace. The execution image includes the scientific Python packages needed
 by the notebook (`numpy`, `pandas`, `matplotlib`, `scipy`, `scikit-image`,
-`scikit-learn`, and `torch`). The answer toggle is
-intentionally local-only and is not included in the public Pages deployment.
+`scikit-learn`, and `torch`). Users may upload their own `.ipynb` answer
+notebook; it is stored privately under their Supabase user ID and is never
+shared with other users.
 
 If dependencies are already installed, the two commands can also be run
 separately:
@@ -52,9 +53,9 @@ key used by the site. The backend validates every coding-test request against
 Supabase Auth and does not trust a browser-supplied user id. Requests without
 a valid login token receive `401`.
 
-Answer access can be restricted with either `ANSWER_USER_ID` (the Supabase
-UUID) or `ANSWER_USER_EMAIL` (the authenticated email address). If both are
-configured, either matching identity is accepted.
+Create a private Supabase Storage bucket named `dnd-user-answers` for personal
+answer notebooks. The backend derives the object path from the authenticated
+Supabase user ID, so no per-user UID configuration is required.
 
 ### Private HW1 assets on Render
 

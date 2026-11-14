@@ -20,10 +20,8 @@ services:
         value: dnd-private-assets
       - key: DND_ASSET_OBJECT
         value: dnd_hw1_assets.zip
-      - key: ANSWER_USER_ID
-        sync: false
-      - key: ANSWER_USER_EMAIL
-        sync: false
+      - key: USER_ANSWER_BUCKET
+        value: dnd-user-answers
       - key: DND_ASSET_ARCHIVE
         value: /etc/secrets/dnd_hw1_assets.zip
       - key: ALLOWED_ORIGINS

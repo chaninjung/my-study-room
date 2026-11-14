@@ -104,7 +104,9 @@
         <h2>Exam materials</h2>
         <button id="showData">Show dataset</button>
         <button id="showRequirements">Show requirements</button>
-        <button id="showAnswer">Show answer toggle</button>
+        <label for="answerUpload" class="button">Upload my answer</label>
+        <input id="answerUpload" type="file" accept=".ipynb,application/json" hidden>
+        <button id="showMyAnswer">Show my answer</button>
         <div id="assetContent"></div>
       </section>
     </aside>
@@ -280,7 +282,7 @@
         if (currentTask === "SETUP") selectSetup(); else selectTask(currentTask);
       }
     }).catch((error) => {
-      examAssets = { available: false, answer_available: false };
+      examAssets = { available: false };
       document.querySelector(".muted").textContent = error.message;
     });
     document.getElementById("showData").onclick = () => {
@@ -293,14 +295,33 @@
         ? `<h3>requirements.txt</h3><pre>${escapeHtml(examAssets.requirements)}</pre>`
         : '<p class="muted">Requirements are available in the local exam package.</p>';
     };
-    document.getElementById("showAnswer").onclick = async () => {
+    document.getElementById("answerUpload").onchange = async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      assetContent.innerHTML = '<p class="muted">Uploading your private notebook...</p>';
+      try {
+        const response = await apiFetch("/api/my-answer", { method:"PUT", headers:{"Content-Type":"application/json", "X-Notebook-Filename":file.name}, body:await file.text() });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || "Upload failed.");
+        assetContent.innerHTML = `<p class="muted">${escapeHtml(data.message)}</p>`;
+      } catch (error) {
+        assetContent.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`;
+      } finally {
+        event.target.value = "";
+      }
+    };
+    document.getElementById("showMyAnswer").onclick = async () => {
       if (!document.getElementById("answerDetails")) {
-        assetContent.innerHTML = '<p class="muted">Loading local answer notebook...</p>';
+        assetContent.innerHTML = '<p class="muted">Loading your private answer notebook...</p>';
         try {
-          const response = await apiFetch("/api/answer?ts=" + Date.now());
+          const response = await apiFetch("/api/my-answer?ts=" + Date.now());
           const data = await response.json();
-          if (!response.ok) throw new Error(data.detail || "The answer notebook could not be loaded.");
-          assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
+          if (!response.ok) throw new Error(data.detail || "Your answer notebook could not be loaded.");
+          if (!data.available) {
+            assetContent.innerHTML = '<p class="muted">You have not uploaded an answer notebook yet.</p>';
+            return;
+          }
+          assetContent.innerHTML = `<details id="answerDetails" class="answerBox" open><summary>Show my uploaded notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
         } catch (error) {
           assetContent.innerHTML = `<p class="muted">Answer request failed (${escapeHtml(error.message)}). Check the Render answer-access environment variables.</p>`;
         }

@@ -8,9 +8,9 @@ import tempfile
 import zipfile
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from urllib.request import Request as UrlRequest, urlopen
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -28,7 +28,7 @@ def unpack_private_assets() -> None:
     archive_path = ASSET_ARCHIVE
     if SUPABASE_SERVICE_ROLE_KEY:
         archive_path = Path(tempfile.gettempdir()) / "dnd_hw1_assets.zip"
-        request = Request(
+        request = UrlRequest(
             f"{SUPABASE_URL}/storage/v1/object/{ASSET_BUCKET}/{ASSET_OBJECT}",
             headers={
                 "apikey": SUPABASE_SERVICE_ROLE_KEY,
@@ -106,9 +106,8 @@ SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 ASSET_BUCKET = os.getenv("DND_ASSET_BUCKET", "dnd-private-assets")
 ASSET_OBJECT = os.getenv("DND_ASSET_OBJECT", "dnd_hw1_assets.zip")
-ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "").strip().lower()
-ANSWER_USER_EMAIL = os.getenv("ANSWER_USER_EMAIL", "").strip().lower()
-
+USER_ANSWER_BUCKET = os.getenv("USER_ANSWER_BUCKET", "dnd-user-answers")
+MAX_ANSWER_BYTES = 5_000_000
 unpack_private_assets()
 
 ASSIGNMENT = Path(
@@ -124,7 +123,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("ALLOWED_ORIGINS", "http://localhost:5500").split(","),
     allow_credentials=False,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "PUT"],
     allow_headers=["*"],
 )
 
@@ -148,7 +147,6 @@ class ExamResponse(BaseModel):
     instructions: list[dict[str, str]]
     data_preview: str
     requirements: str
-    answer_available: bool
     starter_code: dict[str, str]
     setup_code: str
 
@@ -161,7 +159,6 @@ def health() -> dict[str, str]:
         "exam_assets": str(ASSIGNMENT.exists()).lower(),
         "auth_required": str(REQUIRE_AUTH).lower(),
         "asset_error": ASSET_ERROR,
-        "answer_asset": str((ASSIGNMENT / "dndmsc26autumn_hw1_final.ipynb").is_file()).lower(),
     }
 
 
@@ -173,7 +170,7 @@ def require_user(authorization: str | None) -> dict[str, object] | None:
     if not SUPABASE_URL or not SUPABASE_ANON_KEY:
         raise HTTPException(status_code=503, detail="The coding test authentication is not configured.")
     token = authorization.removeprefix("Bearer ").strip()
-    request = Request(
+    request = UrlRequest(
         f"{SUPABASE_URL}/auth/v1/user",
         headers={"apikey": SUPABASE_ANON_KEY},
     )
@@ -186,22 +183,6 @@ def require_user(authorization: str | None) -> dict[str, object] | None:
     if not isinstance(user, dict) or not user.get("id"):
         raise HTTPException(status_code=401, detail="The login session is invalid.")
     return user
-
-
-def require_answer_access(authorization: str | None) -> None:
-    user = require_user(authorization)
-    if not REQUIRE_AUTH:
-        return
-    if not ANSWER_USER_ID and not ANSWER_USER_EMAIL:
-        raise HTTPException(status_code=503, detail="Answer access is not configured.")
-    user_id = str(user.get("id", "")).strip().lower() if user else ""
-    user_email = str(user.get("email", "")).strip().lower() if user else ""
-    authorized = (
-        (bool(ANSWER_USER_ID) and user_id == ANSWER_USER_ID)
-        or (bool(ANSWER_USER_EMAIL) and user_email == ANSWER_USER_EMAIL)
-    )
-    if user is None or not authorized:
-        raise HTTPException(status_code=403, detail="Answer access is restricted.")
 
 
 def load_notebook_instructions() -> list[dict[str, str]]:
@@ -263,7 +244,6 @@ def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
             instructions=[],
             data_preview="The local HW1 exam assets are not installed on this runner.",
             requirements="",
-            answer_available=False,
             starter_code={},
             setup_code="",
         )
@@ -274,24 +254,88 @@ def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
         instructions=load_notebook_instructions(),
         data_preview=csv_text[:3000],
         requirements=REQUIREMENTS.read_text(encoding="utf-8") if REQUIREMENTS.is_file() else "",
-        answer_available=(ASSIGNMENT / "dndmsc26autumn_hw1_final.ipynb").is_file(),
         starter_code=load_notebook_starters(),
         setup_code=load_notebook_setup(),
     )
 
 
-@app.get("/api/answer")
-def answer(authorization: str | None = Header(default=None)) -> dict[str, object]:
-    require_answer_access(authorization)
-    answer_path = ASSIGNMENT / "dndmsc26autumn_hw1_final.ipynb"
-    if not answer_path.is_file():
-        raise HTTPException(status_code=404, detail="The answer notebook is available only in the local setup.")
-    notebook = json.loads(answer_path.read_text(encoding="utf-8"))
+def notebook_cells(notebook_path: Path) -> list[str]:
+    notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
     cells = []
     for cell in notebook.get("cells", []):
         if cell.get("cell_type") == "code":
             cells.append("".join(cell.get("source", [])))
+    return cells
+
+
+def user_answer_object(user_id: str) -> str:
+    return f"{user_id}/answer.ipynb"
+
+
+@app.get("/api/my-answer")
+def my_answer(authorization: str | None = Header(default=None)) -> dict[str, object]:
+    user = require_user(authorization)
+    if not SUPABASE_SERVICE_ROLE_KEY or not user:
+        raise HTTPException(status_code=503, detail="Personal answer storage is not configured.")
+    request = UrlRequest(
+        f"{SUPABASE_URL}/storage/v1/object/{USER_ANSWER_BUCKET}/{user_answer_object(str(user['id']))}",
+        headers={"apikey": SUPABASE_SERVICE_ROLE_KEY, "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY},
+    )
+    try:
+        with urlopen(request, timeout=15) as response:
+            notebook = json.loads(response.read().decode("utf-8"))
+    except HTTPError as error:
+        if error.code == 404:
+            return {"available": False, "cells": []}
+        raise HTTPException(status_code=502, detail="Could not load your private answer notebook.") from error
+    except (URLError, TimeoutError, json.JSONDecodeError) as error:
+        raise HTTPException(status_code=502, detail="Could not load your private answer notebook.") from error
+    cells = [
+        "".join(cell.get("source", []))
+        for cell in notebook.get("cells", [])
+        if cell.get("cell_type") == "code"
+    ]
     return {"available": True, "cells": cells}
+
+
+@app.put("/api/my-answer")
+async def upload_my_answer(
+    request: Request,
+    authorization: str | None = Header(default=None),
+    x_notebook_filename: str | None = Header(default=None),
+) -> dict[str, object]:
+    user = require_user(authorization)
+    if not SUPABASE_SERVICE_ROLE_KEY or not user:
+        raise HTTPException(status_code=503, detail="Personal answer storage is not configured.")
+    if not x_notebook_filename or not x_notebook_filename.lower().endswith(".ipynb"):
+        raise HTTPException(status_code=400, detail="Only .ipynb notebook files are accepted.")
+    body = await request.body()
+    if len(body) > MAX_ANSWER_BYTES:
+        raise HTTPException(status_code=413, detail="The notebook is too large.")
+    try:
+        notebook = json.loads(body.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise HTTPException(status_code=400, detail="Upload a valid .ipynb JSON file.") from error
+    if not isinstance(notebook, dict) or not isinstance(notebook.get("cells"), list):
+        raise HTTPException(status_code=400, detail="Upload a valid Jupyter notebook.")
+    object_path = user_answer_object(str(user["id"]))
+    upload_request = UrlRequest(
+        f"{SUPABASE_URL}/storage/v1/object/{USER_ANSWER_BUCKET}/{object_path}",
+        data=body,
+        method="PUT",
+        headers={
+            "apikey": SUPABASE_SERVICE_ROLE_KEY,
+            "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+            "Content-Type": "application/json",
+            "x-upsert": "true",
+        },
+    )
+    try:
+        with urlopen(upload_request, timeout=20):
+            pass
+    except (HTTPError, URLError, TimeoutError) as error:
+        raise HTTPException(status_code=502, detail="Could not save your private answer notebook.") from error
+    return {"available": True, "message": "Your private answer notebook was saved."}
 
 
 def run_local(request: RunRequest) -> RunResponse:
