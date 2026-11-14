@@ -43,6 +43,9 @@
     .check:last-child { border-bottom:0; }
     .warning { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; margin-top:12px; }
     .spec { max-height:430px; overflow:auto; }
+    .assetBox { margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
+    .assetBox pre { max-height:260px; overflow:auto; white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; font:11px/1.45 ui-monospace,Consolas,monospace; }
+    .answerBox { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; }
     .spec ul { padding-left:20px; margin:5px 0; }
     .hidden { display:none; }
     @media (max-width:1050px) { .layout { grid-template-columns:220px minmax(0,1fr); } .right { grid-column:1 / -1; position:static; } }
@@ -70,6 +73,12 @@
         <div class="muted">Implement the task yourself. This is not a solution notebook.</div>
         <div class="badges"><span class="badge">180 minutes</span><span class="badge">No internet</span><span class="badge">Python + PyTorch</span></div>
         <p id="taskDescription" style="margin:15px 0 0"></p>
+        <div class="assetBox">
+          <button id="showData">Show dataset</button>
+          <button id="showRequirements">Show requirements</button>
+          <button id="showAnswer">Show answer toggle</button>
+          <div id="assetContent"></div>
+        </div>
       </div>
       <div class="panel editorPanel">
         <div class="editorHead"><b id="taskTitle">Part A</b><span class="muted">Your submission</span><span class="spacer"></span><button id="resetCode">Reset editor</button></div>
@@ -91,7 +100,9 @@
     </aside>
   </main>
   <script>
-    const API_URL = window.__CODING_TEST_API__ || "https://dnd-coding-test-runner.onrender.com";
+    const API_URL = window.__CODING_TEST_API__ ||
+      ((location.hostname === "localhost" || location.hostname === "127.0.0.1")
+        ? "http://localhost:8000" : "https://dnd-coding-test-runner.onrender.com");
     const tasks = {
       A: ["Dataset loading", "Create dataset_noisy from the semicolon CSV content. Preserve missing fields as NaN and use a float32 NumPy array."],
       B: ["Missing values and indicators", "Create dataset with the original columns, three final binary indicators, zero-filled missing values and no NaN."],
@@ -103,14 +114,14 @@
       H: ["Classification model", "Create cl_model with Linear layers 33→30→20→3 and raw logits output."],
       I: ["Classification training", "Train with cross entropy, early stopping and best-weight restore; store test_ce, test_acc and a 3×3 confusion matrix."]
     };
-    const initialCode = "# Write your complete submission here.\n# The backend provides the CSV text in the variable `content`.\n";
+    const initialCode = "# Write one complete submission here, like a notebook.\n# The backend provides the real HW1 CSV text in `content`.\n";
     let currentTask = localStorage.getItem("dnd-coding-task") || "A";
     const editor = document.getElementById("editor");
     const result = document.getElementById("result");
     const checks = document.getElementById("checks");
     const status = document.getElementById("status");
     const taskList = document.getElementById("taskList");
-    const codeKey = (task) => "dnd-coding-code-" + task;
+    const codeKey = () => "dnd-coding-code";
     function renderTasks() {
       taskList.innerHTML = Object.entries(tasks).map(([id, task]) =>
         `<button class="task ${id === currentTask ? "active" : ""} ${localStorage.getItem("dnd-coding-ok-" + id) === "1" ? "done" : ""}" data-task="${id}">
@@ -122,13 +133,13 @@
       currentTask = task; localStorage.setItem("dnd-coding-task", task);
       document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
       document.getElementById("taskDescription").textContent = tasks[task][1];
-      editor.value = localStorage.getItem(codeKey(task)) || initialCode;
+      editor.value = localStorage.getItem(codeKey()) || initialCode;
       result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
       renderTasks();
     }
-    editor.addEventListener("input", () => localStorage.setItem(codeKey(currentTask), editor.value));
-    document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(currentTask), editor.value); status.textContent = "Saved in this browser."; };
-    document.getElementById("resetCode").onclick = () => { if (confirm("Reset this task editor?")) { editor.value = initialCode; localStorage.setItem(codeKey(currentTask), editor.value); } };
+    editor.addEventListener("input", () => localStorage.setItem(codeKey(), editor.value));
+    document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(), editor.value); status.textContent = "Saved in this browser."; };
+    document.getElementById("resetCode").onclick = () => { if (confirm("Reset the complete submission editor?")) { editor.value = initialCode; localStorage.setItem(codeKey(), editor.value); } };
     document.getElementById("run").onclick = async () => {
       const button = document.getElementById("run"); button.disabled = true; status.textContent = "Running...";
       result.className = "result"; result.textContent = ""; checks.innerHTML = "";
@@ -147,6 +158,50 @@
     let seconds = Number(localStorage.getItem("dnd-coding-seconds") || 10800);
     const updateTimer = () => { const m = Math.floor(seconds / 60), s = seconds % 60; document.getElementById("timer").textContent = `${String(m).padStart(3,"0")}:${String(s).padStart(2,"0")}`; if (seconds <= 300) document.getElementById("timer").classList.add("danger"); };
     setInterval(() => { if (seconds > 0) seconds--; localStorage.setItem("dnd-coding-seconds", seconds); updateTimer(); }, 1000);
+    const assetContent = document.getElementById("assetContent");
+    let examAssets = null;
+    fetch(API_URL + "/api/exam").then((response) => response.json()).then((data) => {
+      examAssets = data;
+      if (data.available) {
+        document.querySelector(".muted").textContent = "Local HW1 exam package loaded: notebook instructions, CSV and requirements.";
+        const byPart = {};
+        data.instructions.forEach((item) => {
+          const match = item.title.match(/\b([A-I])\b/);
+          if (match) byPart[match[1]] = item.body;
+        });
+        window.__examInstructions = byPart;
+        selectTask(currentTask);
+      }
+    }).catch(() => {});
+    document.getElementById("showData").onclick = () => {
+      assetContent.innerHTML = examAssets && examAssets.available
+        ? `<h3>student-mat_prep_noisy26au_hw1.csv</h3><pre>${escapeHtml(examAssets.data_preview)}</pre>`
+        : '<p class="muted">Start the local backend with the HW1 assignment folder configured.</p>';
+    };
+    document.getElementById("showRequirements").onclick = () => {
+      assetContent.innerHTML = examAssets && examAssets.requirements
+        ? `<h3>requirements.txt</h3><pre>${escapeHtml(examAssets.requirements)}</pre>`
+        : '<p class="muted">Requirements are available in the local exam package.</p>';
+    };
+    document.getElementById("showAnswer").onclick = async () => {
+      if (!examAssets || !examAssets.answer_available) {
+        assetContent.innerHTML = '<p class="muted">The answer notebook is intentionally available only in the local setup.</p>';
+        return;
+      }
+      if (!document.getElementById("answerDetails")) {
+        assetContent.innerHTML = '<p class="muted">Loading local answer notebook...</p>';
+        try {
+          const response = await fetch(API_URL + "/api/answer");
+          const data = await response.json();
+          assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
+        } catch (error) {
+          assetContent.innerHTML = '<p class="muted">The local answer notebook could not be loaded.</p>';
+        }
+      }
+    };
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[character]));
+    }
     updateTimer(); selectTask(currentTask);
   </script>
 </body>

@@ -2,10 +2,22 @@ import contextlib
 import io
 import json
 import math
+import os
 import traceback
+from importlib.util import module_from_spec, spec_from_file_location
+from pathlib import Path
 
 
 def make_dataset():
+    assignment = Path(
+        os.getenv(
+            "DND_ASSIGNMENT_DIR",
+            str(Path(__file__).resolve().parent.parent / "dnd_coding_assignment" / "dndmsc26autumn_hw1"),
+        )
+    )
+    csv_path = assignment / "student-mat_prep_noisy26au_hw1.csv"
+    if csv_path.is_file():
+        return csv_path.read_text(encoding="utf-8")
     import numpy as np
 
     rng = np.random.default_rng(2026)
@@ -133,6 +145,64 @@ def check_task(task, namespace):
     return checks
 
 
+def check_with_official_tester(task, namespace):
+    assignment = Path(
+        os.getenv(
+            "DND_ASSIGNMENT_DIR",
+            str(Path(__file__).resolve().parent.parent / "dnd_coding_assignment" / "dndmsc26autumn_hw1"),
+        )
+    )
+    tester_path = assignment / "dndmsc26autumn_hw1_tester.py"
+    if not tester_path.is_file():
+        return None
+    spec = spec_from_file_location("dnd_official_tester", tester_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Could not load the official HW1 tester.")
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    tester = module.Tester()
+    task_order = "ABCDEFGHI"
+    tester_names = {
+        "A": "dataset_load",
+        "B": "dataset_fill_missing",
+        "C": "dataset_split",
+        "D": "reg_iter",
+        "E": "reg_model_architecture",
+        "F": "reg_model_learning",
+        "G": "cl_iter",
+        "H": "cl_model_architecture",
+        "I": "cl_model_learning",
+    }
+    arguments_for = {
+        "A": (namespace.get("dataset_noisy"),),
+        "B": (namespace.get("dataset"),),
+        "C": (
+            namespace.get("dataset_split_train"),
+            namespace.get("dataset_split_val"),
+            namespace.get("dataset_split_test"),
+        ),
+        "D": (
+            namespace.get("dataloader_reg_train"),
+            namespace.get("dataloader_reg_val"),
+            namespace.get("dataloader_reg_test"),
+        ),
+        "E": (namespace.get("reg_model"),),
+        "F": (namespace.get("test_mse"),),
+        "G": (
+            namespace.get("dataloader_cl_train"),
+            namespace.get("dataloader_cl_val"),
+            namespace.get("dataloader_cl_test"),
+        ),
+        "H": (namespace.get("cl_model"),),
+        "I": (namespace.get("test_ce"), namespace.get("test_acc")),
+    }
+    checks = []
+    for completed_task in task_order[: task_order.index(task) + 1]:
+        tester.test(tester_names[completed_task], *arguments_for[completed_task])
+        checks.append(f"Official tester: {tester_names[completed_task]} OK")
+    return checks
+
+
 def main():
     request = json.load(__import__("sys").stdin)
     task = request["task"]
@@ -141,7 +211,8 @@ def main():
     try:
         with contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
             exec(compile(request["code"], "<submission>", "exec"), namespace)
-            checks = check_task(task, namespace)
+            official_checks = check_with_official_tester(task, namespace)
+            checks = official_checks if official_checks is not None else check_task(task, namespace)
         result = {"ok": True, "task": task, "output": output.getvalue()[-8000:], "checks": checks}
     except Exception as error:
         result = {

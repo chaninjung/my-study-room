@@ -11,13 +11,20 @@ cd coding_test_server
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn app:app --reload --port 8000
+.\start_local.ps1
 ```
 
-The runner uses the Python interpreter that starts Uvicorn, so install the
-course packages in that environment before running a full HW1 submission:
+Open `http://localhost:5500/coding_test_runner.html`. The local page loads the
+real HW1 notebook instructions, CSV data, `requirements.txt`, official tester,
+and final notebook from the paths in the workspace. The answer toggle is
+intentionally local-only and is not included in the public Pages deployment.
+
+If dependencies are already installed, the two commands can also be run
+separately:
 
 ```powershell
+uvicorn coding_test_server.app:app --host 127.0.0.1 --port 8000
+python -m http.server 5500 --directory sitepowershell
 ```
 
 The local runner is intentionally for localhost development only. Do not bind
