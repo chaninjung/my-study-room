@@ -23,7 +23,21 @@ course packages in that environment before running a full HW1 submission:
 The local runner is intentionally for localhost development only. Do not bind
 it to a public interface: submitted Python is arbitrary code.
 
-## Isolated runner
+## Public deployment
+
+The repository includes [`render.yaml`](../render.yaml), which can be deployed
+from Render with **New > Blueprint**. After the service is created, the site
+client uses the default URL:
+
+`https://dnd-coding-test-runner.onrender.com`
+
+The service must not be exposed publicly until the execution isolation is
+reviewed. The current Render image runs the checker in its own service process,
+which is suitable only for a private, single-user mock test. For a public
+course site, replace this with a disposable sandbox per submission and add
+authentication, rate limiting, HTTPS, and resource quotas.
+
+## Isolated container runner
 
 Build the image once:
 

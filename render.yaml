@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: dnd-coding-test-runner
+    runtime: docker
+    rootDir: coding_test_server
+    dockerfilePath: ./Dockerfile.api
+    healthCheckPath: /api/health
+    envVars:
+      - key: RUNNER_MODE
+        value: local
+      - key: ALLOWED_ORIGINS
+        value: https://chaninjung.github.io

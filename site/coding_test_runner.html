@@ -86,12 +86,12 @@
       <section class="panel spec" style="margin-top:16px">
         <h2>Rules</h2>
         <ul><li>Use your own HW1 and non-video course materials only.</li><li>Test and validation data must not be used for optimizer updates.</li><li>Run the full script after a Kernel restart before submitting.</li><li>Performance values can vary; inspect the procedure, not only the score.</li></ul>
-        <p class="warning">The browser page is only the client. Configure <code>API_URL</code> to a server with isolated Python execution before public use.</p>
+        <p class="warning">Code execution uses the course Python runner. If the runner is unavailable, the page will show a connection error instead of pretending that the code passed.</p>
       </section>
     </aside>
   </main>
   <script>
-    const API_URL = window.__CODING_TEST_API__ || "http://localhost:8000";
+    const API_URL = window.__CODING_TEST_API__ || "https://dnd-coding-test-runner.onrender.com";
     const tasks = {
       A: ["Dataset loading", "Create dataset_noisy from the semicolon CSV content. Preserve missing fields as NaN and use a float32 NumPy array."],
       B: ["Missing values and indicators", "Create dataset with the original columns, three final binary indicators, zero-filled missing values and no NaN."],
