@@ -4,10 +4,11 @@ import secrets
 import subprocess
 import sys
 import tempfile
-from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -24,6 +25,10 @@ REQUIREMENTS = ASSIGNMENT.parent / "requirements.txt"
 MAX_CODE_LENGTH = 100_000
 TIMEOUT_SECONDS = 45
 TASKS = {chr(letter) for letter in range(ord("A"), ord("J"))}
+REQUIRE_AUTH = os.getenv("REQUIRE_AUTH", "false").lower() == "true"
+SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
+ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "")
 
 app = FastAPI(title="DND Coding Test Runner", version="1.0")
 app.add_middleware(
@@ -63,7 +68,41 @@ def health() -> dict[str, str]:
         "status": "ok",
         "runner": os.getenv("RUNNER_MODE", "local"),
         "exam_assets": str(ASSIGNMENT.exists()).lower(),
+        "auth_required": str(REQUIRE_AUTH).lower(),
     }
+
+
+def require_user(authorization: str | None) -> dict[str, object] | None:
+    if not REQUIRE_AUTH:
+        return None
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Sign in to access the coding test.")
+    if not SUPABASE_URL or not SUPABASE_ANON_KEY:
+        raise HTTPException(status_code=503, detail="The coding test authentication is not configured.")
+    token = authorization.removeprefix("Bearer ").strip()
+    request = Request(
+        f"{SUPABASE_URL}/auth/v1/user",
+        headers={"apikey": SUPABASE_ANON_KEY},
+    )
+    request.add_header("Authorization", "Bearer " + token)
+    try:
+        with urlopen(request, timeout=10) as response:
+            user = json.loads(response.read().decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError) as error:
+        raise HTTPException(status_code=401, detail="The login session is invalid or expired.") from error
+    if not isinstance(user, dict) or not user.get("id"):
+        raise HTTPException(status_code=401, detail="The login session is invalid.")
+    return user
+
+
+def require_answer_access(authorization: str | None) -> None:
+    user = require_user(authorization)
+    if not REQUIRE_AUTH:
+        return
+    if not ANSWER_USER_ID:
+        raise HTTPException(status_code=503, detail="Answer access is not configured.")
+    if user is None or user.get("id") != ANSWER_USER_ID:
+        raise HTTPException(status_code=403, detail="Answer access is restricted.")
 
 
 def load_notebook_instructions() -> list[dict[str, str]]:
@@ -82,7 +121,8 @@ def load_notebook_instructions() -> list[dict[str, str]]:
 
 
 @app.get("/api/exam", response_model=ExamResponse)
-def exam() -> ExamResponse:
+def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
+    require_user(authorization)
     csv_path = ASSIGNMENT / "student-mat_prep_noisy26au_hw1.csv"
     if not ASSIGNMENT.is_dir() or not csv_path.is_file():
         return ExamResponse(
@@ -105,7 +145,8 @@ def exam() -> ExamResponse:
 
 
 @app.get("/api/answer")
-def answer() -> dict[str, object]:
+def answer(authorization: str | None = Header(default=None)) -> dict[str, object]:
+    require_answer_access(authorization)
     answer_path = ASSIGNMENT / "dndmsc26autumn_hw1_final.ipynb"
     if not answer_path.is_file():
         raise HTTPException(status_code=404, detail="The answer notebook is available only in the local setup.")
@@ -227,7 +268,11 @@ def run_container(request: RunRequest) -> RunResponse:
 
 
 @app.post("/api/run", response_model=RunResponse)
-def run_code(request: RunRequest) -> RunResponse:
+def run_code(
+    request: RunRequest,
+    authorization: str | None = Header(default=None),
+) -> RunResponse:
+    require_user(authorization)
     if request.task not in TASKS:
         raise HTTPException(status_code=400, detail="Unknown task.")
     if os.getenv("RUNNER_MODE", "local") == "docker":

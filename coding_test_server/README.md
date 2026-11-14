@@ -46,6 +46,12 @@ which is suitable only for a private, single-user mock test. For a public
 course site, replace this with a disposable sandbox per submission and add
 authentication, rate limiting, HTTPS, and resource quotas.
 
+The public API is configured to require the existing My Study Room login. In
+Render, set `SUPABASE_ANON_KEY` to the same public Supabase anon/publishable
+key used by the site. The backend validates every coding-test request against
+Supabase Auth and does not trust a browser-supplied user id. Requests without
+a valid login token receive `401`.
+
 ## Isolated container runner
 
 Build the image once:

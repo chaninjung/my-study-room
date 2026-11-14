@@ -8,5 +8,13 @@ services:
     envVars:
       - key: RUNNER_MODE
         value: local
+      - key: REQUIRE_AUTH
+        value: "true"
+      - key: SUPABASE_URL
+        value: https://xzbjvamjllfpcsnigqch.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: ANSWER_USER_ID
+        sync: false
       - key: ALLOWED_ORIGINS
         value: https://chaninjung.github.io

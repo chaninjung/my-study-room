@@ -103,6 +103,18 @@
     const API_URL = window.__CODING_TEST_API__ ||
       ((location.hostname === "localhost" || location.hostname === "127.0.0.1")
         ? "http://localhost:8000" : "https://dnd-coding-test-runner.onrender.com");
+    function accessToken() {
+      try {
+        const auth = JSON.parse(localStorage.getItem("dnd_tt1_auth") || "null");
+        return auth && auth.access_token ? auth.access_token : "";
+      } catch (error) {
+        return "";
+      }
+    }
+    function authHeaders() {
+      const token = accessToken();
+      return token ? { Authorization: "Bearer " + token } : {};
+    }
     const tasks = {
       A: ["Dataset loading", "Create dataset_noisy from the semicolon CSV content. Preserve missing fields as NaN and use a float32 NumPy array."],
       B: ["Missing values and indicators", "Create dataset with the original columns, three final binary indicators, zero-filled missing values and no NaN."],
@@ -144,7 +156,7 @@
       const button = document.getElementById("run"); button.disabled = true; status.textContent = "Running...";
       result.className = "result"; result.textContent = ""; checks.innerHTML = "";
       try {
-        const response = await fetch(API_URL + "/api/run", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({task:currentTask, code:editor.value}) });
+        const response = await fetch(API_URL + "/api/run", { method:"POST", headers:Object.assign({"Content-Type":"application/json"}, authHeaders()), body:JSON.stringify({task:currentTask, code:editor.value}) });
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || "Backend request failed.");
         result.className = "result " + (data.ok ? "ok" : "fail");
@@ -160,7 +172,7 @@
     setInterval(() => { if (seconds > 0) seconds--; localStorage.setItem("dnd-coding-seconds", seconds); updateTimer(); }, 1000);
     const assetContent = document.getElementById("assetContent");
     let examAssets = null;
-    fetch(API_URL + "/api/exam").then((response) => response.json()).then((data) => {
+    fetch(API_URL + "/api/exam", { headers: authHeaders() }).then((response) => response.json()).then((data) => {
       examAssets = data;
       if (data.available) {
         document.querySelector(".muted").textContent = "Local HW1 exam package loaded: notebook instructions, CSV and requirements.";
@@ -191,7 +203,7 @@
       if (!document.getElementById("answerDetails")) {
         assetContent.innerHTML = '<p class="muted">Loading local answer notebook...</p>';
         try {
-          const response = await fetch(API_URL + "/api/answer");
+          const response = await fetch(API_URL + "/api/answer", { headers: authHeaders() });
           const data = await response.json();
           assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
         } catch (error) {
