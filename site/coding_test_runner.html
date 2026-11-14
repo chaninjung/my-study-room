@@ -26,6 +26,7 @@
     .task:hover, .task.active { background:#e9fbf4; color:#087d58; }
     .task small { display:block; color:var(--muted); font-size:11px; }
     .task.done::after { content:"✓"; float:right; color:var(--brand); font-weight:800; }
+    .setupTab { border:1px solid var(--line); background:#f5f7fa; }
     .intro { padding:20px; margin-bottom:16px; }
     .badges { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
     .badge { background:#e9fbf4; border-radius:999px; padding:4px 10px; color:#087d58; font-weight:700; font-size:12px; }
@@ -69,7 +70,8 @@
     <aside class="side">
       <section class="panel">
         <h2>Tasks A–I</h2>
-        <p class="muted">Write one complete notebook script. Run checks as you progress.</p>
+        <p class="muted">Read the setup before starting Part A.</p>
+        <button id="setupTab" class="task setupTab"><b>Setup</b> · Instructions and imports<small>Original HW1 notebook introduction</small></button>
         <div id="taskList"></div>
         <div class="warning">This runner sends your code to the configured Python backend. Do not use a public unsandboxed runner.</div>
       </section>
@@ -88,11 +90,6 @@
       </div>
     </section>
     <aside class="right">
-      <section class="panel setupPanel">
-        <h2>Setup / Imports</h2>
-        <p class="muted">This setup is provided by the original HW1 notebook and is not part of your solution.</p>
-        <pre id="setupCode" class="setupCode"></pre>
-      </section>
       <section class="panel">
         <h2>Checker result</h2>
         <div id="result" class="result">The backend result will appear here.</div>
@@ -171,6 +168,7 @@
     let starterCode = {};
     let setupCode = "";
     let currentTask = localStorage.getItem("dnd-coding-task") || "A";
+    if (!tasks[currentTask]) currentTask = "A";
     const editor = document.getElementById("editor");
     const result = document.getElementById("result");
     const checks = document.getElementById("checks");
@@ -207,9 +205,14 @@
           <b>Part ${id}</b> · ${task[0]}<small>${task[1]}</small>
         </button>`).join("");
       taskList.querySelectorAll("[data-task]").forEach((button) => button.onclick = () => selectTask(button.dataset.task));
+      document.getElementById("setupTab").classList.toggle("active", currentTask === "SETUP");
     }
+    document.getElementById("setupTab").onclick = selectSetup;
     function selectTask(task) {
       currentTask = task; localStorage.setItem("dnd-coding-task", task);
+      editor.readOnly = false;
+      document.getElementById("run").disabled = false;
+      document.getElementById("resetCode").disabled = false;
       document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
       document.getElementById("taskDescription").textContent = tasks[task][1];
       editor.value = savedCode(task);
@@ -218,6 +221,19 @@
         ? markdownToHtml(instruction)
         : `<p>${escapeHtml(tasks[task][1])}</p>`;
       result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
+      renderTasks();
+    }
+    function selectSetup() {
+      currentTask = "SETUP";
+      document.getElementById("setupTab").classList.add("active");
+      document.getElementById("taskTitle").textContent = "Setup · Instructions and imports";
+      document.getElementById("taskDescription").innerHTML = markdownToHtml((window.__setupInstructions || "") + "\n\n## Provided imports\n\n```python\n" + setupCode + "\n```");
+      editor.value = setupCode;
+      editor.readOnly = true;
+      document.getElementById("run").disabled = true;
+      document.getElementById("resetCode").disabled = true;
+      result.className = "result"; result.textContent = "Setup code is provided by the original HW1 notebook.";
+      checks.innerHTML = "";
       renderTasks();
     }
     editor.addEventListener("input", () => localStorage.setItem(codeKey(currentTask), editor.value));
@@ -252,7 +268,7 @@
       examAssets = data;
       starterCode = data.starter_code || {};
       setupCode = data.setup_code || "";
-      document.getElementById("setupCode").textContent = setupCode;
+      window.__setupInstructions = (data.instructions || []).find((item) => item.title.indexOf("Deep Network") !== -1)?.body || "";
       if (data.available) {
         document.querySelector(".muted").textContent = "Local HW1 exam package loaded: notebook instructions, CSV and requirements.";
         const byPart = {};
@@ -261,7 +277,7 @@
           if (match) byPart[match[1]] = item.body;
         });
         window.__examInstructions = byPart;
-        selectTask(currentTask);
+        if (currentTask === "SETUP") selectSetup(); else selectTask(currentTask);
       }
     }).catch((error) => {
       examAssets = { available: false, answer_available: false };
