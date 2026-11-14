@@ -73,6 +73,13 @@ In the Render service, open **Environment → Secret Files**, create
 latest commit. The service extracts the archive into its private runtime
 filesystem; it is never served as a public download.
 
+For a deployment that does not depend on a local upload, create a private
+Supabase Storage bucket named `dnd-private-assets` and upload the same zip as
+`dnd_hw1_assets.zip`. Set `SUPABASE_SERVICE_ROLE_KEY` in Render to the
+Supabase service-role key. Render downloads the object at startup using that
+server-only key. Never put this key in GitHub or browser code. If both a
+Render Secret File and Storage object exist, the Secret File is used first.
+
 ## Isolated container runner
 
 Build the image once:

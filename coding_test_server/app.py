@@ -22,7 +22,22 @@ ASSET_ARCHIVE = Path(
 
 
 def unpack_private_assets() -> None:
-    if not ASSET_ARCHIVE.is_file():
+    archive_path = ASSET_ARCHIVE
+    if not archive_path.is_file() and SUPABASE_SERVICE_ROLE_KEY:
+        archive_path = Path(tempfile.gettempdir()) / "dnd_hw1_assets.zip"
+        request = Request(
+            f"{SUPABASE_URL}/storage/v1/object/{ASSET_BUCKET}/{ASSET_OBJECT}",
+            headers={
+                "apikey": SUPABASE_SERVICE_ROLE_KEY,
+                "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+            },
+        )
+        try:
+            with urlopen(request, timeout=30) as response:
+                archive_path.write_bytes(response.read())
+        except (HTTPError, URLError, TimeoutError) as error:
+            raise RuntimeError("Unable to download private HW1 assets from Supabase Storage.") from error
+    if not archive_path.is_file():
         return
     target = Path(tempfile.gettempdir()) / "dnd_hw1_assets"
     assignment = target / "dndmsc26autumn_hw1"
@@ -30,7 +45,7 @@ def unpack_private_assets() -> None:
         os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
         return
     target.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(ASSET_ARCHIVE) as archive:
+    with zipfile.ZipFile(archive_path) as archive:
         members = archive.infolist()
         if any(Path(member.filename).is_absolute() or ".." in Path(member.filename).parts for member in members):
             raise RuntimeError("The private HW1 asset archive contains an unsafe path.")
@@ -42,7 +57,19 @@ def unpack_private_assets() -> None:
     os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
 
 
+MAX_CODE_LENGTH = 100_000
+TIMEOUT_SECONDS = 45
+TASKS = {chr(letter) for letter in range(ord("A"), ord("J"))}
+REQUIRE_AUTH = os.getenv("REQUIRE_AUTH", "false").lower() == "true"
+SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
+SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+ASSET_BUCKET = os.getenv("DND_ASSET_BUCKET", "dnd-private-assets")
+ASSET_OBJECT = os.getenv("DND_ASSET_OBJECT", "dnd_hw1_assets.zip")
+ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "")
+
 unpack_private_assets()
+
 ASSIGNMENT = Path(
     os.getenv(
         "DND_ASSIGNMENT_DIR",
@@ -50,13 +77,6 @@ ASSIGNMENT = Path(
     )
 )
 REQUIREMENTS = ASSIGNMENT.parent / "requirements.txt"
-MAX_CODE_LENGTH = 100_000
-TIMEOUT_SECONDS = 45
-TASKS = {chr(letter) for letter in range(ord("A"), ord("J"))}
-REQUIRE_AUTH = os.getenv("REQUIRE_AUTH", "false").lower() == "true"
-SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
-ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "")
 
 app = FastAPI(title="DND Coding Test Runner", version="1.0")
 app.add_middleware(

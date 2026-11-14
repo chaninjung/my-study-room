@@ -14,6 +14,12 @@ services:
         value: https://xzbjvamjllfpcsnigqch.supabase.co
       - key: SUPABASE_ANON_KEY
         sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: DND_ASSET_BUCKET
+        value: dnd-private-assets
+      - key: DND_ASSET_OBJECT
+        value: dnd_hw1_assets.zip
       - key: ANSWER_USER_ID
         sync: false
       - key: DND_ASSET_ARCHIVE
