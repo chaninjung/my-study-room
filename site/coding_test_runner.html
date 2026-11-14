@@ -216,7 +216,7 @@
           if (!response.ok) throw new Error(data.detail || "The answer notebook could not be loaded.");
           assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
         } catch (error) {
-          assetContent.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`;
+          assetContent.innerHTML = `<p class="muted">Answer request failed (${escapeHtml(error.message)}). Check the Render answer-access environment variables.</p>`;
         }
       }
     };

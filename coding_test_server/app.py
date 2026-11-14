@@ -106,7 +106,7 @@ SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 ASSET_BUCKET = os.getenv("DND_ASSET_BUCKET", "dnd-private-assets")
 ASSET_OBJECT = os.getenv("DND_ASSET_OBJECT", "dnd_hw1_assets.zip")
-ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "").strip()
+ANSWER_USER_ID = os.getenv("ANSWER_USER_ID", "").strip().lower()
 ANSWER_USER_EMAIL = os.getenv("ANSWER_USER_EMAIL", "").strip().lower()
 
 unpack_private_assets()
@@ -192,8 +192,8 @@ def require_answer_access(authorization: str | None) -> None:
         return
     if not ANSWER_USER_ID and not ANSWER_USER_EMAIL:
         raise HTTPException(status_code=503, detail="Answer access is not configured.")
-    user_id = str(user.get("id", "")) if user else ""
-    user_email = str(user.get("email", "")).lower() if user else ""
+    user_id = str(user.get("id", "")).strip().lower() if user else ""
+    user_email = str(user.get("email", "")).strip().lower() if user else ""
     authorized = (
         (bool(ANSWER_USER_ID) and user_id == ANSWER_USER_ID)
         or (bool(ANSWER_USER_EMAIL) and user_email == ANSWER_USER_EMAIL)
