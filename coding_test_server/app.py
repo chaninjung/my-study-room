@@ -23,7 +23,7 @@ ASSET_ARCHIVE = Path(
 
 def unpack_private_assets() -> None:
     archive_path = ASSET_ARCHIVE
-    if not archive_path.is_file() and SUPABASE_SERVICE_ROLE_KEY:
+    if SUPABASE_SERVICE_ROLE_KEY:
         archive_path = Path(tempfile.gettempdir()) / "dnd_hw1_assets.zip"
         request = Request(
             f"{SUPABASE_URL}/storage/v1/object/{ASSET_BUCKET}/{ASSET_OBJECT}",
@@ -41,7 +41,13 @@ def unpack_private_assets() -> None:
         return
     target = Path(tempfile.gettempdir()) / "dnd_hw1_assets"
     assignment = target / "dndmsc26autumn_hw1"
-    if assignment.is_dir():
+    required_files = (
+        "dndmsc26autumn_hw1.ipynb",
+        "dndmsc26autumn_hw1_tester.py",
+        "dndmsc26autumn_hw1_final.ipynb",
+        "student-mat_prep_noisy26au_hw1.csv",
+    )
+    if assignment.is_dir() and all((assignment / name).is_file() for name in required_files):
         os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
         return
     target.mkdir(parents=True, exist_ok=True)
@@ -59,6 +65,12 @@ def unpack_private_assets() -> None:
     if not assignment.is_dir():
         raise RuntimeError(
             "The private HW1 asset archive must contain the HW1 notebook and assets."
+        )
+    missing = [name for name in required_files if not (assignment / name).is_file()]
+    if missing:
+        raise RuntimeError(
+            "The private HW1 asset archive is missing required files: "
+            + ", ".join(missing)
         )
     os.environ["DND_ASSIGNMENT_DIR"] = str(assignment)
 
