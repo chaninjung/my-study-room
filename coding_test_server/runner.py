@@ -206,6 +206,14 @@ def check_with_official_tester(task, namespace):
 def main():
     request = json.load(__import__("sys").stdin)
     task = request["task"]
+    assignment = Path(
+        os.getenv(
+            "DND_ASSIGNMENT_DIR",
+            str(Path(__file__).resolve().parent.parent / "dnd_coding_assignment" / "dndmsc26autumn_hw1"),
+        )
+    )
+    if str(assignment) not in __import__("sys").path:
+        __import__("sys").path.insert(0, str(assignment))
     namespace = {"__name__": "__main__", "content": make_dataset()}
     output = io.StringIO()
     try:

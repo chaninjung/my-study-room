@@ -14,9 +14,11 @@ pip install -r requirements.txt
 .\start_local.ps1
 ```
 
-Open `http://localhost:5500/coding_test_runner.html`. The local page loads the
-real HW1 notebook instructions, CSV data, `requirements.txt`, official tester,
-and final notebook from the paths in the workspace. The answer toggle is
+Open `http://localhost:5500/coding_test_runner.html`. The local page loads the real HW1 notebook instructions, CSV data,
+`requirements.txt`, official tester, and final notebook from the paths in the
+workspace. The execution image includes the scientific Python packages needed
+by the notebook (`numpy`, `pandas`, `matplotlib`, `scipy`, `scikit-image`,
+`scikit-learn`, and `torch`). The answer toggle is
 intentionally local-only and is not included in the public Pages deployment.
 
 If dependencies are already installed, the two commands can also be run
