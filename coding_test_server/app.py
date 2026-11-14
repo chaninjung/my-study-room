@@ -148,6 +148,7 @@ class ExamResponse(BaseModel):
     data_preview: str
     requirements: str
     answer_available: bool
+    starter_code: dict[str, str]
 
 
 @app.get("/api/health")
@@ -209,6 +210,24 @@ def load_notebook_instructions() -> list[dict[str, str]]:
     return instructions
 
 
+def load_notebook_starters() -> dict[str, str]:
+    notebook_path = ASSIGNMENT / "dndmsc26autumn_hw1.ipynb"
+    if not notebook_path.is_file():
+        return {}
+    notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
+    code_cells = [
+        "".join(cell.get("source", []))
+        for cell in notebook.get("cells", [])
+        if cell.get("cell_type") == "code"
+    ]
+    if len(code_cells) < 11:
+        return {}
+    starters = {}
+    for index, task in enumerate("ABCDEFGHI", start=2):
+        starters[task] = "\n\n".join(code_cells[: index + 1])
+    return starters
+
+
 @app.get("/api/exam", response_model=ExamResponse)
 def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
     require_user(authorization)
@@ -221,6 +240,7 @@ def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
             data_preview="The local HW1 exam assets are not installed on this runner.",
             requirements="",
             answer_available=False,
+            starter_code={},
         )
     csv_text = csv_path.read_text(encoding="utf-8")
     return ExamResponse(
@@ -230,6 +250,7 @@ def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
         data_preview=csv_text[:3000],
         requirements=REQUIREMENTS.read_text(encoding="utf-8") if REQUIREMENTS.is_file() else "",
         answer_available=(ASSIGNMENT / "dndmsc26autumn_hw1_final.ipynb").is_file(),
+        starter_code=load_notebook_starters(),
     )
 
 

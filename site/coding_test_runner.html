@@ -126,7 +126,8 @@
       H: ["Classification model", "Create cl_model with Linear layers 33→30→20→3 and raw logits output."],
       I: ["Classification training", "Train with cross entropy, early stopping and best-weight restore; store test_ce, test_acc and a 3×3 confusion matrix."]
     };
-    const initialCode = "# Write one complete submission here, like a notebook.\n# The backend provides the real HW1 CSV text in `content`.\n";
+    const initialCode = "# The original HW1 notebook scaffold will load here.\n";
+    let starterCode = {};
     let currentTask = localStorage.getItem("dnd-coding-task") || "A";
     const editor = document.getElementById("editor");
     const result = document.getElementById("result");
@@ -145,13 +146,13 @@
       currentTask = task; localStorage.setItem("dnd-coding-task", task);
       document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
       document.getElementById("taskDescription").textContent = tasks[task][1];
-      editor.value = localStorage.getItem(codeKey()) || initialCode;
+      editor.value = localStorage.getItem(codeKey()) || starterCode[task] || initialCode;
       result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
       renderTasks();
     }
     editor.addEventListener("input", () => localStorage.setItem(codeKey(), editor.value));
     document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(), editor.value); status.textContent = "Saved in this browser."; };
-    document.getElementById("resetCode").onclick = () => { if (confirm("Reset the complete submission editor?")) { editor.value = initialCode; localStorage.setItem(codeKey(), editor.value); } };
+    document.getElementById("resetCode").onclick = () => { if (confirm("Reset the complete submission editor to the HW1 scaffold?")) { editor.value = starterCode[currentTask] || initialCode; localStorage.setItem(codeKey(), editor.value); } };
     document.getElementById("run").onclick = async () => {
       const button = document.getElementById("run"); button.disabled = true; status.textContent = "Running...";
       result.className = "result"; result.textContent = ""; checks.innerHTML = "";
@@ -174,6 +175,7 @@
     let examAssets = null;
     fetch(API_URL + "/api/exam", { headers: authHeaders() }).then((response) => response.json()).then((data) => {
       examAssets = data;
+      starterCode = data.starter_code || {};
       if (data.available) {
         document.querySelector(".muted").textContent = "Local HW1 exam package loaded: notebook instructions, CSV and requirements.";
         const byPart = {};
@@ -205,9 +207,10 @@
         try {
           const response = await fetch(API_URL + "/api/answer", { headers: authHeaders() });
           const data = await response.json();
+          if (!response.ok) throw new Error(data.detail || "The answer notebook could not be loaded.");
           assetContent.innerHTML = `<details id="answerDetails" class="answerBox"><summary>Show final notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
         } catch (error) {
-          assetContent.innerHTML = '<p class="muted">The local answer notebook could not be loaded.</p>';
+          assetContent.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`;
         }
       }
     };
