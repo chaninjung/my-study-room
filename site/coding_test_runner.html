@@ -44,6 +44,12 @@
     .warning { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; margin-top:12px; }
     .spec { max-height:430px; overflow:auto; }
     .assetBox { margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
+    .instruction { margin-top:15px; max-height:430px; overflow:auto; border-top:1px solid var(--line); padding-top:15px; }
+    .instruction h2 { margin-top:0; }
+    .instruction h3 { margin-top:18px; }
+    .instruction p { margin:8px 0; }
+    .instruction code { background:#f0f3f7; border-radius:4px; padding:1px 4px; }
+    .instruction pre { white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; overflow:auto; }
     .assetBox pre { max-height:260px; overflow:auto; white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; font:11px/1.45 ui-monospace,Consolas,monospace; }
     .answerBox { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; }
     .spec ul { padding-left:20px; margin:5px 0; }
@@ -72,13 +78,7 @@
         <h1>DND HW1 Coding Test</h1>
         <div class="muted">Implement the task yourself. This is not a solution notebook.</div>
         <div class="badges"><span class="badge">180 minutes</span><span class="badge">No internet</span><span class="badge">Python + PyTorch</span></div>
-        <p id="taskDescription" style="margin:15px 0 0"></p>
-        <div class="assetBox">
-          <button id="showData">Show dataset</button>
-          <button id="showRequirements">Show requirements</button>
-          <button id="showAnswer">Show answer toggle</button>
-          <div id="assetContent"></div>
-        </div>
+        <div id="taskDescription" class="instruction"></div>
       </div>
       <div class="panel editorPanel">
         <div class="editorHead"><b id="taskTitle">Part A</b><span class="muted">Your submission</span><span class="spacer"></span><button id="resetCode">Reset editor</button></div>
@@ -96,6 +96,13 @@
         <h2>Rules</h2>
         <ul><li>Use your own HW1 and non-video course materials only.</li><li>Test and validation data must not be used for optimizer updates.</li><li>Run the full script after a Kernel restart before submitting.</li><li>Performance values can vary; inspect the procedure, not only the score.</li></ul>
         <p class="warning">Code execution uses the course Python runner. If the runner is unavailable, the page will show a connection error instead of pretending that the code passed.</p>
+      </section>
+      <section class="panel spec assetBox" style="margin-top:16px">
+        <h2>Exam materials</h2>
+        <button id="showData">Show dataset</button>
+        <button id="showRequirements">Show requirements</button>
+        <button id="showAnswer">Show answer toggle</button>
+        <div id="assetContent"></div>
       </section>
     </aside>
   </main>
@@ -168,6 +175,24 @@
         .map((part) => localStorage.getItem(codeKey(part)) || starterCode[part] || "")
         .join("\n\n");
     }
+    function markdownToHtml(markdown) {
+      let html = escapeHtml(markdown || "");
+      html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>")
+        .replace(/^## (.+)$/gm, "<h2>$1</h2>")
+        .replace(/^# (.+)$/gm, "<h2>$1</h2>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/`([^`\n]+)`/g, "<code>$1</code>")
+        .replace(/^(?!<[h].*>)(.+)$/gm, "<p>$1</p>")
+        .replace(/<p><\/p>/g, "");
+      return html;
+    }
+    function savedCode(task) {
+      const saved = localStorage.getItem(codeKey(task));
+      if (!saved || saved === initialCode || saved.indexOf("The original HW1 notebook scaffold") !== -1) {
+        return starterCode[task] || initialCode;
+      }
+      return saved;
+    }
     function renderTasks() {
       taskList.innerHTML = Object.entries(tasks).map(([id, task]) =>
         `<button class="task ${id === currentTask ? "active" : ""} ${localStorage.getItem("dnd-coding-ok-" + id) === "1" ? "done" : ""}" data-task="${id}">
@@ -179,7 +204,11 @@
       currentTask = task; localStorage.setItem("dnd-coding-task", task);
       document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
       document.getElementById("taskDescription").textContent = tasks[task][1];
-      editor.value = localStorage.getItem(codeKey(task)) || starterCode[task] || initialCode;
+      editor.value = savedCode(task);
+      const instruction = (window.__examInstructions || {})[task];
+      document.getElementById("taskDescription").innerHTML = instruction
+        ? markdownToHtml(instruction)
+        : `<p>${escapeHtml(tasks[task][1])}</p>`;
       result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
       renderTasks();
     }
