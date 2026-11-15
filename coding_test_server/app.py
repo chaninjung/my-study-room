@@ -108,7 +108,30 @@ ASSET_BUCKET = os.getenv("DND_ASSET_BUCKET", "dnd-private-assets")
 ASSET_OBJECT = os.getenv("DND_ASSET_OBJECT", "dnd_hw1_assets.zip")
 USER_ANSWER_BUCKET = os.getenv("USER_ANSWER_BUCKET", "dnd-user-answers")
 MAX_ANSWER_BYTES = 5_000_000
+
+
+def ensure_answer_bucket() -> None:
+    if not SUPABASE_SERVICE_ROLE_KEY or not SUPABASE_URL:
+        return
+    post_req = UrlRequest(
+        f"{SUPABASE_URL}/storage/v1/bucket",
+        data=json.dumps({"id": USER_ANSWER_BUCKET, "name": USER_ANSWER_BUCKET, "public": False}).encode("utf-8"),
+        method="POST",
+        headers={
+            "apikey": SUPABASE_SERVICE_ROLE_KEY,
+            "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urlopen(post_req, timeout=10):
+            pass
+    except Exception:
+        pass
+
+
 unpack_private_assets()
+ensure_answer_bucket()
 
 ASSIGNMENT = Path(
     os.getenv(
@@ -300,6 +323,50 @@ def my_answer(authorization: str | None = Header(default=None)) -> dict[str, obj
     return {"available": True, "encrypted": False, "cells": cells}
 
 
+def save_user_answer(object_path: str, data: bytes) -> None:
+    headers = {
+        "apikey": SUPABASE_SERVICE_ROLE_KEY,
+        "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+        "Content-Type": "application/json",
+        "x-upsert": "true",
+    }
+    post_url = f"{SUPABASE_URL}/storage/v1/object/{USER_ANSWER_BUCKET}/{object_path}"
+    post_req = UrlRequest(post_url, data=data, method="POST", headers=headers)
+    try:
+        with urlopen(post_req, timeout=20):
+            return
+    except HTTPError as error:
+        err_body = error.read().decode("utf-8", errors="replace")
+        if error.code in (400, 404) and ("bucket" in err_body.lower() or "not found" in err_body.lower()):
+            ensure_answer_bucket()
+            try:
+                retry_req = UrlRequest(post_url, data=data, method="POST", headers=headers)
+                with urlopen(retry_req, timeout=20):
+                    return
+            except HTTPError as retry_err:
+                err_body = retry_err.read().decode("utf-8", errors="replace")
+                raise HTTPException(
+                    status_code=502, detail=f"Could not save answer notebook: {err_body or retry_err.reason}"
+                ) from retry_err
+
+        if error.code in (400, 409):
+            put_req = UrlRequest(post_url, data=data, method="PUT", headers=headers)
+            try:
+                with urlopen(put_req, timeout=20):
+                    return
+            except HTTPError as put_err:
+                err_body = put_err.read().decode("utf-8", errors="replace")
+                raise HTTPException(
+                    status_code=502, detail=f"Could not save answer notebook: {err_body or put_err.reason}"
+                ) from put_err
+
+        raise HTTPException(
+            status_code=502, detail=f"Could not save answer notebook: {err_body or error.reason}"
+        ) from error
+    except (URLError, TimeoutError) as error:
+        raise HTTPException(status_code=502, detail=f"Could not save answer notebook: {error}") from error
+
+
 @app.put("/api/my-answer")
 async def upload_my_answer(
     request: Request,
@@ -328,22 +395,7 @@ async def upload_my_answer(
         if not isinstance(payload.get("cells"), list):
             raise HTTPException(status_code=400, detail="Upload a valid Jupyter notebook.")
     object_path = user_answer_object(str(user["id"]))
-    upload_request = UrlRequest(
-        f"{SUPABASE_URL}/storage/v1/object/{USER_ANSWER_BUCKET}/{object_path}",
-        data=body,
-        method="PUT",
-        headers={
-            "apikey": SUPABASE_SERVICE_ROLE_KEY,
-            "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
-            "Content-Type": "application/json",
-            "x-upsert": "true",
-        },
-    )
-    try:
-        with urlopen(upload_request, timeout=20):
-            pass
-    except (HTTPError, URLError, TimeoutError) as error:
-        raise HTTPException(status_code=502, detail="Could not save your private answer notebook.") from error
+    save_user_answer(object_path, body)
     return {"available": True, "message": "Your private answer notebook was encrypted and saved."}
 
 
