@@ -18,3 +18,8 @@ __pycache__/
 
 # Markdown converted from a professor-provided document.
 dnd_theory_test1_from_professor_DOCX.md
+
+# Private course assignment files, solutions and materials
+dnd_coding_assignment/dndmsc26autumn_hw1/
+dnd_coding_assignment/dnd_notebook/
+*.zip
