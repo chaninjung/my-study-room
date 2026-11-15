@@ -107,6 +107,9 @@
         <label for="answerUpload" class="button">Upload my answer</label>
         <input id="answerUpload" type="file" accept=".ipynb,application/json" hidden>
         <button id="showMyAnswer">Show my answer</button>
+        <p class="muted" style="margin-top:8px; font-size:12px; line-height:1.45;">
+          🔒 <strong>End-to-end encrypted:</strong> To protect assignment confidentiality, your notebook is encrypted directly in your browser before upload. Server administrators cannot view your code. The key is kept locally—if you switch devices or clear browser data, simply re-upload your file on that device.
+        </p>
         <div id="assetContent"></div>
       </section>
     </aside>
@@ -295,12 +298,125 @@
         ? `<h3>requirements.txt</h3><pre>${escapeHtml(examAssets.requirements)}</pre>`
         : '<p class="muted">Requirements are available in the local exam package.</p>';
     };
+    function arrayBufferToBase64(buffer) {
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+
+    async function getOrCreateDeviceKey(userId) {
+      const storageKey = "dnd_answer_e2ee_key_" + userId;
+      let rawKeyBase64 = localStorage.getItem(storageKey);
+      if (!rawKeyBase64) {
+        const rawKey = crypto.getRandomValues(new Uint8Array(32));
+        rawKeyBase64 = arrayBufferToBase64(rawKey.buffer);
+        localStorage.setItem(storageKey, rawKeyBase64);
+      }
+      const rawKeyBuffer = base64ToArrayBuffer(rawKeyBase64);
+      return await crypto.subtle.importKey(
+        "raw",
+        rawKeyBuffer,
+        { name: "AES-GCM" },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    function getExistingDeviceKey(userId) {
+      const storageKey = "dnd_answer_e2ee_key_" + userId;
+      const rawKeyBase64 = localStorage.getItem(storageKey);
+      if (!rawKeyBase64) return null;
+      const rawKeyBuffer = base64ToArrayBuffer(rawKeyBase64);
+      return crypto.subtle.importKey(
+        "raw",
+        rawKeyBuffer,
+        { name: "AES-GCM" },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    async function encryptNotebook(plainText, userId) {
+      const key = await getOrCreateDeviceKey(userId);
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const encoded = new TextEncoder().encode(plainText);
+      const ciphertext = await crypto.subtle.encrypt(
+        { name: "AES-GCM", iv: iv },
+        key,
+        encoded
+      );
+      return {
+        version: 1,
+        encrypted: true,
+        algorithm: "AES-GCM-256",
+        iv: arrayBufferToBase64(iv.buffer),
+        ciphertext: arrayBufferToBase64(ciphertext)
+      };
+    }
+
+    async function decryptNotebook(encPayload, userId) {
+      const keyPromise = getExistingDeviceKey(userId);
+      if (!keyPromise) {
+        throw new Error("KEY_NOT_FOUND");
+      }
+      const key = await keyPromise;
+      const iv = base64ToArrayBuffer(encPayload.iv);
+      const ciphertext = base64ToArrayBuffer(encPayload.ciphertext);
+      try {
+        const decrypted = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: new Uint8Array(iv) },
+          key,
+          ciphertext
+        );
+        const plainText = new TextDecoder().decode(decrypted);
+        return JSON.parse(plainText);
+      } catch (err) {
+        throw new Error("KEY_NOT_FOUND");
+      }
+    }
+
     document.getElementById("answerUpload").onchange = async (event) => {
       const file = event.target.files[0];
       if (!file) return;
-      assetContent.innerHTML = '<p class="muted">Uploading your private notebook...</p>';
+      const user = authState();
+      if (!user) {
+        assetContent.innerHTML = '<p class="muted">Please sign in to upload your answer notebook.</p>';
+        return;
+      }
+      assetContent.innerHTML = '<p class="muted">Encrypting notebook on your device and uploading...</p>';
       try {
-        const response = await apiFetch("/api/my-answer", { method:"PUT", headers:{"Content-Type":"application/json", "X-Notebook-Filename":file.name}, body:await file.text() });
+        const plainText = await file.text();
+        try {
+          const parsed = JSON.parse(plainText);
+          if (!parsed || !Array.isArray(parsed.cells)) throw new Error();
+        } catch (_) {
+          throw new Error("Upload a valid Jupyter notebook (.ipynb) containing cells.");
+        }
+        const encryptedData = await encryptNotebook(plainText, user.user_id);
+        const payload = JSON.stringify({
+          ...encryptedData,
+          filename: file.name
+        });
+        const response = await apiFetch("/api/my-answer", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Notebook-Filename": file.name
+          },
+          body: payload
+        });
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || "Upload failed.");
         assetContent.innerHTML = `<p class="muted">${escapeHtml(data.message)}</p>`;
@@ -314,6 +430,11 @@
       if (!document.getElementById("answerDetails")) {
         assetContent.innerHTML = '<p class="muted">Loading your private answer notebook...</p>';
         try {
+          const user = authState();
+          if (!user) {
+            assetContent.innerHTML = '<p class="muted">Please sign in to view your answer.</p>';
+            return;
+          }
           const response = await apiFetch("/api/my-answer?ts=" + Date.now());
           const data = await response.json();
           if (!response.ok) throw new Error(data.detail || "Your answer notebook could not be loaded.");
@@ -321,9 +442,31 @@
             assetContent.innerHTML = '<p class="muted">You have not uploaded an answer notebook yet.</p>';
             return;
           }
-          assetContent.innerHTML = `<details id="answerDetails" class="answerBox" open><summary>Show my uploaded notebook code</summary><pre>${escapeHtml(data.cells.join("\n\n"))}</pre></details>`;
+          let cells = [];
+          if (data.encrypted) {
+            try {
+              const nb = await decryptNotebook(data.payload, user.user_id);
+              cells = (nb.cells || [])
+                .filter(c => c.cell_type === "code")
+                .map(c => Array.isArray(c.source) ? c.source.join("") : (c.source || ""));
+            } catch (err) {
+              if (err && err.message === "KEY_NOT_FOUND") {
+                assetContent.innerHTML = `
+                  <div class="answerBox" style="border-color:#e0a800;">
+                    <p style="margin:0 0 6px 0; font-weight:600;">🔒 Decryption key not found on this device</p>
+                    <p class="muted" style="margin:0 0 6px 0;">For strict confidentiality, answers are encrypted locally in your browser and never shared with the server or administrators.</p>
+                    <p class="muted" style="margin:0;">If you cleared your browser data or switched to a new computer, please <strong>re-upload your .ipynb on this device</strong> to view it here.</p>
+                  </div>`;
+                return;
+              }
+              throw err;
+            }
+          } else {
+            cells = data.cells || [];
+          }
+          assetContent.innerHTML = `<details id="answerDetails" class="answerBox" open><summary>Show my uploaded notebook code</summary><pre>${escapeHtml(cells.join("\n\n"))}</pre></details>`;
         } catch (error) {
-          assetContent.innerHTML = `<p class="muted">Answer request failed (${escapeHtml(error.message)}). Check the Render answer-access environment variables.</p>`;
+          assetContent.innerHTML = `<p class="muted">Answer request failed (${escapeHtml(error.message)}).</p>`;
         }
       }
     };

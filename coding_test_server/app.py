@@ -283,19 +283,21 @@ def my_answer(authorization: str | None = Header(default=None)) -> dict[str, obj
     )
     try:
         with urlopen(request, timeout=15) as response:
-            notebook = json.loads(response.read().decode("utf-8"))
+            payload = json.loads(response.read().decode("utf-8"))
     except HTTPError as error:
         if error.code == 404:
-            return {"available": False, "cells": []}
+            return {"available": False, "encrypted": False, "cells": []}
         raise HTTPException(status_code=502, detail="Could not load your private answer notebook.") from error
     except (URLError, TimeoutError, json.JSONDecodeError) as error:
         raise HTTPException(status_code=502, detail="Could not load your private answer notebook.") from error
+    if isinstance(payload, dict) and payload.get("encrypted") is True:
+        return {"available": True, "encrypted": True, "payload": payload}
     cells = [
         "".join(cell.get("source", []))
-        for cell in notebook.get("cells", [])
+        for cell in payload.get("cells", [])
         if cell.get("cell_type") == "code"
     ]
-    return {"available": True, "cells": cells}
+    return {"available": True, "encrypted": False, "cells": cells}
 
 
 @app.put("/api/my-answer")
@@ -313,11 +315,18 @@ async def upload_my_answer(
     if len(body) > MAX_ANSWER_BYTES:
         raise HTTPException(status_code=413, detail="The notebook is too large.")
     try:
-        notebook = json.loads(body.decode("utf-8"))
+        payload = json.loads(body.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
-        raise HTTPException(status_code=400, detail="Upload a valid .ipynb JSON file.") from error
-    if not isinstance(notebook, dict) or not isinstance(notebook.get("cells"), list):
-        raise HTTPException(status_code=400, detail="Upload a valid Jupyter notebook.")
+        raise HTTPException(status_code=400, detail="Upload a valid JSON file.") from error
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=400, detail="Upload a valid JSON payload.")
+    is_encrypted = payload.get("encrypted") is True
+    if is_encrypted:
+        if not payload.get("ciphertext") or not payload.get("iv"):
+            raise HTTPException(status_code=400, detail="Invalid encrypted payload.")
+    else:
+        if not isinstance(payload.get("cells"), list):
+            raise HTTPException(status_code=400, detail="Upload a valid Jupyter notebook.")
     object_path = user_answer_object(str(user["id"]))
     upload_request = UrlRequest(
         f"{SUPABASE_URL}/storage/v1/object/{USER_ANSWER_BUCKET}/{object_path}",
@@ -335,7 +344,7 @@ async def upload_my_answer(
             pass
     except (HTTPError, URLError, TimeoutError) as error:
         raise HTTPException(status_code=502, detail="Could not save your private answer notebook.") from error
-    return {"available": True, "message": "Your private answer notebook was saved."}
+    return {"available": True, "message": "Your private answer notebook was encrypted and saved."}
 
 
 def run_local(request: RunRequest) -> RunResponse:

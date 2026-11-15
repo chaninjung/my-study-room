@@ -54,8 +54,11 @@ Supabase Auth and does not trust a browser-supplied user id. Requests without
 a valid login token receive `401`.
 
 Create a private Supabase Storage bucket named `dnd-user-answers` for personal
-answer notebooks. The backend derives the object path from the authenticated
-Supabase user ID, so no per-user UID configuration is required.
+answer notebooks. The frontend end-to-end encrypts uploaded notebooks with
+client-side AES-GCM-256 before uploading, ensuring that even administrators
+and backend services cannot view the solutions. The backend derives the object
+path from the authenticated Supabase user ID, so no per-user UID configuration
+is required.
 
 ### Private HW1 assets on Render
 
