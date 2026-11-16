@@ -1190,6 +1190,18 @@ details.more .rowGrid{border-top:1px solid var(--border)}
 </div>
 
 <script id="sync-config">window.__SYNC_CONFIG__ = {"url": "https://xzbjvamjllfpcsnigqch.supabase.co", "anonKey": "sb_publishable_d32eUhQpQUWEHz4vnNGR1A_60YeqKC8", "emailDomain": "mystudyroom.app", "signupDomains": ["inf.elte.hu"]};</script>
+<script id="clean-url-normalization">
+(function () {
+  try {
+    if (window.location && window.location.pathname && window.history && window.history.replaceState) {
+      if (window.location.pathname.endsWith("/index.html")) {
+        var cleanPath = window.location.pathname.replace(/\/index\.html$/, "/");
+        window.history.replaceState(null, "", cleanPath + (window.location.search || "") + (window.location.hash || ""));
+      }
+    }
+  } catch (e) { /* ignore */ }
+})();
+</script>
 <script>window.__CONTENT_SERVER__ = true;</script>
 <script>window.__SIGNUP_URL__ = "signup.html";</script>
 <script id="i18n-logic">

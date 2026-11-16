@@ -891,7 +891,7 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
 <div class="shell">
   <aside class="sidebar" id="sidebar">
     <div class="sbBrand">
-      <a href="index.html" id="brandLink">My Study Room</a>
+      <a href="./" id="brandLink">My Study Room</a>
       <div class="sbBrandSub" id="brandSub"></div>
     </div>
     <nav class="sbNav" id="sbNav" aria-label="Courses"></nav>
@@ -921,7 +921,7 @@ tbody td[data-w]:hover{text-decoration:underline;text-underline-offset:2px}
       <span class="syncIcon" id="syncIcon">☁</span><span class="syncId" id="syncId">z5xbzp</span>
     </span>
   <!-- 상단 오른쪽 내비게이션은 모든 페이지에서 동일한 순서/위치를 유지한다 (마지막이 홈) -->
-  <a class="linkish" href="index.html" id="navHome">홈</a>
+  <a class="linkish" href="./" id="navHome">홈</a>
   <a class="linkish on" href="glossary.html" id="navGloss">용어집</a>
   <button class="sbToggle" id="sbToggle" type="button" aria-label="Menu"><span class="burger"></span></button>
 </div>
@@ -3159,7 +3159,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
               html += '<a class="sbItem' + (it.id === "glossary" ? " on" : "") + '" href="' + href + '"' +
                 (it.id === "glossary" ? ' aria-current="page"' : "") + ">" + esc(labelOf(it.label)) + "</a>";
             } else {
-              html += '<a class="sbItem" href="index.html#' + it.id + '">' + esc(labelOf(it.label)) + "</a>";
+              html += '<a class="sbItem" href="./#' + it.id + '">' + esc(labelOf(it.label)) + "</a>";
             }
           });
           html += "</div></div>";
