@@ -516,9 +516,90 @@ window.__HUN_NOTES_DATA__ = [
     ]
   },
   {
-    chapterId: "numbers",
+    chapterId: "verbs",
     chapterNum: 5,
-    title: { ko: "5. 숫자 (Számok / Numbers)", en: "5. Numbers (Számok)" },
+    title: { ko: "5. 동사 현재 시제 규칙 변화", en: "5. Present Tense Regular Verbs" },
+    desc: {
+      ko: "주어(인칭)와 모음 조화에 따른 동사 현재 시제 어미 변화입니다. ★3인칭 단수(ő, Ön)는 어미가 붙지 않는 '기본형' 그대로 쓰입니다!",
+      en: "Present tense verb conjugation by subject and vowel harmony. Note: 3rd person singular takes NO ending (bare stem)."
+    },
+    items: [
+      {
+        hu: "1인칭 단수 (Én) → -ok / -ek, -ök",
+        ko: "tanulok (나는 공부한다) / olvasok (나는 읽는다) / beszélek (나는 말한다)",
+        en: "I study (tanulok) / I read (olvasok) / I speak (beszélek)",
+        tip: "후설 모음: -ok (tanulok), 전설 모음: -ek (beszélek), 원순 전설: -ök (ülök)",
+        word: "tanulok"
+      },
+      {
+        hu: "2인칭 단수 반말 (Te) → -sz / -ol, -el, -öl",
+        ko: "tanulsz (너는 공부한다) / olvasol (너는 읽는다) / beszélsz (너는 말한다)",
+        en: "You study (tanulsz) / You read (olvasol) / You speak (beszélsz)",
+        tip: "일반적으로 -sz! 단, 어간이 s, sz, z로 끝나면 발음상 -ol/-el/-öl 사용 (olvas + ol = olvasol)",
+        word: "tanulsz"
+      },
+      {
+        hu: "3인칭 단수 (Ő) → ★어미 없음 (기본형)",
+        ko: "tanul (그/그녀는 공부한다) / olvas (그/그녀는 읽는다) / beszél (그/그녀는 말한다)",
+        en: "He/She studies (tanul) / reads (olvas) / speaks (beszél) [NO ending!]",
+        tip: "사전에 나오는 동사의 어간 그 자체가 바로 3인칭 단수 현재형입니다!",
+        word: "tanul"
+      },
+      {
+        hu: "2인칭 단수 존칭 (Ön) → ★어미 없음 (3인칭과 동일)",
+        ko: "Ön tanul (당신은 공부하십니다) / Ön olvas (당신은 읽으십니다)",
+        en: "You (formal) study (Ön tanul) / read (Ön olvas) [Same as 3rd person!]",
+        tip: "존칭인 Ön은 2인칭이지만 문법적으로는 항상 3인칭 단수 동사 형태를 씁니다.",
+        word: "on"
+      },
+      {
+        hu: "1인칭 복수 (Mi) → -unk / -ünk",
+        ko: "tanulunk (우리는 공부한다) / olvasunk (우리는 읽는다) / beszélünk (우리는 말한다)",
+        en: "We study (tanulunk) / We read (olvasunk) / We speak (beszélünk)",
+        tip: "후설 모음: -unk (tanulunk), 전설 모음: -ünk (beszélünk)",
+        word: "tanulunk"
+      },
+      {
+        hu: "2인칭 복수 반말 (Ti) → -tok / -tek, -tök",
+        ko: "tanultok (너희들은 공부한다) / olvastok (너희들은 읽는다) / beszéltek (너희들은 말한다)",
+        en: "You all study (tanultok) / read (olvastok) / speak (beszéltek)",
+        tip: "후설 모음: -tok (tanultok), 전설 모음: -tek (beszéltek), 원순 전설: -tök (ültök)",
+        word: "tanultok"
+      },
+      {
+        hu: "3인칭 복수 (Ők) / 2인칭 복수 존칭 (Önök) → -nak / -nek",
+        ko: "tanulnak (그들은 공부한다) / olvasnak (그들은 읽는다) / beszélnek (그들은 말한다)",
+        en: "They study (tanulnak) / read (olvasnak) / speak (beszélnek)",
+        tip: "후설 모음: -nak (tanulnak), 전설 모음: -nek (beszélnek)",
+        word: "tanulnak"
+      },
+      {
+        hu: "[실전 예시 1] Mit tanulsz? — Magyarul tanulok.",
+        ko: "너 뭐 공부해? — 헝가리어 공부해.",
+        en: "What are you studying? — I am studying Hungarian.",
+        tip: "tanulsz (너는 공부한다) / tanulok (나는 공부한다)",
+        word: "tanul"
+      },
+      {
+        hu: "[실전 예시 2] Mit olvasol? — Egy könyvet olvasok.",
+        ko: "너 뭐 읽어? — 책 한 권 읽고 있어.",
+        en: "What are you reading? — I am reading a book.",
+        tip: "olvasol (너는 읽는다, s 뒤라 -ol) / olvasok (나는 읽는다)",
+        word: "olvas"
+      },
+      {
+        hu: "[실전 예시 3] Beszélsz angolul? — Igen, beszélek.",
+        ko: "너 영어 할 줄 알아? — 응, 할 줄 알아.",
+        en: "Do you speak English? — Yes, I speak.",
+        tip: "beszélsz (너는 말한다) / beszélek (나는 말한다)",
+        word: "beszel"
+      }
+    ]
+  },
+  {
+    chapterId: "numbers",
+    chapterNum: 6,
+    title: { ko: "6. 숫자 (Számok / Numbers)", en: "6. Numbers (Számok)" },
     desc: {
       ko: "0부터 10000까지의 헝가리어 숫자 체계와 합성 규칙입니다. 11~19는 tizen-, 21~29는 huszon- 접두사를 쓰며, 소수점은 쉼표(,)를 사용합니다.",
       en: "Hungarian number system from 0 to 10,000, compounding rules, and decimal notation."
