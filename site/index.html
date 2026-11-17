@@ -1847,6 +1847,7 @@ function applyStaticI18n() {
 </script>
 <script src="ids_questions.js"></script>
 <script src="ids_short_answers.js"></script>
+<script src="hungarian_questions.js"></script>
 <script id="core-data">window.__QUESTION_DATA__ = null;</script>
 <script id="mock-data">window.__MOCK_DATA__ = null;</script>
 <script id="curriculum-data">
@@ -2010,6 +2011,71 @@ var CURRICULUM = [
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집", en: "Glossary" }, href: "glossary.html" },
           { id: "records", label: { ko: "학습 기록", en: "Study records" } }
+        ]
+      },
+      {
+        id: "hungarian",
+        label: { ko: "헝가리어", en: "Hungarian Language" },
+        short: { ko: "헝가리어", en: "HUN" },
+        sub: { ko: "A1 기초 회화 · 발음 규칙 · 기본 문법", en: "A1 Basic Conversation · Pronunciation · Elementary Grammar" },
+        tagline: { ko: "기초 회화 · 알파벳 발음 · 필수 문법 퀴즈 20문항", en: "Basic conversation · Alphabet phonetics · 20 essential grammar quizzes" },
+        image: "assets/courses/hungarian.jpg",
+        tags: ["hungarian", "language", "a1", "vocabulary", "grammar", "conversation"],
+        level: { ko: "초급 (A1)", en: "Beginner (A1)" },
+        heroQuestions: 20,
+        heroMocks: 2,
+        terms: 50,
+        gains: {
+          ko: [
+            "헝가리어 44개 알파벳과 장/단모음, 자음 복합자(sz, cs, gy 등) 발음 마스터",
+            "인사말, 안부, 자기소개, 감사/사과 등 일상 필수 회화 표현 습득",
+            "숫자(1~100), 요일, 시간 표현 및 기본 일상 어휘 학습",
+            "모음 조화(Vowel Harmony), 장소 격접미사(-ban/-ben 등), 복수형(-k) 원리 이해"
+          ],
+          en: [
+            "Master the 44 letters of the Hungarian alphabet, vowel lengths, and consonant digraphs (sz, cs, gy, etc.)",
+            "Acquire essential daily conversation: greetings, asking how someone is, introductions, and politeness",
+            "Learn numbers (1–100), days of the week, telling time, and everyday vocabulary",
+            "Understand foundational grammar: vowel harmony, location case suffixes (-ban/-ben, etc.), and plurals (-k)"
+          ]
+        },
+        about: {
+          ko: "2026 가을학기 헝가리어(Hungarian Language) 과목의 학습실입니다. 알파벳 발음 체계와 모음 조화부터 일상 회화, 숫자, 기본 격변화 규칙을 체계적으로 익힐 수 있도록 구성되어 있습니다.",
+          en: "Study room for the 2026 Autumn Hungarian Language course. Designed to guide you through the 44-letter alphabet, vowel harmony, essential daily phrases, numbers, and basic noun case suffixes."
+        },
+        grading: {
+          ko: "출석 및 수업 참여도, 단원별 퀴즈(20%), 중간 구술/필기 평가(30%), 기말 종합 평가(50%)를 반영합니다.",
+          en: "Grading is based on attendance, active participation, modular quizzes (20%), mid-term evaluation (30%), and a comprehensive final test (50%)."
+        },
+        open: true,
+        sections: [
+          { id: "all",          label: { ko: "전체 종합", en: "Comprehensive" }, scope: "all", ready: true, exam: { questions: 10, minutes: 20, pass: 6 } },
+          { id: "alphabet",     label: { ko: "알파벳 & 발음", en: "Alphabet & Phonetics" }, scope: "basics", ready: true, exam: { questions: 5, minutes: 10, pass: 3 } },
+          { id: "conversation", label: { ko: "기초 회화", en: "Basic Conversation" }, scope: "conversation", ready: true, exam: { questions: 8, minutes: 15, pass: 5 } },
+          { id: "grammar",      label: { ko: "기초 문법", en: "A1 Grammar" }, scope: "grammar", ready: true, exam: { questions: 7, minutes: 15, pass: 4 } }
+        ],
+        schedule: [
+          { id: "lec1", kind: "lecture", name: { ko: "1주차 · 알파벳 체계와 발음 (sz, cs, zs, gy)", en: "Week 1 · Alphabet & pronunciation (sz, cs, zs, gy)" }, at: "2026-09-09T10:00", points: 0 },
+          { id: "lec2", kind: "lecture", name: { ko: "2주차 · 인사말과 자기소개 (Szia, Hogy vagy?)", en: "Week 2 · Greetings & introduction (Szia, Hogy vagy?)" }, at: "2026-09-16T10:00", points: 0 },
+          { id: "lec3", kind: "lecture", name: { ko: "3주차 · 국적, 언어, 직업 (Honnan jössz?)", en: "Week 3 · Nationalities & languages (Honnan jössz?)" }, at: "2026-09-23T10:00", points: 0 },
+          { id: "lec4", kind: "lecture", name: { ko: "4주차 · 숫자(1~100)와 가격, 시간 표현", en: "Week 4 · Numbers (1-100), prices & time" }, at: "2026-09-30T10:00", points: 0 },
+          { id: "lec5", kind: "lecture", name: { ko: "5주차 · 모음 조화 원리와 후치사 기초", en: "Week 5 · Vowel harmony & postpositions" }, at: "2026-10-07T10:00", points: 0 },
+          { id: "lec6", kind: "lecture", name: { ko: "6주차 · 카페와 식당에서 주문하기 (Kérek egy...)", en: "Week 6 · Ordering at café & restaurant" }, at: "2026-10-14T10:00", points: 0 },
+          { id: "mid", name: { ko: "중간 평가 (Mid-term Test)", en: "Mid-term Test" }, at: "2026-10-21T10:00", points: 30, need: 15 },
+          { id: "lec7", kind: "lecture", name: { ko: "7주차 · 위치와 장소 표현 (-ban/-ben, -on/-en/-ön)", en: "Week 7 · Location cases (-ban/-ben, -on/-en/-ön)" }, at: "2026-11-04T10:00", points: 0 },
+          { id: "lec8", kind: "lecture", name: { ko: "8주차 · 방향 표현 (-ba/-be, -ra/-re, -hoz/-hez)", en: "Week 8 · Direction cases (-ba/-be, -ra/-re)" }, at: "2026-11-11T10:00", points: 0 },
+          { id: "lec9", kind: "lecture", name: { ko: "9주차 · 복수형 만들기 (-k 규칙)", en: "Week 9 · Plural forms (-k rules)" }, at: "2026-11-18T10:00", points: 0 },
+          { id: "lec10", kind: "lecture", name: { ko: "10주차 · 존재 동사 van / nincs 와 소유 표현", en: "Week 10 · Verbs van / nincs & possession" }, at: "2026-11-25T10:00", points: 0 },
+          { id: "lec11", kind: "lecture", name: { ko: "11주차 · 일상 루틴과 현재 시제 규칙 동사", en: "Week 11 · Daily routine & regular verbs" }, at: "2026-12-02T10:00", points: 0 },
+          { id: "final", name: { ko: "기말 종합 시험 (Final Exam)", en: "Final Exam" }, at: "2026-12-09T10:00", points: 50, need: 25 }
+        ],
+        items: [
+          { id: "overview", label: { ko: "개요", en: "Overview" } },
+          { id: "random",   label: { ko: "🎲 랜덤 연습", en: "🎲 Random practice" } },
+          { id: "mocks",    label: { ko: "모의고사 2세트", en: "Mock exams (2 sets)" } },
+          { id: "bank",     label: { ko: "문제은행 20문항", en: "Question bank (20)" } },
+          { id: "wrong",    label: { ko: "오답 복습", en: "Wrong-answer review" } },
+          { id: "records",  label: { ko: "학습 기록", en: "Study records" } }
         ]
       }
     ]
@@ -3822,10 +3888,21 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
      게이트가 복호화를 마친 뒤 window.__bootApp() 을 호출한다. */
   let DATA = null, MOCKS = null, META = null, FULL = [], ALL = [];
   function resolveData() {
-    const idsSelected = COURSE_ID === "ids" ||
-      String((window.location && window.location.hash) || "").toLowerCase().indexOf("introductiontodatascience") !== -1;
-    DATA = idsSelected ? (window.__IDS_QUESTION_DATA__ || null) : (window.__QUESTION_DATA__ || null);
-    MOCKS = window.__MOCK_DATA__ || null;
+    const curCourse = (typeof currentCourse === "function" ? currentCourse().course : null);
+    const curId = (curCourse && curCourse.id) || COURSE_ID || "";
+    const hash = String((window.location && window.location.hash) || "").toLowerCase();
+    const idsSelected = curId === "ids" || hash.indexOf("introductiontodatascience") !== -1;
+    const hunSelected = curId === "hungarian" || hash.indexOf("hungarian") !== -1;
+    if (hunSelected) {
+      DATA = window.__HUN_QUESTION_DATA__ || { meta: { course: "hungarian" }, questions: [] };
+      MOCKS = window.__HUN_MOCK_DATA__ || null;
+    } else if (idsSelected) {
+      DATA = window.__IDS_QUESTION_DATA__ || null;
+      MOCKS = null;
+    } else {
+      DATA = window.__QUESTION_DATA__ || null;
+      MOCKS = window.__MOCK_DATA__ || null;
+    }
     META = (DATA && DATA.meta) || {};
     FULL = (DATA && DATA.questions) || [];     /* 전체 문제은행 (범위 필터 없음) */
     refreshPool();                             /* ALL = 지금 단원(범위)의 문항만 */
@@ -3838,7 +3915,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     return m ? parseInt(m[1], 10) : 0;
   }
   function scopeOfQuestion(q) {
-    if (q && q.course === "ids") return q.scope || "all";
+    if (q && (q.course === "ids" || q.course === "hungarian")) return q.scope || "all";
     return lectureNo(q && q.lecture) >= 7 ? "t2" : "t1";
   }
   function sectionScope() {
@@ -3848,12 +3925,21 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function scopedQuestions(scope) {
     const sc = scope || sectionScope();
     if (sc === "all") return FULL.slice();
-    return FULL.filter(function (q) { return scopeOfQuestion(q) === sc; });
+    return FULL.filter(function (q) {
+      const qs = scopeOfQuestion(q);
+      return qs === sc || qs === "all";
+    });
   }
   function refreshPool() { ALL = scopedQuestions(); }
   function scopedMocks() {
-    if (currentCourse().course.id === "ids") return [];
+    const c = currentCourse().course;
+    if (c.id === "ids") return [];
     const sc = sectionScope();
+    if (c.id === "hungarian") {
+      return MOCKS ? MOCKS.mocks.filter(function (m) {
+        return sc === "all" || (m.scope || "all") === sc || (m.scope || "all") === "all";
+      }) : [];
+    }
     return MOCKS ? MOCKS.mocks.filter(function (m) { return (m.scope || "t1") === sc; }) : [];
   }
   /* 지금 단원의 모의고사 형식 — 없으면 데이터 기본값(이론 테스트 1: 15문항/45분/통과 7) */
@@ -5066,7 +5152,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
                 const href = it.id === "glossary" ? it.href + "?course=" + c.id : it.href;
                 html += '<a class="sbItem" href="' + href + '">' + esc(label(it.label)) + "</a>";
               } else {
-                html += '<button class="sbItem' + (VIEW === it.id ? " on" : "") + '" data-view="' + it.id +
+                html += '<button class="sbItem' + (VIEW === it.id && (!COURSE_ID || COURSE_ID === c.id) ? " on" : "") +
+                  '" data-view="' + it.id + '" data-course="' + esc(c.id) +
                   '" type="button">' + esc(label(it.label)) + "</button>";
               }
             });
@@ -5077,7 +5164,14 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       });
       nav.innerHTML = html;
       nav.querySelectorAll("[data-view]").forEach(function (b) {
-        b.onclick = function () { go(b.getAttribute("data-view")); };
+        b.onclick = function () {
+          const cid = b.getAttribute("data-course");
+          if (cid) {
+            COURSE_ID = cid;
+            resolveData();
+          }
+          go(b.getAttribute("data-view"));
+        };
       });
       nav.querySelectorAll("[data-sem]").forEach(function (b) {
         b.onclick = function () {
