@@ -40,10 +40,10 @@ window.__HUN_NOTES_DATA__ = [
         word: "egyetem"
       },
       {
-        hu: "É, é",
-        ko: "긴 닫힌 에 [eː] (미소를 짓듯 입술을 옆으로 당기며 길게 '에-')",
-        en: "Long closed 'e' [eː] (like French 'é', lengthened)",
-        tip: "én [에-ㄴ] = 나 (I)",
+        hu: "É, é ★소리 주의",
+        ko: "긴 닫힌 에 [eː] (혀를 높이고 입술을 양옆으로 바짝 당겨서, 한국인 귀에는 '이'와 '에'의 중간 또는 '이-'에 아주 가깝게 들림!)",
+        en: "Long closed 'e' [eː] (close-mid front, sounds very close to 'ee' / [i] to Korean ears)",
+        tip: "한국인 귀에는 '이'로 들리기 쉬움! (예: én [이-ㄴ/에-ㄴ] = 나, négy [니-기/네-기] = 4, szép [씨-프/세-프] = 예쁜)",
         word: "en"
       },
       {
@@ -125,9 +125,9 @@ window.__HUN_NOTES_DATA__ = [
       },
       {
         hu: "Gy, gy",
-        ko: "부드러운 구개음 [ɟ] (한국어 '디'와 '지'의 중간)",
-        en: "Voiced palatal plosive [ɟ] (soft 'd/gy')",
-        tip: "gyerek [제레크] = 아이 (child), magyar [머져르] = 헝가리의 (Hungarian)",
+        ko: "부드러운 구개음 [ɟ] (한국어 '디'와 '지/기'의 중간 느낌, 연음 시 '게/기' 소리로 자주 들림)",
+        en: "Voiced palatal plosive [ɟ] (soft 'd/gy/g')",
+        tip: "magyar [머겨르/머져르] = 헝가리의, gyerek [제레크/데레크] = 아이, négyezer [니-게-제르] = 4000",
         word: "gyerek"
       },
       {
@@ -554,9 +554,9 @@ window.__HUN_NOTES_DATA__ = [
       },
       {
         hu: "4 — négy",
-        ko: "4 (사) [네-지/네-디]",
+        ko: "4 (사) [니-지 / 네-기 / 니-디]",
         en: "Four",
-        tip: "기본 숫자 4",
+        tip: "é가 좁은 모음이라 한국인 귀에는 '니-'에 가깝고, gy는 부드러운 '기/디' 소리로 들립니다",
         word: "negy"
       },
       {
@@ -624,7 +624,7 @@ window.__HUN_NOTES_DATA__ = [
       },
       {
         hu: "14 — tizennégy",
-        ko: "14 (십사) [티젠네-지]",
+        ko: "14 (십사) [티젠니-지 / 티젠네-기]",
         en: "Fourteen",
         tip: "tizen- + négy",
         word: "tizennegy"
@@ -694,7 +694,7 @@ window.__HUN_NOTES_DATA__ = [
       },
       {
         hu: "24 — huszonnégy",
-        ko: "24 (이십사) [후손네-지]",
+        ko: "24 (이십사) [후손니-지 / 후손네-기]",
         en: "Twenty-four",
         tip: "huszon- + négy",
         word: "huszonnegy"
@@ -764,7 +764,7 @@ window.__HUN_NOTES_DATA__ = [
       },
       {
         hu: "34 — harmincnégy",
-        ko: "34 (삼십사) [하르민츠네-지]",
+        ko: "34 (삼십사) [하르민츠니-지 / 하르민츠네-기]",
         en: "Thirty-four",
         tip: "harminc + négy",
         word: "harmincnegy"
@@ -848,9 +848,9 @@ window.__HUN_NOTES_DATA__ = [
       },
       {
         hu: "4000 — négyezer",
-        ko: "4000 (사천) [네-제제르]",
+        ko: "4000 (사천) [니-게-제르 / 네-게제르]",
         en: "Four thousand",
-        tip: "4(négy) + 1000(ezer)",
+        tip: "négy(니기) + ezer(에제르)가 연음되어 실제 원어민 귀에는 정확히 [니-게-제르]로 들립니다!",
         word: "negyezer"
       },
       {
