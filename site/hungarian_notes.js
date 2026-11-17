@@ -472,11 +472,11 @@ window.__HUN_NOTES_DATA__ = [
         word: "egyetemista"
       },
       {
-        hu: "Koreaiul, angolul és németül beszélek.",
-        ko: "한국어, 영어, 독일어를 해요 (말할 수 있어요).",
-        en: "I speak Korean, English, and German.",
-        tip: "-ul / -ül = ~언어로, és = 그리고, beszélek = 나는 말한다",
-        word: "beszelek"
+        hu: "Koreaiul, angolul és japánul beszélek.",
+        ko: "한국어, 영어, 일본어를 해요 (말할 수 있어요).",
+        en: "I speak Korean, English, and Japanese.",
+        tip: "-ul / -ül = ~언어로 (japánul = 일본어로), és = 그리고, beszélek = 나는 말한다",
+        word: "japan"
       },
       {
         hu: "Most magyarul tanulok.",
