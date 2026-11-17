@@ -514,5 +514,373 @@ window.__HUN_NOTES_DATA__ = [
         word: "honnan_jossz"
       }
     ]
+  },
+  {
+    chapterId: "numbers",
+    chapterNum: 5,
+    title: { ko: "5. 숫자 (Számok / Numbers)", en: "5. Numbers (Számok)" },
+    desc: {
+      ko: "0부터 10000까지의 헝가리어 숫자 체계와 합성 규칙입니다. 11~19는 tizen-, 21~29는 huszon- 접두사를 쓰며, 소수점은 쉼표(,)를 사용합니다.",
+      en: "Hungarian number system from 0 to 10,000, compounding rules, and decimal notation."
+    },
+    items: [
+      {
+        hu: "0 — nulla",
+        ko: "0 (영 / 제로) [눌러]",
+        en: "Zero",
+        tip: "기본 숫자 0",
+        word: "nulla"
+      },
+      {
+        hu: "1 — egy",
+        ko: "1 (일) [에지/에디]",
+        en: "One",
+        tip: "부정관사 'a/an'으로도 쓰임",
+        word: "egy"
+      },
+      {
+        hu: "2 — kettő (két)",
+        ko: "2 (이) [켙퇴 / 케-트]",
+        en: "Two",
+        tip: "명사 앞 수량 표현 시에는 주로 'két' 사용 (예: két alma = 사과 2개)",
+        word: "ketto"
+      },
+      {
+        hu: "3 — három",
+        ko: "3 (삼) [하-롬]",
+        en: "Three",
+        tip: "기본 숫자 3",
+        word: "harom"
+      },
+      {
+        hu: "4 — négy",
+        ko: "4 (사) [네-지/네-디]",
+        en: "Four",
+        tip: "기본 숫자 4",
+        word: "negy"
+      },
+      {
+        hu: "5 — öt",
+        ko: "5 (오) [옽]",
+        en: "Five",
+        tip: "기본 숫자 5",
+        word: "ot"
+      },
+      {
+        hu: "6 — hat",
+        ko: "6 (육) [핱]",
+        en: "Six",
+        tip: "기본 숫자 6",
+        word: "hat"
+      },
+      {
+        hu: "7 — hét",
+        ko: "7 (칠) [헤-트]",
+        en: "Seven",
+        tip: "숫자 7 외에 '주일/주(week)'라는 뜻도 있음",
+        word: "het"
+      },
+      {
+        hu: "8 — nyolc",
+        ko: "8 (팔) [뇰츠]",
+        en: "Eight",
+        tip: "기본 숫자 8",
+        word: "nyolc"
+      },
+      {
+        hu: "9 — kilenc",
+        ko: "9 (구) [킬렌츠]",
+        en: "Nine",
+        tip: "기본 숫자 9",
+        word: "kilenc"
+      },
+      {
+        hu: "10 — tíz",
+        ko: "10 (십) [티-즈]",
+        en: "Ten",
+        tip: "10 이상의 합성수에서는 'tizen-'으로 변형",
+        word: "tiz"
+      },
+      {
+        hu: "11 — tizenegy",
+        ko: "11 (십일) [티제네지] (10 tizen- + 1 egy)",
+        en: "Eleven",
+        tip: "10(tíz) + en + 1(egy)",
+        word: "tizenegy"
+      },
+      {
+        hu: "12 — tizenkettő (tizenkét)",
+        ko: "12 (십이) [티젠켙퇴 / 티젠케-트]",
+        en: "Twelve",
+        tip: "명사 앞에서는 tizenkét 명사",
+        word: "tizenketto"
+      },
+      {
+        hu: "13 — tizenhárom",
+        ko: "13 (십삼) [티젠하-롬]",
+        en: "Thirteen",
+        tip: "tizen- + három",
+        word: "tizenharom"
+      },
+      {
+        hu: "14 — tizennégy",
+        ko: "14 (십사) [티젠네-지]",
+        en: "Fourteen",
+        tip: "tizen- + négy",
+        word: "tizennegy"
+      },
+      {
+        hu: "15 — tizenöt",
+        ko: "15 (십오) [티젠옽]",
+        en: "Fifteen",
+        tip: "tizen- + öt",
+        word: "tizenot"
+      },
+      {
+        hu: "16 — tizenhat",
+        ko: "16 (십육) [티젠핱]",
+        en: "Sixteen",
+        tip: "tizen- + hat",
+        word: "tizenhat"
+      },
+      {
+        hu: "17 — tizenhét",
+        ko: "17 (십칠) [티젠헤-트]",
+        en: "Seventeen",
+        tip: "tizen- + hét",
+        word: "tizenhet"
+      },
+      {
+        hu: "18 — tizennyolc",
+        ko: "18 (십팔) [티젠뇰츠]",
+        en: "Eighteen",
+        tip: "tizen- + nyolc",
+        word: "tizennyolc"
+      },
+      {
+        hu: "19 — tizenkilenc",
+        ko: "19 (십구) [티젠킬렌츠]",
+        en: "Nineteen",
+        tip: "tizen- + kilenc",
+        word: "tizenkilenc"
+      },
+      {
+        hu: "20 — húsz",
+        ko: "20 (이십) [후-스]",
+        en: "Twenty",
+        tip: "20 이상의 합성수에서는 'huszon-'으로 변형",
+        word: "husz"
+      },
+      {
+        hu: "21 — huszonegy",
+        ko: "21 (이십일) [후소네지] (20 huszon- + 1 egy)",
+        en: "Twenty-one",
+        tip: "huszon- + egy",
+        word: "huszonegy"
+      },
+      {
+        hu: "22 — huszonkettő (huszonkét)",
+        ko: "22 (이십이) [후손켙퇴 / 후손케-트]",
+        en: "Twenty-two",
+        tip: "명사 앞에서는 huszonkét 명사",
+        word: "huszonketto"
+      },
+      {
+        hu: "23 — huszonhárom",
+        ko: "23 (이십삼) [후손하-롬]",
+        en: "Twenty-three",
+        tip: "huszon- + három",
+        word: "huszonharom"
+      },
+      {
+        hu: "24 — huszonnégy",
+        ko: "24 (이십사) [후손네-지]",
+        en: "Twenty-four",
+        tip: "huszon- + négy",
+        word: "huszonnegy"
+      },
+      {
+        hu: "25 — huszonöt",
+        ko: "25 (이십오) [후손옽]",
+        en: "Twenty-five",
+        tip: "huszon- + öt",
+        word: "huszonot"
+      },
+      {
+        hu: "26 — huszonhat",
+        ko: "26 (이십육) [후손핱]",
+        en: "Twenty-six",
+        tip: "huszon- + hat",
+        word: "huszonhat"
+      },
+      {
+        hu: "27 — huszonhét",
+        ko: "27 (이십칠) [후손헤-트]",
+        en: "Twenty-seven",
+        tip: "huszon- + hét",
+        word: "huszonhet"
+      },
+      {
+        hu: "28 — huszonnyolc",
+        ko: "28 (이십팔) [후손뇰츠]",
+        en: "Twenty-eight",
+        tip: "huszon- + nyolc",
+        word: "huszonnyolc"
+      },
+      {
+        hu: "29 — huszonkilenc",
+        ko: "29 (이십구) [후손킬렌츠]",
+        en: "Twenty-nine",
+        tip: "huszon- + kilenc",
+        word: "huszonkilenc"
+      },
+      {
+        hu: "30 — harminc",
+        ko: "30 (삼십) [하르민츠]",
+        en: "Thirty",
+        tip: "31부터는 변형 없이 harminc 뒤에 바로 숫자를 붙임",
+        word: "harminc"
+      },
+      {
+        hu: "31 — harmincegy",
+        ko: "31 (삼십일) [하르민체지]",
+        en: "Thirty-one",
+        tip: "harminc + egy",
+        word: "harmincegy"
+      },
+      {
+        hu: "32 — harminckettő",
+        ko: "32 (삼십이) [하르민츠켙퇴]",
+        en: "Thirty-two",
+        tip: "harminc + kettő",
+        word: "harmincketto"
+      },
+      {
+        hu: "33 — harminchárom",
+        ko: "33 (삼십삼) [하르민츠하-롬]",
+        en: "Thirty-three",
+        tip: "harminc + három",
+        word: "harmincharom"
+      },
+      {
+        hu: "34 — harmincnégy",
+        ko: "34 (삼십사) [하르민츠네-지]",
+        en: "Thirty-four",
+        tip: "harminc + négy",
+        word: "harmincnegy"
+      },
+      {
+        hu: "35 — harmincöt",
+        ko: "35 (삼십오) [하르민츁]",
+        en: "Thirty-five",
+        tip: "harminc + öt",
+        word: "harmincot"
+      },
+      {
+        hu: "36 — harminchat",
+        ko: "36 (삼십육) [하르민츠핱]",
+        en: "Thirty-six",
+        tip: "harminc + hat",
+        word: "harminchat"
+      },
+      {
+        hu: "40 — negyven",
+        ko: "40 (사십) [네지벤]",
+        en: "Forty",
+        tip: "négy(4)의 변형 + ven",
+        word: "negyven"
+      },
+      {
+        hu: "50 — ötven",
+        ko: "50 (오십) [옽벤]",
+        en: "Fifty",
+        tip: "öt(5) + ven",
+        word: "otven"
+      },
+      {
+        hu: "60 — hatvan",
+        ko: "60 (육십) [핱번]",
+        en: "Sixty",
+        tip: "hat(6) + van",
+        word: "hatvan"
+      },
+      {
+        hu: "70 — hetven",
+        ko: "70 (칠십) [헽벤]",
+        en: "Seventy",
+        tip: "hét(7) + ven",
+        word: "hetven"
+      },
+      {
+        hu: "80 — nyolcvan",
+        ko: "80 (팔십) [뇰츠번]",
+        en: "Eighty",
+        tip: "nyolc(8) + van",
+        word: "nyolcvan"
+      },
+      {
+        hu: "90 — kilencven",
+        ko: "90 (구십) [킬렌츠벤]",
+        en: "Ninety",
+        tip: "kilenc(9) + ven",
+        word: "kilencven"
+      },
+      {
+        hu: "100 — száz",
+        ko: "100 (백) [사-즈]",
+        en: "One hundred",
+        tip: "200 = kétszáz, 300 = háromszáz...",
+        word: "szaz"
+      },
+      {
+        hu: "1000 — ezer",
+        ko: "1000 (천) [에제르]",
+        en: "One thousand",
+        tip: "2000 = kétezer, 3000 = háromezer...",
+        word: "ezer"
+      },
+      {
+        hu: "350 — háromszázötven",
+        ko: "350 (삼백오십) [하-롬사-즅벤]",
+        en: "Three hundred fifty",
+        tip: "300(háromszáz) + 50(ötven)",
+        word: "haromszaz"
+      },
+      {
+        hu: "4000 — négyezer",
+        ko: "4000 (사천) [네-제제르]",
+        en: "Four thousand",
+        tip: "4(négy) + 1000(ezer)",
+        word: "negyezer"
+      },
+      {
+        hu: "8250 — nyolcezer-kettőszázötven",
+        ko: "8250 (팔천이백오십) [뇰체제르-켙퇴사-즅벤]",
+        en: "Eight thousand two hundred fifty",
+        tip: "헝가리어 정서법: 2000 이상 숫자의 복합 결합 시 세 자리 단위마다 하이픈(-) 사용",
+        word: "nyolcezer"
+      },
+      {
+        hu: "6123 — hatezer-százhuszonhárom",
+        ko: "6123 (육천백이십삼) [핱에제르-사-즈후손하-롬]",
+        en: "Six thousand one hundred twenty-three",
+        tip: "6000(hatezer) + 100(száz) + 23(huszonhárom)",
+        word: "hatezer"
+      },
+      {
+        hu: "10 000 — tízezer",
+        ko: "10,000 (만 / 일만) [티-제제르]",
+        en: "Ten thousand",
+        tip: "10(tíz) + 1000(ezer). 헝가리어는 큰 숫자 표기 시 쉼표 대신 공백을 씁니다 (10 000)",
+        word: "tizezer"
+      },
+      {
+        hu: "[보너스] 소수점 표기 — 3,5 (három egész öt tized / három vessző öt)",
+        ko: "3.5 (삼 점 오) — 헝가리어는 소수점에 점(.) 대신 쉼표(,)를 씁니다!",
+        en: "3.5 (three point five) — Hungarian uses a comma (,) called 'vessző' [베쎄-] for decimals",
+        tip: "구어체로는 'három vessző öt'(3 쉼표 5)라고 쉽게 읽습니다.",
+        word: "vesszo"
+      }
+    ]
   }
 ];
