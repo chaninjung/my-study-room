@@ -1146,6 +1146,41 @@ details.more .rowGrid{border-top:1px solid var(--border)}
   .examWrap{grid-template-columns:1fr}
   .panel{box-shadow:none;border-color:#c8ccd4}
 }
+
+/* ===================== 헝가리어 강의록 전용 스타일 ===================== */
+.hunWrap{display:flex;flex-direction:column;gap:18px}
+.hunHero{background:linear-gradient(135deg,#0e204c 0%,#1d3a8f 100%);color:#fff;border-radius:var(--r-lg);padding:24px 26px;box-shadow:var(--shadow-md)}
+.hunHeroTitle{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.hunHeroDesc{color:#d5e0fc;font-size:13.5px;line-height:1.6;margin-bottom:14px}
+.hunLinkRow{display:flex;gap:10px;flex-wrap:wrap}
+.hunLinkBtn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);color:#fff;font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:99px;transition:all .15s;text-decoration:none}
+.hunLinkBtn:hover{background:#fff;color:#1d3a8f;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+
+.hunNavTabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.hunNavTab{background:none;border:0;border-bottom:2px solid transparent;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--text-3);padding:9px 14px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.hunNavTab:hover{color:var(--primary)}
+.hunNavTab.on{color:var(--primary);border-bottom-color:var(--primary);font-weight:700}
+
+.hunSearchBar{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border-2);border-radius:var(--r-md);padding:8px 14px;box-shadow:var(--shadow-xs)}
+.hunSearchInput{flex:1;border:0;outline:0;font-family:inherit;font-size:13.5px;color:var(--text);background:transparent}
+
+.hunChapSec{margin-top:6px;display:flex;flex-direction:column;gap:12px}
+.hunChapHead{padding:4px 2px}
+.hunChapTitle{font-size:17px;font-weight:800;color:var(--text);margin-bottom:4px}
+.hunChapDesc{font-size:13px;color:var(--text-3);line-height:1.5}
+
+.hunGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.hunCard{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-xs);transition:border-color .15s,box-shadow .15s}
+.hunCard:hover{border-color:var(--primary-border);box-shadow:var(--shadow-sm)}
+.hunCardTop{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.hunHu{font-size:17.5px;font-weight:800;color:var(--primary);line-height:1.35;word-break:keep-all}
+.hunKo{font-size:14.5px;font-weight:600;color:var(--text);line-height:1.45;word-break:keep-all}
+.hunEn{font-size:13px;color:var(--text-3);line-height:1.4}
+.hunTip{font-size:12px;color:#087443;background:#ecfdf3;border:1px solid #a6e5c0;padding:4px 8px;border-radius:var(--r-sm);line-height:1.4}
+.hunActions{display:flex;gap:6px;align-items:center;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.hunActBtn{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:4px 8px;text-decoration:none;cursor:pointer;transition:all .15s}
+.hunActBtn:hover{background:var(--primary-soft);color:var(--primary);border-color:var(--primary-border);text-decoration:none}
+.hunCardNum{font-size:11px;font-weight:700;color:var(--text-4);background:var(--surface-3);padding:2px 6px;border-radius:4px}
 </style>
 </head>
 <body>
@@ -1848,6 +1883,7 @@ function applyStaticI18n() {
 <script src="ids_questions.js"></script>
 <script src="ids_short_answers.js"></script>
 <script src="hungarian_questions.js"></script>
+<script src="hungarian_notes.js"></script>
 <script id="core-data">window.__QUESTION_DATA__ = null;</script>
 <script id="mock-data">window.__MOCK_DATA__ = null;</script>
 <script id="curriculum-data">
@@ -2070,10 +2106,10 @@ var CURRICULUM = [
           { id: "final", name: { ko: "기말 종합 시험 (Final Exam)", en: "Final Exam" }, at: "2026-12-09T10:00", points: 50, need: 25 }
         ],
         items: [
-          { id: "overview", label: { ko: "개요", en: "Overview" } },
+          { id: "overview", label: { ko: "📖 핵심 강의록", en: "📖 Lecture Notes" } },
+          { id: "bank",     label: { ko: "문제은행 20문항", en: "Question bank (20)" } },
           { id: "random",   label: { ko: "🎲 랜덤 연습", en: "🎲 Random practice" } },
           { id: "mocks",    label: { ko: "모의고사 2세트", en: "Mock exams (2 sets)" } },
-          { id: "bank",     label: { ko: "문제은행 20문항", en: "Question bank (20)" } },
           { id: "wrong",    label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "records",  label: { ko: "학습 기록", en: "Study records" } }
         ]
@@ -5477,8 +5513,172 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       "</div>");
   }
 
+  /* ================= 헝가리어 전용 핵심 강의록 화면 ================= */
+  let HUN_TAB = "all";
+  let HUN_Q = "";
+
+  function renderHungarianOverview() {
+    const data = window.__HUN_NOTES_DATA__ || [];
+    const q = (HUN_Q || "").trim().toLowerCase();
+
+    const tabs = [
+      { id: "all", label: { ko: "전체 강의록 보기", en: "All Chapters" } },
+      { id: "alphabet", label: { ko: "1. ABC 읽는 법", en: "1. Alphabet & Pronunciation" } },
+      { id: "greetings", label: { ko: "2. 인삿말 & 일상표현", en: "2. Greetings & Expressions" } },
+      { id: "tobe", label: { ko: "3. 존재 동사 (vagyok/vagy)", en: "3. Verb 'To Be'" } },
+      { id: "intro", label: { ko: "4. 자기소개 & 격식 비교", en: "4. Self-Introduction" } }
+    ];
+
+    const tabsHtml = tabs.map(function (tb) {
+      return '<button class="hunNavTab' + (HUN_TAB === tb.id ? " on" : "") + '" data-huntab="' + tb.id + '" type="button">' +
+        esc(label(tb.label)) + '</button>';
+    }).join("");
+
+    let chaptersHtml = "";
+    data.forEach(function (chap) {
+      if (HUN_TAB !== "all" && chap.chapterId !== HUN_TAB) return;
+      const matchedItems = chap.items.filter(function (it) {
+        if (!q) return true;
+        const hay = [it.hu, it.ko, it.en, it.tip || "", it.word || ""].join(" ").toLowerCase();
+        return hay.indexOf(q) !== -1;
+      });
+
+      if (!matchedItems.length) return;
+
+      const itemsHtml = matchedItems.map(function (it, idx) {
+        const forvoWord = it.word || it.hu.replace(/[^a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]/g, " ").trim().split(/\s+/)[0];
+        const forvoUrl = "https://ko.forvo.com/word/" + encodeURIComponent(forvoWord) + "/#hu";
+        const bablaUrl = "https://hu.bab.la/mondatok/magyar/" + (it.word ? encodeURIComponent(it.word) : "");
+        const tipHtml = it.tip ? '<div class="hunTip">💡 ' + esc(it.tip) + '</div>' : '';
+
+        return '<div class="hunCard">' +
+          '<div class="hunCardTop">' +
+            '<div class="hunHu">' + esc(it.hu) + '</div>' +
+            '<span class="hunCardNum">#' + (idx + 1) + '</span>' +
+          '</div>' +
+          '<div class="hunKo">' + esc(it.ko) + '</div>' +
+          '<div class="hunEn">' + esc(it.en) + '</div>' +
+          tipHtml +
+          '<div class="hunActions">' +
+            '<a class="hunActBtn" href="' + forvoUrl + '" target="_blank" rel="noopener noreferrer" title="Forvo 원어민 발음 듣기">' +
+              '🔊 Forvo 발음 듣기 ↗</a>' +
+            '<a class="hunActBtn" href="' + bablaUrl + '" target="_blank" rel="noopener noreferrer" title="bab.la 예문 사전">' +
+              '📖 bab.la 예문 ↗</a>' +
+            '<button class="hunActBtn" data-huncopy="' + esc(it.hu) + '" type="button" title="클립보드에 복사">' +
+              '📋 복사</button>' +
+          '</div>' +
+        '</div>';
+      }).join("");
+
+      chaptersHtml += '<div class="hunChapSec">' +
+        '<div class="hunChapHead">' +
+          '<div class="hunChapTitle">' + esc(label(chap.title)) + '</div>' +
+          '<div class="hunChapDesc">' + esc(label(chap.desc)) + '</div>' +
+        '</div>' +
+        '<div class="hunGrid">' + itemsHtml + '</div>' +
+      '</div>';
+    });
+
+    if (!chaptersHtml) {
+      chaptersHtml = '<div class="panelBody secEmpty"><b class="secEmptyTitle">' + (LANG === "ko" ? "검색 결과가 없습니다" : "No results found") + '</b>' +
+        '<p class="muted">' + (LANG === "ko" ? "다른 검색어로 찾아보세요." : "Try a different search keyword.") + '</p></div>';
+    }
+
+    const heroHtml =
+      '<div class="hunHero">' +
+        '<div class="hunHeroTitle">🇭🇺 ' + (LANG === "ko" ? "헝가리어 핵심 강의록" : "Hungarian Language Lecture Notes") + '</div>' +
+        '<div class="hunHeroDesc">' +
+          (LANG === "ko"
+            ? "1. 헝가리 문장 · 2. 한국어 문장 · 3. 영어 문장으로 직관적으로 정리된 실전 강의록입니다. 불필요한 설명 없이 보고 바로 뜻을 이해할 수 있습니다."
+            : "Intuitive A1 lecture notes structured as: 1. Hungarian · 2. Korean · 3. English without unnecessary filler.") +
+        '</div>' +
+        '<div class="hunLinkRow">' +
+          '<a class="hunLinkBtn" href="https://hu.bab.la/mondatok/magyar/" target="_blank" rel="noopener noreferrer">' +
+            '📖 bab.la 예문 사전 ↗</a>' +
+          '<a class="hunLinkBtn" href="https://ko.forvo.com/languages/hu/" target="_blank" rel="noopener noreferrer">' +
+            '🔊 Forvo 발음 사전 ↗</a>' +
+          '<button class="hunLinkBtn" id="hunGoBank" type="button" style="background:#fff;color:#1d3a8f">' +
+            (LANG === "ko" ? "📝 기초 퀴즈 풀어보기 (20문항) →" : "📝 Practice Quiz (20 questions) →") + '</button>' +
+        '</div>' +
+      '</div>';
+
+    const searchHtml =
+      '<div class="hunSearchBar">' +
+        LIB_SVG.search +
+        '<input type="text" class="hunSearchInput" id="hunSearch" placeholder="' +
+          (LANG === "ko" ? "문장, 단어 또는 뜻 검색 (예: szia, 시아, van, 안녕, thank...)" : "Search sentence, word, or meaning...") +
+          '" value="' + esc(HUN_Q) + '">' +
+        (HUN_Q ? '<button class="linkish" id="hunSearchClear" type="button" style="font-size:12px">' + (LANG === "ko" ? "✕ 지우기" : "✕ Clear") + '</button>' : '') +
+      '</div>';
+
+    app.innerHTML = '<div class="hunWrap">' +
+      heroHtml +
+      '<div class="hunNavTabs">' + tabsHtml + '</div>' +
+      searchHtml +
+      chaptersHtml +
+    '</div>';
+
+    wireHungarianOverview();
+  }
+
+  function wireHungarianOverview() {
+    const bind = function (id, fn) { const b = el(id); if (b) b.onclick = fn; };
+    bind("hunGoBank", function () { go("bank"); });
+
+    app.querySelectorAll("[data-huntab]").forEach(function (b) {
+      b.onclick = function () {
+        HUN_TAB = b.getAttribute("data-huntab");
+        renderHungarianOverview();
+      };
+    });
+
+    const sIn = el("hunSearch");
+    if (sIn) {
+      sIn.oninput = function () {
+        HUN_Q = sIn.value;
+        renderHungarianOverview();
+        const nextIn = el("hunSearch");
+        if (nextIn) {
+          nextIn.focus();
+          nextIn.setSelectionRange(nextIn.value.length, nextIn.value.length);
+        }
+      };
+    }
+
+    bind("hunSearchClear", function () {
+      HUN_Q = "";
+      renderHungarianOverview();
+    });
+
+    app.querySelectorAll("[data-huncopy]").forEach(function (b) {
+      b.onclick = function () {
+        const text = b.getAttribute("data-huncopy");
+        try {
+          navigator.clipboard.writeText(text).then(function () {
+            const org = b.textContent;
+            b.textContent = "✓ 복사됨!";
+            setTimeout(function () { b.textContent = org; }, 1500);
+          });
+        } catch (e) {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          const org = b.textContent;
+          b.textContent = "✓ 복사됨!";
+          setTimeout(function () { b.textContent = org; }, 1500);
+        }
+      };
+    });
+  }
+
   function renderOverview() {
     const c = currentCourse();
+    if (c && c.course && c.course.id === "hungarian") {
+      return renderHungarianOverview();
+    }
     const sc = sectionScope();
     const ex = sectionExam();
     const scMocks = scopedMocks();
