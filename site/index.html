@@ -3915,6 +3915,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
 
 </script>
+<link rel="stylesheet" href="ai_course.css">
+<script src="ai_vocabulary.js"></script>
+<script src="ai_course.js"></script>
 <script id="app-logic">
 /* ===== app.js — 시험 대비 문제 앱 (vanilla JS, DOM) ===== */
 (function () {
@@ -3929,7 +3932,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     const hash = String((window.location && window.location.hash) || "").toLowerCase();
     const idsSelected = curId === "ids" || hash.indexOf("introductiontodatascience") !== -1;
     const hunSelected = curId === "hungarian" || hash.indexOf("hungarian") !== -1;
-    if (hunSelected) {
+    const aiSelected = curId === "aihe" || hash.indexOf("aihe") !== -1;
+    if (aiSelected) {
+      DATA = { meta: { course: "aihe" }, questions: [] };
+      MOCKS = null;
+    } else if (hunSelected) {
       DATA = window.__HUN_QUESTION_DATA__ || { meta: { course: "hungarian" }, questions: [] };
       MOCKS = window.__HUN_MOCK_DATA__ || null;
     } else if (idsSelected) {
@@ -5677,6 +5684,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
   function renderOverview() {
     const c = currentCourse();
+    if (c && c.course && c.course.id === "aihe" && window.__AICourseUI) {
+      app.innerHTML = '<div id="aiCourseHost"></div>';
+      window.__AICourseUI.render(el("aiCourseHost"), LANG);
+      return;
+    }
     if (c && c.course && c.course.id === "hungarian") {
       return renderHungarianOverview();
     }

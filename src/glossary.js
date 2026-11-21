@@ -171,7 +171,7 @@
   var store = loadSet();
   var state = { course: [], lec: [], sentLec: [], q: "", tab: "list", order: [], pos: 0, flipped: false, onlyUnknown: false };
 
-  var LECS = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "NP", "AC"];
+  var LECS = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "NP", "AC", "M1", "M2", "M3", "M4", "M5", "M6"];
   var LEC_NAME = {
     L1: { ko: "L1 개요", en: "L1 Intro" },
     L2: { ko: "L2 선형회귀", en: "L2 Linear regression" },
@@ -181,7 +181,13 @@
     L6: { ko: "L6 역전파", en: "L6 Backprop" },
     L7: { ko: "L7 CNN", en: "L7 CNN" },
     NP: { ko: "NP NumPy", en: "NP NumPy" },
-    AC: { ko: "AC 아카데믹", en: "AC Academic" }
+    AC: { ko: "AC 아카데믹", en: "AC Academic" },
+    M1: { ko: "M1 AI 작동 원리", en: "M1 How AI Works" },
+    M2: { ko: "M2 생성형 AI·프롬프트", en: "M2 Generative AI & Prompting" },
+    M3: { ko: "M3 책임 있는 사용·진실성", en: "M3 Responsible Use & Integrity" },
+    M4: { ko: "M4 AI와 함께 학습하기", en: "M4 Learning with AI" },
+    M5: { ko: "M5 업무·판단·역량", en: "M5 Work, Judgment & Skills" },
+    M6: { ko: "M6 시험 속 학술 영어", en: "M6 Academic English" }
   };
   function lecName(code) {
     var e = LEC_NAME[code];
@@ -393,7 +399,7 @@
               html += '<a class="sbItem' + (it.id === "glossary" ? " on" : "") + '" href="' + href + '"' +
                 (it.id === "glossary" ? ' aria-current="page"' : "") + ">" + esc(labelOf(it.label)) + "</a>";
             } else {
-              html += '<a class="sbItem" href="index.html#' + it.id + '">' + esc(labelOf(it.label)) + "</a>";
+              html += '<a class="sbItem" href="index.html#' + c.id + '/' + it.id + '">' + esc(labelOf(it.label)) + "</a>";
             }
           });
           html += "</div></div>";
@@ -543,15 +549,25 @@
     applySyncStrings();                 /* 계정 버튼/모달 문구도 함께 언어 전환 */
   }
 
-  /* ---------- 주소의 ?course= 로 과목 미리 고르기 (사이드바 링크가 넘겨준다) ---------- */
+  /* ---------- 주소의 ?course=, ?tab=, ?q=, ?lec= 로 학습 위치를 미리 고른다 ---------- */
   function preselectCourse() {
-    var want = "";
-    try {
-      var m = /[?&]course=([A-Za-z0-9_\-]+)/.exec(String((window.location && window.location.search) || ""));
-      if (m) want = m[1];
-    } catch (e) { want = ""; }
-    if (!want) return;
-    if (courseById(want)) state.course = [want];
+    var search = "";
+    try { search = String((window.location && window.location.search) || "").replace(/^\?/, ""); } catch (e) { search = ""; }
+    function param(name) {
+      var m = new RegExp("(?:^|&)" + name + "=([^&]*)").exec(search);
+      if (!m) return "";
+      try { return decodeURIComponent(m[1].replace(/\+/g, " ")); } catch (e) { return m[1]; }
+    }
+    var want = param("course");
+    if (want && courseById(want)) state.course = [want];
+    var tab = param("tab");
+    if (tab === "list" || tab === "card" || tab === "sent") state.tab = tab;
+    var q = param("q");
+    if (q) state.q = q;
+    var lec = param("lec");
+    if (/^M[1-6]$/.test(lec)) { state.lec = [lec]; state.sentLec = [lec]; }
+    if (el("q")) el("q").value = state.q;
+    if (state.tab !== "list") showTab(state.tab);
   }
 
   /* 아이콘 (이모지 대신 최소 SVG — 담백한 inflearn 스타일) */
@@ -593,6 +609,7 @@
 
   /* ---------- 부팅 (비밀번호 게이트가 있으면 복호화 후 호출) ---------- */
   function boot() {
+    if (window.__mergeAIGlossary) window.__GLOSSARY__ = window.__mergeAIGlossary(window.__GLOSSARY__);
     if (window.__GLOSSARY__) {
       DATA = window.__GLOSSARY__;
       TERMS = DATA.terms || [];
@@ -684,6 +701,7 @@
 
   /* 서버 콘텐츠(용어집)를 받은 뒤: 데이터를 다시 읽고 화면을 다시 그린다 */
   window.__glossaryContentReady = function () {
+    if (window.__mergeAIGlossary) window.__GLOSSARY__ = window.__mergeAIGlossary(window.__GLOSSARY__);
     if (window.__GLOSSARY__) {
       DATA = window.__GLOSSARY__;
       TERMS = DATA.terms || [];
