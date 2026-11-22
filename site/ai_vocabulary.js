@@ -177,6 +177,7 @@
       id: COURSE,
       label: { ko: "Introduction to the use of Artificial Intelligence in Higher Education", en: "Introduction to the use of Artificial Intelligence in Higher Education" },
       short: { ko: "AI·HE", en: "AI·HE" },
+      image: "assets/courses/aihe.jpg",
       sub: { ko: "핵심 영단어 · 책임 있는 AI 활용 · 학습 전략", en: "Core Vocabulary · Responsible AI · Learning Strategies" },
       tagline: { ko: "기말고사 복습 핵심 단어 80개 · 플래시카드 · 확인 퀴즈", en: "80 final-review terms · flashcards · vocabulary quiz" },
       tags: ["artificial-intelligence", "higher-education", "vocabulary", "responsible-ai", "academic-integrity"],

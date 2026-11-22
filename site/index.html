@@ -1884,6 +1884,7 @@ function applyStaticI18n() {
 <script src="ids_short_answers.js"></script>
 <script src="hungarian_questions.js"></script>
 <script src="hungarian_notes.js"></script>
+<script src="pai_questions.js"></script>
 <script id="core-data">window.__QUESTION_DATA__ = null;</script>
 <script id="mock-data">window.__MOCK_DATA__ = null;</script>
 <script id="curriculum-data">
@@ -2046,6 +2047,73 @@ var CURRICULUM = [
           { id: "bank", label: { ko: "문제은행", en: "Question Bank" } },
           { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "glossary", label: { ko: "용어집", en: "Glossary" }, href: "glossary.html" },
+          { id: "records", label: { ko: "학습 기록", en: "Study records" } }
+        ]
+      },
+      {
+        id: "pai",
+        label: { ko: "Principle of Artificial Intelligence", en: "Principle of Artificial Intelligence" },
+        short: { ko: "PAI", en: "PAI" },
+        image: "assets/courses/pai.svg",
+        sub: { ko: "118개 복습 질문 · 30분 객관식 · Z 코드 2차시", en: "118 review questions · 30-minute MCQ · Z-code second turn" },
+        tagline: { ko: "AI 일반 12 · Search 67 · Machine Learning 39 · 30분 모의고사", en: "AI general 12 · Search 67 · ML 39 · 30-minute mocks" },
+        tags: ["artificial-intelligence", "search", "machine-learning", "a-star", "minimax", "nlp"],
+        level: { ko: "중급 · 시험 대비", en: "Intermediate · Exam preparation" },
+        heroQuestions: 118,
+        heroMocks: 5,
+        terms: 0,
+        gains: {
+          ko: ["AI 역사·철학과 탐색 알고리즘의 핵심 성질 비교", "118개 원문 질문을 영어로 전체 복습", "30분 제한 모의고사와 오답 복습", "Z 코드에 맞춘 실제 시험 시간과 Neptun 마감 확인"],
+          en: ["Compare AI history, philosophy and core search algorithms", "Review all 118 supplied prompts in English", "Take 30-minute mocks and revisit wrong answers", "Check Z-code exam times and Neptun deadlines"]
+        },
+        about: {
+          ko: "교수님이 제공한 118개 복습 질문을 모두 포함한 시험 대비 학습실입니다. 보기·정답·해설은 새로 작성한 연습용이며 공식 답안이 아닙니다.",
+          en: "An exam-preparation room containing all 118 supplied review prompts. Choices, answers and explanations are independently authored study aids, not official answers."
+        },
+        grading: {
+          ko: "실제 시험은 Lovarda lab의 대면 객관식이며 차시당 약 30분입니다. 12/18, 1/15, 1/29 중 최대 두 번 응시할 수 있고 Neptun 사전 등록이 필수입니다. 실제 문항 수·합격선은 공지되지 않았으며, 사이트의 60%는 연습 목표입니다.",
+          en: "The real exam is an in-person MCQ in Lovarda lab, about 30 minutes per turn. You may sit at most two of Dec 18, Jan 15 and Jan 29; Neptun registration is mandatory. Its question count and pass mark were not announced; 60% here is only a study target."
+        },
+        open: true,
+        sections: [
+          { id: "all", label: { ko: "전체 종합", en: "Comprehensive" }, scope: "all", ready: true, exam: { questions: 20, minutes: 30, pass: 12, numpy: 0 } },
+          { id: "general", label: { ko: "AI 일반", en: "AI in General" }, scope: "general", ready: true, exam: { questions: 12, minutes: 30, pass: 8, numpy: 0 }, note: { ko: "원문 12개 · AI 역사·철학", en: "12 supplied prompts · AI history and philosophy" } },
+          { id: "search", label: { ko: "Search", en: "Search" }, scope: "search", ready: true, exam: { questions: 20, minutes: 30, pass: 12, numpy: 0 }, note: { ko: "원문 67개 · 상태공간·탐색·게임·진화 알고리즘", en: "67 supplied prompts · state spaces, search, games and evolution" } },
+          { id: "ml", label: { ko: "Machine Learning", en: "Machine Learning" }, scope: "ml", ready: true, exam: { questions: 20, minutes: 30, pass: 12, numpy: 0 }, note: { ko: "원문 39개 · 학습·신경망·NLP·차원 축소", en: "39 supplied prompts · learning, neural networks, NLP and dimensionality reduction" } }
+        ],
+        schedule: [
+          { id: "registration", kind: "registration", name: { ko: "Neptun 시험 신청 시작", en: "Neptun exam registration opens" }, at: "2026-12-03T00:00", points: 0,
+            note: { ko: "응시할 날짜에 반드시 사전 등록 · 미등록 시 성적 입력 불가", en: "Register for your chosen date; no grade can be recorded without registration" } },
+          { id: "deadline1", kind: "deadline", name: { ko: "시험 1 Neptun 신청 권장 마감", en: "Exam 1 safe registration deadline" }, at: "2026-12-16T14:00", points: 0,
+            note: { ko: "공식 시작 12/18 14:00의 48시간 전으로 계산 · Neptun 실제 마감 우선", en: "Official start Dec 18, 14:00 minus 48 hours; the actual Neptun deadline takes priority" } },
+          { id: "exam1", name: { ko: "시험 1 · Z 코드 2차시", en: "Exam 1 · Z-code second turn" }, at: "2026-12-18T14:30", points: 0,
+            note: { ko: "Lovarda lab · 약 30분 · 전체 공식 시간 14:00–15:30", en: "Lovarda lab · about 30 minutes · official full slot 14:00–15:30" } },
+          { id: "deadline2", kind: "deadline", name: { ko: "시험 2 Neptun 신청 권장 마감", en: "Exam 2 safe registration deadline" }, at: "2027-01-13T11:30", points: 0,
+            note: { ko: "공식 시작 1/15 11:30의 48시간 전으로 계산 · Neptun 실제 마감 우선", en: "Official start Jan 15, 11:30 minus 48 hours; the actual Neptun deadline takes priority" } },
+          { id: "exam2", name: { ko: "시험 2 / 재시험 · Z 코드 2차시", en: "Exam 2 / retake · Z-code second turn" }, at: "2027-01-15T12:00", points: 0,
+            note: { ko: "Lovarda lab · 약 30분 · 전체 공식 시간 11:30–13:00", en: "Lovarda lab · about 30 minutes · official full slot 11:30–13:00" } },
+          { id: "deadline3", kind: "deadline", name: { ko: "시험 3 Neptun 신청 권장 마감", en: "Exam 3 safe registration deadline" }, at: "2027-01-27T11:30", points: 0,
+            note: { ko: "공식 시작 1/29 11:30의 48시간 전으로 계산 · Neptun 실제 마감 우선", en: "Official start Jan 29, 11:30 minus 48 hours; the actual Neptun deadline takes priority" } },
+          { id: "exam3", name: { ko: "시험 3 / 재시험 · Z 코드 2차시", en: "Exam 3 / retake · Z-code second turn" }, at: "2027-01-29T12:00", points: 0,
+            note: { ko: "Lovarda lab · 약 30분 · 전체 공식 시간 11:30–13:00", en: "Lovarda lab · about 30 minutes · official full slot 11:30–13:00" } }
+        ],
+        calendarIntro: {
+          ko: "Neptun 코드가 Z이므로 K–Z 2차시입니다. 전체 시작 30분 후에 맞춰 표시했습니다. 시험은 12/18, 1/15, 1/29에 있고 최대 두 날짜(본시험·재시험)에 응시할 수 있습니다.",
+          en: "Your Neptun code starts with Z, so you are in the K–Z second turn. Times below are 30 minutes after the official start. Choose at most two dates (exam and retake) from Dec 18, Jan 15 and Jan 29."
+        },
+        calendarFootnote: {
+          ko: "Neptun 등록은 약 48시간 전에 닫히며 미등록 시 성적을 받을 수 없습니다. 여기의 마감 시각은 전체 시험 시작 기준의 보수적인 계산이므로 Neptun 실제 마감을 우선하세요. 시험 중 외부 도움·AI·USB 금지, 시험 브라우저 한 창만 사용하고 바깥 클릭 금지. 부정행위는 자동 과목 낙제입니다.",
+          en: "Neptun registration closes about 48 hours before the exam and unregistered students cannot receive a grade. Deadline estimates use the full exam start minus 48 hours; Neptun takes priority. No external help, AI or USB. Keep only the exam browser window open and do not click outside it. Cheating means automatic course failure."
+        },
+        calendarGrade: {
+          ko: "실제 문항 수·합격 기준·성적 산출 방식은 제공된 공지에 없습니다. 사이트의 20문항·60% 목표는 연습용 설정이며 공식 채점 기준이 아닙니다. 시험장 로깅 지침을 반드시 지키세요.",
+          en: "The official question count, pass mark and grade calculation were not supplied. The site's 20-question, 60% target is for practice only, not an official grading rule. Follow the lab's logging and integrity rules."
+        },
+        items: [
+          { id: "overview", label: { ko: "시험 안내 · 학습 홈", en: "Exam Guide & Study Home" } },
+          { id: "mocks", label: { ko: "30분 모의고사 5세트", en: "30-minute mocks (5 sets)" } },
+          { id: "bank", label: { ko: "문제은행 118문항", en: "Question bank (118)" } },
+          { id: "wrong", label: { ko: "오답 복습", en: "Wrong-answer review" } },
           { id: "records", label: { ko: "학습 기록", en: "Study records" } }
         ]
       },
@@ -3916,8 +3984,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
 </script>
 <link rel="stylesheet" href="ai_course.css">
+<link rel="stylesheet" href="pai_course.css">
 <script src="ai_vocabulary.js"></script>
 <script src="ai_course.js"></script>
+<script src="pai_course.js"></script>
 <script id="app-logic">
 /* ===== app.js — 시험 대비 문제 앱 (vanilla JS, DOM) ===== */
 (function () {
@@ -3933,7 +4003,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     const idsSelected = curId === "ids" || hash.indexOf("introductiontodatascience") !== -1;
     const hunSelected = curId === "hungarian" || hash.indexOf("hungarian") !== -1;
     const aiSelected = curId === "aihe" || hash.indexOf("aihe") !== -1;
-    if (aiSelected) {
+    const paiSelected = curId === "pai" || hash.indexOf("principleofartificialintelligence") !== -1;
+    if (paiSelected) {
+      DATA = window.__PAI_QUESTION_DATA__ || { meta: { course: "pai" }, questions: [] };
+      MOCKS = window.__PAI_MOCK_DATA__ || null;
+    } else if (aiSelected) {
       DATA = { meta: { course: "aihe" }, questions: [] };
       MOCKS = null;
     } else if (hunSelected) {
@@ -3958,7 +4032,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     return m ? parseInt(m[1], 10) : 0;
   }
   function scopeOfQuestion(q) {
-    if (q && (q.course === "ids" || q.course === "hungarian")) return q.scope || "all";
+    if (q && (q.course === "ids" || q.course === "hungarian" || q.course === "pai")) return q.scope || "all";
     return lectureNo(q && q.lecture) >= 7 ? "t2" : "t1";
   }
   function sectionScope() {
@@ -3978,7 +4052,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     const c = currentCourse().course;
     if (c.id === "ids") return [];
     const sc = sectionScope();
-    if (c.id === "hungarian") {
+    if (c.id === "hungarian" || c.id === "pai") {
       return MOCKS ? MOCKS.mocks.filter(function (m) {
         return sc === "all" || (m.scope || "all") === sc || (m.scope || "all") === "all";
       }) : [];
@@ -4614,9 +4688,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       : "";
     const rows = displayItems.map(function (it) {
       const st = calStatus(it, now);
-      const bits = it.kind === "lecture" || it.kind === "break"
+      const bits = c.id === "pai" ? [] : (it.kind === "lecture" || it.kind === "break"
         ? [it.kind === "break" ? (LANG === "en" ? "No class" : "휴강") : (LANG === "en" ? "Lecture" : "강의")]
-        : [it.need ? tf("cal.ptPass", it.points, it.need) : tf("cal.ptNo", it.points)];
+        : [it.need ? tf("cal.ptPass", it.points, it.need) : tf("cal.ptNo", it.points)]);
       if (it.retake) bits.push(tf("cal.retake", label(it.retake)));
       if (it.note) bits.push(label(it.note));
       return '<tr class="calRow ' + st.s + '"><td class="calName">' + esc(label(it.name)) +
@@ -4627,7 +4701,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     const intro = c.calendarIntro ? label(c.calendarIntro) : t("cal.intro");
     const footnote = c.calendarFootnote ? label(c.calendarFootnote) : t("cal.footnote");
     const grade = c.calendarGrade ? label(c.calendarGrade) : t("cal.gradeBody");
-    const chain = c.id === "ids"
+    const chain = c.id === "pai"
+      ? (LANG === "en" ? "Recommended review order: AI in General → Search → Machine Learning → two comprehensive 30-minute mocks." :
+        "권장 복습 순서: AI 일반 → Search → Machine Learning → 종합 30분 모의고사 2세트.")
+      : c.id === "ids"
       ? (LANG === "en" ? "Study order follows the lecture plan: data mining and statistics → clustering → classification → regression and regularization." :
         "강의 순서에 따라 공부하세요: 데이터 마이닝·통계 → 클러스터링 → 분류 → 회귀·정규화.")
       : t("cal.chainBody");
@@ -4670,6 +4747,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   }
 
   function courseAboutHtml(c) {
+    if (c && c.id === "pai" && window.__PAICourseUI) return window.__PAICourseUI.about(LANG);
     const gains = (c.gains ? (c.gains[LANG] || c.gains.en || []) : ["cd.gain1", "cd.gain2", "cd.gain3", "cd.gain4"]).map(function (value) {
       return '<li><span class="cdCheck">' + CD_CHECK + "</span><span>" + esc(c.gains ? value : t(value)) + "</span></li>";
     }).join("");
@@ -4705,6 +4783,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   /* 학습 가이드 탭 — 공부 순서 · 화면별 사용법 · 시험 팁.
      모의고사 '세트 목록'은 앱 안(모의고사 화면)에 있으므로 여기서는 중복 없이 안내만 한다. */
   function courseGuideHtml(c) {
+    if (c && c.id === "pai" && window.__PAICourseUI) return window.__PAICourseUI.guide(LANG);
     if (c && c.id === "ids") {
       const en = LANG === "en";
       const steps = en ? [
@@ -4845,6 +4924,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     bind("cdRandom", function () { go("random"); });
     bind("cdWrong", function () { go("wrong"); });
     bind("cdOverview", function () { go("overview"); });
+    if (currentCourse().course.id === "pai" && window.__PAICourseUI) window.__PAICourseUI.wire(app);
     wireMockButtons();
     app.querySelectorAll(".cdThumbImg,.cdLearnImg").forEach(function (img) {
       img.onerror = function () { try { img.style.display = "none"; } catch (e) { /* ignore */ } };
@@ -5360,7 +5440,8 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   }
   function lecChipsHtml() {
     const lec = byLecture(ALL);
-    return LEC_ORDER.filter(function (k) { return lec[k]; }).map(function (k) {
+    const order = currentCourse().course.id === "pai" ? ["AI in General", "Search", "Machine Learning"] : LEC_ORDER;
+    return order.filter(function (k) { return lec[k]; }).map(function (k) {
       return '<label class="fchip"><input type="checkbox" class="lecfilter" value="' + k + '"' +
         (k === "NumPy" ? "" : " checked") + "> " + k + ' <span class="muted">' + lec[k] + "</span></label>";
     }).join("");
@@ -5684,6 +5765,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
 
   function renderOverview() {
     const c = currentCourse();
+    if (c && c.course && c.course.id === "pai" && window.__PAICourseUI) {
+      app.innerHTML = '<div id="paiCourseHost"></div>';
+      window.__PAICourseUI.render(el("paiCourseHost"), LANG);
+      return;
+    }
     if (c && c.course && c.course.id === "aihe" && window.__AICourseUI) {
       app.innerHTML = '<div id="aiCourseHost"></div>';
       window.__AICourseUI.render(el("aiCourseHost"), LANG);
@@ -6037,7 +6123,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   /* ---------- 뷰 3: 문제은행 ---------- */
   function renderBank() {
     const lec = byLecture(ALL);
-    const order = LEC_ORDER.filter(function (k) { return lec[k]; });
+    const order = currentCourse().course.id === "pai"
+      ? ["AI in General", "Search", "Machine Learning"].filter(function (k) { return lec[k]; })
+      : LEC_ORDER.filter(function (k) { return lec[k]; });
     const lecRows = order.map(function (k) {
       return "<tr><td><span class='tag " + (k === "NumPy" ? "num" : "lec") + "'>" + esc(k) + "</span></td>" +
         "<td>" + lec[k] + "</td><td><button class='btn sm' data-lecstart='" + esc(k) + "'>" +
@@ -6088,7 +6176,13 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
             esc(x.id + " · " + x.title) + "</div>" + parts + "</div>";
         }).join("")
       : "";
-    app.innerHTML =
+    const paiNote = currentCourse().course.id === "pai"
+      ? '<div class="note" style="margin-bottom:16px;border:1px solid var(--warn-border);border-radius:var(--r-lg);background:var(--warn-bg)"><b>' +
+        (LANG === "en" ? "Original study questions" : "연습 문항 안내") + '</b><br>' +
+        (LANG === "en" ? "All 118 supplied prompts are included. The original PDF has no choices or answer key; the choices, answers and explanations here are independently authored study aids, not official answers." :
+          "PDF의 118개 원문 질문을 모두 포함했습니다. 원본에는 보기와 정답이 없으므로 여기의 보기·정답·해설은 별도로 작성한 연습용이며 교수님의 공식 답안이 아닙니다.") + '</div>'
+      : "";
+    app.innerHTML = paiNote +
       panel(t("bank.title") + '<span class="grow"></span><span class="muted" id="bankCount">' +
         tf("foundCount", ALL.length) + "</span>",
         '<div class="panelBody"><input id="bankQ" class="search" type="search" placeholder="' +
@@ -6677,7 +6771,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function toggleOption(q, k) {
     const a = S.answers[q.sid];
     const i = a.indexOf(k);
-    if (i === -1) a.push(k); else a.splice(i, 1);
+    if (i === -1 && q.course === "pai") a.splice(0, a.length, k);
+    else if (i === -1) a.push(k);
+    else a.splice(i, 1);
     a.sort();
     renderQuiz();
   }
