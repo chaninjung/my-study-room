@@ -36,7 +36,7 @@ eq("종합 모의고사 각 20문항", mocks.mocks.filter(m => m.scope === "all"
 eq("실제 시험 30분과 연습 설정 분리", [data.meta.exam_minutes, data.meta.exam_questions, data.meta.exam_pass], [30, 20, 12]);
 const curriculum = new Function(script("curriculum-data") + "\nreturn CURRICULUM;")();
 const course = curriculum.flatMap(s => s.courses).find(c => c.id === "pai");
-ok("PAI 과목·대표 이미지·학습 항목 존재", course && course.image === "assets/courses/pai.svg" && course.items.some(i => i.id === "bank") && course.items.some(i => i.id === "mocks"));
+ok("PAI 과목·대표 이미지·학습 항목 존재", course && course.image === "assets/courses/pai.jpg" && course.items.some(i => i.id === "bank") && course.items.some(i => i.id === "mocks"));
 eq("PAI 학습 범위 4개", course.sections.map(s => s.scope), ["all", "general", "search", "ml"]);
 eq("일정: 신청 시작 + 마감 3 + 시험 3", course.schedule.map(s => s.id), ["registration", "deadline1", "exam1", "deadline2", "exam2", "deadline3", "exam3"]);
 eq("Z 코드 실제 도착 시간", course.schedule.filter(s => /^exam/.test(s.id)).map(s => s.at), ["2026-12-18T14:30", "2027-01-15T12:00", "2027-01-29T12:00"]);
