@@ -22,3 +22,11 @@
 .paiDisclaimer{margin:22px 0 8px;padding:18px 20px;border-left:3px solid var(--border-2);background:var(--surface-2);color:var(--text-3);font-size:12px;line-height:1.7}.paiDisclaimer p{margin:4px 0 0}
 @media(max-width:900px){.paiLead{align-items:flex-start}.paiCount{min-width:100px;padding:16px}.paiPractice{align-items:flex-start;flex-direction:column}.paiActions{width:100%;min-width:0;flex-direction:row;flex-wrap:wrap}.paiActions .paiButton{flex:1}.paiIntegrity ul{flex-direction:column;gap:6px}.paiDates{grid-template-columns:1fr}.paiDates article{padding:16px 20px}}
 @media(max-width:640px){.paiLead{flex-direction:column;gap:16px;padding-top:12px}.paiLead h1{font-size:25px}.paiCount{display:flex;width:100%;align-items:center;justify-content:space-between;text-align:left}.paiCount b{font-size:32px}.paiUrgent{align-items:flex-start;flex-direction:column;padding:22px}.paiTopicGrid{grid-template-columns:1fr}.paiTopic{padding:18px 20px}.paiTopic>b{display:inline-block;margin-right:8px;font-size:30px}.paiPractice{padding:22px}.paiActions{flex-direction:column}.paiSectionHead{align-items:flex-start;flex-direction:column}.paiIntegrity{padding:22px}.paiDates h3{font-size:18px}}
+/* PAI PDF 원문 질문 뷰어 */
+.paiTopic.active { border-color: var(--primary); background: var(--primary-soft); }
+.paiPromptList { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.paiPromptItem { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 18px; border: 1px solid var(--border); border-radius: var(--r-md); background: #fff; }
+.paiPromptItem:hover { border-color: var(--primary-border); }
+.paiPromptNum { flex: none; font-size: 12px; font-weight: 800; color: var(--primary); padding: 2px 8px; border-radius: 4px; background: var(--primary-soft); }
+.paiPromptText { flex: 1; font-size: 14.5px; line-height: 1.6; color: var(--text); }
+.paiPromptAction { flex: none; padding: 6px 12px; font-size: 12px; }
