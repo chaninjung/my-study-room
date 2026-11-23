@@ -2,7 +2,7 @@ services:
   - type: web
     name: dnd-coding-test-runner
     runtime: docker
-    rootDir: coding_test_server
+    rootDir: services/coding-test-runner
     dockerfilePath: ./Dockerfile.api
     healthCheckPath: /api/health
     envVars:
@@ -22,6 +22,8 @@ services:
         value: dnd_hw1_assets.zip
       - key: USER_ANSWER_BUCKET
         value: dnd-user-answers
+      - key: EXAM_ASSET_BUCKET
+        value: dnd-private-exams
       - key: DND_ASSET_ARCHIVE
         value: /etc/secrets/dnd_hw1_assets.zip
       - key: ALLOWED_ORIGINS

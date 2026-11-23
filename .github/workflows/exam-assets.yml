@@ -1,0 +1,43 @@
+name: Upload private exam assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - "web/site/ids_questions.js"
+      - "web/site/ids_short_answers.js"
+      - "web/site/pai_questions.js"
+      - "web/site/hungarian_questions.js"
+      - "web/offline/TheoryTest1_PracticeExam.html"
+      - "services/migrate_exam_assets.py"
+      - ".github/workflows/exam-assets.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      EXAM_ASSET_BUCKET: dnd-private-exams
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Upload private exam JSON
+        run: python services/migrate_exam_assets.py
