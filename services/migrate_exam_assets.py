@@ -21,7 +21,10 @@ def extract_via_node(source: Path, expression: str) -> dict:
         f"vm.runInNewContext(fs.readFileSync({json.dumps(str(source))},'utf8'),{{window,console}});"
         f"process.stdout.write(JSON.stringify({expression}));"
     )
-    result = subprocess.run(["node", "-e", script], check=True, capture_output=True)
+    result = subprocess.run(["node", "-e", script], check=False, capture_output=True)
+    if result.returncode != 0:
+        error = result.stderr.decode("utf-8", errors="replace").strip()
+        raise RuntimeError(f"Could not extract {source.name}: {error or 'unknown Node.js error'}")
     return json.loads(result.stdout.decode("utf-8"))
 
 
@@ -47,6 +50,19 @@ def write_json(name: str, payload: dict) -> Path:
     return path
 
 
+def extract_assignment_json(source: Path, prefix: str):
+    text = source.read_text(encoding="utf-8").strip()
+    marker = prefix
+    if marker not in text:
+        raise RuntimeError(f"Could not find {prefix} in {source.name}")
+    value = text.split(marker, 1)[1].strip()
+    if value.startswith("="):
+        value = value[1:].strip()
+    if value.endswith(";"):
+        value = value[:-1].rstrip()
+    return json.loads(value)
+
+
 def upload(path: Path, supabase_url: str, service_key: str, bucket: str) -> None:
     url = f"{supabase_url.rstrip('/')}/storage/v1/object/{bucket}/{path.name}"
     request = Request(
@@ -70,8 +86,14 @@ def upload(path: Path, supabase_url: str, service_key: str, bucket: str) -> None
 def main() -> int:
     assets = {
         "ids": {
-            "questions": extract_via_node(WEB_SITE / "ids_questions.js", "window.__IDS_QUESTION_DATA__"),
-            "short_answers": extract_via_node(WEB_SITE / "ids_short_answers.js", "window.__IDS_SHORT_ANSWERS__"),
+            "questions": extract_assignment_json(
+                WEB_SITE / "ids_questions.js",
+                "window.__IDS_QUESTION_DATA__",
+            ),
+            "short_answers": extract_assignment_json(
+                WEB_SITE / "ids_short_answers.js",
+                "window.__IDS_SHORT_ANSWERS__",
+            ),
         },
         "pai": {
             "questions": extract_via_node(
