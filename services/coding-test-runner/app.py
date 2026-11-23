@@ -111,7 +111,7 @@ USER_ANSWER_BUCKET = os.getenv("USER_ANSWER_BUCKET", "dnd-user-answers")
 EXAM_ASSET_BUCKET = os.getenv("EXAM_ASSET_BUCKET", "dnd-private-exams")
 # Private exam JSON objects are read from Supabase Storage only after Supabase Auth succeeds.
 MAX_ANSWER_BYTES = 5_000_000
-EXAM_COURSES = {"dnd", "ids", "pai", "hungarian"}
+EXAM_COURSES = {"dnd", "ids", "pai", "hungarian", "aihe"}
 
 
 def ensure_answer_bucket() -> None:
