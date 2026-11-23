@@ -2,8 +2,7 @@ services:
   - type: web
     name: dnd-coding-test-runner
     runtime: docker
-    rootDir: services/coding-test-runner
-    dockerfilePath: ./Dockerfile.api
+    dockerfilePath: Dockerfile.api
     healthCheckPath: /api/health
     envVars:
       - key: RUNNER_MODE
