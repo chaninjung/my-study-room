@@ -136,12 +136,7 @@ def main() -> int:
         "TheoryTest1_PracticeExam.html",
         "site/index.html",
     )
-    ai_vocabulary = source_containing_from_file_history(
-        "web/site/ai_vocabulary.js",
-        "var terms = [",
-    )
     assets = {
-        "aihe": extract_via_node(ai_vocabulary, "window.__AI_VOCAB_DATA__"),
         "ids": {
             "questions": extract_assignment_json(
                 ids_questions,
@@ -162,6 +157,20 @@ def main() -> int:
         },
         "dnd": extract_dnd(dnd_source),
     }
+    ai_source_path = os.getenv("AIHE_SOURCE_PATH", "").strip()
+    try:
+        ai_vocabulary = (
+            Path(ai_source_path).resolve()
+            if ai_source_path
+            else source_containing_from_file_history(
+                "web/site/ai_vocabulary.js",
+                "var terms = [",
+            )
+        )
+        assets["aihe"] = extract_via_node(ai_vocabulary, "window.__AI_VOCAB_DATA__")
+    except RuntimeError as error:
+        print(f"AIHE upload skipped: {error}")
+        print("Set AIHE_SOURCE_PATH to update the private AI vocabulary object.")
 
     paths = {name: write_json(name, payload) for name, payload in assets.items()}
     supabase_url = os.getenv("SUPABASE_URL", "").strip()
