@@ -32,6 +32,7 @@ jobs:
         run: |
           mkdir -p _site
           cp -R web/site/. _site/
+          rm -rf _site/.github _site/.gitignore _site/README.md
           mkdir -p _site/site
           cp -R web/site/. _site/site/
           cat << 'EOF' > _site/site/index.html
