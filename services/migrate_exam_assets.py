@@ -28,11 +28,28 @@ def extract_via_node(source: Path, expression: str) -> dict:
     return json.loads(result.stdout.decode("utf-8"))
 
 
-def extract_dnd() -> dict:
-    html = (ROOT / "web" / "offline" / "TheoryTest1_PracticeExam.html").read_text(encoding="utf-8")
+def source_from_history(current: Path, *legacy_paths: str) -> Path:
+    if current.is_file():
+        return current
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    for legacy_path in legacy_paths:
+        result = subprocess.run(
+            ["git", "-C", str(ROOT), "show", f"e68ee21:{legacy_path}"],
+            check=False,
+            capture_output=True,
+        )
+        if result.returncode == 0:
+            temp = OUTPUT_DIR / ("legacy-" + legacy_path.replace("/", "-"))
+            temp.write_bytes(result.stdout)
+            return temp
+    raise RuntimeError(f"Could not find {current.name} locally or in the previous Git commit.")
+
+
+def extract_dnd(source: Path) -> dict:
+    html = source.read_text(encoding="utf-8")
     script = (
         "const fs=require('fs'),vm=require('vm');"
-        f"const html=fs.readFileSync({json.dumps(str(ROOT / 'web' / 'offline' / 'TheoryTest1_PracticeExam.html'))},'utf8');"
+        f"const html=fs.readFileSync({json.dumps(str(source))},'utf8');"
         "const window={};"
         "for(const id of ['core-data','mock-data']){"
         "const m=html.match(new RegExp('<script id=\"'+id+'\">([\\\\s\\\\S]*?)</script>'));"
@@ -84,38 +101,41 @@ def upload(path: Path, supabase_url: str, service_key: str, bucket: str) -> None
 
 
 def main() -> int:
+    ids_questions = source_from_history(WEB_SITE / "ids_questions.js", "site/ids_questions.js")
+    ids_answers = source_from_history(WEB_SITE / "ids_short_answers.js", "site/ids_short_answers.js")
+    pai_questions = source_from_history(
+        COURSES / "principle-of-artificial-intelligence" / "data" / "pai_questions.js",
+        "site/pai_questions.js",
+    )
+    hungarian_questions = source_from_history(
+        COURSES / "hungarian-language" / "data" / "hungarian_questions.js",
+        "site/hungarian_questions.js",
+    )
+    dnd_source = source_from_history(
+        ROOT / "web" / "offline" / "TheoryTest1_PracticeExam.html",
+        "TheoryTest1_PracticeExam.html",
+        "site/index.html",
+    )
     assets = {
         "ids": {
             "questions": extract_assignment_json(
-                WEB_SITE / "ids_questions.js",
+                ids_questions,
                 "window.__IDS_QUESTION_DATA__",
             ),
             "short_answers": extract_assignment_json(
-                WEB_SITE / "ids_short_answers.js",
+                ids_answers,
                 "window.__IDS_SHORT_ANSWERS__",
             ),
         },
         "pai": {
-            "questions": extract_via_node(
-                COURSES / "principle-of-artificial-intelligence" / "data" / "pai_questions.js",
-                "window.__PAI_QUESTION_DATA__",
-            ),
-            "mocks": extract_via_node(
-                COURSES / "principle-of-artificial-intelligence" / "data" / "pai_questions.js",
-                "window.__PAI_MOCK_DATA__",
-            ),
+            "questions": extract_via_node(pai_questions, "window.__PAI_QUESTION_DATA__"),
+            "mocks": extract_via_node(pai_questions, "window.__PAI_MOCK_DATA__"),
         },
         "hungarian": {
-            "questions": extract_via_node(
-                COURSES / "hungarian-language" / "data" / "hungarian_questions.js",
-                "window.__HUN_QUESTION_DATA__",
-            ),
-            "mocks": extract_via_node(
-                COURSES / "hungarian-language" / "data" / "hungarian_questions.js",
-                "window.__HUN_MOCK_DATA__",
-            ),
+            "questions": extract_via_node(hungarian_questions, "window.__HUN_QUESTION_DATA__"),
+            "mocks": extract_via_node(hungarian_questions, "window.__HUN_MOCK_DATA__"),
         },
-        "dnd": extract_dnd(),
+        "dnd": extract_dnd(dnd_source),
     }
 
     paths = {name: write_json(name, payload) for name, payload in assets.items()}
