@@ -31,7 +31,6 @@ jobs:
 
       - name: Prepare site artifact
         run: |
-          python web/tools/sync_course_data.py
           mkdir -p _site
           cp -R web/site/. _site/
           mkdir -p _site/site
