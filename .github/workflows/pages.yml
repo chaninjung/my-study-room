@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
   workflow_dispatch:
 
 permissions:
@@ -30,10 +31,11 @@ jobs:
 
       - name: Prepare site artifact
         run: |
+          python web/tools/sync_course_data.py
           mkdir -p _site
-          cp -R site/. _site/
+          cp -R web/site/. _site/
           mkdir -p _site/site
-          cp -R site/. _site/site/
+          cp -R web/site/. _site/site/
           cat << 'EOF' > _site/site/index.html
           <!DOCTYPE html>
           <html>
