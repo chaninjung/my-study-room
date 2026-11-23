@@ -2007,6 +2007,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function notifyAuth(isIn) {
     try { if (typeof window.__appAuthChanged === "function") window.__appAuthChanged(!!isIn); } catch (e) { /* ignore */ }
     try { if (typeof window.__glossaryAuthChanged === "function") window.__glossaryAuthChanged(!!isIn); } catch (e) { /* ignore */ }
+    if (isIn && typeof window.__loadAIVocabulary === "function") window.__loadAIVocabulary();
   }
 
   /* ---------- 소셜 로그인 (Supabase OAuth · 선택) ----------

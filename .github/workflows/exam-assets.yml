@@ -8,6 +8,7 @@ on:
     paths:
       - "web/site/ids_questions.js"
       - "web/site/ids_short_answers.js"
+      - "web/site/ai_vocabulary.js"
       - "web/site/pai_questions.js"
       - "web/site/hungarian_questions.js"
       - "web/offline/TheoryTest1_PracticeExam.html"

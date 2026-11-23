@@ -45,6 +45,26 @@ def source_from_history(current: Path, *legacy_paths: str) -> Path:
     raise RuntimeError(f"Could not find {current.name} locally or in the previous Git commit.")
 
 
+def source_containing_from_file_history(path: str, marker: str) -> Path:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    result = subprocess.run(
+        ["git", "-C", str(ROOT), "rev-list", "--all", "--", path],
+        check=True,
+        capture_output=True,
+    )
+    for revision in result.stdout.decode("utf-8").splitlines():
+        content = subprocess.run(
+            ["git", "-C", str(ROOT), "show", f"{revision}:{path}"],
+            check=False,
+            capture_output=True,
+        )
+        if content.returncode == 0 and marker.encode() in content.stdout:
+            source = OUTPUT_DIR / "legacy-ai_vocabulary.js"
+            source.write_bytes(content.stdout)
+            return source
+    raise RuntimeError(f"Could not find {marker} in the history of {path}.")
+
+
 def extract_dnd(source: Path) -> dict:
     html = source.read_text(encoding="utf-8")
     script = (
@@ -116,7 +136,12 @@ def main() -> int:
         "TheoryTest1_PracticeExam.html",
         "site/index.html",
     )
+    ai_vocabulary = source_containing_from_file_history(
+        "web/site/ai_vocabulary.js",
+        "var terms = [",
+    )
     assets = {
+        "aihe": extract_via_node(ai_vocabulary, "window.__AI_VOCAB_DATA__"),
         "ids": {
             "questions": extract_assignment_json(
                 ids_questions,
