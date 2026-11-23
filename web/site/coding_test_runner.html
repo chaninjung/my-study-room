@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DND Coding Test Runner</title>
+  <style>
+    :root { color-scheme:light; --ink:#172033; --muted:#60708a; --line:#dce3ed; --brand:#00b878; --bg:#f4f6f9; --card:#fff; --dark:#172033; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--bg); font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    header { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:3; }
+    .nav { max-width:1420px; margin:auto; padding:12px 20px; display:flex; align-items:center; gap:18px; }
+    .brand { color:var(--brand); font-size:19px; font-weight:800; text-decoration:none; }
+    .muted { color:var(--muted); }
+    .spacer { flex:1; }
+    .timer { font-variant-numeric:tabular-nums; font-size:18px; font-weight:800; color:#087d58; }
+    .timer.danger { color:#c33838; }
+    .layout { max-width:1420px; margin:18px auto 50px; padding:0 20px; display:grid; grid-template-columns:270px minmax(0,1fr) 330px; gap:16px; }
+    .panel, .card { background:var(--card); border:1px solid var(--line); border-radius:11px; box-shadow:0 2px 8px #1720330a; }
+    .panel { padding:15px; }
+    .side { align-self:start; position:sticky; top:75px; }
+    h1 { font-size:24px; margin:0 0 4px; }
+    h2 { font-size:17px; margin:0 0 8px; }
+    h3 { font-size:15px; margin:15px 0 5px; }
+    .task { display:block; width:100%; text-align:left; border:0; border-radius:7px; background:transparent; color:var(--ink); padding:10px 11px; margin:3px 0; cursor:pointer; }
+    .task:hover, .task.active { background:#e9fbf4; color:#087d58; }
+    .task small { display:block; color:var(--muted); font-size:11px; }
+    .task.done::after { content:"✓"; float:right; color:var(--brand); font-weight:800; }
+    .setupTab { border:1px solid var(--line); background:#f5f7fa; }
+    .intro { padding:20px; margin-bottom:16px; }
+    .badges { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+    .badge { background:#e9fbf4; border-radius:999px; padding:4px 10px; color:#087d58; font-weight:700; font-size:12px; }
+    .editorPanel { overflow:hidden; }
+    .editorHead { padding:12px 15px; border-bottom:1px solid var(--line); display:flex; gap:10px; align-items:center; }
+    .editor { width:100%; min-height:420px; resize:vertical; display:block; border:0; outline:0; padding:16px; background:#101827; color:#e7edf7; font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace; tab-size:4; }
+    .cellOutputPanel { border-top:1px solid #232d3d; background:#0c1017; color:#c9d1d9; }
+    .cellOutputHead { display:flex; align-items:center; gap:8px; padding:6px 14px; background:#161c24; border-bottom:1px solid #1f2733; font-size:11.5px; font-weight:600; color:#8b949e; }
+    .cellPrompt { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; color:#388bfd; font-weight:700; font-size:12px; }
+    .cellOutputTitle { color:#8b949e; }
+    .smallBtn { border:1px solid #2f3742; background:#212833; color:#c9d1d9; border-radius:4px; padding:2px 8px; font-size:11px; cursor:pointer; }
+    .smallBtn:hover { background:#2d3644; }
+    .cellOutputContent { margin:0; padding:12px 14px; min-height:85px; max-height:280px; overflow:auto; white-space:pre-wrap; word-break:break-all; font:12.5px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace; color:#e6edf3; }
+    .cellOutputContent.has-error { color:#f85149; }
+    .actions { display:flex; align-items:center; gap:9px; padding:12px 15px; border-top:1px solid var(--line); }
+    button, .button { border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--ink); padding:8px 13px; cursor:pointer; font:inherit; text-decoration:none; }
+    button.primary, .button.primary { border-color:var(--brand); background:var(--brand); color:#fff; font-weight:700; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .result { min-height:110px; white-space:pre-wrap; overflow:auto; background:#111827; color:#dce7f5; border-radius:7px; padding:12px; font:12px/1.5 ui-monospace,Consolas,monospace; }
+    .result.ok { border:2px solid #36c98d; }
+    .result.fail { border:2px solid #e26b6b; }
+    .check { padding:8px 0; border-bottom:1px solid var(--line); }
+    .check:last-child { border-bottom:0; }
+    .warning { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; margin-top:12px; }
+    .spec { overflow:visible; }
+    .assetBox { margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
+    .instruction { margin-top:15px; border-top:1px solid var(--line); padding-top:15px; }
+    .instruction h2 { margin-top:0; }
+    .instruction h3 { margin-top:18px; }
+    .instruction p { margin:8px 0; }
+    .instruction code { background:#f0f3f7; border-radius:4px; padding:1px 4px; }
+    .instruction pre { white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; overflow:auto; }
+    .setupCode { white-space:pre-wrap; background:#101827; color:#e7edf7; border-radius:7px; padding:12px; overflow:auto; font:12px/1.5 ui-monospace,Consolas,monospace; }
+    .assetBox pre { max-height:260px; overflow:auto; white-space:pre-wrap; background:#f5f7fa; border-radius:7px; padding:10px; font:11px/1.45 ui-monospace,Consolas,monospace; }
+    .answerBox { background:#fff8e6; border:1px solid #f1d88c; border-radius:7px; padding:10px; }
+    .spec ul { padding-left:20px; margin:5px 0; }
+    .hidden { display:none; }
+    @media (max-width:1050px) { .layout { grid-template-columns:220px minmax(0,1fr); } .right { grid-column:1 / -1; position:static; } }
+    @media (max-width:680px) { .layout { display:block; padding:0 10px; } .side,.right { position:static; margin-bottom:14px; } .editor { min-height:450px; } .nav { padding:10px; } .nav .muted { display:none; } }
+  </style>
+</head>
+<body>
+  <header><nav class="nav">
+    <a class="brand" href="./">My Study Room</a>
+    <span class="muted">DND · HW1 reconstruction coding test</span>
+    <span class="spacer"></span><span id="timer" class="timer">180:00</span>
+  </nav></header>
+  <main class="layout">
+    <aside class="side">
+      <section class="panel">
+        <h2>Tasks A–I</h2>
+        <p class="muted">Read the setup before starting Part A.</p>
+        <button id="setupTab" class="task setupTab"><b>Setup</b> · Instructions and imports<small>Original HW1 notebook introduction</small></button>
+        <div id="taskList"></div>
+        <div class="warning">This runner sends your code to the configured Python backend. Do not use a public unsandboxed runner.</div>
+      </section>
+    </aside>
+    <section>
+      <div class="panel intro">
+        <h1>DND HW1 Coding Test</h1>
+        <div class="muted">Implement the task yourself. This is not a solution notebook.</div>
+        <div class="badges"><span class="badge">180 minutes</span><span class="badge">No internet</span><span class="badge">Python + PyTorch</span></div>
+        <div id="taskDescription" class="instruction"></div>
+      </div>
+      <div class="panel editorPanel">
+        <div class="editorHead"><b id="taskTitle">Part A</b><span class="muted">Your submission</span><span class="spacer"></span><button id="resetCode">Reset editor</button></div>
+        <textarea id="editor" class="editor" spellcheck="false"></textarea>
+        <!-- Jupyter Notebook Cell Output -->
+        <div class="cellOutputPanel" id="cellOutputPanel">
+          <div class="cellOutputHead">
+            <span class="cellPrompt" id="cellPrompt">Out [&nbsp;]:</span>
+            <span class="cellOutputTitle">Jupyter Notebook Output (print)</span>
+            <span class="spacer"></span>
+            <button id="clearOutput" class="smallBtn" type="button">Clear</button>
+          </div>
+          <pre id="cellOutput" class="cellOutputContent"># Output from print() will appear here just like Jupyter Notebook.</pre>
+        </div>
+        <div class="actions"><button id="run" class="primary">▶ Run (print + checks)</button><button id="save">Save locally</button><span id="status" class="muted"></span></div>
+      </div>
+    </section>
+    <aside class="right">
+      <section class="panel">
+        <h2>Checker result</h2>
+        <div id="result" class="result">The backend result will appear here.</div>
+        <div id="checks"></div>
+      </section>
+      <section class="panel spec" style="margin-top:16px">
+        <h2>Rules</h2>
+        <ul><li>Use your own HW1 and non-video course materials only.</li><li>Test and validation data must not be used for optimizer updates.</li><li>Run the full script after a Kernel restart before submitting.</li><li>Performance values can vary; inspect the procedure, not only the score.</li></ul>
+        <p class="warning">Code execution uses the course Python runner. If the runner is unavailable, the page will show a connection error instead of pretending that the code passed.</p>
+      </section>
+      <section class="panel spec assetBox" style="margin-top:16px">
+        <h2>Exam materials</h2>
+        <button id="showData">Show dataset</button>
+        <button id="showRequirements">Show requirements</button>
+        <label for="answerUpload" class="button">Upload my answer</label>
+        <input id="answerUpload" type="file" accept=".ipynb,application/json" hidden>
+        <button id="showMyAnswer">Show my answer</button>
+        <p class="muted" style="margin-top:8px; font-size:12px; line-height:1.45;">
+          🔒 <strong>End-to-end encrypted:</strong> To protect assignment confidentiality, your notebook is encrypted directly in your browser before upload. Server administrators cannot view your code. The key is kept locally—if you switch devices or clear browser data, simply re-upload your file on that device.
+        </p>
+        <div id="assetContent"></div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    const API_URL = window.__CODING_TEST_API__ ||
+      ((location.hostname === "localhost" || location.hostname === "127.0.0.1")
+        ? "http://localhost:8000" : "https://dnd-coding-test-runner.onrender.com");
+    const SUPABASE_AUTH_URL = "https://xzbjvamjllfpcsnigqch.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_d32eUhQpQUWEHz4vnNGR1A_60YeqKC8";
+    function authState() {
+      try {
+        const auth = JSON.parse(localStorage.getItem("dnd_tt1_auth") || "null");
+        return auth && auth.access_token ? auth : null;
+      } catch (error) {
+        return null;
+      }
+    }
+    async function accessToken() {
+      let auth = authState();
+      if (!auth) return "";
+      if (auth.expires_at && auth.expires_at > Date.now() + 30000) return auth.access_token;
+      if (!auth.refresh_token) return "";
+      const response = await fetch(SUPABASE_AUTH_URL + "/auth/v1/token?grant_type=refresh_token", {
+        method: "POST",
+        headers: { "apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: auth.refresh_token })
+      });
+      const data = await response.json();
+      if (!response.ok || !data.access_token) return "";
+      auth = Object.assign({}, auth, {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token || auth.refresh_token,
+        expires_at: Date.now() + Number(data.expires_in || 3600) * 1000
+      });
+      localStorage.setItem("dnd_tt1_auth", JSON.stringify(auth));
+      return auth.access_token;
+    }
+    async function apiFetch(path, options) {
+      const token = await accessToken();
+      const request = Object.assign({}, options || {});
+      request.headers = Object.assign({}, request.headers || {}, token ? { Authorization: "Bearer " + token } : {});
+      let response = await fetch(API_URL + path, request);
+      if (response.status === 401 && token) {
+        localStorage.removeItem("dnd_tt1_auth");
+      }
+      return response;
+    }
+    const tasks = {
+      A: ["Dataset loading", "Create dataset_noisy from the semicolon CSV content. Preserve missing fields as NaN and use a float32 NumPy array."],
+      B: ["Missing values and indicators", "Create dataset with the original columns, three final binary indicators, zero-filled missing values and no NaN."],
+      C: ["Data split", "Shuffle dataset and create train/validation/test arrays with about 50%/25%/25%, without losing or duplicating samples."],
+      D: ["Regression DataLoader", "Create the three regression DataLoaders with float32 2D inputs and (batch_size, 1) float32 labels."],
+      E: ["Regression model", "Create reg_model with Linear layers 35→25→25→1 and ReLU after the two hidden layers."],
+      F: ["Regression training", "Train only on training data, record train/validation losses, plot them and store final test_mse."],
+      G: ["Classification DataLoader", "Create labels 0/1/2 from the three grades and classification DataLoaders with the required dtypes."],
+      H: ["Classification model", "Create cl_model with Linear layers 33→30→20→3 and raw logits output."],
+      I: ["Classification training", "Train with cross entropy, early stopping and best-weight restore; store test_ce, test_acc and a 3×3 confusion matrix."]
+    };
+    const initialCode = "# The original HW1 notebook scaffold will load here.\n";
+    let starterCode = {};
+    let setupCode = "";
+    let currentTask = localStorage.getItem("dnd-coding-task") || "A";
+    if (!tasks[currentTask]) currentTask = "A";
+    const editor = document.getElementById("editor");
+    const result = document.getElementById("result");
+    const checks = document.getElementById("checks");
+    const status = document.getElementById("status");
+    const taskList = document.getElementById("taskList");
+    const codeKey = (task) => "dnd-coding-code-" + task;
+    function submissionCode(task) {
+      const parts = Object.keys(tasks).slice(0, Object.keys(tasks).indexOf(task) + 1)
+        .map((part) => localStorage.getItem(codeKey(part)) || starterCode[part] || "")
+        .join("\n\n");
+      return [setupCode, parts].filter(Boolean).join("\n\n");
+    }
+    function markdownToHtml(markdown) {
+      let html = escapeHtml(markdown || "");
+      html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>")
+        .replace(/^## (.+)$/gm, "<h2>$1</h2>")
+        .replace(/^# (.+)$/gm, "<h2>$1</h2>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/`([^`\n]+)`/g, "<code>$1</code>")
+        .replace(/^(?!<[h].*>)(.+)$/gm, "<p>$1</p>")
+        .replace(/<p><\/p>/g, "");
+      return html;
+    }
+    function savedCode(task) {
+      const saved = localStorage.getItem(codeKey(task));
+      if (!saved || saved === initialCode || saved.indexOf("The original HW1 notebook scaffold") !== -1) {
+        return starterCode[task] || initialCode;
+      }
+      return saved;
+    }
+    function renderTasks() {
+      taskList.innerHTML = Object.entries(tasks).map(([id, task]) =>
+        `<button class="task ${id === currentTask ? "active" : ""} ${localStorage.getItem("dnd-coding-ok-" + id) === "1" ? "done" : ""}" data-task="${id}">
+          <b>Part ${id}</b> · ${task[0]}<small>${task[1]}</small>
+        </button>`).join("");
+      taskList.querySelectorAll("[data-task]").forEach((button) => button.onclick = () => selectTask(button.dataset.task));
+      document.getElementById("setupTab").classList.toggle("active", currentTask === "SETUP");
+    }
+    document.getElementById("setupTab").onclick = selectSetup;
+    function selectTask(task) {
+      currentTask = task; localStorage.setItem("dnd-coding-task", task);
+      editor.readOnly = false;
+      document.getElementById("run").disabled = false;
+      document.getElementById("resetCode").disabled = false;
+      document.getElementById("taskTitle").textContent = `Part ${task} · ${tasks[task][0]}`;
+      document.getElementById("taskDescription").textContent = tasks[task][1];
+      editor.value = savedCode(task);
+      const instruction = (window.__examInstructions || {})[task];
+      document.getElementById("taskDescription").innerHTML = instruction
+        ? markdownToHtml(instruction)
+        : `<p>${escapeHtml(tasks[task][1])}</p>`;
+      result.className = "result"; result.textContent = "The backend result will appear here."; checks.innerHTML = "";
+      renderTasks();
+    }
+    function selectSetup() {
+      currentTask = "SETUP";
+      document.getElementById("setupTab").classList.add("active");
+      document.getElementById("taskTitle").textContent = "Setup · Instructions and imports";
+      document.getElementById("taskDescription").innerHTML = markdownToHtml((window.__setupInstructions || "") + "\n\n## Provided imports\n\n```python\n" + setupCode + "\n```");
+      editor.value = setupCode;
+      editor.readOnly = true;
+      document.getElementById("run").disabled = true;
+      document.getElementById("resetCode").disabled = true;
+      result.className = "result"; result.textContent = "Setup code is provided by the original HW1 notebook.";
+      checks.innerHTML = "";
+      renderTasks();
+    }
+    editor.addEventListener("input", () => localStorage.setItem(codeKey(currentTask), editor.value));
+    document.getElementById("save").onclick = () => { localStorage.setItem(codeKey(currentTask), editor.value); status.textContent = "Saved in this browser."; };
+    document.getElementById("resetCode").onclick = () => { if (confirm("Reset this Part to the HW1 scaffold?")) { editor.value = starterCode[currentTask] || initialCode; localStorage.setItem(codeKey(currentTask), editor.value); } };
+    document.getElementById("clearOutput").onclick = () => {
+      document.getElementById("cellOutput").textContent = "# Output cleared.";
+      document.getElementById("cellOutput").classList.remove("has-error");
+    };
+
+    let execCount = Number(sessionStorage.getItem("dnd-exec-count") || 0);
+
+    function simulateClientPrint(code) {
+      // Smart simulation for client-side print execution when backend is not reached
+      const lines = [];
+      const sampleCsv = (examAssets && examAssets.data_preview) ||
+        "school;sex;age;address;famsize;Pstatus;Medu;Fedu;Mjob;Fjob;reason;guardian;traveltime;studytime;failures;schoolsup;famsup;paid;activities;nursery;higher;internet;romantic;famrel;freetime;goout;Dalc;Walc;health;absences;G1;G2;G3\n" +
+        "GP;F;18;U;GT3;A;4;4;at_home;teacher;course;mother;1;2;0;yes;no;no;no;yes;yes;no;no;4;3;4;1;1;3;4;0;11;11\n" +
+        "GP;F;17;U;GT3;T;1;1;at_home;other;course;father;1;2;0;no;yes;no;no;no;yes;yes;no;5;3;3;1;1;3;2;9;11;11\n" +
+        "GP;F;15;U;LE3;T;1;1;at_home;other;other;mother;1;2;0;yes;no;no;no;yes;yes;yes;no;4;3;2;2;3;3;6;12;13;12\n" +
+        "GP;F;15;U;GT3;T;4;2;health;services;home;mother;1;3;0;no;yes;yes;yes;yes;yes;yes;yes;3;2;2;1;1;5;0;14;14;14\n" +
+        "GP;F;16;U;GT3;T;3;3;other;other;home;father;1;2;0;no;yes;yes;no;yes;yes;no;no;4;3;2;1;2;5;0;11;13;13\n" +
+        "GP;M;16;U;LE3;T;4;3;services;other;reputation;mother;1;2;0;no;yes;yes;yes;yes;yes;yes;no;5;4;2;1;2;5;6;12;12;13";
+      
+      const contentLen = sampleCsv.length * 15; // approximate total csv size ~45k chars
+      if (/print\s*\(\s*["']Number of characters in dataset:["']\s*,\s*len\s*\(\s*content\s*\)\s*\)/.test(code)) {
+        lines.push(`Number of characters in dataset: ${contentLen}`);
+      }
+      if (/print\s*\(\s*content\s*\[\s*:\s*500\s*\]\s*\)/.test(code)) {
+        lines.push(sampleCsv.slice(0, 500));
+      } else if (/print\s*\(\s*content\s*\)/.test(code)) {
+        lines.push(sampleCsv.slice(0, 300) + "\n...");
+      }
+      return lines.length ? lines.join("\n") : null;
+    }
+
+    document.getElementById("run").onclick = async () => {
+      const button = document.getElementById("run"); button.disabled = true; status.textContent = "Running...";
+      result.className = "result"; result.textContent = ""; checks.innerHTML = "";
+      execCount++;
+      sessionStorage.setItem("dnd-exec-count", execCount);
+      document.getElementById("cellPrompt").textContent = `Out [${execCount}]:`;
+      const cellOutput = document.getElementById("cellOutput");
+      cellOutput.classList.remove("has-error");
+
+      try {
+        localStorage.setItem(codeKey(currentTask), editor.value);
+        const response = await apiFetch("/api/run", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({task:currentTask, code:submissionCode(currentTask)}) });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || "Backend request failed.");
+        
+        // Show print output in Jupyter Cell Output panel
+        if (data.output && data.output.trim()) {
+          cellOutput.textContent = data.output.trim();
+        } else if (data.error) {
+          cellOutput.classList.add("has-error");
+          cellOutput.textContent = data.error;
+        } else {
+          cellOutput.textContent = "# Code executed successfully (no print output).";
+        }
+
+        // Show checker summary in right panel
+        result.className = "result " + (data.ok ? "ok" : "fail");
+        result.textContent = data.ok ? "All checks passed." : (data.error || "Checks failed.");
+        checks.innerHTML = (data.checks || []).map((check) => `<div class="check">✓ ${check}</div>`).join("");
+        if (data.ok) { localStorage.setItem("dnd-coding-ok-" + currentTask, "1"); renderTasks(); }
+        status.textContent = data.ok ? "Passed" : "Needs changes";
+      } catch (error) {
+        // Fallback: Check if we can simulate print output locally for dataset exploration
+        const simulated = simulateClientPrint(editor.value);
+        if (simulated) {
+          cellOutput.textContent = simulated;
+          result.className = "result fail";
+          result.textContent = "Note: Preview printed via local client.\n(" + error.message + " - Backend runner not running)";
+          status.textContent = "Preview output only";
+        } else {
+          cellOutput.classList.add("has-error");
+          cellOutput.textContent = "Execution failed: " + error.message + "\n\nStart the Python runner or check connection to see live output.";
+          result.className = "result fail";
+          result.textContent = error.message + "\n\nStart the Python runner and check API_URL.";
+          status.textContent = "Connection failed";
+        }
+      } finally {
+        button.disabled = false;
+      }
+    };
+    let seconds = Number(localStorage.getItem("dnd-coding-seconds") || 10800);
+    const updateTimer = () => { const m = Math.floor(seconds / 60), s = seconds % 60; document.getElementById("timer").textContent = `${String(m).padStart(3,"0")}:${String(s).padStart(2,"0")}`; if (seconds <= 300) document.getElementById("timer").classList.add("danger"); };
+    setInterval(() => { if (seconds > 0) seconds--; localStorage.setItem("dnd-coding-seconds", seconds); updateTimer(); }, 1000);
+    const assetContent = document.getElementById("assetContent");
+    let examAssets = null;
+    apiFetch("/api/exam?ts=" + Date.now()).then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || "Exam package request failed (" + response.status + ").");
+      return data;
+    }).then((data) => {
+      examAssets = data;
+      starterCode = data.starter_code || {};
+      setupCode = data.setup_code || "";
+      window.__setupInstructions = (data.instructions || []).find((item) => item.title.indexOf("Deep Network") !== -1)?.body || "";
+      if (data.available) {
+        document.querySelector(".muted").textContent = "Local HW1 exam package loaded: notebook instructions, CSV and requirements.";
+        const byPart = {};
+        data.instructions.forEach((item) => {
+          const match = item.title.match(/\b([A-I])\b/);
+          if (match) byPart[match[1]] = item.body;
+        });
+        window.__examInstructions = byPart;
+        if (currentTask === "SETUP") selectSetup(); else selectTask(currentTask);
+      }
+    }).catch((error) => {
+      examAssets = { available: false };
+      document.querySelector(".muted").textContent = error.message;
+    });
+    document.getElementById("showData").onclick = () => {
+      assetContent.innerHTML = examAssets && examAssets.available
+        ? `<h3>student-mat_prep_noisy26au_hw1.csv</h3><pre>${escapeHtml(examAssets.data_preview)}</pre>`
+        : '<p class="muted">Start the local backend with the HW1 assignment folder configured.</p>';
+    };
+    document.getElementById("showRequirements").onclick = () => {
+      assetContent.innerHTML = examAssets && examAssets.requirements
+        ? `<h3>requirements.txt</h3><pre>${escapeHtml(examAssets.requirements)}</pre>`
+        : '<p class="muted">Requirements are available in the local exam package.</p>';
+    };
+    function arrayBufferToBase64(buffer) {
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+
+    async function getOrCreateDeviceKey(userId) {
+      const storageKey = "dnd_answer_e2ee_key_" + userId;
+      let rawKeyBase64 = localStorage.getItem(storageKey);
+      if (!rawKeyBase64) {
+        const rawKey = crypto.getRandomValues(new Uint8Array(32));
+        rawKeyBase64 = arrayBufferToBase64(rawKey.buffer);
+        localStorage.setItem(storageKey, rawKeyBase64);
+      }
+      const rawKeyBuffer = base64ToArrayBuffer(rawKeyBase64);
+      return await crypto.subtle.importKey(
+        "raw",
+        rawKeyBuffer,
+        { name: "AES-GCM" },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    function getExistingDeviceKey(userId) {
+      const storageKey = "dnd_answer_e2ee_key_" + userId;
+      const rawKeyBase64 = localStorage.getItem(storageKey);
+      if (!rawKeyBase64) return null;
+      const rawKeyBuffer = base64ToArrayBuffer(rawKeyBase64);
+      return crypto.subtle.importKey(
+        "raw",
+        rawKeyBuffer,
+        { name: "AES-GCM" },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    async function encryptNotebook(plainText, userId) {
+      const key = await getOrCreateDeviceKey(userId);
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const encoded = new TextEncoder().encode(plainText);
+      const ciphertext = await crypto.subtle.encrypt(
+        { name: "AES-GCM", iv: iv },
+        key,
+        encoded
+      );
+      return {
+        version: 1,
+        encrypted: true,
+        algorithm: "AES-GCM-256",
+        iv: arrayBufferToBase64(iv.buffer),
+        ciphertext: arrayBufferToBase64(ciphertext)
+      };
+    }
+
+    async function decryptNotebook(encPayload, userId) {
+      const keyPromise = getExistingDeviceKey(userId);
+      if (!keyPromise) {
+        throw new Error("KEY_NOT_FOUND");
+      }
+      const key = await keyPromise;
+      const iv = base64ToArrayBuffer(encPayload.iv);
+      const ciphertext = base64ToArrayBuffer(encPayload.ciphertext);
+      try {
+        const decrypted = await crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: new Uint8Array(iv) },
+          key,
+          ciphertext
+        );
+        const plainText = new TextDecoder().decode(decrypted);
+        return JSON.parse(plainText);
+      } catch (err) {
+        throw new Error("KEY_NOT_FOUND");
+      }
+    }
+
+    document.getElementById("answerUpload").onchange = async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const user = authState();
+      if (!user) {
+        assetContent.innerHTML = '<p class="muted">Please sign in to upload your answer notebook.</p>';
+        return;
+      }
+      assetContent.innerHTML = '<p class="muted">Encrypting notebook on your device and uploading...</p>';
+      try {
+        const plainText = await file.text();
+        try {
+          const parsed = JSON.parse(plainText);
+          if (!parsed || !Array.isArray(parsed.cells)) throw new Error();
+        } catch (_) {
+          throw new Error("Upload a valid Jupyter notebook (.ipynb) containing cells.");
+        }
+        const encryptedData = await encryptNotebook(plainText, user.user_id);
+        const payload = JSON.stringify({
+          ...encryptedData,
+          filename: file.name
+        });
+        const response = await apiFetch("/api/my-answer", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Notebook-Filename": file.name
+          },
+          body: payload
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || "Upload failed.");
+        assetContent.innerHTML = `<p class="muted">${escapeHtml(data.message)}</p>`;
+      } catch (error) {
+        assetContent.innerHTML = `<p class="muted">${escapeHtml(error.message)}</p>`;
+      } finally {
+        event.target.value = "";
+      }
+    };
+    document.getElementById("showMyAnswer").onclick = async () => {
+      if (!document.getElementById("answerDetails")) {
+        assetContent.innerHTML = '<p class="muted">Loading your private answer notebook...</p>';
+        try {
+          const user = authState();
+          if (!user) {
+            assetContent.innerHTML = '<p class="muted">Please sign in to view your answer.</p>';
+            return;
+          }
+          const response = await apiFetch("/api/my-answer?ts=" + Date.now());
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.detail || "Your answer notebook could not be loaded.");
+          if (!data.available) {
+            assetContent.innerHTML = '<p class="muted">You have not uploaded an answer notebook yet.</p>';
+            return;
+          }
+          let cells = [];
+          if (data.encrypted) {
+            try {
+              const nb = await decryptNotebook(data.payload, user.user_id);
+              cells = (nb.cells || [])
+                .filter(c => c.cell_type === "code")
+                .map(c => Array.isArray(c.source) ? c.source.join("") : (c.source || ""));
+            } catch (err) {
+              if (err && err.message === "KEY_NOT_FOUND") {
+                assetContent.innerHTML = `
+                  <div class="answerBox" style="border-color:#e0a800;">
+                    <p style="margin:0 0 6px 0; font-weight:600;">🔒 Decryption key not found on this device</p>
+                    <p class="muted" style="margin:0 0 6px 0;">For strict confidentiality, answers are encrypted locally in your browser and never shared with the server or administrators.</p>
+                    <p class="muted" style="margin:0;">If you cleared your browser data or switched to a new computer, please <strong>re-upload your .ipynb on this device</strong> to view it here.</p>
+                  </div>`;
+                return;
+              }
+              throw err;
+            }
+          } else {
+            cells = data.cells || [];
+          }
+          assetContent.innerHTML = `<details id="answerDetails" class="answerBox" open><summary>Show my uploaded notebook code</summary><pre>${escapeHtml(cells.join("\n\n"))}</pre></details>`;
+        } catch (error) {
+          assetContent.innerHTML = `<p class="muted">Answer request failed (${escapeHtml(error.message)}).</p>`;
+        }
+      }
+    };
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (character) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[character]));
+    }
+    updateTimer(); selectTask(currentTask);
+  </script>
+</body>
+</html>
