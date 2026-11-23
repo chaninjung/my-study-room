@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field
 
 
 ROOT = Path(__file__).resolve().parent
-REPOSITORY_ROOT = ROOT.parents[1]
+REPOSITORY_ROOT = ROOT.parents[1] if len(ROOT.parents) > 1 else ROOT
 RUNNER = ROOT / "runner.py"
 ASSET_ARCHIVE = Path(
     os.getenv("DND_ASSET_ARCHIVE", "/etc/secrets/dnd_hw1_assets.zip")
