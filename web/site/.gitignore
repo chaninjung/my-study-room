@@ -1,0 +1,37 @@
+# ============================================================
+#  Never publish the professor's course materials from this repo.
+#  The rules below block them even by accident.
+# ============================================================
+
+# Lecture source files
+*.pdf
+*.docx
+*.doc
+*.pptx
+*.ppt
+lecture_pdf/
+lecture_pdf/**
+*prez*
+*example*topic*
+Information about Theory test*
+theory_test1_examples*
+
+# Local build / extraction artifacts
+_extracted/
+_extracted2/
+_backup_*
+_*.txt
+_*.py
+cli_state.json
+
+# App sources and build scripts live one level above this folder
+../questions.json
+../mocks.json
+../src/
+../*.py
+../*.bat
+../print_*.md
+
+# Passcode file — never publish it (only the encrypted payload is deployed)
+../gate_passcode.txt
+gate_passcode.txt

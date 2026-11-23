@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" role="img" aria-labelledby="title desc">
+  <title id="title">Principle of Artificial Intelligence</title>
+  <desc id="desc">Connected search nodes leading to an artificial intelligence symbol</desc>
+  <rect width="800" height="480" fill="#101828"/>
+  <path d="M0 390L205 250 335 320 492 170 650 240 800 80" fill="none" stroke="#344054" stroke-width="2"/>
+  <g fill="none" stroke="#8ba7ef" stroke-width="5">
+    <path d="M100 340L225 230 350 290 500 130"/>
+    <path d="M225 230L305 95M350 290L510 335M500 130L640 225"/>
+  </g>
+  <g fill="#c7d4f5" stroke="#101828" stroke-width="6">
+    <circle cx="100" cy="340" r="18"/><circle cx="225" cy="230" r="18"/>
+    <circle cx="350" cy="290" r="18"/><circle cx="500" cy="130" r="22"/>
+    <circle cx="305" cy="95" r="13"/><circle cx="510" cy="335" r="13"/><circle cx="640" cy="225" r="13"/>
+  </g>
+  <circle cx="500" cy="130" r="46" fill="none" stroke="#f4f0ff" stroke-width="2"/>
+  <path d="M488 151l12-43 12 43m-20-14h16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="56" y="76" fill="#c7d4f5" font-family="Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="4">PRINCIPLE OF</text>
+  <text x="54" y="119" fill="#fff" font-family="Arial,sans-serif" font-size="32" font-weight="700">ARTIFICIAL</text>
+  <text x="54" y="158" fill="#fff" font-family="Arial,sans-serif" font-size="32" font-weight="700">INTELLIGENCE</text>
+  <text x="55" y="430" fill="#98a2b3" font-family="Arial,sans-serif" font-size="18" letter-spacing="2">SEARCH · LEARNING · REASONING</text>
+</svg>
