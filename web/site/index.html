@@ -1149,6 +1149,25 @@ details.more .rowGrid{border-top:1px solid var(--border)}
 
 /* ===================== 헝가리어 강의록 전용 스타일 ===================== */
 .hunWrap{display:flex;flex-direction:column;gap:18px}
+.hunExam{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.hunExamHead{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:18px 20px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+.hunExamHead h2{font-size:18px;margin-bottom:4px}
+.hunExamTools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hunExamTabs{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--border)}
+.hunExamBody{padding:20px}
+.hunExamInstruction{margin:0 0 16px;padding:12px 14px;border-left:3px solid var(--primary);background:var(--primary-soft);color:var(--text-2)}
+.hunExamPassage{padding:16px;margin-bottom:16px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface-2);font-size:15px;line-height:1.8}
+.hunExamList{display:grid;gap:12px}
+.hunExamQuestion{padding:16px;border:1px solid var(--border);border-radius:var(--r-md);background:#fff}
+.hunExamQuestion summary{cursor:pointer;font-weight:700;line-height:1.65;list-style-position:inside}
+.hunExamQMeta{display:flex;justify-content:space-between;gap:12px;margin-bottom:8px;color:var(--text-3);font-size:12.5px}
+.hunExamAnswer{margin-top:12px;padding:12px 14px;background:var(--ok-bg);border:1px solid var(--ok-border);border-radius:var(--r-sm);white-space:pre-wrap;color:#075c35}
+.hunSpeak{margin-top:10px}
+@media print{
+  .topbar,.hunNavTabs,.hunSearchBar,.hunHero,.hunExamTools,.hunExamTabs,.hunSpeak{display:none!important}
+  .wrap{max-width:none;padding:0}.hunWrap{gap:0}.hunExam{border:0;box-shadow:none}
+  .hunExamQuestion{break-inside:avoid}.hunExamQuestion details:not([open]) .hunExamAnswer{display:none}
+}
 .hunHero{background:linear-gradient(135deg,#0e204c 0%,#1d3a8f 100%);color:#fff;border-radius:var(--r-lg);padding:24px 26px;box-shadow:var(--shadow-md)}
 .hunHeroTitle{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
 .hunHeroDesc{color:#d5e0fc;font-size:13.5px;line-height:1.6;margin-bottom:14px}
@@ -4014,6 +4033,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     }
   }
   async function applyPrivateExam(courseId) {
+    const wasCached = !!PRIVATE_EXAM_CACHE[courseId];
     const payload = await loadPrivateExam(courseId);
     if (!payload) return;
     if (courseId === "dnd") {
@@ -4028,10 +4048,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     } else if (courseId === "hungarian") {
       window.__HUN_QUESTION_DATA__ = payload.questions || null;
       window.__HUN_MOCK_DATA__ = payload.mocks || null;
+      window.__HUN_EXAM_PREP__ = payload.prep || null;
     } else if (courseId === "aihe" && window.__setAIVocabulary) {
       window.__setAIVocabulary(payload);
     }
-    if (typeof window.__contentDataReady === "function") window.__contentDataReady();
+    if (!wasCached && typeof window.__contentDataReady === "function") window.__contentDataReady();
   }
   function resolveData() {
     const curCourse = (typeof currentCourse === "function" ? currentCourse().course : null);
@@ -5642,6 +5663,51 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   /* ================= 헝가리어 전용 핵심 강의록 화면 ================= */
   let HUN_TAB = "all";
   let HUN_Q = "";
+  let HUN_EXAM_TAB = "written";
+
+  function renderHungarianExamPrep() {
+    const prep = window.__HUN_EXAM_PREP__;
+    if (!prep || !prep.sections || !prep.sections.length) {
+      return '<div class="hunExam"><div class="hunExamBody"><b>' +
+        (LANG === "ko" ? "로그인 후 시험 대비 자료를 불러옵니다." : "Sign in to load the private exam-prep pack.") +
+        '</b></div></div>';
+    }
+    const sections = prep.sections;
+    if (!sections.some(function (section) { return section.id === HUN_EXAM_TAB; })) {
+      HUN_EXAM_TAB = sections[0].id;
+    }
+    const selected = sections.filter(function (section) { return section.id === HUN_EXAM_TAB; })[0];
+    const tabs = sections.map(function (section) {
+      return '<button class="hunNavTab' + (HUN_EXAM_TAB === section.id ? " on" : "") +
+        '" data-hunexamtab="' + esc(section.id) + '" type="button">' + esc(label(section.label)) + '</button>';
+    }).join("");
+    const passage = selected.passage
+      ? '<div class="hunExamPassage"><b>Reading</b><br>' + esc(selected.passage) + '</div>'
+      : "";
+    const questions = selected.questions.map(function (item) {
+      const speak = item.listen
+        ? '<button class="btn sm hunSpeak" data-hunspeak="' + esc(item.listen) + '" type="button">🔊 ' +
+            (LANG === "ko" ? "헝가리어 듣기" : "Play Hungarian") + '</button>'
+        : "";
+      return '<div class="hunExamQuestion">' +
+        '<div class="hunExamQMeta"><span>' + esc(item.id) + '</span><span>' + item.points + ' point' +
+          (item.points === 1 ? "" : "s") + '</span></div>' +
+        '<details><summary>' + esc(item.prompt) + '</summary><div class="hunExamAnswer">' +
+          esc(item.answer) + '</div></details>' + speak + '</div>';
+    }).join("");
+    const note = prep.meta && prep.meta.note ? label(prep.meta.note) : "";
+    return '<section class="hunExam">' +
+      '<div class="hunExamHead"><div><h2>📝 ' +
+        (LANG === "ko" ? "헝가리어 예상 시험지" : "Hungarian predicted exam pack") +
+        '</h2><div class="muted">' + esc(note) + '</div></div>' +
+        '<div class="hunExamTools"><button class="btn sm" id="hunShowAnswers" type="button">' +
+          (LANG === "ko" ? "전체 답안 보기" : "Show all answers") + '</button>' +
+        '<button class="btn sm primary" id="hunPrintExam" type="button">' +
+          (LANG === "ko" ? "시험지 인쇄" : "Print exam") + '</button></div></div>' +
+      '<div class="hunExamTabs">' + tabs + '</div>' +
+      '<div class="hunExamBody"><div class="hunExamInstruction">' + esc(label(selected.instruction)) +
+        '</div>' + passage + '<div class="hunExamList">' + questions + '</div></div></section>';
+  }
 
   function renderHungarianOverview() {
     const data = window.__HUN_NOTES_DATA__ || [];
@@ -5738,8 +5804,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         (HUN_Q ? '<button class="linkish" id="hunSearchClear" type="button" style="font-size:12px">' + (LANG === "ko" ? "✕ 지우기" : "✕ Clear") + '</button>' : '') +
       '</div>';
 
+    const examPrepHtml = renderHungarianExamPrep();
     app.innerHTML = '<div class="hunWrap">' +
       heroHtml +
+      examPrepHtml +
       '<div class="hunNavTabs">' + tabsHtml + '</div>' +
       searchHtml +
       chaptersHtml +
@@ -5751,6 +5819,34 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   function wireHungarianOverview() {
     const bind = function (id, fn) { const b = el(id); if (b) b.onclick = fn; };
     bind("hunGoBank", function () { go("bank"); });
+    bind("hunPrintExam", function () { window.print(); });
+    bind("hunShowAnswers", function () {
+      app.querySelectorAll(".hunExamQuestion details").forEach(function (details) {
+        details.open = true;
+      });
+    });
+    app.querySelectorAll("[data-hunexamtab]").forEach(function (b) {
+      b.onclick = function () {
+        HUN_EXAM_TAB = b.getAttribute("data-hunexamtab");
+        renderHungarianOverview();
+      };
+    });
+    app.querySelectorAll("[data-hunspeak]").forEach(function (b) {
+      b.onclick = function () {
+        if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+          b.textContent = LANG === "ko" ? "이 브라우저는 음성 재생을 지원하지 않습니다." : "Speech playback is unavailable.";
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const speech = new SpeechSynthesisUtterance(b.getAttribute("data-hunspeak"));
+        speech.lang = "hu-HU";
+        speech.rate = 0.82;
+        const voices = window.speechSynthesis.getVoices();
+        const hungarian = voices.filter(function (voice) { return voice.lang.toLowerCase().indexOf("hu") === 0; })[0];
+        if (hungarian) speech.voice = hungarian;
+        window.speechSynthesis.speak(speech);
+      };
+    });
 
     app.querySelectorAll("[data-huntab]").forEach(function (b) {
       b.onclick = function () {
