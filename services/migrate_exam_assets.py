@@ -131,6 +131,9 @@ def main() -> int:
         COURSES / "hungarian-language" / "data" / "hungarian_questions.js",
         "site/hungarian_questions.js",
     )
+    hungarian_exam_prep = COURSES / "hungarian-language" / "data" / "hungarian_exam_prep.js"
+    if not hungarian_exam_prep.is_file():
+        raise RuntimeError(f"Could not find {hungarian_exam_prep.name}.")
     dnd_source = source_from_history(
         ROOT / "web" / "offline" / "TheoryTest1_PracticeExam.html",
         "TheoryTest1_PracticeExam.html",
@@ -154,6 +157,7 @@ def main() -> int:
         "hungarian": {
             "questions": extract_via_node(hungarian_questions, "window.__HUN_QUESTION_DATA__"),
             "mocks": extract_via_node(hungarian_questions, "window.__HUN_MOCK_DATA__"),
+            "prep": extract_via_node(hungarian_exam_prep, "window.__HUN_EXAM_PREP__"),
         },
         "dnd": extract_dnd(dnd_source),
     }
