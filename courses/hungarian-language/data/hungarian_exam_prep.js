@@ -1,6 +1,6 @@
 window.__HUN_EXAM_PREP__ = {
   meta: {
-    title: "Magyar nyelv · Written, Listening, Reading & Oral Practice",
+    title: "Magyar nyelv · Written, Reading, Oral & Location Practice",
     updated: "2026-11-24",
     private: true,
     note: {
@@ -49,67 +49,9 @@ window.__HUN_EXAM_PREP__ = {
         },
         {
           id: "W6",
-          points: 2,
-          prompt: "과거/현재가 아닌 위치 문장으로 만드세요: 의자 = 책상 옆 / 가방 = 책상 아래",
-          answer: "A szék az asztal mellett van.\nA táska az asztal alatt van."
-        },
-        {
-          id: "W7",
-          points: 2,
+          points: 4,
           prompt: "단수와 복수에 맞게 van/vannak를 넣으세요: A lámpa az asztalon ___. A könyvek a polcon ___.",
           answer: "A lámpa az asztalon van.\nA könyvek a polcon vannak."
-        }
-      ]
-    },
-    {
-      id: "listening",
-      label: { ko: "듣기 연습 · 20점", en: "Listening practice · 20 pts" },
-      instruction: {
-        ko: "헝가리어 음성을 1~2회 듣고 한국어로 답하세요. 실제 시험처럼 메모를 간단히 하세요.",
-        en: "Play each Hungarian sentence once or twice and answer in Korean. Keep notes as in the real test."
-      },
-      questions: [
-        {
-          id: "L1",
-          points: 4,
-          prompt: "화자의 이름, 국적, 나이를 듣고 적으세요.",
-          listen: "A nevem Chanin. Koreai vagyok. Harminchárom éves vagyok.",
-          answer: "이름 Chanin / 한국인 / 33세"
-        },
-        {
-          id: "L2",
-          points: 4,
-          prompt: "화자가 주문한 음식과 음료를 적으세요.",
-          listen: "Egy meleg cappuccinót és egy szelet csokoládétortát kérek.",
-          answer: "따뜻한 카푸치노 1개와 초콜릿 케이크 1조각"
-        },
-        {
-          id: "L3",
-          points: 3,
-          prompt: "어떤 음료를 어떤 상태로 주문했나요?",
-          listen: "Egy jeges kávét kérek cukor nélkül, egy kis tejjel.",
-          answer: "아이스커피, 설탕 없이 우유 조금"
-        },
-        {
-          id: "L4",
-          points: 3,
-          prompt: "처음 주문한 케이크가 없어서 최종적으로 무엇을 주문했나요?",
-          listen: "Sajnos nincs csokoládétorta. Van ananásztorta. Akkor egy ananásztortát kérek.",
-          answer: "파인애플 케이크 1조각"
-        },
-        {
-          id: "L5",
-          points: 3,
-          prompt: "총 금액을 숫자로 적으세요.",
-          listen: "Összesen nyolcszáznegyven forint.",
-          answer: "840 forint"
-        },
-        {
-          id: "L6",
-          points: 3,
-          prompt: "책상의 위, 아래, 옆에 있는 물건을 적으세요.",
-          listen: "Az asztalon egy lámpa van. Az asztal alatt egy táska van. Az asztal mellett egy szék van.",
-          answer: "위: 램프 / 아래: 가방 / 옆: 의자"
         }
       ]
     },
@@ -197,6 +139,88 @@ window.__HUN_EXAM_PREP__ = {
           points: 5,
           prompt: "선생님이 메뉴로 묻습니다: meleg/hideg, tej/cukor/jég, 더 주문할지 응답하세요.",
           answer: "Melegen kérem.\nCukor nélkül, egy kis tejjel kérem.\nJéggel kérem.\nKöszönöm, mást nem kérek."
+        }
+      ]
+    },
+    {
+      id: "positions",
+      label: { ko: "7. 위치 표현 집중", en: "7. Location expressions" },
+      instruction: {
+        ko: "사용자가 준 위치 표현 전부를 각각 완전한 문장으로 답하세요. 단수는 van, 복수는 vannak를 씁니다.",
+        en: "Practice every supplied location expression in complete sentences. Use van for singular and vannak for plural."
+      },
+      questions: [
+        {
+          id: "P1",
+          points: 2,
+          prompt: "mellett — 의자는 책상 옆에 있어요.",
+          answer: "A szék az asztal mellett van."
+        },
+        {
+          id: "P2",
+          points: 2,
+          prompt: "mögött — 창문은 책상 뒤에 있어요.",
+          answer: "Az ablak az asztal mögött van."
+        },
+        {
+          id: "P3",
+          points: 2,
+          prompt: "előtt — 책상은 창문 앞에 있어요.",
+          answer: "Az asztal az ablak előtt van."
+        },
+        {
+          id: "P4",
+          points: 2,
+          prompt: "fölött — 램프는 책상 위에 있어요.",
+          answer: "A lámpa az asztal fölött van."
+        },
+        {
+          id: "P5",
+          points: 2,
+          prompt: "felett — 그림은 침대 위에 있어요.",
+          answer: "A kép az ágy felett van."
+        },
+        {
+          id: "P6",
+          points: 2,
+          prompt: "között — 책상은 침대와 창문 사이에 있어요.",
+          answer: "Az asztal az ágy és az ablak között van."
+        },
+        {
+          id: "P7",
+          points: 2,
+          prompt: "alatt — 가방은 책상 아래에 있어요.",
+          answer: "A táska az asztal alatt van."
+        },
+        {
+          id: "P8",
+          points: 2,
+          prompt: "-n — 책들이 책상 위에 있어요.",
+          answer: "A könyvek az asztalon vannak."
+        },
+        {
+          id: "P9",
+          points: 2,
+          prompt: "-ban/-ben — 사과는 바구니 안에 있어요.",
+          answer: "Az alma a kosárban van."
+        },
+        {
+          id: "P10",
+          points: 2,
+          prompt: "-ban/-ben — 책은 가방 안에 있어요.",
+          answer: "A könyv a táskában van."
+        },
+        {
+          id: "P11",
+          points: 3,
+          prompt: "Hol van? 다음 다섯 개를 완전한 문장으로 답하세요: 의자/책상, 가방/의자, 그림/침대, 컵/책상, 책/가방",
+          answer: "A szék az asztal mellett van.\nA táska a szék alatt van.\nA kép az ágy felett van.\nA csésze az asztalon van.\nA könyv a táskában van."
+        },
+        {
+          id: "P12",
+          points: 3,
+          prompt: "Mi van ...? 질문에 답하세요: 책상 위 / 책상 아래 / 책상 옆",
+          answer: "Az asztalon egy lámpa és két könyv van.\nAz asztal alatt egy táska van.\nAz asztal mellett egy szék van."
         }
       ]
     }
