@@ -963,5 +963,114 @@ window.__HUN_NOTES_DATA__ = [
         word: "vesszo"
       }
     ]
+  },
+  {
+    chapterId: "locations",
+    chapterNum: 7,
+    title: { ko: "7. 위치 표현 · 위·아래·옆·앞·뒤", en: "7. Location Expressions" },
+    desc: {
+      ko: "방 그림을 보고 사물의 위치를 설명할 때 필요한 표현입니다. 단수 주어에는 van, 복수 주어에는 vannak를 사용합니다.",
+      en: "Essential expressions for describing where objects are in a room picture. Use van for singular subjects and vannak for plural subjects."
+    },
+    items: [
+      {
+        hu: "A szék az asztal mellett van.",
+        ko: "의자는 책상 옆에 있습니다.",
+        en: "The chair is next to the table.",
+        tip: "mellett = 옆에",
+        word: "mellett"
+      },
+      {
+        hu: "Az ablak az asztal mögött van.",
+        ko: "창문은 책상 뒤에 있습니다.",
+        en: "The window is behind the table.",
+        tip: "mögött = 뒤에",
+        word: "mogott"
+      },
+      {
+        hu: "Az asztal az ablak előtt van.",
+        ko: "책상은 창문 앞에 있습니다.",
+        en: "The table is in front of the window.",
+        tip: "előtt = 앞에",
+        word: "elott"
+      },
+      {
+        hu: "A lámpa az asztal fölött van.",
+        ko: "램프는 책상 위쪽에 있습니다.",
+        en: "The lamp is above the table.",
+        tip: "fölött = (떨어져서) 위에",
+        word: "folott"
+      },
+      {
+        hu: "A kép az ágy felett van.",
+        ko: "그림은 침대 위쪽에 있습니다.",
+        en: "The picture is above the bed.",
+        tip: "felett도 '위에/위쪽에' 뜻입니다. 모음 조화에 따라 fölött/felett를 사용합니다.",
+        word: "felett"
+      },
+      {
+        hu: "Az asztal az ágy és az ablak között van.",
+        ko: "책상은 침대와 창문 사이에 있습니다.",
+        en: "The table is between the bed and the window.",
+        tip: "A és B között = A와 B 사이에",
+        word: "kozott"
+      },
+      {
+        hu: "A táska az asztal alatt van.",
+        ko: "가방은 책상 아래에 있습니다.",
+        en: "The bag is under the table.",
+        tip: "alatt = 아래에",
+        word: "alatt"
+      },
+      {
+        hu: "A lámpa az asztalon van.",
+        ko: "램프는 책상 위에 있습니다.",
+        en: "The lamp is on the table.",
+        tip: "-on/-en/-ön = 표면 위에. lámpa는 단수이므로 van.",
+        word: "asztalon"
+      },
+      {
+        hu: "A könyvek az asztalon vannak.",
+        ko: "책들은 책상 위에 있습니다.",
+        en: "The books are on the table.",
+        tip: "könyvek는 복수이므로 vannak.",
+        word: "asztalon"
+      },
+      {
+        hu: "Az alma a kosárban van.",
+        ko: "사과는 바구니 안에 있습니다.",
+        en: "The apple is in the basket.",
+        tip: "-ban/-ben = 안에. kosár + ban → kosárban",
+        word: "kosarban"
+      },
+      {
+        hu: "A ruha a szekrényben van.",
+        ko: "옷은 옷장 안에 있습니다.",
+        en: "The clothes are in the wardrobe.",
+        tip: "szekrény + ben → szekrényben",
+        word: "szekrenyben"
+      },
+      {
+        hu: "Hol van a táska? — Az asztal alatt van.",
+        ko: "가방은 어디에 있나요? — 책상 아래에 있습니다.",
+        en: "Where is the bag? — It is under the table.",
+        tip: "Hol van ...? = …은 어디에 있나요? 질문에 위치만 바로 대답해도 됩니다.",
+        word: "hol"
+      },
+      {
+        hu: "Mi van az asztalon? — Egy lámpa és két könyv van.",
+        ko: "책상 위에 무엇이 있나요? — 램프 한 개와 책 두 권이 있습니다.",
+        en: "What is on the table? — There is a lamp and two books.",
+        tip: "Mi van ...? = …에 무엇이 있나요?",
+        word: "mi"
+      },
+      {
+        hu: "Mi van az asztal alatt? — Egy táska van.",
+        ko: "책상 아래에 무엇이 있나요? — 가방 한 개가 있습니다.",
+        en: "What is under the table? — There is a bag.",
+        tip: "위치 후치사 뒤에 질문의 물체가 올 때도 같은 패턴을 사용합니다.",
+        word: "alatt"
+      }
+    ]
   }
 ];
