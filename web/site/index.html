@@ -1161,6 +1161,14 @@ details.more .rowGrid{border-top:1px solid var(--border)}
 .hunExamAudio audio{display:block;width:100%;margin-top:10px}
 .hunExamAudioStatus{margin-top:8px;color:var(--text-3);font-size:12.5px}
 .hunExamImage{display:block;max-width:100%;height:auto;margin:10px 0;border:1px solid var(--border);border-radius:var(--r-sm)}
+.hunExamStart{display:flex;align-items:center;gap:16px;padding:18px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface-2)}
+.hunExamStart .name{font-size:18px;font-weight:800}
+.hunPracticeWrap{display:grid;grid-template-columns:180px minmax(0,1fr) 220px;gap:16px;margin:0 0 24px}
+.hunPracticeMain,.hunPracticeSide{min-width:0}
+.hunPracticePrompt{white-space:pre-wrap;line-height:1.75;font-size:16px;margin:14px 0}
+.hunPracticeInput{display:block;width:100%;min-height:220px;resize:vertical;padding:14px;border:1px solid var(--border);border-radius:var(--r-sm);font:inherit;line-height:1.6}
+.hunPracticeModel{white-space:pre-wrap;line-height:1.65;padding:14px;border:1px solid var(--ok-border);border-radius:var(--r-sm);background:var(--ok-bg);color:#075c35}
+@media(max-width:860px){.hunPracticeWrap{grid-template-columns:1fr}.hunPracticeWrap>.side{display:none}}
 .hunExamList{display:grid;gap:12px}
 .hunExamQuestion{padding:16px;border:1px solid var(--border);border-radius:var(--r-md);background:#fff}
 .hunExamQuestion summary{cursor:pointer;font-weight:700;line-height:1.65;list-style-position:inside;white-space:pre-wrap}
@@ -5702,6 +5710,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   let HUN_TAB = "all";
   let HUN_Q = "";
   let HUN_EXAM_TAB = "written";
+  let HUN_EXAM_SESSION = null;
 
   function renderHungarianVerbTable() {
     const ending = LANG === "ko" ? "어미" : "Ending";
@@ -5779,44 +5788,91 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
       return '<button class="hunNavTab' + (HUN_EXAM_TAB === section.id ? " on" : "") +
         '" data-hunexamtab="' + esc(section.id) + '" type="button">' + esc(label(section.label)) + '</button>';
     }).join("");
-    const passage = selected.passage
-      ? '<div class="hunExamPassage"><b>Reading</b><br>' + esc(selected.passage) + '</div>'
-      : "";
-    const audioItems = selected.audios || (selected.audio ? [selected.audio] : []);
-    const audio = audioItems.map(function (item) {
-      return '<div class="hunExamAudio"><b>' + esc(label(item.label || {
-        ko: "읽기 음성 듣기",
-        en: "Listen to the reading passage"
-      })) + '</b><audio controls preload="none" data-hunexam-audio="' +
-        esc(item.asset) + '"></audio><div class="hunExamAudioStatus">' +
-        esc(LANG === "ko" ? "개인 비공개 음성을 불러오는 중…" : "Loading your private audio…") +
-        '</div></div>';
-    }).join("");
-    const questions = selected.questions.map(function (item) {
-      const points = Number.isFinite(item.points)
-        ? '<span>' + item.points + ' point' + (item.points === 1 ? "" : "s") + '</span>'
-        : '<span></span>';
-      const image = item.image
-        ? '<img class="hunExamImage" alt="' + esc(item.image.alt || "") +
-          '" data-hunexam-image="' + esc(item.image.asset) + '">'
-        : "";
-      return '<div class="hunExamQuestion">' +
-        '<div class="hunExamQMeta"><span>' + esc(item.id) + '</span>' + points + '</div>' +
-        image + '<details><summary>' + esc(item.prompt) + '</summary><div class="hunExamAnswer">' +
-          esc(item.answer) + '</div></details></div>';
-    }).join("");
+    if (HUN_EXAM_SESSION && HUN_EXAM_SESSION.sectionId === selected.id) {
+      return renderHungarianPractice(selected);
+    }
     const note = prep.meta && prep.meta.note ? label(prep.meta.note) : "";
     return '<section class="hunExam">' +
       '<div class="hunExamHead"><div><h2>📝 ' +
         (LANG === "ko" ? "헝가리어 예상 시험지" : "Hungarian predicted exam pack") +
         '</h2><div class="muted">' + esc(note) + '</div></div>' +
-        '<div class="hunExamTools"><button class="btn sm" id="hunShowAnswers" type="button">' +
-          (LANG === "ko" ? "전체 답안 보기" : "Show all answers") + '</button>' +
-        '<button class="btn sm primary" id="hunPrintExam" type="button">' +
-          (LANG === "ko" ? "시험지 인쇄" : "Print exam") + '</button></div></div>' +
+        '<div class="hunExamTools"><button class="btn sm primary" id="hunStartPractice" type="button">' +
+          (LANG === "ko" ? "시험 시작" : "Start test") + '</button></div></div>' +
       '<div class="hunExamTabs">' + tabs + '</div>' +
       '<div class="hunExamBody"><div class="hunExamInstruction">' + esc(label(selected.instruction)) +
-        '</div>' + audio + passage + '<div class="hunExamList">' + questions + '</div></div></section>';
+        '</div><div class="hunExamStart"><div><div class="name">' + esc(label(selected.label)) +
+        '</div><div class="muted">' + selected.questions.length + ' ' +
+        (LANG === "ko" ? "문항 · 답안은 제출 후 확인" : "questions · answers shown after submission") +
+        '</div></div><span class="grow"></span><button class="btn primary" id="hunStartPracticeMain" type="button">' +
+        (LANG === "ko" ? "시험 시작" : "Start test") + '</button></div></div></section>';
+  }
+
+  function hungarianAudioHtml(section) {
+    const items = section.audios || (section.audio ? [section.audio] : []);
+    return items.map(function (item) {
+      return '<div class="hunExamAudio"><b>' + esc(label(item.label || {
+        ko: "듣기",
+        en: "Listening"
+      })) + '</b><audio controls preload="none" data-hunexam-audio="' +
+        esc(item.asset) + '"></audio><div class="hunExamAudioStatus">' +
+        esc(LANG === "ko" ? "개인 비공개 음성을 불러오는 중…" : "Loading your private audio…") +
+        '</div></div>';
+    }).join("");
+  }
+
+  function renderHungarianPractice(section) {
+    const session = HUN_EXAM_SESSION;
+    const item = section.questions[session.index];
+    const passage = section.passage
+      ? '<div class="hunExamPassage"><b>Reading</b><br>' + esc(section.passage) + '</div>'
+      : "";
+    const image = item.image
+      ? '<img class="hunExamImage" alt="' + esc(item.image.alt || "") +
+        '" data-hunexam-image="' + esc(item.image.asset) + '">'
+      : "";
+    const palette = section.questions.map(function (question, index) {
+      return '<button class="pbtn' + (index === session.index ? " cur" : "") +
+        ((session.responses[index] || "").trim() ? " answered" : "") +
+        '" data-hunquestion="' + index + '" type="button">' + esc(question.id) + '</button>';
+    }).join("");
+    const answer = session.submitted
+      ? '<div><b>' + (LANG === "ko" ? "모범 답안 / 해설" : "Model answer / explanation") +
+        '</b><div class="hunPracticeModel" style="margin-top:8px">' + esc(item.answer || "") + '</div></div>'
+      : "";
+    const oralNote = section.id === "oral"
+      ? '<div class="muted" style="margin-bottom:12px">' +
+        (LANG === "ko" ? "직접 말한 뒤 핵심 문장을 적고, 제출 후 모델 답안과 비교하세요." :
+          "Say the answer aloud, write your key sentences, then compare with the model answer after submission.") +
+        '</div>'
+      : "";
+    return '<section class="hunPracticeWrap">' +
+      '<aside class="side panel hunPracticeSide"><div class="panelHead">' +
+      esc(label(section.label)) + '</div><div class="panelBody"><div class="palette">' + palette +
+      '</div><div class="muted" style="margin-top:12px">' + (session.index + 1) + " / " +
+      section.questions.length + '</div></div></aside>' +
+      '<main class="panel hunPracticeMain"><div class="qHead"><span class="qNum">Q: ' +
+      (session.index + 1) + '</span><span class="tag">' + esc(item.id) + '</span><span class="grow"></span></div>' +
+      '<div class="panelBody">' + oralNote + hungarianAudioHtml(section) + passage + image +
+      '<div class="hunPracticePrompt">' + esc(item.prompt) + '</div>' +
+      '<textarea class="hunPracticeInput" data-hunresponse placeholder="' +
+      esc(LANG === "ko" ? "여기에 답안을 작성하세요." : "Write your answer here.") + '">' +
+      esc(session.responses[session.index] || "") + '</textarea><div style="margin-top:14px">' + answer +
+      '</div><div class="actionBar"><button class="btn" id="hunPracticePrev" type="button"' +
+      (session.index === 0 ? " disabled" : "") + '>← Previous</button><span class="grow"></span>' +
+      '<button class="btn primary" id="hunPracticeNext" type="button">' +
+      (session.submitted
+        ? (LANG === "ko" ? "학습 종료" : "Finish review")
+        : (session.index === section.questions.length - 1
+          ? (LANG === "ko" ? "제출 및 검토" : "Submit & Review")
+          : (LANG === "ko" ? "저장 후 다음" : "Save & Next"))) +
+      '</button></div></div></main>' +
+      '<aside class="side panel hunPracticeSide"><div class="panelHead">' +
+      (LANG === "ko" ? "연습 현황" : "Practice overview") + '</div><div class="panelBody">' +
+      '<div class="muted">' + (LANG === "ko" ? "작성한 문항" : "Answered") + '</div><b>' +
+      Object.values(session.responses).filter(function (value) { return String(value || "").trim(); }).length +
+      ' / ' + section.questions.length + '</b><div style="margin-top:16px">' +
+      '<button class="btn wide" id="hunPracticeExit" type="button">' +
+      (LANG === "ko" ? "나가기" : "Exit") + '</button></div></div></aside></section>';
   }
 
   function renderHungarianOverview() {
@@ -5992,14 +6048,64 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     loadHungarianExamAudio();
     const bind = function (id, fn) { const b = el(id); if (b) b.onclick = fn; };
     bind("hunGoBank", function () { go("bank"); });
-    bind("hunPrintExam", function () { window.print(); });
-    bind("hunShowAnswers", function () {
-      app.querySelectorAll(".hunExamQuestion details").forEach(function (details) {
-        details.open = true;
+    const startHungarianPractice = function () {
+      const prep = window.__HUN_EXAM_PREP__;
+      if (!prep) return;
+      const section = prep.sections.find(function (item) { return item.id === HUN_EXAM_TAB; });
+      if (!section) return;
+      HUN_EXAM_SESSION = {
+        sectionId: section.id,
+        index: 0,
+        responses: {},
+        submitted: false
+      };
+      renderHungarianOverview();
+    };
+    bind("hunStartPractice", startHungarianPractice);
+    bind("hunStartPracticeMain", startHungarianPractice);
+    const responseInput = app.querySelector("[data-hunresponse]");
+    if (responseInput && HUN_EXAM_SESSION) {
+      responseInput.oninput = function () {
+        HUN_EXAM_SESSION.responses[HUN_EXAM_SESSION.index] = responseInput.value;
+      };
+    }
+    app.querySelectorAll("[data-hunquestion]").forEach(function (button) {
+      button.onclick = function () {
+        if (!HUN_EXAM_SESSION) return;
+        HUN_EXAM_SESSION.index = parseInt(button.getAttribute("data-hunquestion"), 10);
+        renderHungarianOverview();
+      };
+    });
+    bind("hunPracticePrev", function () {
+      if (HUN_EXAM_SESSION && HUN_EXAM_SESSION.index > 0) {
+        HUN_EXAM_SESSION.index -= 1;
+        renderHungarianOverview();
+      }
+    });
+    bind("hunPracticeNext", function () {
+      if (!HUN_EXAM_SESSION) return;
+      const section = window.__HUN_EXAM_PREP__.sections.find(function (item) {
+        return item.id === HUN_EXAM_SESSION.sectionId;
       });
+      if (HUN_EXAM_SESSION.submitted) {
+        HUN_EXAM_SESSION = null;
+        renderHungarianOverview();
+      } else if (HUN_EXAM_SESSION.index < section.questions.length - 1) {
+        HUN_EXAM_SESSION.index += 1;
+        renderHungarianOverview();
+      } else {
+        HUN_EXAM_SESSION.submitted = true;
+        HUN_EXAM_SESSION.index = 0;
+        renderHungarianOverview();
+      }
+    });
+    bind("hunPracticeExit", function () {
+      HUN_EXAM_SESSION = null;
+      renderHungarianOverview();
     });
     app.querySelectorAll("[data-hunexamtab]").forEach(function (b) {
       b.onclick = function () {
+        HUN_EXAM_SESSION = null;
         HUN_EXAM_TAB = b.getAttribute("data-hunexamtab");
         renderHungarianOverview();
       };
