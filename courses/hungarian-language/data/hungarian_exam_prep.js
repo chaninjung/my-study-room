@@ -11,42 +11,66 @@ window.__HUN_EXAM_PREP__ = {
   sections: [
     {
       id: "written",
-      label: { ko: "쓰기 연습 · 20점", en: "Written practice · 20 pts" },
+      label: { ko: "Written practice", en: "Written practice" },
       instruction: {
-        ko: "총 20점입니다. 1번은 듣기 형식의 대화문을 읽고 풀고, 2~3번은 어휘·문법, 4번은 아래 읽기 지문, 5번은 작문입니다. 철자와 악센트까지 확인하세요.",
-        en: "Total: 20 points. Read the listening-style dialogue in part 1, answer the vocabulary and grammar items in parts 2–3, use the reading passage for part 4, and write in part 5. Check spelling and accents."
+        ko: "Practice using the supplied exam format. Listen to 1.A and 1.B, follow the instructions for parts 2–3, and write 5–6 sentences for part 4.",
+        en: "Practice using the supplied exam format. Listen to 1.A and 1.B, follow the instructions for parts 2–3, and write 5–6 sentences for part 4."
       },
-      passage: "Reggel Márta egy kis pékségbe megy. Egy meleg kakaót és egy sajtos pogácsát kér. A kakaó nagy, és nincs benne cukor. Márta leül az ablaknál és olvas egy magyar újságot. Később még két mandarint és egy palack ásványvizet kér. A pogácsa nagyon finom, de a kakaó kicsit hideg, ezért Márta új, meleg kakaót kér. Azután telefonál a kolléganőjének.",
+      audios: [
+        {
+          asset: "listening-1a.mp3",
+          label: {
+            ko: "1.A · Listening",
+            en: "1.A · Listening"
+          }
+        },
+        {
+          asset: "listening-1b.mp3",
+          label: {
+            ko: "1.B · What food is it, and what is it like?",
+            en: "1.B · What food is it, and what is it like?"
+          }
+        }
+      ],
       questions: [
         {
-          id: "W1",
-          points: 5,
-          prompt: "1. Hallásjellegű szövegértés / 듣기 형식 · 5 pont\n대화를 읽고 답하세요. 실제 오디오가 아니라 문자로 제공되는 연습입니다.\n\nEladó: Jó napot kívánok! Mit parancsol?\nDóra: Jó napot! Fél kiló csirkemellet kérek.\nEladó: Tessék. Még valamit?\nDóra: Mennyibe kerül az uborkasaláta?\nEladó: Kilónként kilencszáz forint.\nDóra: Akkor húsz deka uborkasalátát is kérek. És egy pohár hideg limonádét.\nEladó: Tessék. Más valamit?\nDóra: Nem, köszönöm.\n\na) Milyen húst kér Dóra?\nb) Hány kiló húst kér?\nc) Milyen salátát kér?\nd) Mennyibe kerül a saláta egy kilója?\ne) Hány dekagramm salátát kér?",
-          answer: "a) Csirkemellet.\nb) Fél kilót.\nc) Uborkasalátát.\nd) 900 Ft egy kiló.\ne) 20 dekát."
+          id: "1.A",
+          prompt: "1.A. HALLÁS UTÁNI SZÖVEGÉRTÉS. Mit hall? Karikázza be!\n1.A. LISTENING. What do you hear? Circle the correct answer.\n\na) Mit kér?\n• marhahúst\n• sertéshúst\n• paradicsomsalátát\n\nb) Hány kiló húst kér?\n• egyet\n• négyet\n• felet\n\nc) Mennyibe kerül tésztasaláta?\n• 1250 Ft\n• 1800 Ft\n• 1500 Ft\n\nd) Mennyibe kerül a paradicsomsaláta?\n• 1600 Ft\n• 250 Ft\n• 1250 Ft\n\ne) Mennyit kér?\n• 15 dekát\n• 25 dekát\n• 35 dekát",
+          answer: "a) marhahúst\nb) egyet\nc) 1800 Ft\nd) 1600 Ft\ne) 25 dekát"
         },
         {
-          id: "W2",
-          points: 3,
-          prompt: "2. Ételek és ízek / 음식과 맛 · 3 pont\n각 설명의 음식과 특징을 헝가리어로 쓰세요.\n\na) 돼지고기는 아니고 칠면조고기이며, 꽤 짭니다.\nb) 케이크는 과일 케이크이며 너무 달지 않습니다.\nc) 수프는 차갑습니다.",
-          answer: "a) Ez pulyka, és elég sós.\nb) Ez gyümölcstorta, és nem túl édes.\nc) Ez a leves hideg."
+          id: "1.B",
+          image: {
+            asset: "listening-1b.png",
+            alt: "1.B food pictures and adjective choices"
+          },
+          prompt: "1.B. Melyik étel ez és milyen? Karikázza be az ételt és húzza alá a melléknevet!\n1.B. What food is it, and what is it like? Circle the food and underline the adjective.\n\na) kicsit sós / csípős / nem sós / nagyon sós\nb) édes / nem túl édes / sós / nagyon édes\nc) kicsit csípős / kicsit sós / elég sós / sós\nd) csípős / hideg / sós / meleg",
+          answer: "a) csirke — kicsit sós\nb) gyümölcstorta — nem túl édes\nc) sertés — elég sós\nd) gyümölcsleves — hideg"
         },
         {
-          id: "W3",
-          points: 5,
-          prompt: "3. Nyelvtan és szókincs / 문법과 어휘 · 5 pont\n올바른 형태로 빈칸을 채우세요.\n\na) Én Anna _______. (vagy / vagyok)\nb) Péter Budapesten _______. (él / élnek)\nc) 73 = _______\nd) _______ kerül a narancslé? (Mennyi / Mennyibe)\ne) Eszem egy kiflit, _______ éhes vagyok. (ezért / mert / amikor)",
-          answer: "a) vagyok\nb) él\nc) hetvenhárom\nd) Mennyibe\ne) mert"
+          id: "2",
+          prompt: "2. TESZT. Melyik válasz helyes? Karikázza be!\n2. TEST. Which answer is correct? Circle the correct answer.\n\na) Én Peti ___.\n• megvagyok • vagyok • vagy\n\nb) Tessék? = ___.\n• Semmi baj • Bocsánat, nem értem • És te\n\nc) Ő Andrea ___.\n• — • van • vagyok\n\nd) Joe Kanada___ él.\n• -on • -ban • -ben\n\ne) 67 = ___\n• hatvanhét • hetvenhat • hetvenhét\n\nf) ___ a tea?\n• Mennyi kerül a • Mennyibe kerül a • Hány forint kerül a\n\ng) max@abc.com\n• max(at)abc(dot)com\n• max(kukac)abc(punkt)com\n• max(kukac)abc(pont)com\n\nh) Nem finom a sör, ha ___.\n• meleg • hideg • nem drága\n\ni) Mi édes? — ___.\n• A fagylalt • A sajt • A vaj\n\nj) — Bocsánat, mi ez? — ___.\n• Édes • Igen • Pulyka\n\nk) ___ kérsz?\n• Mi • Mit • Ki\n\nl) Eszem egy szendvicset, ___ éhes vagyok.\n• ezért • mert • azután\n\nm) Mi NINCS a nappaliban?\n• számítógép • mosógép • naptár\n\nn) A fiúk esz___, a lányok beszélget___.\n• -iknek, -nek • -nak, -tek • -nek, -nek",
+          answer: "a) vagyok\nb) Bocsánat, nem értem\nc) —\nd) -ban\ne) hatvanhét\nf) Mennyibe kerül a\ng) max(kukac)abc(pont)com\nh) meleg\ni) A fagylalt\nj) Pulyka\nk) Mit\nl) mert\nm) mosógép\nn) -nek, -nek"
         },
         {
-          id: "W4",
-          points: 4,
-          prompt: "4. Olvasás utáni szövegértés / 읽기 · 4 pont\n위의 읽기 지문을 보고 짧은 문장으로 답하세요.\n\na) Mit kér Márta először?\nb) Hol ül le?\nc) Mit rendel később?\nd) Miért kér új, meleg kakaót?",
-          answer: "a) Egy meleg kakaót és egy sajtos pogácsát kér.\nb) Az ablaknál ül le.\nc) Két mandarint és egy palack ásványvizet kér.\nd) Mert az első kakaó kicsit hideg."
+          id: "3.a",
+          prompt: "3.a) OLVASÁS UTÁNI SZÖVEGÉRTÉS. Olvassa el a szöveget!\n3.a) READING. Read the text.\n\nMa szombat van, Susan nem dolgozik. Egy kávézóban ül és könyvet olvas. Jön a pincér.\nSusan kér egy étlapot. Nagyon éhes, tortát és kávét rendel.\nPincér: Jó napot kívánok! Mit parancsol?\nSusan: Jó napot! Egy kávét kérek.\nPincér: Milyen kávét kér? Van hosszú kávé, tejes kávé, …\nSusan: Tejes kávét.\nPincér: Kicsit vagy nagyot?\nSusan: Nagyot kérek szépen.\nPincér: Még valamit?\nSusan: Valami édeset is szeretnék. Csokitorta van?\nPincér: Sajnos nincs, de nagyon finom a sajttorta.\nSusan: Jó, akkor egy szelet sajttortát kérek.\nSusan vár. Telefonál, sms-t ír, azután tanul egy kicsit. Magyarul tanul egy nyelviskolában, ezért most házi feladatot ír. Jön a pincér.\nPincér: Tessék, a sajttorta és a tejes kávé. Jó étvágyat kívánok!\nSusan: Köszönöm szépen.\nSusan még mindig nagyon éhes, eszik még egy szendvicset és iszik egy limonádét is. Azután fizet.\nSusan: Elnézést, fizetek!\nPincér: Tessék, a számla. Egy szelet sajttorta, egy szendvics, egy nagy tejeskávé és egy limonádé, összesen 1500 forint.\nSusan: Tessék! Köszönöm!\nPincér: Köszönöm! Viszlát!",
+          answer: "A szöveg a 3.b és 3.c feladatokhoz tartozik."
         },
         {
-          id: "W5",
-          points: 3,
-          prompt: "5. Íráskészség / 쓰기 · 3 pont\n당신이 사는 곳에 대해 헝가리어로 5~6문장을 쓰세요. 국가와 도시, 아파트/집, 방의 수, 집에서 가장 좋아하는 곳 또는 방의 특징을 포함하세요.",
-          answer: "Példa:\nMagyarországon, Budapesten élek.\nEgy kis lakásban lakom.\nA lakásban három szoba van.\nVan egy hálószoba, egy nappali és egy dolgozószoba.\nA szobák világosak és tiszták.\nA nappali mellett van a konyha."
+          id: "3.b",
+          prompt: "3.b) Igaz vagy hamis? Karikázza be!\n3.b) Is it true or false? Circle it.\n\nSusan szombaton dolgozik. — Igaz / Hamis\nSusan egy tejes kávét kér. — Igaz / Hamis\nA kávézóban nincs csokitorta. — Igaz / Hamis\nSusan egy nyelviskolában tanul magyarul. — Igaz / Hamis",
+          answer: "Susan szombaton dolgozik. — Hamis\nSusan egy tejes kávét kér. — Igaz\nA kávézóban nincs csokitorta. — Igaz\nSusan egy nyelviskolában tanul magyarul. — Igaz"
+        },
+        {
+          id: "3.c",
+          prompt: "3.c) Mi a válasz? Válaszoljon a kérdésre!\n3.c) What is the answer? Answer the question.\n\nMit csinál Susan, amikor jön a pincér?\nMilyen tortát rendel Susan?\nMit eszik és mit iszik Susan a torta és a kávé után?\nMennyit fizet Susan?",
+          answer: "Egy kávézóban ül és könyvet olvas.\nEgy szelet sajttortát rendel.\nEgy szendvicset eszik és egy limonádét iszik.\n1500 forintot fizet."
+        },
+        {
+          id: "4",
+          prompt: "4. ÍRÁSKÉSZSÉG. Hol laksz? Írjon 5–6 mondatot a lakóhelyéről!\n4. WRITING. Where do you live? Write 5–6 sentences about the place where you live.\n\nKérdések:\n• Melyik országban és melyik városban lakik?\n• Lakásban vagy házban lakik?\n• Hány szoba van a lakásban és milyen?",
+          answer: "Mintaválasz:\nMagyarországon, Budapesten élek.\nEgy lakásban élek.\nA lakásban négy szoba van.\nA szobák világosak és nagyok.\nVan egy konyha, egy nappali, egy hálószoba és egy dolgozószoba.\nA lakásom közel van az ELTE-hez."
         }
       ]
     },

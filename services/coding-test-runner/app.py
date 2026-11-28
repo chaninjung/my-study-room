@@ -115,7 +115,12 @@ MAX_ANSWER_BYTES = 5_000_000
 MAX_EXAM_OVERLAY_BYTES = 250_000
 MAX_EXAM_MEDIA_BYTES = 15_000_000
 EXAM_COURSES = {"dnd", "ids", "pai", "hungarian", "aihe"}
-PERSONAL_EXAM_MEDIA = {"reading-3a.mp3": "audio/mpeg"}
+PERSONAL_EXAM_MEDIA = {
+    "reading-3a.mp3": "audio/mpeg",
+    "listening-1a.mp3": "audio/mpeg",
+    "listening-1b.mp3": "audio/mpeg",
+    "listening-1b.png": "image/png",
+}
 
 
 def ensure_answer_bucket() -> None:
@@ -444,7 +449,7 @@ async def save_personal_exam_media(
     if not user:
         raise HTTPException(status_code=503, detail="Personal exam storage is not configured.")
     if request.headers.get("content-type", "").split(";", 1)[0].strip() != PERSONAL_EXAM_MEDIA[asset_name]:
-        raise HTTPException(status_code=415, detail="The exam audio must be an MP3 file.")
+        raise HTTPException(status_code=415, detail="The exam media has an unsupported content type.")
     body = await request.body()
     if not body:
         raise HTTPException(status_code=422, detail="The exam audio file is empty.")
