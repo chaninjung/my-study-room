@@ -1582,5 +1582,107 @@ window.__HUN_NOTES_DATA__ = [
         word: "szomszéd"
       }
     ]
+  },
+  {
+    chapterId: "bag",
+    chapterNum: 13,
+    title: { ko: "13. 가방과 소지품", en: "13. Bag & Contents" },
+    desc: {
+      ko: "가방 안에 넣고 다니는 필기구, 전자기기, 개인용품, 신분증과 결제 도구 표현입니다. `A táskámban ... van/vannak`으로 바로 말할 수 있습니다.",
+      en: "Writing tools, electronics, personal items, identification, and payment items carried in a bag. Use 'A táskámban ... van/vannak'."
+    },
+    items: [
+      {
+        hu: "táska · táskámban",
+        ko: "가방 · 내 가방 안에",
+        en: "bag · in my bag",
+        tip: "táska + -m(내) + -ban(안에) → táskámban",
+        word: "táska"
+      },
+      {
+        hu: "füzet · toll · könyv",
+        ko: "노트 · 펜 · 책",
+        en: "notebook · pen · book",
+        tip: "A táskámban egy füzet, egy toll és egy könyv van.",
+        word: "füzet"
+      },
+      {
+        hu: "mobil / mobiltelefon · laptop",
+        ko: "휴대전화 · 노트북",
+        en: "mobile phone · laptop",
+        tip: "A mobil a táskámban van. A laptop nagy. = 휴대전화가 내 가방 안에 있다.",
+        word: "mobiltelefon"
+      },
+      {
+        hu: "smink · ásványvíz",
+        ko: "화장품 · 생수",
+        en: "makeup · mineral water",
+        tip: "A smink és az ásványvíz a táskámban vannak. = 화장품과 생수가 가방 안에 있다.",
+        word: "smink"
+      },
+      {
+        hu: "szemüveg · napszemüveg",
+        ko: "안경 · 선글라스",
+        en: "glasses · sunglasses",
+        tip: "Szemüveggel olvasok. = 나는 안경을 쓰고 읽는다.",
+        word: "szemüveg"
+      },
+      {
+        hu: "papírzsebkendő",
+        ko: "휴지/티슈",
+        en: "paper tissue",
+        tip: "Egy csomag papírzsebkendő van a táskámban. = 내 가방에 티슈 한 묶음이 있다.",
+        word: "papírzsebkendő"
+      },
+      {
+        hu: "pénztárca · pénz",
+        ko: "지갑 · 돈",
+        en: "wallet · money",
+        tip: "A pénz a pénztárcában van. = 돈은 지갑 안에 있다.",
+        word: "pénztárca"
+      },
+      {
+        hu: "személyi igazolvány · jogosítvány",
+        ko: "신분증 · 운전면허증",
+        en: "ID card · driving licence",
+        tip: "A személyi igazolványom és a jogosítványom a pénztárcámban vannak.",
+        word: "személyi igazolvány"
+      },
+      {
+        hu: "naptár · bankkártya",
+        ko: "달력/다이어리 · 은행카드",
+        en: "calendar/planner · bank card",
+        tip: "A bankkártya a pénztárcában van. = 은행카드는 지갑 안에 있다.",
+        word: "bankkártya"
+      },
+      {
+        hu: "kulcs",
+        ko: "열쇠",
+        en: "key",
+        tip: "Hol a kulcs? — A kulcs a táskámban van. = 열쇠가 어디? 내 가방 안에 있다.",
+        word: "kulcs"
+      },
+      {
+        hu: "fésű · tükör",
+        ko: "빗 · 거울",
+        en: "comb · mirror",
+        tip: "A fésű és a tükör a smink mellett van. = 빗과 거울이 화장품 옆에 있다.",
+        word: "fésű"
+      },
+      {
+        hu: "újság",
+        ko: "신문 · 잡지",
+        en: "newspaper / magazine",
+        tip: "Egy újságot olvasok. = 신문 하나를 읽는다.",
+        word: "újság"
+      },
+      {
+        hu: "Mi van a táskádban? — A táskámban egy mobil, egy könyv és egy kulcs van.",
+        ko: "네 가방 안에 뭐가 있어? — 내 가방에 휴대전화, 책, 열쇠가 있어.",
+        en: "What is in your bag? — In my bag there is a phone, a book, and a key.",
+        tip: "Mi van a táskádban? = 네 가방 안에 무엇이 있니? A táskámban = 내 가방 안에",
+        word: "táskámban"
+      }
+    ]
   }
 ];
