@@ -1,7 +1,7 @@
 window.__HUN_EXAM_PREP__ = {
   meta: {
     title: "Magyar nyelv · Written, Reading, Oral & Location Practice",
-    updated: "2026-11-24",
+    updated: "2026-11-28",
     private: true,
     note: {
       ko: "실제 문항은 예고되지 않았습니다. 알려준 범위와 구술 흐름을 바탕으로 만든 사전 연습지입니다.",
@@ -13,45 +13,40 @@ window.__HUN_EXAM_PREP__ = {
       id: "written",
       label: { ko: "쓰기 연습 · 20점", en: "Written practice · 20 pts" },
       instruction: {
-        ko: "보기 없이 완전한 문장으로 답하세요. 철자와 악센트까지 확인하세요.",
-        en: "Answer in complete sentences without notes. Check spelling and accents."
+        ko: "총 20점입니다. 1번은 듣기 형식의 대화문을 읽고 풀고, 2~3번은 어휘·문법, 4번은 아래 읽기 지문, 5번은 작문입니다. 철자와 악센트까지 확인하세요.",
+        en: "Total: 20 points. Read the listening-style dialogue in part 1, answer the vocabulary and grammar items in parts 2–3, use the reading passage for part 4, and write in part 5. Check spelling and accents."
       },
+      passage: "Reggel Márta egy kis pékségbe megy. Egy meleg kakaót és egy sajtos pogácsát kér. A kakaó nagy, és nincs benne cukor. Márta leül az ablaknál és olvas egy magyar újságot. Később még két mandarint és egy palack ásványvizet kér. A pogácsa nagyon finom, de a kakaó kicsit hideg, ezért Márta új, meleg kakaót kér. Azután telefonál a kolléganőjének.",
       questions: [
         {
           id: "W1",
-          points: 4,
-          prompt: "다음 정보를 헝가리어 자기소개 문장 네 개로 쓰세요: 이름 Chanin / 한국인 / 33세 / 부다페스트 거주",
-          answer: "A nevem Chanin.\nKoreai vagyok.\nHarminchárom éves vagyok.\nBudapesten élek."
+          points: 5,
+          prompt: "1. Hallásjellegű szövegértés / 듣기 형식 · 5 pont\n대화를 읽고 답하세요. 실제 오디오가 아니라 문자로 제공되는 연습입니다.\n\nEladó: Jó napot kívánok! Mit parancsol?\nDóra: Jó napot! Fél kiló csirkemellet kérek.\nEladó: Tessék. Még valamit?\nDóra: Mennyibe kerül az uborkasaláta?\nEladó: Kilónként kilencszáz forint.\nDóra: Akkor húsz deka uborkasalátát is kérek. És egy pohár hideg limonádét.\nEladó: Tessék. Más valamit?\nDóra: Nem, köszönöm.\n\na) Milyen húst kér Dóra?\nb) Hány kiló húst kér?\nc) Milyen salátát kér?\nd) Mennyibe kerül a saláta egy kilója?\ne) Hány dekagramm salátát kér?",
+          answer: "a) Csirkemellet.\nb) Fél kilót.\nc) Uborkasalátát.\nd) 900 Ft egy kiló.\ne) 20 dekát."
         },
         {
           id: "W2",
-          points: 4,
-          prompt: "“저는 ELTE에서 AI를 공부합니다. 영어, 한국어, 일본어를 말하고 헝가리어도 조금 말합니다.”를 쓰세요.",
-          answer: "Az ELTE-n mesterséges intelligenciát tanulok.\nAngolul, koreaiul és japánul beszélek, és egy kicsit magyarul is beszélek."
+          points: 3,
+          prompt: "2. Ételek és ízek / 음식과 맛 · 3 pont\n각 설명의 음식과 특징을 헝가리어로 쓰세요.\n\na) 돼지고기는 아니고 칠면조고기이며, 꽤 짭니다.\nb) 케이크는 과일 케이크이며 너무 달지 않습니다.\nc) 수프는 차갑습니다.",
+          answer: "a) Ez pulyka, és elég sós.\nb) Ez gyümölcstorta, és nem túl édes.\nc) Ez a leves hideg."
         },
         {
           id: "W3",
-          points: 3,
-          prompt: "빈칸을 채워 쓰세요: ___ napot kívánok! Egy meleg ___ és egy szelet csokoládétortát ___.",
-          answer: "Jó napot kívánok! Egy meleg kávét és egy szelet csokoládétortát kérek."
+          points: 5,
+          prompt: "3. Nyelvtan és szókincs / 문법과 어휘 · 5 pont\n올바른 형태로 빈칸을 채우세요.\n\na) Én Anna _______. (vagy / vagyok)\nb) Péter Budapesten _______. (él / élnek)\nc) 73 = _______\nd) _______ kerül a narancslé? (Mennyi / Mennyibe)\ne) Eszem egy kiflit, _______ éhes vagyok. (ezért / mert / amikor)",
+          answer: "a) vagyok\nb) él\nc) hetvenhárom\nd) Mennyibe\ne) mert"
         },
         {
           id: "W4",
-          points: 3,
-          prompt: "“아이스커피 하나, 설탕 없이 우유 조금 넣어서 주세요.”를 쓰세요.",
-          answer: "Egy jeges kávét kérek cukor nélkül, egy kis tejjel."
+          points: 4,
+          prompt: "4. Olvasás utáni szövegértés / 읽기 · 4 pont\n위의 읽기 지문을 보고 짧은 문장으로 답하세요.\n\na) Mit kér Márta először?\nb) Hol ül le?\nc) Mit rendel később?\nd) Miért kér új, meleg kakaót?",
+          answer: "a) Egy meleg kakaót és egy sajtos pogácsát kér.\nb) Az ablaknál ül le.\nc) Két mandarint és egy palack ásványvizet kér.\nd) Mert az első kakaó kicsit hideg."
         },
         {
           id: "W5",
-          points: 2,
-          prompt: "“총 얼마예요?”와 “카드로 결제하고 싶어요.”를 쓰세요.",
-          answer: "Mennyibe kerül összesen?\nKártyával szeretnék fizetni."
-        },
-        {
-          id: "W6",
-          points: 4,
-          prompt: "단수와 복수에 맞게 van/vannak를 넣으세요: A lámpa az asztalon ___. A könyvek a polcon ___.",
-          answer: "A lámpa az asztalon van.\nA könyvek a polcon vannak."
+          points: 3,
+          prompt: "5. Íráskészség / 쓰기 · 3 pont\n당신이 사는 곳에 대해 헝가리어로 5~6문장을 쓰세요. 국가와 도시, 아파트/집, 방의 수, 집에서 가장 좋아하는 곳 또는 방의 특징을 포함하세요.",
+          answer: "Példa:\nMagyarországon, Budapesten élek.\nEgy kis lakásban lakom.\nA lakásban három szoba van.\nVan egy hálószoba, egy nappali és egy dolgozószoba.\nA szobák világosak és tiszták.\nA nappali mellett van a konyha."
         }
       ]
     },
