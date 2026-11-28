@@ -1380,6 +1380,67 @@ window.__HUN_NOTES_DATA__ = [
       ko: "집 구조, 방, 가구, 전자제품, 식기와 주방용품을 분류했습니다. 위치 표현과 함께 사용하면 방 그림을 자세히 설명할 수 있습니다.",
       en: "Vocabulary for the house, rooms, furniture, appliances, tableware, and kitchen objects. Combine these words with location expressions."
     },
+    photoPractice: {
+      image: "assets/courses/hungarian_oral_room.png",
+      title: { ko: "구술 사진 연습 · 이 방을 설명해 보세요", en: "Oral photo practice · Describe this room" },
+      intro: {
+        ko: "A képen egy szobát látok. Szerintem ez egy hálószoba.\nA szobában sok dolog van: van egy ágy, egy asztal, egy szék és egy ablak.",
+        en: "A képen egy szobát látok. Szerintem ez egy hálószoba.\nA szobában sok dolog van: van egy ágy, egy asztal, egy szék és egy ablak."
+      },
+      model: [
+        "A szék az asztal mellett van.",
+        "A széken egy szürke pulóver van.",
+        "Az ágy az ablak előtt van.",
+        "Az ágyon egy laptop és ruhák vannak.",
+        "Az asztalon könyvek, egy tál és egy bögre vannak.",
+        "A szőnyegen egy pizza és ruhák vannak.",
+        "A táska az ágy mellett van."
+      ],
+      whatQuestions: [
+        {
+          question: "Mi van az ágyon?",
+          answer: "Egy laptop és ruhák vannak az ágyon.",
+          ko: "침대 위에 무엇이 있나요? — 노트북과 옷들이 있습니다."
+        },
+        {
+          question: "Mi van az asztalon?",
+          answer: "Könyvek, egy tál és egy bögre vannak az asztalon.",
+          ko: "책상 위에 무엇이 있나요? — 책들, 그릇과 머그컵이 있습니다."
+        },
+        {
+          question: "Mi van a szőnyegen?",
+          answer: "Egy pizza és ruhák vannak a szőnyegen.",
+          ko: "카펫 위에 무엇이 있나요? — 피자와 옷들이 있습니다."
+        }
+      ],
+      whereQuestions: [
+        {
+          question: "Hol van a pizza?",
+          answer: "A szőnyegen van. / A földön van.",
+          ko: "피자는 어디에 있나요? — 카펫 위/바닥에 있습니다."
+        },
+        {
+          question: "Hol van a táska?",
+          answer: "Az ágy mellett van.",
+          ko: "가방은 어디에 있나요? — 침대 옆에 있습니다."
+        },
+        {
+          question: "Hol van a laptop?",
+          answer: "Az ágyon van.",
+          ko: "노트북은 어디에 있나요? — 침대 위에 있습니다."
+        },
+        {
+          question: "Hol van a szék?",
+          answer: "Az asztal mellett van.",
+          ko: "의자는 어디에 있나요? — 책상 옆에 있습니다."
+        },
+        {
+          question: "Hol van a pulóver?",
+          answer: "A széken van.",
+          ko: "스웨터는 어디에 있나요? — 의자 위에 있습니다."
+        }
+      ]
+    },
     items: [
       {
         hu: "lakás · ház",

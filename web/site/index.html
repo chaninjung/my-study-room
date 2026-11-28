@@ -1199,6 +1199,23 @@ details.more .rowGrid{border-top:1px solid var(--border)}
 .hunVerbTable strong{font-weight:800;color:var(--primary)}
 .hunVerbNote{margin:0 2px 2px;font-size:12.5px;color:var(--text-3);line-height:1.55}
 .hunVerbNote b{color:var(--warn)}
+.hunPhotoPractice{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow-sm)}
+.hunPhotoFrame{margin:0;min-width:0}
+.hunPhotoFrame img{display:block;width:100%;height:auto;border-radius:var(--r-md);border:1px solid var(--border);object-fit:cover}
+.hunPhotoFrame figcaption{margin-top:8px;font-size:12px;color:var(--text-3)}
+.hunPhotoPanel{display:flex;flex-direction:column;gap:14px;min-width:0}
+.hunPhotoTitle{font-size:18px;font-weight:800;color:var(--text)}
+.hunPhotoIntro{margin:0;padding:12px 14px;background:var(--primary-soft);border-left:3px solid var(--primary);border-radius:var(--r-sm);white-space:pre-wrap;color:var(--text-2);line-height:1.7}
+.hunPhotoList{margin:0;padding-left:20px;color:var(--text-2);line-height:1.8}
+.hunPhotoDrills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hunPhotoDrill{border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;background:#fff}
+.hunPhotoDrill h3{padding:11px 13px;font-size:14px;background:var(--surface-2);border-bottom:1px solid var(--border)}
+.hunPhotoDrill details{padding:11px 13px;border-bottom:1px solid var(--border)}
+.hunPhotoDrill details:last-child{border-bottom:0}
+.hunPhotoDrill summary{cursor:pointer;font-weight:700;color:var(--text);line-height:1.5}
+.hunPhotoAnswer{margin-top:8px;color:var(--primary);font-weight:600;line-height:1.6;white-space:pre-wrap}
+.hunPhotoKo{margin-top:4px;color:var(--text-3);font-size:12.5px}
+@media (max-width:900px){.hunPhotoPractice,.hunPhotoDrills{grid-template-columns:1fr}}
 
 .hunGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .hunCard{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-xs);transition:border-color .15s,box-shadow .15s}
@@ -5707,6 +5724,36 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         : "<b>2nd person singular Te:</b> usually takes -sz, but stems ending in s, sz, or z take -ol/-el/-öl. Thus olvas → olvas<strong>ol</strong>.") + '</div>';
   }
 
+  function renderHungarianPhotoPractice(chap) {
+    const practice = chap && chap.photoPractice;
+    if (!practice) return "";
+    const langText = function (pair) { return pair && (pair[LANG] || pair.ko) || ""; };
+    const model = practice.model.map(function (sentence) { return "<li>" + esc(sentence) + "</li>"; }).join("");
+    const drillSection = function (title, questions) {
+      const rows = questions.map(function (item) {
+        return "<details><summary>" + esc(item.question) + "</summary>" +
+          '<div class="hunPhotoAnswer">' + esc(item.answer) + "</div>" +
+          '<div class="hunPhotoKo">' + esc(item.ko) + "</div></details>";
+      }).join("");
+      return '<section class="hunPhotoDrill"><h3>' + esc(title) + '</h3>' + rows + "</section>";
+    };
+    return '<section class="hunPhotoPractice">' +
+      '<figure class="hunPhotoFrame"><img src="' + esc(practice.image) + '" alt="' +
+        esc(LANG === "ko" ? "헝가리어 구술 연습용 방 사진" : "Room photo for Hungarian oral practice") +
+        '" loading="lazy"><figcaption>' +
+        esc(LANG === "ko" ? "질문을 듣기 전에 사진을 30초 동안 보고 가능한 많은 사물을 찾아보세요." :
+          "Look at the photo for 30 seconds and identify as many objects as possible before answering.") +
+      '</figcaption></figure>' +
+      '<div class="hunPhotoPanel"><div class="hunPhotoTitle">' + esc(langText(practice.title)) + '</div>' +
+        '<p class="hunPhotoIntro">' + esc(langText(practice.intro)) + '</p>' +
+        '<b>' + esc(LANG === "ko" ? "위치를 설명하는 모델 문장" : "Model location sentences") + '</b>' +
+        '<ul class="hunPhotoList">' + model + '</ul></div>' +
+      '</section><div class="hunPhotoDrills">' +
+        drillSection(LANG === "ko" ? '패턴 A · Mi van ...?' : 'Pattern A · Mi van ...?', practice.whatQuestions) +
+        drillSection(LANG === "ko" ? '패턴 B · Hol van ...?' : 'Pattern B · Hol van ...?', practice.whereQuestions) +
+      '</div>';
+  }
+
   function renderHungarianExamPrep() {
     const prep = window.__HUN_EXAM_PREP__;
     if (!prep || !prep.sections || !prep.sections.length) {
@@ -5815,6 +5862,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
           '<div class="hunChapDesc">' + esc(label(chap.desc)) + '</div>' +
         '</div>' +
         (chap.chapterId === "verbs" && !q ? renderHungarianVerbTable() : "") +
+        (chap.chapterId === "house" && !q ? renderHungarianPhotoPractice(chap) : "") +
         '<div class="hunGrid">' + itemsHtml + '</div>' +
       '</div>';
     });
