@@ -8,9 +8,10 @@ import tempfile
 import zipfile
 from pathlib import Path
 from urllib.error import HTTPError, URLError
+from urllib.parse import quote
 from urllib.request import Request as UrlRequest, urlopen
 
-from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -111,7 +112,10 @@ USER_ANSWER_BUCKET = os.getenv("USER_ANSWER_BUCKET", "dnd-user-answers")
 EXAM_ASSET_BUCKET = os.getenv("EXAM_ASSET_BUCKET", "dnd-private-exams")
 # Private exam JSON objects are read from Supabase Storage only after Supabase Auth succeeds.
 MAX_ANSWER_BYTES = 5_000_000
+MAX_EXAM_OVERLAY_BYTES = 250_000
+MAX_EXAM_MEDIA_BYTES = 15_000_000
 EXAM_COURSES = {"dnd", "ids", "pai", "hungarian", "aihe"}
+PERSONAL_EXAM_MEDIA = {"reading-3a.mp3": "audio/mpeg"}
 
 
 def ensure_answer_bucket() -> None:
@@ -294,7 +298,7 @@ def exam(authorization: str | None = Header(default=None)) -> ExamResponse:
 
 @app.get("/api/exams/{course}")
 def exam_assets(course: str, authorization: str | None = Header(default=None)) -> dict[str, object]:
-    require_user(authorization)
+    user = require_user(authorization)
     if course not in EXAM_COURSES:
         raise HTTPException(status_code=404, detail="Unknown course.")
     if not SUPABASE_SERVICE_ROLE_KEY or not SUPABASE_URL:
@@ -319,7 +323,176 @@ def exam_assets(course: str, authorization: str | None = Header(default=None)) -
         raise HTTPException(status_code=502, detail="Could not load private exam data.") from error
     if not isinstance(payload, dict):
         raise HTTPException(status_code=502, detail="Private exam data is invalid.")
+    if user:
+        overlay_request = UrlRequest(
+            f"{SUPABASE_URL}/storage/v1/object/{EXAM_ASSET_BUCKET}/"
+            f"{personal_exam_overlay_object(str(user['id']), course)}",
+            headers={
+                "apikey": SUPABASE_SERVICE_ROLE_KEY,
+                "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+            },
+        )
+        try:
+            with urlopen(overlay_request, timeout=15) as overlay_response:
+                overlay = json.loads(overlay_response.read().decode("utf-8"))
+            merge_personal_exam_overlay(payload, overlay)
+        except HTTPError as error:
+            if error.code != 404:
+                raise HTTPException(status_code=502, detail="Could not load personal exam data.") from error
+        except (URLError, TimeoutError, json.JSONDecodeError, ValueError) as error:
+            raise HTTPException(status_code=502, detail="Personal exam data is invalid.") from error
     return payload
+
+
+def personal_exam_overlay_object(user_id: str, course: str) -> str:
+    return f"user-overlays/{user_id}/{course}.json"
+
+
+def personal_exam_media_object(user_id: str, course: str, asset_name: str) -> str:
+    return f"user-media/{user_id}/{course}/{asset_name}"
+
+
+def merge_personal_exam_overlay(payload: dict[str, object], overlay: object) -> None:
+    if not isinstance(overlay, dict):
+        raise ValueError("Personal exam overlay must be an object.")
+    personal_prep = overlay.get("prep")
+    if not isinstance(personal_prep, dict):
+        return
+    prep = payload.get("prep")
+    if not isinstance(prep, dict):
+        raise ValueError("Course exam data has no prep object.")
+    incoming_sections = personal_prep.get("sections")
+    if not isinstance(incoming_sections, list):
+        return
+    sections = prep.get("sections")
+    if not isinstance(sections, list):
+        raise ValueError("Course exam prep has no sections.")
+    section_by_id = {
+        section["id"]: section
+        for section in sections
+        if isinstance(section, dict) and isinstance(section.get("id"), str)
+    }
+    for incoming in incoming_sections:
+        if not isinstance(incoming, dict) or not isinstance(incoming.get("id"), str):
+            continue
+        current = section_by_id.get(incoming["id"])
+        if current is not None:
+            current.update(incoming)
+
+
+def upload_personal_object(object_path: str, body: bytes, content_type: str) -> None:
+    if not SUPABASE_SERVICE_ROLE_KEY or not SUPABASE_URL:
+        raise HTTPException(status_code=503, detail="Private exam storage is not configured.")
+    request = UrlRequest(
+        f"{SUPABASE_URL}/storage/v1/object/{EXAM_ASSET_BUCKET}/{quote(object_path, safe='/')}",
+        data=body,
+        method="POST",
+        headers={
+            "apikey": SUPABASE_SERVICE_ROLE_KEY,
+            "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+            "Content-Type": content_type,
+            "x-upsert": "true",
+        },
+    )
+    try:
+        with urlopen(request, timeout=30) as response:
+            response.read()
+    except (HTTPError, URLError, TimeoutError) as error:
+        raise HTTPException(status_code=502, detail="Could not save personal exam data.") from error
+
+
+@app.put("/api/exams/{course}/personal-overlay")
+async def save_personal_exam_overlay(
+    course: str,
+    request: Request,
+    authorization: str | None = Header(default=None),
+) -> dict[str, bool]:
+    user = require_user(authorization)
+    if course != "hungarian":
+        raise HTTPException(status_code=404, detail="Personal overlays are not available for this course.")
+    if not user:
+        raise HTTPException(status_code=503, detail="Personal exam storage is not configured.")
+    body = await request.body()
+    if len(body) > MAX_EXAM_OVERLAY_BYTES:
+        raise HTTPException(status_code=413, detail="The personal exam overlay is too large.")
+    try:
+        overlay = json.loads(body.decode("utf-8"))
+        merge_personal_exam_overlay(
+            {"prep": {"sections": [{"id": "written"}, {"id": "reading"}, {"id": "oral"}, {"id": "positions"}]}},
+            overlay,
+        )
+    except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as error:
+        raise HTTPException(status_code=422, detail="The personal exam overlay is invalid.") from error
+    upload_personal_object(
+        personal_exam_overlay_object(str(user["id"]), course),
+        body,
+        "application/json",
+    )
+    return {"saved": True}
+
+
+@app.put("/api/exams/{course}/personal-media/{asset_name}")
+async def save_personal_exam_media(
+    course: str,
+    asset_name: str,
+    request: Request,
+    authorization: str | None = Header(default=None),
+) -> dict[str, bool]:
+    user = require_user(authorization)
+    if course != "hungarian" or asset_name not in PERSONAL_EXAM_MEDIA:
+        raise HTTPException(status_code=404, detail="Unknown personal exam media asset.")
+    if not user:
+        raise HTTPException(status_code=503, detail="Personal exam storage is not configured.")
+    if request.headers.get("content-type", "").split(";", 1)[0].strip() != PERSONAL_EXAM_MEDIA[asset_name]:
+        raise HTTPException(status_code=415, detail="The exam audio must be an MP3 file.")
+    body = await request.body()
+    if not body:
+        raise HTTPException(status_code=422, detail="The exam audio file is empty.")
+    if len(body) > MAX_EXAM_MEDIA_BYTES:
+        raise HTTPException(status_code=413, detail="The exam audio file is too large.")
+    upload_personal_object(
+        personal_exam_media_object(str(user["id"]), course, asset_name),
+        body,
+        PERSONAL_EXAM_MEDIA[asset_name],
+    )
+    return {"saved": True}
+
+
+@app.get("/api/exams/{course}/personal-media/{asset_name}")
+def get_personal_exam_media(
+    course: str,
+    asset_name: str,
+    authorization: str | None = Header(default=None),
+) -> Response:
+    user = require_user(authorization)
+    if course != "hungarian" or asset_name not in PERSONAL_EXAM_MEDIA:
+        raise HTTPException(status_code=404, detail="Unknown personal exam media asset.")
+    if not user:
+        raise HTTPException(status_code=503, detail="Personal exam storage is not configured.")
+    if not SUPABASE_SERVICE_ROLE_KEY or not SUPABASE_URL:
+        raise HTTPException(status_code=503, detail="Private exam storage is not configured.")
+    object_path = personal_exam_media_object(str(user["id"]), course, asset_name)
+    request = UrlRequest(
+        f"{SUPABASE_URL}/storage/v1/object/{EXAM_ASSET_BUCKET}/{quote(object_path, safe='/')}",
+        headers={
+            "apikey": SUPABASE_SERVICE_ROLE_KEY,
+            "Authorization": "Bearer " + SUPABASE_SERVICE_ROLE_KEY,
+        },
+    )
+    try:
+        with urlopen(request, timeout=30) as response:
+            body = response.read()
+    except HTTPError as error:
+        if error.code == 404:
+            raise HTTPException(status_code=404, detail="This personal exam audio is not installed.")
+        raise HTTPException(status_code=502, detail="Could not load personal exam audio.") from error
+    except (URLError, TimeoutError) as error:
+        raise HTTPException(status_code=502, detail="Could not load personal exam audio.") from error
+    return Response(
+        content=body,
+        media_type=PERSONAL_EXAM_MEDIA[asset_name],
+        headers={"Cache-Control": "private, max-age=3600"},
+    )
 
 
 def notebook_cells(notebook_path: Path) -> list[str]:
