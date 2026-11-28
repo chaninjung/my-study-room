@@ -1494,5 +1494,93 @@ window.__HUN_NOTES_DATA__ = [
         word: "szobában"
       }
     ]
+  },
+  {
+    chapterId: "people",
+    chapterNum: 12,
+    title: { ko: "12. 사람 · Emberek", en: "12. People" },
+    desc: {
+      ko: "아기와 아이, 여자와 남자, 정중한 호칭, 직장과 이웃 관계를 표현하는 사람 단어입니다.",
+      en: "People vocabulary for babies, children, gender, polite address, colleagues, and neighbors."
+    },
+    items: [
+      {
+        hu: "ember / emberek",
+        ko: "사람 · 사람들",
+        en: "person · people",
+        tip: "Az utcán sok ember van. = 거리에는 사람이 많다.",
+        word: "ember"
+      },
+      {
+        hu: "(kis)baba",
+        ko: "아기 / 작은 아기",
+        en: "baby / little baby",
+        tip: "kis는 '작은'이라는 뜻이며 kisbaba는 아기를 더 귀엽거나 다정하게 부르는 표현입니다.",
+        word: "baba"
+      },
+      {
+        hu: "kislány · lány · kisfiú · fiú",
+        ko: "어린 여자아이 · 소녀/여자아이 · 어린 남자아이 · 소년/남자아이",
+        en: "little girl · girl · little boy · boy",
+        tip: "kis + lány/fiú처럼 kis는 아이의 '어린' 정도를 강조합니다.",
+        word: "kislány"
+      },
+      {
+        hu: "gyermek / gyermekek",
+        ko: "아이 · 아이들",
+        en: "child · children",
+        tip: "A gyermekek az iskolában vannak. = 아이들은 학교에 있다.",
+        word: "gyermek"
+      },
+      {
+        hu: "nő · férfi",
+        ko: "여자/여성 · 남자/남성",
+        en: "woman · man",
+        tip: "Ő egy nő. Ő egy férfi. = 그녀는 여자다. 그는 남자다.",
+        word: "nő"
+      },
+      {
+        hu: "néni · bácsi",
+        ko: "아주머니/나이 든 여성 · 아저씨/나이 든 남성",
+        en: "madam/older woman · sir/older man",
+        tip: "아이들이 어른에게 정중하고 친근하게 부를 때도 néni와 bácsi를 사용합니다.",
+        word: "néni"
+      },
+      {
+        hu: "kollega",
+        ko: "동료",
+        en: "colleague",
+        tip: "A kolléga az irodában dolgozik. = 동료는 사무실에서 일한다.",
+        word: "kollega"
+      },
+      {
+        hu: "főnök",
+        ko: "상사 · 보스",
+        en: "boss · supervisor",
+        tip: "Ő a főnököm. = 그분은 나의 상사이다.",
+        word: "főnök"
+      },
+      {
+        hu: "szomszéd / szomszédok",
+        ko: "이웃 · 이웃들",
+        en: "neighbor · neighbors",
+        tip: "A szomszédok mellettem laknak. = 이웃들은 내 옆에 산다.",
+        word: "szomszéd"
+      },
+      {
+        hu: "Ki ő? — Ő a kollegám. Ő a főnököm.",
+        ko: "저 사람은 누구예요? — 제 동료예요. 제 상사예요.",
+        en: "Who is he/she? — He/She is my colleague. He/She is my boss.",
+        tip: "kollega + -m = 내 동료, főnök + -öm = 내 상사",
+        word: "kollega"
+      },
+      {
+        hu: "A szomszédom egy néni, a másik szomszédom egy bácsi.",
+        ko: "제 이웃 한 분은 아주머니고, 다른 이웃분은 아저씨입니다.",
+        en: "One neighbor is an older woman, and the other neighbor is an older man.",
+        tip: "사람과 이웃 관계를 한 문장에 연결하는 실전 예문",
+        word: "szomszéd"
+      }
+    ]
   }
 ];
