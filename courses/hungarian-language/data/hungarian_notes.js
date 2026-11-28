@@ -1072,5 +1072,304 @@ window.__HUN_NOTES_DATA__ = [
         word: "alatt"
       }
     ]
+  },
+  {
+    chapterId: "conjunctions",
+    chapterNum: 8,
+    title: { ko: "8. 접속사 · Connecting Words", en: "8. Conjunctions" },
+    desc: {
+      ko: "문장과 생각을 연결하는 기본 접속사입니다. 짧은 예문에서 의미와 문장 순서를 함께 익히세요.",
+      en: "Essential conjunctions for connecting words, clauses, reasons, conditions, and time."
+    },
+    items: [
+      {
+        hu: "és — A kávé meleg és finom.",
+        ko: "그리고 / ~와, ~과 — 커피는 따뜻하고 맛있다.",
+        en: "and — The coffee is warm and delicious.",
+        tip: "비슷한 성질이나 항목을 나열할 때 사용",
+        word: "és"
+      },
+      {
+        hu: "de — Drága, de finom.",
+        ko: "하지만 — 비싸지만 맛있다.",
+        en: "but — It is expensive but delicious.",
+        tip: "앞 내용과 반대되는 뒤 내용을 연결",
+        word: "de"
+      },
+      {
+        hu: "ha — Ha hideg van, teát kérek.",
+        ko: "만약 ~라면 — 춥다면 차를 주세요.",
+        en: "if — If it is cold, I would like tea.",
+        tip: "조건절을 시작",
+        word: "ha"
+      },
+      {
+        hu: "mert — Teát kérek, mert hideg van.",
+        ko: "왜냐하면 — 추우니까 차를 주세요.",
+        en: "because — I would like tea because it is cold.",
+        tip: "이유를 설명",
+        word: "mert"
+      },
+      {
+        hu: "vagy — Teát vagy kávét kérsz?",
+        ko: "또는 — 차 또는 커피를 드시겠어요?",
+        en: "or — Would you like tea or coffee?",
+        tip: "둘 중 하나를 선택",
+        word: "vagy"
+      },
+      {
+        hu: "ezért — Hideg van, ezért meleg teát kérek.",
+        ko: "그래서 — 추워서 따뜻한 차를 주세요.",
+        en: "therefore — It is cold, therefore I would like hot tea.",
+        tip: "앞 문장의 원인에서 뒤의 결과를 연결",
+        word: "ezért"
+      },
+      {
+        hu: "azután — Először iszom, azután eszem.",
+        ko: "그다음에 — 먼저 마시고, 그다음에 먹는다.",
+        en: "after that — First I drink, after that I eat.",
+        tip: "시간상 다음 행동",
+        word: "azután"
+      },
+      {
+        hu: "akkor — Ha kész a leves, akkor eszem.",
+        ko: "그러면 / 그때 — 수프가 준비되면 먹는다.",
+        en: "then — If the soup is ready, then I eat.",
+        tip: "조건에 이어지는 결과 또는 그 시점",
+        word: "akkor"
+      },
+      {
+        hu: "amikor — Amikor éhes vagyok, eszem.",
+        ko: "~할 때 — 배고플 때 먹는다.",
+        en: "when — When I am hungry, I eat.",
+        tip: "시간절을 시작",
+        word: "amikor"
+      }
+    ]
+  },
+  {
+    chapterId: "food",
+    chapterNum: 9,
+    title: { ko: "9. 맛 · 음식 · 음료", en: "9. Taste, Food & Drinks" },
+    desc: {
+      ko: "맛, 강도, 온도, 가격, 크기와 카페·식당에서 자주 쓰는 음식·음료 단어를 한곳에 정리했습니다.",
+      en: "Taste, intensity, temperature, price, size, and useful café and restaurant vocabulary."
+    },
+    items: [
+      {
+        hu: "édes · sós · csípős",
+        ko: "달다 · 짜다 · 맵다",
+        en: "sweet · salty · spicy",
+        tip: "A torta édes. A leves csípős. = 케이크는 달다. 수프는 맵다.",
+        word: "édes"
+      },
+      {
+        hu: "kicsit · nagyon · túl · elég",
+        ko: "조금 · 매우 · 너무 ~하다 · 충분히",
+        en: "a little · very · too · enough",
+        tip: "Ez nagyon édes. Ez túl sós. Ez elég csípős. = 매우 달다 / 너무 짜다 / 충분히 맵다.",
+        word: "kicsit"
+      },
+      {
+        hu: "meleg · hideg",
+        ko: "따뜻한/뜨거운 · 차가운",
+        en: "warm/hot · cold",
+        tip: "Egy meleg teát kérek. Egy hideg vizet kérek. = 따뜻한 차 / 차가운 물 한 개 주세요.",
+        word: "meleg"
+      },
+      {
+        hu: "finom · olcsó · drága",
+        ko: "맛있는 · 싼 · 비싼",
+        en: "delicious · cheap · expensive",
+        tip: "Ez a kávé finom, és olcsó. A torta drága. = 이 커피는 맛있고 싸다. 케이크는 비싸다.",
+        word: "finom"
+      },
+      {
+        hu: "kicsi · közepes · nagy",
+        ko: "작은 · 중간 · 큰",
+        en: "small · medium · large",
+        tip: "Egy kis kávét / egy közepes kávét / egy nagy kávét kérek. = 작은/중간/큰 커피 주세요.",
+        word: "közepes"
+      },
+      {
+        hu: "gyümölcs · eper · banán · citrom",
+        ko: "과일 · 딸기 · 바나나 · 레몬",
+        en: "fruit · strawberry · banana · lemon",
+        tip: "Az eper és a banán gyümölcs. = 딸기와 바나나는 과일이다.",
+        word: "gyümölcs"
+      },
+      {
+        hu: "narancs · alma",
+        ko: "오렌지 · 사과",
+        en: "orange · apple",
+        tip: "Egy narancsot és két almát kérek. = 오렌지 하나와 사과 두 개 주세요.",
+        word: "narancs"
+      },
+      {
+        hu: "zöldség · hagyma · burgonya / krumpli · uborka",
+        ko: "채소 · 양파 · 감자 · 오이",
+        en: "vegetable · onion · potato · cucumber",
+        tip: "burgonya는 표준형, krumpli는 일상적으로 흔한 표현입니다.",
+        word: "zöldség"
+      },
+      {
+        hu: "paradicsom · paprika · pirospaprika",
+        ko: "토마토 · 피망/파프리카 · 파프리카 가루",
+        en: "tomato · pepper · ground paprika",
+        tip: "A pirospaprika magyar fűszer. = 파프리카 가루는 헝가리 향신료이다.",
+        word: "paradicsom"
+      },
+      {
+        hu: "répa · saláta · gomba",
+        ko: "당근 · 샐러드/상추 · 버섯",
+        en: "carrot · salad/lettuce · mushroom",
+        tip: "Szeretek salátát enni. = 나는 샐러드를 먹는 것을 좋아한다.",
+        word: "saláta"
+      },
+      {
+        hu: "kenyér · zsemle · kifli",
+        ko: "빵(식빵·덩어리빵) · 둥근 롤빵 · 초승달빵",
+        en: "bread · bread roll · crescent roll",
+        tip: "Egy zsemlét vagy egy kiflit kérek. = 롤빵 또는 크루아상 하나 주세요.",
+        word: "kenyér"
+      },
+      {
+        hu: "vaj · sajt · tejföl",
+        ko: "버터 · 치즈 · 사워크림",
+        en: "butter · cheese · sour cream",
+        tip: "Kenyér, vaj és sajt. = 빵, 버터, 치즈.",
+        word: "vaj"
+      },
+      {
+        hu: "sonka · szalámi · virsli",
+        ko: "햄 · 살라미 · 소시지",
+        en: "ham · salami · sausage",
+        tip: "A szendvicsben sonka és sajt van. = 샌드위치 안에 햄과 치즈가 있다.",
+        word: "sonka"
+      },
+      {
+        hu: "hal · csirke · pulyka",
+        ko: "생선 · 닭고기 · 칠면조고기",
+        en: "fish · chicken · turkey",
+        tip: "Csirkelevest kérek. = 닭고기 수프를 주세요.",
+        word: "hal"
+      },
+      {
+        hu: "marha · sertés",
+        ko: "소고기 · 돼지고기",
+        en: "beef · pork",
+        tip: "A marha drága. A sertés olcsóbb. = 소고기는 비싸다. 돼지고기가 더 싸다.",
+        word: "marha"
+      },
+      {
+        hu: "leves · főzelék · tészta · rizs",
+        ko: "수프 · 채소 요리/죽 · 파스타·국수 · 밥",
+        en: "soup · vegetable stew · pasta/noodles · rice",
+        tip: "Egy levest és rizst kérek. = 수프와 밥을 주세요.",
+        word: "leves"
+      },
+      {
+        hu: "tojás · narancslé · tej",
+        ko: "달걀 · 오렌지 주스 · 우유",
+        en: "egg · orange juice · milk",
+        tip: "A kávéban tej van. = 커피 안에 우유가 있다.",
+        word: "tojás"
+      },
+      {
+        hu: "tea · kávé · forró csoki",
+        ko: "차 · 커피 · 핫초코",
+        en: "tea · coffee · hot chocolate",
+        tip: "Egy meleg teát, vagy egy forró csokit kérsz? = 따뜻한 차 또는 핫초코를 원해?",
+        word: "tea"
+      },
+      {
+        hu: "só · bors · cukor · méz",
+        ko: "소금 · 후추 · 설탕 · 꿀",
+        en: "salt · pepper · sugar · honey",
+        tip: "Kávét kérek cukor nélkül. = 설탕 없이 커피를 주세요.",
+        word: "só"
+      },
+      {
+        hu: "palacsinta · csoki / csokoládé · csokitorta",
+        ko: "크레페/팬케이크 · 초콜릿 · 초콜릿 케이크",
+        en: "pancake/crêpe · chocolate · chocolate cake",
+        tip: "Egy palacsintát és egy szelet csokitortát kérek. = 팬케이크와 초콜릿 케이크 한 조각 주세요.",
+        word: "palacsinta"
+      },
+      {
+        hu: "fagyi / fagylalt · süti / sütemény · keksz",
+        ko: "아이스크림 · 작은 케이크/디저트 · 쿠키/비스킷",
+        en: "ice cream · pastry/dessert · cookie/biscuit",
+        tip: "fagyi는 fagylalt의 일상형, süti는 sütemény의 짧고 일상적인 형태입니다.",
+        word: "fagyi"
+      }
+    ]
+  },
+  {
+    chapterId: "colors",
+    chapterNum: 10,
+    title: { ko: "10. 색상 · Színek", en: "10. Colors" },
+    desc: {
+      ko: "방 그림, 옷, 음식과 사물을 설명할 때 쓰는 기본 색상 표현입니다. 'Milyen színű?'로 색을 질문할 수 있습니다.",
+      en: "Essential colors for describing rooms, clothes, food, and objects. Ask about color with 'Milyen színű?'."
+    },
+    items: [
+      {
+        hu: "fehér · fekete",
+        ko: "흰색 · 검은색",
+        en: "white · black",
+        tip: "A kép fehér és fekete. = 그림은 흰색과 검은색이다.",
+        word: "fehér"
+      },
+      {
+        hu: "narancssárga · sárga",
+        ko: "주황색 · 노란색",
+        en: "orange · yellow",
+        tip: "narancs는 오렌지 과일, narancssárga는 주황색입니다.",
+        word: "narancssárga"
+      },
+      {
+        hu: "rózsaszín · lila",
+        ko: "분홍색 · 보라색",
+        en: "pink · purple",
+        tip: "A virág rózsaszín. A szék lila. = 꽃은 분홍색이고 의자는 보라색이다.",
+        word: "rózsaszín"
+      },
+      {
+        hu: "kék · zöld",
+        ko: "파란색 · 초록색",
+        en: "blue · green",
+        tip: "Az ég kék, a fű zöld. = 하늘은 파랗고 풀은 초록색이다.",
+        word: "kék"
+      },
+      {
+        hu: "barna · piros · vörös",
+        ko: "갈색 · 빨간색 · 붉은색/진빨간색",
+        en: "brown · red · deep red/crimson",
+        tip: "piros는 기본 빨간색, vörös는 보통 더 진하거나 어두운 붉은색을 표현합니다.",
+        word: "barna"
+      },
+      {
+        hu: "szürke · színes",
+        ko: "회색 · 여러 색의/알록달록한",
+        en: "gray · colorful",
+        tip: "A fal szürke. A kép színes. = 벽은 회색이고 그림은 여러 색이다.",
+        word: "szürke"
+      },
+      {
+        hu: "Milyen színű az asztal? — Az asztal barna.",
+        ko: "책상은 무슨 색인가요? — 책상은 갈색입니다.",
+        en: "What color is the table? — The table is brown.",
+        tip: "색 질문: Milyen színű ...?",
+        word: "színű"
+      },
+      {
+        hu: "A könyv kék, a szék piros, az ablak fehér.",
+        ko: "책은 파란색이고 의자는 빨간색이며 창문은 흰색입니다.",
+        en: "The book is blue, the chair is red, and the window is white.",
+        tip: "방 그림 설명에 바로 쓸 수 있는 색 문장",
+        word: "piros"
+      }
+    ]
   }
 ];
