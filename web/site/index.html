@@ -1186,6 +1186,19 @@ details.more .rowGrid{border-top:1px solid var(--border)}
 .hunChapHead{padding:4px 2px}
 .hunChapTitle{font-size:17px;font-weight:800;color:var(--text);margin-bottom:4px}
 .hunChapDesc{font-size:13px;color:var(--text-3);line-height:1.5}
+.hunVerbTableWrap{overflow-x:auto;background:#fff;border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-xs)}
+.hunVerbTable{width:100%;min-width:980px;border-collapse:separate;border-spacing:0;font-size:13px}
+.hunVerbTable th,.hunVerbTable td{padding:11px 12px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
+.hunVerbTable th:last-child,.hunVerbTable td:last-child{border-right:0}
+.hunVerbTable tr:last-child td{border-bottom:0}
+.hunVerbTable thead th{background:var(--primary);color:#fff;font-weight:700;line-height:1.35}
+.hunVerbTable thead th:first-child{background:#16306f}
+.hunVerbTable tbody td:first-child{background:var(--primary-soft);color:var(--primary);font-weight:700;text-align:left;white-space:nowrap}
+.hunVerbTable tbody td:nth-child(2){background:var(--surface-2);color:var(--text-2);font-weight:600;white-space:nowrap}
+.hunVerbTable tbody td:not(:first-child):not(:nth-child(2)){font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13.5px}
+.hunVerbTable strong{font-weight:800;color:var(--primary)}
+.hunVerbNote{margin:0 2px 2px;font-size:12.5px;color:var(--text-3);line-height:1.55}
+.hunVerbNote b{color:var(--warn)}
 
 .hunGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
 .hunCard{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-xs);transition:border-color .15s,box-shadow .15s}
@@ -5664,6 +5677,36 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
   let HUN_Q = "";
   let HUN_EXAM_TAB = "written";
 
+  function renderHungarianVerbTable() {
+    const ending = LANG === "ko" ? "어미" : "Ending";
+    const endingSub = LANG === "ko" ? "후설 / 전설 / 원순전설" : "Back / front unrounded / front rounded";
+    return '<div class="hunVerbTableWrap"><table class="hunVerbTable">' +
+      '<thead><tr><th>' + (LANG === "ko" ? "주어" : "Subject") + '</th><th>' + ending +
+        '<br><small>' + endingSub + '</small></th>' +
+        '<th>tanul<br><small>' + (LANG === "ko" ? "공부하다 · 후설" : "study · back vowel") + '</small></th>' +
+        '<th>olvas<br><small>' + (LANG === "ko" ? "읽다 · s 어간" : "read · s stem") + '</small></th>' +
+        '<th>beszél<br><small>' + (LANG === "ko" ? "말하다 · 전설" : "speak · front vowel") + '</small></th>' +
+        '<th>ül<br><small>' + (LANG === "ko" ? "앉다 · 원순 전설" : "sit · front rounded") + '</small></th></tr></thead>' +
+      '<tbody>' +
+        '<tr><td>Én <small>· ' + (LANG === "ko" ? "나" : "I") + '</small></td><td>-ok / -ek / -ök</td>' +
+          '<td>tanul<strong>ok</strong></td><td>olvas<strong>ok</strong></td><td>beszél<strong>ek</strong></td><td>ül<strong>ök</strong></td></tr>' +
+        '<tr><td>Te <small>· ' + (LANG === "ko" ? "너" : "you informal") + '</small></td><td>-sz<br>-ol / -el / -öl</td>' +
+          '<td>tanul<strong>sz</strong></td><td>olvas<strong>ol</strong></td><td>beszél<strong>sz</strong></td><td>ül<strong>sz</strong></td></tr>' +
+        '<tr><td>Ő / Ön <small>· ' + (LANG === "ko" ? "그·그녀 / 당신" : "he, she / formal you") + '</small></td><td>' +
+          (LANG === "ko" ? "어미 없음" : "no ending") + '</td>' +
+          '<td><strong>tanul</strong></td><td><strong>olvas</strong></td><td><strong>beszél</strong></td><td><strong>ül</strong></td></tr>' +
+        '<tr><td>Mi <small>· ' + (LANG === "ko" ? "우리" : "we") + '</small></td><td>-unk / -ünk</td>' +
+          '<td>tanul<strong>unk</strong></td><td>olvas<strong>unk</strong></td><td>beszél<strong>ünk</strong></td><td>ül<strong>ünk</strong></td></tr>' +
+        '<tr><td>Ti <small>· ' + (LANG === "ko" ? "너희" : "you plural") + '</small></td><td>-tok / -tek / -tök</td>' +
+          '<td>tanul<strong>tok</strong></td><td>olvas<strong>tok</strong></td><td>beszél<strong>tek</strong></td><td>ül<strong>tök</strong></td></tr>' +
+        '<tr><td>Ők / Önök <small>· ' + (LANG === "ko" ? "그들 / 당신들" : "they / formal you plural") + '</small></td><td>-nak / -nek</td>' +
+          '<td>tanul<strong>nak</strong></td><td>olvas<strong>nak</strong></td><td>beszél<strong>nek</strong></td><td>ül<strong>nek</strong></td></tr>' +
+      '</tbody></table></div>' +
+      '<div class="hunVerbNote">💡 ' + (LANG === "ko"
+        ? "<b>2인칭 단수 Te:</b> 기본적으로 -sz를 쓰지만 어간이 s, sz, z로 끝나면 -ol/-el/-öl를 씁니다. 따라서 olvas → olvas<strong>ol</strong>입니다."
+        : "<b>2nd person singular Te:</b> usually takes -sz, but stems ending in s, sz, or z take -ol/-el/-öl. Thus olvas → olvas<strong>ol</strong>.") + '</div>';
+  }
+
   function renderHungarianExamPrep() {
     const prep = window.__HUN_EXAM_PREP__;
     if (!prep || !prep.sections || !prep.sections.length) {
@@ -5765,6 +5808,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
           '<div class="hunChapTitle">' + esc(label(chap.title)) + '</div>' +
           '<div class="hunChapDesc">' + esc(label(chap.desc)) + '</div>' +
         '</div>' +
+        (chap.chapterId === "verbs" && !q ? renderHungarianVerbTable() : "") +
         '<div class="hunGrid">' + itemsHtml + '</div>' +
       '</div>';
     });
