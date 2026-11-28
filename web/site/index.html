@@ -6157,10 +6157,18 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
           : "This exam paper is visible only to the signed-in account and is not shared with other users.") +
         '</div>' +
         window.__IDS_PERSONAL_EXAM_PAPERS__.map(function (paper, index) {
-          return '<details class="more" style="margin-top:10px"><summary><b>' +
-            esc(paper.title || ("Private exam " + (index + 1))) + '</b></summary>' +
-            '<div style="margin-top:12px;padding:16px;border:1px solid var(--border);border-radius:var(--r-sm);' +
-            'white-space:pre-wrap;line-height:1.7">' + esc(paper.body || "") + '</div></details>';
+          const questionCount = Array.isArray(paper.questions) ? paper.questions.length : 0;
+          const shortCount = Array.isArray(paper.shortAnswers)
+            ? paper.shortAnswers.reduce(function (sum, group) {
+                return sum + (Array.isArray(group.parts) ? group.parts.length : 0);
+              }, 0)
+            : 0;
+          return '<div class="rowGrid" style="margin-top:10px"><span class="name">' +
+            esc(paper.title || ("Private exam " + (index + 1))) + '</span><span class="muted">' +
+            questionCount + " MC + " + shortCount + " short answers · " +
+            (paper.minutes || 30) + ' min</span><span class="grow"></span>' +
+            '<button class="btn sm primary" data-personal-idsexam="' + index + '">' +
+            (LANG === "ko" ? "시험 시작" : "Start test") + "</button></div>";
         }).join("") + '</div></div>'
       : "";
     const sm = splitMocks();
@@ -6215,6 +6223,11 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
         COURSE_SECTION = b.getAttribute("data-idsexam");
         refreshPool();
         startMode("exam");
+      };
+    });
+    document.querySelectorAll("[data-personal-idsexam]").forEach(function (b) {
+      b.onclick = function () {
+        startPersonalIdsExam(parseInt(b.getAttribute("data-personal-idsexam"), 10));
       };
     });
     el("mRand").onclick = function () { startRandom(); };
@@ -6696,6 +6709,25 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     renderQuiz();
   }
 
+  function startPersonalIdsExam(index) {
+    const papers = window.__IDS_PERSONAL_EXAM_PAPERS__;
+    const paper = Array.isArray(papers) ? papers[index] : null;
+    if (!paper || !Array.isArray(paper.questions) || !paper.questions.length) {
+      alert(LANG === "ko" ? "개인 시험 문제를 불러오지 못했습니다." : "The private exam could not be loaded.");
+      return;
+    }
+    newSession(paper.questions, {
+      mode: "exam",
+      label: paper.title || "Private actual exam",
+      minutes: Number(paper.minutes) || 30,
+      timed: true,
+      shuffleQuestions: false,
+      shuffleOptions: false,
+      shortAnswers: Array.isArray(paper.shortAnswers) ? paper.shortAnswers : []
+    });
+    renderQuiz();
+  }
+
   /* 연습 모드의 '시간 제한' 선택 (체크박스가 없으면 = 무제한) */
   function timedChoice() {
     const c = el("optTimed");
@@ -6796,8 +6828,9 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
           '</summary><div class="expl" style="margin-top:8px">' + esc(p.answer) + "</div></details>" : "") +
         "</div>";
     }).join("");
-    const context = contexts[x.id] ? '<div class="shortGiven">' +
-      "<b>" + (LANG === "ko" ? "문제 조건" : "Given") + "</b><br>" + esc(contexts[x.id]) + "</div>" : "";
+    const contextText = x.context || contexts[x.id];
+    const context = contextText ? '<div class="shortGiven">' +
+      "<b>" + (LANG === "ko" ? "문제 조건" : "Given") + "</b><br>" + esc(contextText) + "</div>" : "";
     const palette = groups.map(function (g, n) {
       const answered = g.parts.some(function (p) { return !!S.shortResponses[p.id]; });
       return '<button class="pbtn' + (n === i ? " cur" : "") + (answered ? " answered" : "") +

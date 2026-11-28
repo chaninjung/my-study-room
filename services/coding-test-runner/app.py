@@ -370,6 +370,28 @@ def merge_personal_exam_overlay(payload: dict[str, object], overlay: object) -> 
                 isinstance(paper, dict)
                 and isinstance(paper.get("title"), str)
                 and isinstance(paper.get("body"), str)
+                and (
+                    "questions" not in paper
+                    or isinstance(paper.get("questions"), list)
+                    and all(
+                        isinstance(question, dict)
+                        and isinstance(question.get("id"), str)
+                        and isinstance(question.get("prompt"), str)
+                        and isinstance(question.get("options"), list)
+                        and isinstance(question.get("correct"), list)
+                        for question in paper["questions"]
+                    )
+                )
+                and (
+                    "shortAnswers" not in paper
+                    or isinstance(paper.get("shortAnswers"), list)
+                    and all(
+                        isinstance(group, dict)
+                        and isinstance(group.get("id"), str)
+                        and isinstance(group.get("parts"), list)
+                        for group in paper["shortAnswers"]
+                    )
+                )
                 for paper in papers
             ):
                 raise ValueError("Personal actual exam papers are invalid.")
