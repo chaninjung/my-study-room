@@ -4075,6 +4075,10 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     } else if (courseId === "ids") {
       window.__IDS_QUESTION_DATA__ = payload.questions || null;
       window.__IDS_SHORT_ANSWERS__ = payload.short_answers || null;
+      window.__IDS_PERSONAL_EXAM_PAPERS__ =
+        payload.personal && Array.isArray(payload.personal.actualExamPapers)
+          ? payload.personal.actualExamPapers
+          : [];
     } else if (courseId === "pai") {
       window.__PAI_QUESTION_DATA__ = payload.questions || null;
       window.__PAI_MOCK_DATA__ = payload.mocks || null;
@@ -6141,6 +6145,24 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
             esc(s.id) + '">' + (LANG === "ko" ? "시험 시작" : "Start test") + "</button></div>";
         }).join("") + "</div></div>"
       : "";
+    const personalExamPapers = currentCourse().course.id === "ids" &&
+      Array.isArray(window.__IDS_PERSONAL_EXAM_PAPERS__) &&
+      window.__IDS_PERSONAL_EXAM_PAPERS__.length
+      ? '<div class="panel" style="margin-bottom:16px"><div class="panelHead">' +
+        (LANG === "ko" ? "실제 시험지 · 나만 보기" : "Actual exam paper · Private") +
+        '</div><div class="panelBody">' +
+        '<div class="muted" style="margin-bottom:12px">' +
+        (LANG === "ko"
+          ? "로그인한 현재 사용자만 볼 수 있는 개인 시험 자료입니다. 다른 계정과 공유되지 않습니다."
+          : "This exam paper is visible only to the signed-in account and is not shared with other users.") +
+        '</div>' +
+        window.__IDS_PERSONAL_EXAM_PAPERS__.map(function (paper, index) {
+          return '<details class="more" style="margin-top:10px"><summary><b>' +
+            esc(paper.title || ("Private exam " + (index + 1))) + '</b></summary>' +
+            '<div style="margin-top:12px;padding:16px;border:1px solid var(--border);border-radius:var(--r-sm);' +
+            'white-space:pre-wrap;line-height:1.7">' + esc(paper.body || "") + '</div></details>';
+        }).join("") + '</div></div>'
+      : "";
     const sm = splitMocks();
     const mockBody = MOCKS
       ? sm.finalSet.map(function (m, i) { return mockRowHtml(m, i); }).join("") +
@@ -6175,6 +6197,7 @@ if (typeof window !== "undefined") window.SyncCore = SyncCore;
     app.innerHTML = headPanel + secBar + secNote + scopeLine +
       '<div class="examWrap homeWrap">' +
       "<div>" +
+      personalExamPapers +
       idsTests +
       (sc === "t1" ? panel(t("tier.quick"), tierRows, ' style="margin-bottom:16px"') : "") +
       panel(t("grp.quick"), grpQuick, ' style="margin-bottom:16px"') +
