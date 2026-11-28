@@ -1670,6 +1670,20 @@ window.__HUN_NOTES_DATA__ = [
         word: "fésű"
       },
       {
+        hu: "rágógumi · parfüm",
+        ko: "껌 · 향수",
+        en: "chewing gum · perfume",
+        tip: "A táskámban van rágógumi és parfüm. = 내 가방에 껌과 향수가 있다.",
+        word: "rágógumi"
+      },
+      {
+        hu: "gyógyszer · esernyő",
+        ko: "약 · 우산",
+        en: "medicine · umbrella",
+        tip: "A gyógyszer és az esernyő a táskámban van. = 약과 우산이 내 가방 안에 있다.",
+        word: "gyógyszer"
+      },
+      {
         hu: "újság",
         ko: "신문 · 잡지",
         en: "newspaper / magazine",
