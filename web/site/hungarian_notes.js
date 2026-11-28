@@ -1371,5 +1371,128 @@ window.__HUN_NOTES_DATA__ = [
         word: "piros"
       }
     ]
+  },
+  {
+    chapterId: "house",
+    chapterNum: 11,
+    title: { ko: "11. 집 · 방 · 물건", en: "11. House, Rooms & Objects" },
+    desc: {
+      ko: "집 구조, 방, 가구, 전자제품, 식기와 주방용품을 분류했습니다. 위치 표현과 함께 사용하면 방 그림을 자세히 설명할 수 있습니다.",
+      en: "Vocabulary for the house, rooms, furniture, appliances, tableware, and kitchen objects. Combine these words with location expressions."
+    },
+    items: [
+      {
+        hu: "lakás · ház",
+        ko: "아파트/주거 공간 · 집/주택",
+        en: "flat/apartment · house",
+        tip: "Egy lakásban lakom. A ház nagy. = 아파트에 산다. 집은 크다.",
+        word: "lakás"
+      },
+      {
+        hu: "vécé / WC · fürdőszoba",
+        ko: "화장실 · 욕실",
+        en: "toilet · bathroom",
+        tip: "A vécé kicsi, a fürdőszoba nagy. = 화장실은 작고 욕실은 크다.",
+        word: "fürdőszoba"
+      },
+      {
+        hu: "konyha · erkély · előszoba",
+        ko: "부엌 · 발코니 · 현관",
+        en: "kitchen · balcony · entrance hall",
+        tip: "A konyhában főzök. = 부엌에서 요리한다.",
+        word: "konyha"
+      },
+      {
+        hu: "hálószoba · dolgozószoba · nappali",
+        ko: "침실 · 서재/공부방 · 거실",
+        en: "bedroom · study/work room · living room",
+        tip: "A nappaliban tévét nézek. = 거실에서 TV를 본다.",
+        word: "hálószoba"
+      },
+      {
+        hu: "garázs",
+        ko: "차고",
+        en: "garage",
+        tip: "Az autó a garázsban van. = 차는 차고 안에 있다.",
+        word: "garázs"
+      },
+      {
+        hu: "asztal · szék · kanapé · fotel",
+        ko: "책상/식탁 · 의자 · 소파 · 안락의자",
+        en: "table/desk · chair · sofa · armchair",
+        tip: "A nappaliban van egy kanapé és két fotel. = 거실에 소파 한 개와 안락의자 두 개가 있다.",
+        word: "asztal"
+      },
+      {
+        hu: "ágy · szekrény · könyvespolc",
+        ko: "침대 · 옷장 · 책장",
+        en: "bed · wardrobe/cupboard · bookshelf",
+        tip: "A könyvek a könyvespolcon vannak. = 책들은 책장 위에 있다.",
+        word: "ágy"
+      },
+      {
+        hu: "ajtó · ablak",
+        ko: "문 · 창문",
+        en: "door · window",
+        tip: "Az ablak az ajtó mellett van. = 창문은 문 옆에 있다.",
+        word: "ajtó"
+      },
+      {
+        hu: "virág · kép · lámpa",
+        ko: "꽃 · 그림/사진 · 램프",
+        en: "flower · picture · lamp",
+        tip: "A kép a falon van, a lámpa az asztalon van. = 그림은 벽에, 램프는 책상 위에 있다.",
+        word: "lámpa"
+      },
+      {
+        hu: "tévé · számítógép",
+        ko: "텔레비전 · 컴퓨터",
+        en: "TV · computer",
+        tip: "A számítógép az asztalon van. = 컴퓨터는 책상 위에 있다.",
+        word: "számítógép"
+      },
+      {
+        hu: "bögre · tányér · pohár",
+        ko: "머그잔 · 접시 · 유리컵",
+        en: "mug · plate · glass",
+        tip: "Egy bögre és egy tányér van az asztalon. = 컵과 접시가 책상 위에 있다.",
+        word: "bögre"
+      },
+      {
+        hu: "kanál · villa · kés",
+        ko: "숟가락 · 포크 · 칼",
+        en: "spoon · fork · knife",
+        tip: "A tányér mellett egy villa és egy kés van. = 접시 옆에 포크와 칼이 있다.",
+        word: "kanál"
+      },
+      {
+        hu: "szalvéta",
+        ko: "냅킨",
+        en: "napkin",
+        tip: "Egy szalvétát kérek. = 냅킨 하나 주세요.",
+        word: "szalvéta"
+      },
+      {
+        hu: "mikró · hűtő",
+        ko: "전자레인지 · 냉장고",
+        en: "microwave · refrigerator",
+        tip: "A tej a hűtőben van. = 우유는 냉장고 안에 있다.",
+        word: "hűtő"
+      },
+      {
+        hu: "kávéfőző · mosógép",
+        ko: "커피 머신 · 세탁기",
+        en: "coffee maker · washing machine",
+        tip: "A konyhában van egy kávéfőző. = 부엌에 커피 머신이 있다.",
+        word: "kávéfőző"
+      },
+      {
+        hu: "Mi van a szobában? — Egy ágy, egy szekrény és egy asztal van.",
+        ko: "방 안에 무엇이 있나요? — 침대, 옷장, 책상이 하나씩 있습니다.",
+        en: "What is in the room? — There is a bed, a wardrobe, and a table.",
+        tip: "단수 사물을 나열할 때 is van을 사용합니다.",
+        word: "szobában"
+      }
+    ]
   }
 ];
