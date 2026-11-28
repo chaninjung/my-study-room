@@ -360,6 +360,20 @@ def personal_exam_media_object(user_id: str, course: str, asset_name: str) -> st
 def merge_personal_exam_overlay(payload: dict[str, object], overlay: object) -> None:
     if not isinstance(overlay, dict):
         raise ValueError("Personal exam overlay must be an object.")
+    personal = overlay.get("personal")
+    if personal is not None:
+        if not isinstance(personal, dict):
+            raise ValueError("Personal exam data must be an object.")
+        if "actualExamPapers" in personal:
+            papers = personal["actualExamPapers"]
+            if not isinstance(papers, list) or not all(
+                isinstance(paper, dict)
+                and isinstance(paper.get("title"), str)
+                and isinstance(paper.get("body"), str)
+                for paper in papers
+            ):
+                raise ValueError("Personal actual exam papers are invalid.")
+            payload["personal"] = personal
     personal_prep = overlay.get("prep")
     if not isinstance(personal_prep, dict):
         return
@@ -413,7 +427,7 @@ async def save_personal_exam_overlay(
     authorization: str | None = Header(default=None),
 ) -> dict[str, bool]:
     user = require_user(authorization)
-    if course != "hungarian":
+    if course not in {"hungarian", "ids"}:
         raise HTTPException(status_code=404, detail="Personal overlays are not available for this course.")
     if not user:
         raise HTTPException(status_code=503, detail="Personal exam storage is not configured.")
@@ -422,10 +436,10 @@ async def save_personal_exam_overlay(
         raise HTTPException(status_code=413, detail="The personal exam overlay is too large.")
     try:
         overlay = json.loads(body.decode("utf-8"))
-        merge_personal_exam_overlay(
-            {"prep": {"sections": [{"id": "written"}, {"id": "reading"}, {"id": "oral"}, {"id": "positions"}]}},
-            overlay,
-        )
+        validation_payload = {
+            "prep": {"sections": [{"id": "written"}, {"id": "reading"}, {"id": "oral"}, {"id": "positions"}]}
+        }
+        merge_personal_exam_overlay(validation_payload, overlay)
     except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as error:
         raise HTTPException(status_code=422, detail="The personal exam overlay is invalid.") from error
     upload_personal_object(
