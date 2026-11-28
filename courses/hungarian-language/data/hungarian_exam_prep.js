@@ -70,7 +70,7 @@ window.__HUN_EXAM_PREP__ = {
         {
           id: "4",
           prompt: "4. ÍRÁSKÉSZSÉG. Hol laksz? Írjon 5–6 mondatot a lakóhelyéről!\n4. WRITING. Where do you live? Write 5–6 sentences about the place where you live.\n\nKérdések:\n• Melyik országban és melyik városban lakik?\n• Lakásban vagy házban lakik?\n• Hány szoba van a lakásban és milyen?",
-          answer: "Mintaválasz:\nMagyarországon, Budapesten élek.\nEgy lakásban élek.\nA lakásban négy szoba van.\nA szobák világosak és nagyok.\nVan egy konyha, egy nappali, egy hálószoba és egy dolgozószoba.\nA lakásom közel van az ELTE-hez."
+          answer: "Mintaválasz:\nBudapesten, Pesten élek.\nA belvárosban, egy albérletben lakom.\nA lakás nem túl nagy, összesen 30 négyzetméter.\nKét szoba van, egy konyha, egy fürdőszoba, egy vécé és egy előszoba.\nVan egy kamra és egy mosókonyha is.\nKülön nappali sajnos nincs."
         }
       ]
     },
